@@ -1,0 +1,17 @@
+{
+    "_default": {
+        "1": {
+            "username": "Thawan Henrique",
+            "email": "thawancomt@gmail.com",
+            "store": "3",
+            "when_was_created": 32
+        },
+        "2": {
+            "username": "Thawan Henrique",
+            "password": "teste",
+            "email": "gekyumethawan@gmail.com",
+            "store": "3",
+            "when_was_created": null
+        }
+    }
+}

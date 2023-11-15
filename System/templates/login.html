@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="
+                    dark:bg-gray-900
+                    h-full w-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/output.css">
+</head>
+<body class="h-full">
+    <div class="
+                w-full h-full
+                flex items-center
+                justify-center">
+        
+        <!-- Login Container -->
+        <div class="
+                    w-6/12 h-3/5
+                    border border-white rounded-lg">
+
+            <div class="m-4">
+                <h1 class="text-emerald-500
+                        font-bold text-2xl">Login</h1>
+                <h4 class="text-indigo-100
+                        font-semibold text-lg">Insert your data to login</h4>
+            </div>
+            <div class="m-4">
+                <form action="/login" method="post">
+                    <input type="email" name="email" id="" class="form-control-1 w-3/6 mt-4">
+                    <input type="password" name="password" id="" class="form-control-1 w-3/6 mt-4 ">
+                    <button type="submit" class="border border-emerald-500
+                    text-sm font-semibold text-indigo-100
+                    w-3/6 h-9 mt-4
+                    hover:bg-emerald-500 hover:text-gray-800">Enter</button>
+                </form>
+            </div>
+            <div class="m-4">
+                <h4 class="text-indigo-100
+                font-semibold text-sm">Don't have an accouunt?</h4>
+                <a href="/register" class="
+                font-semibold text-sm text-emerald-600 hover:underline">Create Now</a>
+            </div>
+            
+        </div>
+        
+    </div>
+</body>
+</html>
