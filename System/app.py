@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser
 
 app = Flask(__name__)
@@ -24,9 +24,14 @@ def about():
         result = Login(connected_user).validate()
 
         if result:
-            return 'Login has been successful'
+            return redirect('/homepage')
 
     return render_template('login.html')
+
+
+@app.route('/homepage')
+def home():
+    return render_template('homepage.html')
 
 
 if __name__ == "__main__":
