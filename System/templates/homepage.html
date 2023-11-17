@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
-    <link rel="stylesheet" href="static/output.css">
+    <link rel="stylesheet" href="/static/output.css">
 </head>
 <body>
 
     <nav class="bg-gray-800 w-full h-12">
         <div class="h-full w-full flex">
             <div class="w-32 h-full flex items-center justify-center">
-                <h1 class="text-white font-semibold text-lg ">Colombo</h1>
+                <h1 class="text-white font-semibold text-lg ">{{data['store_name']}}</h1>
             </div>
 
             <div class="w-auto h-full flex items-center ">
                 <!-- Name with admin or not -->
                 <div class="-space-y-1">
-                    <h1 class="text-emerald-500 font-semibold text-lg">Thawan Henrique</h1>
-                    <h4 class="text-white font-semibold text-sm">Administrator</h4>
+                    <h1 class="text-emerald-500 font-semibold text-lg">{{data['username']}}</h1>
+                    <h4 class="text-white font-semibold text-sm">{{data['level']}}</h4>
                 </div>
+                <a href="/loggout">loggout</a>
                 
             </div>
         </div>
@@ -30,18 +31,15 @@
         <!-- Container -->
         <div class="w-5/6 border border-emerald-500">
             <div class="w-full h-8 flex items-center m-4">
-                <h1 class="font-bold text-emerald-500">Enter Production</h1>
+                <h1 class="font-bold text-emerald-500 text-2xl">Enter Production</h1>
             </div>
 
-            <form action="production" class="flex flex-col m-4">
-                <label for="big_ball" class="text-lg text-white font-semibold">Big Ball</label>
-                <input type="number" name="big_ball" class="form-control-1">
-                <label for="big_ball" class="text-lg text-white font-semibold">Big Ball</label>
-                <input type="number" name="big_ball" class="form-control-1">
-                <label for="big_ball" class="text-lg text-white font-semibold">Big Ball</label>
-                <input type="number" name="big_ball" class="form-control-1">
-                <label for="big_ball" class="text-lg text-white font-semibold">Big Ball</label>
-                <input type="number" name="big_ball" class="form-control-1">
+            <form action="/production/{{date_for}}" class="flex flex-col m-4" method="POST">
+                {% for article, article_name in data['articles'].items() %}
+                    <label for="article" class="text-lg text-white font-semibold">{{article_name}}</label>
+                    <input type="number" name="{{article}}" class="form-control-1">
+                {% endfor %}
+                <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
             </form>
 
         </div>
@@ -54,11 +52,12 @@
                 <h1 class="font-bold text-emerald-500">Enter your consume</h1>
             </div>
 
-            <form action="production" class="flex flex-col m-4">
+            <form action="/production" class="flex flex-col m-4">
                 <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
                 <input type="number" name="big_ball" class="form-control-1">
                 <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
                 <input type="number" name="big_ball" class="form-control-1">
+                <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
             </form>
 
         </div>

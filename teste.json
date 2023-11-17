@@ -7,11 +7,35 @@
             "when_was_created": 32
         },
         "2": {
-            "username": "Thawan Henrique",
+            "username": "Thawan Henrique2",
             "password": "teste",
             "email": "gekyumethawan@gmail.com",
             "store": "3",
+            "level": "Colaborator",
             "when_was_created": null
+        },
+        "3": {
+            "username": "Thawan Barroso",
+            "password": "thawancomt",
+            "email": "thawancomt@gmail.com2",
+            "store": 3,
+            "level": "Colaborator",
+            "admin": false,
+            "when_was_created": 2023
+        },
+        "4": {
+            "username": "Thawan Barroso a",
+            "password": "thawancomt",
+            "email": "thawancomt@gmail.com2",
+            "store": 3,
+            "level": null
+        },
+        "5": {
+            "username": "teste",
+            "password": "",
+            "email": "",
+            "store": null,
+            "level": null
         }
     }
 }
