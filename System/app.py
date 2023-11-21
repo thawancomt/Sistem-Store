@@ -7,6 +7,8 @@ from datetime import date
 
 app = Flask(__name__)
 
+app.secret_key = '2222'
+
 
 def is_user_logged_in(ip):
     # Check if user is logged in
@@ -70,26 +72,38 @@ def home(date_for):
         'username': Session(request.remote_addr).name(),
         'level': Session(request.remote_addr).level(),
         'articles': Production.articles,
-        'store_name': Session(request.remote_addr).store_name()
+        'store_name': Session(request.remote_addr).store_name(),
+        'total_of_the_day': Production(date_for).get_already_produced(Session(request.remote_addr).store_name(id=True))
     }, date_for=date_for)
 
 
 @app.route('/production/<date_for>', methods=['GET', 'POST'])
 def enter_production(date_for):
     data = {}
+
+    old_production = Production(date_for).get_already_produced(
+        Session(request.remote_addr).store_name(id=True))
+
     if request.method == 'POST':
+
         for article_id, article_name in Production.articles.items():
+            try:
+                if request.form.get(article_id):
 
-            if request.form.get(article_id) == '':
+                    data[article_id] = int(request.form.get(article_id))
+
+                else:
+                    data[article_id] = int(old_production[article_id])
+
+            except KeyError:
                 data[article_id] = 0
-            else:
-                data[article_id] = int(request.form.get(article_id))
 
-    production = Production(data, date_for)
+    print(data, old_production)
+    production = Production(date_for, data)
     production.store = Session(request.remote_addr).store_name(id=True)
     production.send_production()
 
-    return redirect('/homepage/')
+    return redirect(f'/homepage/{date_for}')
 
 
 if __name__ == "__main__":

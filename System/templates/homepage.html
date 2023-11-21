@@ -31,13 +31,34 @@
         <!-- Container -->
         <div class="w-5/6 border border-emerald-500">
             <div class="w-full h-8 flex items-center m-4">
-                <h1 class="font-bold text-emerald-500 text-2xl">Enter Production</h1>
+                <h1 class="font-bold text-emerald-500 text-2xl">Enter the Production</h1>
             </div>
 
-            <form action="/production/{{date_for}}" class="flex flex-col m-4" method="POST">
+            <form action="/production/{{ date_for }}" class="flex flex-col m-4" method="POST">
                 {% for article, article_name in data['articles'].items() %}
-                    <label for="article" class="text-lg text-white font-semibold">{{article_name}}</label>
-                    <input type="number" name="{{article}}" class="form-control-1">
+                <!-- Inputs of production -->
+                    <div class="w-full flex justify-between">
+                        <div class="w-3/6">
+                            <label for="{{article}}" class="text-lg text-white font-semibold"> {{article_name}}</label>
+                            <input type="number" name="{{article}}" class="form-control-1" value="0">
+                        </div>
+                        <div class="w-2/5">
+                            {% if article == 'big_ball' %}
+                            <div class="h-7 ">
+                                <label for="amount_{{article}}" class="text-sm text-white font-semibold sm:text-sm  ">Total of the day</label>
+                            </div>
+                                
+                                <input type="number" value="{{ data['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
+                            {% else %}
+                                <div class="h-7 w-full"></div>
+                                <input type="text" value="{{ data['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
+                            {% endif %}
+                        </div>
+
+                        
+
+
+                    </div>
                 {% endfor %}
                 <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
             </form>
