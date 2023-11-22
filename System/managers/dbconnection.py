@@ -2,7 +2,6 @@ from tinydb import TinyDB, Query
 
 
 class DbConnection():
-
     permissive_keys_for_create_users = [
         'username',
         'password',
@@ -28,6 +27,8 @@ class DbConnection():
 
     def insert_user(self, data):
 
+        data_to_insert = {}
+
         def check_user_exist():
             username = data['username']
 
@@ -37,11 +38,12 @@ class DbConnection():
                 return result
 
         if not check_user_exist():
-            if not check_user_exist():
-                final_data = {key: value for key,
-                              value in data.items() if key in self.permissive_keys_for_create_users}
-
-            self.db.insert(final_data)
+            for key, value in data.items():
+                if key in self.permissive_keys_for_create_users:
+                    data_to_insert[key] = value
+                else:
+                    pass
+            self.db.insert(data_to_insert)
 
     def update_user(self, who, new_info):
         # If user wants to edit just one info, Ex: update just the name

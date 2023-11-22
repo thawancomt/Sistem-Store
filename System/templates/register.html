@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="w-full h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="static/output.css">
+    <title>Register</title>
+</head>
+<body class="w-full h-full flex justify-center items-center">
+    <!-- Regiter container -->
+    <div class="border border-emerald-500 w-4/6 h-5/6 p-4">
+        <div>
+            <h1 class="title-primary my-4"> Make your register</h1>
+            <h4 class="dark:text-indigo-100  text-gray-800 mt-4
+                            font-semibold text-lg">Insert your data to register</h4>
+        </div>
+
+        <div class="h-full w-full">
+            <form action="/register" method="POST" class="flex flex-col justify-evenly h-5/6 w-full ">
+            
+                <div>
+                    <label for="username"  class="text-lg text-white font-semibold"> Username </label>
+                    <input type="text" name="username" class="form-control-1" required>
+                </div>
+            
+                <div>
+                    <label for="email"   class="text-lg text-white font-semibold"> Email </label>
+                    <input type="email" name="email" class="form-control-1" required>
+                </div>
+           
+                <div>
+                    <label for="password" class="text-lg text-white font-semibold"> password </label>
+                    <input type="password" name="password" id="" class="form-control-1" required>
+                </div>
+
+            <select name="store" id="">
+                {% for store_id, store_name in data['stores'].items() %}
+                <option value="{{store_id}}"> {{store_name}}</option>
+                {% endfor %}
+            </select>
+
+            <select name="level" id="">
+                {% for level in data['levels'] %}
+                <option value="{{level}}"> {{level}}</option>
+                {% endfor %}
+            </select>
+
+            <!-- <input type="checkbox" name="admin" id=""> -->
+
+            <button type="submit" class="btn-primary">Enter</button>
+
+            </form>
+            <div class="w-full flex justify-center">
+                <a href="/homepage" class="btn-primary w-3/6 flex items-center justify-center"> Homepage </a>
+            </div>
+            
+            
+        </div>
+    </div>
+</body>
+</html>

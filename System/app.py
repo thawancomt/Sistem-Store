@@ -15,7 +15,7 @@ def is_user_logged_in(ip):
     try:
         if Session.connected_users[ip]['status']:
             return True
-    except:
+    except KeyError:
         return False
 
 
@@ -104,6 +104,34 @@ def enter_production(date_for):
     production.send_production()
 
     return redirect(f'/homepage/{date_for}')
+
+
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
+def edit_user():
+    return render_template('user.html', username=Session(request.remote_addr).name())
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register_user():
+
+    new_user = User()
+
+    if request.method == 'POST':
+        new_user.username = request.form.get('username')
+        new_user.email = request.form.get('email')
+        new_user.password = request.form.get('password')
+        new_user.store = request.form.get('store')
+        new_user.level = request.form.get('level')
+
+        CreateUser(new_user)
+
+    return render_template('register.html', data={'stores': {
+        3: 'Colombo',
+        5: 'Odivelas',
+        11: 'Campo de Ourique',
+        25: 'Baixa Chiado'
+    },
+        'levels': ['Colaborador', 'Administrador', 'Visitante']})
 
 
 if __name__ == "__main__":

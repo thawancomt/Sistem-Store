@@ -9,23 +9,28 @@
 <body>
 
     <nav class="bg-gray-800 w-full h-12">
-        <div class="h-full w-full flex">
-            <div class="w-32 h-full flex items-center justify-center">
-                <h1 class="text-white font-semibold text-lg ">{{data['store_name']}}</h1>
+        <div class="h-full w-full flex justify-between">
+            <div class="w-fit h-full flex items-center justify-center">
+                <h1 class="text-white font-semibold text-lg ">Gestão {{data['store_name']}}</h1>
             </div>
 
             <div class="w-auto h-full flex items-center ">
                 <!-- Name with admin or not -->
-                <div class="-space-y-1">
+                <div class="-space-y-1 flex flex-col items-center">
                     <h1 class="text-emerald-500 font-semibold text-lg">{{data['username']}}</h1>
                     <h4 class="text-white font-semibold text-sm">{{data['level']}}</h4>
                 </div>
-                <a href="/loggout">loggout</a>
+                
                 
             </div>
+            <div class="w-auto h-full flex items-center underline">
+                <a href="/loggout" class="text-red-500 font-semibold text-lg hover:text-emerald-800"">loggout</a>
+            </div>
+            
         </div>
+        
     </nav>
-    
+
     <!-- Production Card -->
     <div class="w-full flex justify-center mt-4">
         <!-- Container -->
@@ -60,7 +65,10 @@
 
                     </div>
                 {% endfor %}
-                <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
+                <div class="w-full flex justify-center">
+                    <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
+                </div>
+                
             </form>
 
         </div>
