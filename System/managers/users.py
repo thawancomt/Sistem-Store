@@ -7,7 +7,8 @@ else:
 
 
 class User():
-    permissive_keys = ['username', 'password', 'level', 'email', 'store']
+    permissive_keys = ['username', 'password',
+                       'level', 'email', 'store', 'last_login']
 
     def __init__(self):
         self.username = ''
@@ -43,7 +44,8 @@ class CreateUser(User):
             'email': who.email,
             'store': who.store,
             'level': who.level,
-            'when_was_created': who.when_was_created,
+            'last_login': who.last_login,
+            'when_created': who.when_was_created,
         }
 
         DbConnection('databases/users.json').insert_user(data)

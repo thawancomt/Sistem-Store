@@ -7,7 +7,9 @@ class DbConnection():
         'password',
         'level',
         'email',
-        'store'
+        'store',
+        'when_created',
+        'last_login'
     ]
 
     stores = {
@@ -23,6 +25,10 @@ class DbConnection():
 
     def search_username(self, username):
         result = self.db.search(Query().username == username)
+        return result
+
+    def search_email(self, email):
+        result = self.db.search(Query().email == email)
         return result
 
     def insert_user(self, data):
@@ -46,19 +52,7 @@ class DbConnection():
             self.db.insert(data_to_insert)
 
     def update_user(self, who, new_info):
-        # If user wants to edit just one info, Ex: update just the name
-        try:
-            old_info = self.search_username(who.username)[0]
-
-        except IndexError:
-            raise 'UserNotFound'
-
-        for key, value in new_info.items():
-
-            if key in self.permissive_keys_for_create_users:
-                self.db.update({key: value}, Query().username == who.username)
-            else:
-                print('Is not allowed to update this key or its a invalid key')
+        self.db.update(new_info, Query().email == who.email)
 
     def get_user_data(self, who):
 

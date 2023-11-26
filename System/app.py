@@ -67,6 +67,11 @@ def login():
             # insert the user into the logged users
             Session(request.remote_addr, connected_user).connect_user()
 
+            # update the last login of user
+
+            User().edit_user(who=connected_user,
+                             new_data={'last_login': str(date.today())})
+
             # define this user as logged in
             Session.connected_users[request.remote_addr]['status'] = True
 
@@ -142,6 +147,8 @@ def register_user():
         new_user.password = request.form.get('password')
         new_user.store = int(request.form.get('store'))
         new_user.level = request.form.get('level')
+        new_user.last_login = ''
+        new_user.when_was_created = str(date.today())
 
         CreateUser(new_user)
 

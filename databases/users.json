@@ -5,6 +5,7 @@
             "password": "Dez1633#",
             "email": "thawancomt@gmail.com",
             "store": 11,
+            "last_login": "2023-11-26",
             "level": "Administrador"
         },
         "2": {
@@ -27,6 +28,15 @@
             "email": "faustao@gmail.com",
             "store": 25,
             "level": "Administrador"
+        },
+        "5": {
+            "username": "Teste",
+            "password": "Dez1633#",
+            "email": "teste@gmail.comaaa",
+            "store": 3,
+            "level": "Colaborador",
+            "last_login": "2023-11-26",
+            "when_created": "2023-11-26"
         }
     }
 }
