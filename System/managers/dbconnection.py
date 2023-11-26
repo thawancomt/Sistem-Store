@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, Query, operations
 
 
 class DbConnection():
@@ -83,6 +83,27 @@ class DbConnection():
         except:
             return guest
 
+    def get_all_users(self):
+        users = self.db.search(Query().username != '')
+        new_users_protected = []
+
+        for user in users:
+            del user['password']
+            new_users_protected.append(user)
+
+        return new_users_protected
+
+    def get_users_by_search(self, search):
+        users = self.get_all_users()
+
+        filtered_users = []
+
+        for user in users:
+            if search in user['username']:
+                filtered_users.append(user)
+
+        return filtered_users
+
     def insert_production(self, store, date, data):
 
         store_name = self.stores[store]
@@ -146,3 +167,8 @@ class DbConnection():
             }
         except KeyError:
             return 0
+
+
+if __name__ == '__main__':
+    teste = DbConnection('teste.json')
+    print(teste.get_all_users())

@@ -1,7 +1,54 @@
 {% extends 'base.html' %}
-{% block content %}
 
-<h2>Texte</h2>
-
-
+{% block title %}
+    <title>Users</title>
 {% endblock %}
+
+{% block content %}
+<!-- Search Bar -->
+<div class="flex justify-center">
+    <form action="/users/search/" class="w-11/12" method="POST">
+        <input type="text" class="form-control-1 text-center" placeholder="Search user" name="filter">
+        
+    </form>
+</div>
+
+<!-- Container -->
+<div class="w-full h-full flex flex-wrap justify-around">
+    {% if users|length == 0 %}
+        <h1> Not Users Founds</h1>
+    {% endif %}
+
+    {% for user in users %}
+        <div class="w-96 h-80 border border-emerald-500 rounded-lg flex flex-col justify-evenly mx-2 mt-6 p-2
+        hover:">
+
+            <!-- User Name -->
+            <div class="w-full h-12 flex items-center justify-center">
+                <h1 class="title-primary">{{user['username']}}</h1>
+            </div>
+            
+            <!-- User Info -->
+            <div class="px-4">
+                <div class="w-full flex ">   
+                    <h2 class="sub-title-primary">Email : {{user['email']}}</h2>
+                </div>
+                
+                <div class="w-full flex ">
+                    <h2 class="sub-title-primary">Level: {{user['level']}}</h2>
+                </div>
+            
+                <div class="w-full flex  ">
+                    <h2 class="sub-title-primary"> Last login: 2021-23-45</h2>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <button class="btn-primary w-5/6">Edit</button>
+            </div>
+
+        </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}  

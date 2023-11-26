@@ -156,7 +156,16 @@ def register_user():
 
 @app.route('/users')
 def show_users():
-    return render_template('users.html', data=user_data())
+    return render_template('users.html', data=user_data(), users=User().return_all_users())
+
+
+@app.route('/users/search/', methods=['GET', 'POST'])
+def show_users_filtered():
+
+    username = request.form.get('filter')
+    filtered_user = User().return_filtered_users(username)
+
+    return render_template('users.html', data=user_data, users=filtered_user)
 
 
 if __name__ == "__main__":

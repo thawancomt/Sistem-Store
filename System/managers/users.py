@@ -25,6 +25,12 @@ class User():
     def edit_user(self, who, new_data):
         DbConnection('teste.json').update_user(who, new_data)
 
+    def return_all_users(self):
+        return DbConnection('teste.json').get_all_users()
+
+    def return_filtered_users(self, search):
+        return DbConnection('teste.json').get_users_by_search(search)
+
 
 class CreateUser(User):
     def __init__(self, who):

@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    {% block title %}
+        
+    {% endblock %}
     <link rel="stylesheet" href="/static/output.css">
     
 </head>
 
 <body>
     <nav class="bg-gray-800 w-full h-12 flex justify-center mb-4">
-        <div class="h-full w-5/6 flex justify-between">
-            <div class="w-fit h-full flex items-center justify-center">
+        <div class="h-full w-11/12 flex justify-around">
+            <div class="h-full flex items-center justify-center">
                 <h1 class="text-white font-semibold text-lg ">Gestão {{data['store_name']}}</h1>
             </div>
 
@@ -25,7 +27,7 @@
                 
             </div>
             <div class="w-auto h-full flex items-center underline">
-                <a href="/loggout" class="text-red-500 font-semibold text-lg hover:text-emerald-800"">loggout</a>
+                <a href="/loggout" class="text-red-500 font-semibold text-lg hover:text-emerald-800">loggout</a>
             </div>
             
         </div>
@@ -68,6 +70,8 @@
     </div>
         
     </footer>
+
+
     <script src="/static/script.js"></script>
 </body>
 

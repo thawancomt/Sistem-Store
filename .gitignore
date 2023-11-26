@@ -1,4 +1,7 @@
+/.idea
+/.vscode
+/node_modules
+/System/__pycache__
+/System/managers/__pycache__
+/System/managers/__pycache__/users.cpython-311.pyc
 /venv
-node_modules
-System/__pycache__
-System/managers/__pycache__
