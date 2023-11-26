@@ -20,6 +20,14 @@ class DbConnection():
         25: 'Baixa Chiado'
     }
 
+    default_production = {
+        'big_ball': 0,
+        'small_ball': 0,
+        'garlic_bread': 0,
+        'mozzarela': 0,
+        'edamer': 0,
+    }
+
     def __init__(self, db):
         self.db = TinyDB(db, indent=4)
 
@@ -150,17 +158,11 @@ class DbConnection():
             return result[0]['production']
 
         except IndexError:
-            return {
-                'big_ball': 0,
-                'small_ball': 0,
-                'garlic_bread': 0,
-                'mozzarela': 0,
-                'edamer': 0,
 
+            return self.default_production
 
-            }
         except KeyError:
-            return 0
+            return self.default_production
 
 
 if __name__ == '__main__':
