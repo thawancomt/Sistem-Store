@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
-from production import Production
+from managers.production import Production
 
 from datetime import date
 
@@ -140,7 +140,7 @@ def register_user():
         new_user.username = request.form.get('username')
         new_user.email = request.form.get('email')
         new_user.password = request.form.get('password')
-        new_user.store = request.form.get('store')
+        new_user.store = int(request.form.get('store'))
         new_user.level = request.form.get('level')
 
         CreateUser(new_user)

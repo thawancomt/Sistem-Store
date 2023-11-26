@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query, operations
+from tinydb import TinyDB, Query
 
 
 class DbConnection():
@@ -170,5 +170,5 @@ class DbConnection():
 
 
 if __name__ == '__main__':
-    teste = DbConnection('teste.json')
+    teste = DbConnection('databases/users.json')
     print(teste.get_all_users())

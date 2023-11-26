@@ -19,17 +19,17 @@ class User():
         self.when_was_created = None
 
     def get_user_data(self, who):
-        result = DbConnection('teste.json').get_user_data(who)
+        result = DbConnection('databases/users.json').get_user_data(who)
         return result
 
     def edit_user(self, who, new_data):
-        DbConnection('teste.json').update_user(who, new_data)
+        DbConnection('databases/users.json').update_user(who, new_data)
 
     def return_all_users(self):
-        return DbConnection('teste.json').get_all_users()
+        return DbConnection('databases/users.json').get_all_users()
 
     def return_filtered_users(self, search):
-        return DbConnection('teste.json').get_users_by_search(search)
+        return DbConnection('databases/users.json').get_users_by_search(search)
 
 
 class CreateUser(User):
@@ -46,12 +46,12 @@ class CreateUser(User):
             'when_was_created': who.when_was_created,
         }
 
-        DbConnection('teste.json').insert_user(data)
+        DbConnection('databases/users.json').insert_user(data)
 
 
 class Login(DbConnection):
 
-    def __init__(self, who, db='teste.json'):
+    def __init__(self, who, db='databases/users.json'):
         super().__init__(db)
         self.email = who.email
         self.password = who.password
@@ -71,7 +71,7 @@ class Session(DbConnection):
 
     def __init__(self, adress=None, who=None):
 
-        super().__init__('teste.json')
+        super().__init__('databases/users.json')
 
         self.adress = adress
         self.who = who

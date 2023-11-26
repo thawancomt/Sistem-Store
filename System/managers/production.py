@@ -18,8 +18,8 @@ class Production():
         self.date = date  # Date
 
     def send_production(self):
-        DbConnection('production.json').insert_production(
+        DbConnection('databases/production.json').insert_production(
             self.store, self.date, self.data)
 
     def get_already_produced(self, store):
-        return DbConnection('production.json').get_day_production(store, self.date)
+        return DbConnection('databases/production.json').get_day_production(store, self.date)
