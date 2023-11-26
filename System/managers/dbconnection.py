@@ -101,7 +101,7 @@ class DbConnection():
         filtered_users = []
 
         for user in users:
-            if search in user['username']:
+            if str(search).lower() in str(user['username']).lower():
                 filtered_users.append(user)
 
         return filtered_users

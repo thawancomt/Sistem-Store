@@ -37,6 +37,15 @@
             "level": "Colaborador",
             "last_login": "2023-11-26",
             "when_created": "2023-11-26"
+        },
+        "6": {
+            "username": "Marina Silva",
+            "password": "marina",
+            "email": "marinadosilveira@gmail.com",
+            "store": 3,
+            "level": "Administrador",
+            "last_login": "",
+            "when_created": "2023-11-26"
         }
     }
 }
