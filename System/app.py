@@ -80,8 +80,8 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/loggout')
-def loggout():
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
     Session(request.remote_addr).disconnect_user()
     return redirect('/homepage/')
 
