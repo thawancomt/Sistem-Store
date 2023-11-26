@@ -10,6 +10,28 @@ app = Flask(__name__)
 app.secret_key = '2222'
 
 
+def user_data(date_for="1999-01-01"):
+
+    if not date_for == "1999-01-01":
+        data = {
+            'username': Session(request.remote_addr).name(),
+            'level': Session(request.remote_addr).level(),
+            'articles': Production.articles,
+            'store_name': Session(request.remote_addr).store_name(),
+            'total_of_the_day': Production(date_for).get_already_produced(Session(request.remote_addr).store_name(id=True))
+        }
+
+        return data
+    else:
+        data = {
+            'username': Session(request.remote_addr).name(),
+            'level': Session(request.remote_addr).level(),
+            'articles': Production.articles,
+            'store_name': Session(request.remote_addr).store_name()
+        }
+        return data
+
+
 def is_user_logged_in(ip):
     # Check if user is logged in
     try:
@@ -26,6 +48,10 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+    if is_user_logged_in(request.remote_addr):
+        return redirect('/homepage')
+
     if request.method == 'POST':
 
         email = request.form.get('email')
@@ -68,13 +94,7 @@ def home(date_for):
     else:
         return redirect('/login')
 
-    return render_template('homepage.html', data={
-        'username': Session(request.remote_addr).name(),
-        'level': Session(request.remote_addr).level(),
-        'articles': Production.articles,
-        'store_name': Session(request.remote_addr).store_name(),
-        'total_of_the_day': Production(date_for).get_already_produced(Session(request.remote_addr).store_name(id=True))
-    }, date_for=date_for)
+    return render_template('homepage.html', data=user_data(date_for), date_for=date_for)
 
 
 @app.route('/production/<date_for>', methods=['GET', 'POST'])
@@ -132,6 +152,11 @@ def register_user():
         25: 'Baixa Chiado'
     },
         'levels': ['Colaborador', 'Administrador', 'Visitante']})
+
+
+@app.route('/users')
+def show_users():
+    return render_template('users.html', data=user_data())
 
 
 if __name__ == "__main__":

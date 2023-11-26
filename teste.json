@@ -3,39 +3,53 @@
         "1": {
             "username": "Thawan Henrique",
             "email": "thawancomt@gmail.com",
-            "store": "3",
+            "password": "tt",
+            "level": "Vagaba",
+            "store": 5,
             "when_was_created": 32
         },
         "2": {
             "username": "Thawan Henrique2",
             "password": "teste",
             "email": "gekyumethawan@gmail.com",
-            "store": "3",
+            "store": 3,
             "level": "Colaborator",
             "when_was_created": null
         },
         "3": {
-            "username": "Thawan Barroso",
-            "password": "thawancomt",
-            "email": "thawancomt@gmail.com2",
-            "store": 3,
-            "level": "Colaborator",
-            "admin": false,
-            "when_was_created": 2023
+            "username": "gekyumethawan@gmail.com",
+            "password": "teste",
+            "email": "meo@gmail.com",
+            "store": null,
+            "level": "Colaborador"
         },
         "4": {
-            "username": "Thawan Barroso a",
-            "password": "thawancomt",
-            "email": "thawancomt@gmail.com2",
-            "store": 3,
-            "level": null
+            "username": "falcao@gmail.com",
+            "password": "falcaofalcao",
+            "email": "teste@gmail.comaaa",
+            "store": "3",
+            "level": "Colaborador"
         },
         "5": {
-            "username": "teste",
-            "password": "",
-            "email": "",
-            "store": null,
-            "level": null
+            "username": "asd@gmail.com",
+            "password": "Dez1633#",
+            "email": "luis21@gmail.com",
+            "store": "11",
+            "level": "Visitante"
+        },
+        "6": {
+            "username": "gekyumethawan@gmail.co2m",
+            "password": "teste",
+            "email": "teste@gmail.comaaa2",
+            "store": "3",
+            "level": "Colaborador"
+        },
+        "7": {
+            "username": "gekyum213ethawan@gmail.com",
+            "password": "teste",
+            "email": "teste@gmail.comaaa123",
+            "store": "25",
+            "level": "Visitante"
         }
     }
 }

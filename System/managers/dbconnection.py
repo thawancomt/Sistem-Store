@@ -111,7 +111,6 @@ class DbConnection():
 
     def update_production(self, store, date, old_data, new_data):
 
-        print(f'esses dados: {new_data} \n Data velha: {old_data}')
         store_name = self.stores[store]
 
         generated_data = {}

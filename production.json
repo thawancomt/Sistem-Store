@@ -3,7 +3,7 @@
         "1": {
             "date": "2023-11-21",
             "production": {
-                "big_ball": 3,
+                "big_ball": 7,
                 "small_ball": 15,
                 "garlic_bread": 1,
                 "mozzarela": 22,
@@ -18,6 +18,16 @@
                 "garlic_bread": 5,
                 "mozzarela": 4,
                 "edamer": 6
+            }
+        },
+        "3": {
+            "date": "2023-11-26",
+            "production": {
+                "big_ball": 12,
+                "small_ball": 14,
+                "garlic_bread": 37,
+                "mozzarela": 122,
+                "edamer": 25
             }
         }
     }
