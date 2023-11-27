@@ -168,7 +168,13 @@ def show_users():
 
 @app.route('/users/search/', methods=['GET', 'POST'])
 def show_users_filtered():
-
+    """"
+    The search function is designed to return the users whose usernames match
+    the search query. If the search query is an empty string, then the search
+    function returns all the users, because all the usernames are different 
+    from. This is equivalent to showing the entire list of users without any
+    filtering.'.
+    """
     username = request.form.get('filter')
     filtered_user = User().return_filtered_users(username)
 

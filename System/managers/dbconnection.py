@@ -40,7 +40,14 @@ class DbConnection():
         return result
 
     def insert_user(self, data):
+        """Insert a new user into the database
 
+        Args:
+            data dict: User data need be a dict
+
+        Returns:
+            bool: True if successful inserted, false otherwise 
+        """
         data_to_insert = {}
 
         def check_user_exist():
@@ -58,7 +65,9 @@ class DbConnection():
                 else:
                     pass
             self.db.insert(data_to_insert)
+            return True
 
+    # A class User need to be passed into the constructor
     def update_user(self, who, new_info):
         self.db.update(new_info, Query().email == who.email)
 
@@ -73,6 +82,7 @@ class DbConnection():
             'when_was_created': 'erro',
         }
 
+        # Try to get the user by username, if it is a empty dict then try to get by email
         try:
             by_username = self.db.search(Query().username == who.username)
             by_email = self.db.search(Query().email == who.email)
@@ -89,6 +99,7 @@ class DbConnection():
         users = self.db.search(Query().username != '')
         new_users_protected = []
 
+        # For security reasons the password is deleted before returning
         for user in users:
             del user['password']
             new_users_protected.append(user)
@@ -119,8 +130,6 @@ class DbConnection():
 
 
         }
-
-        # tem que mudar o retorno da funcao de get_day_production
         if self.get_day_production(store, date) == default_day:
             self.db.table(store_name).insert({'date': str(date),
                                               'production': data})
