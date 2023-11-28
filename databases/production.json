@@ -19,6 +19,28 @@
                 "mozzarela": 0,
                 "edamer": 0
             }
+        },
+        "3": {
+            "date": "2023-11-28",
+            "production": {
+                "big_ball": 13,
+                "small_ball": 2,
+                "garlic_bread": 33,
+                "mozzarela": 0,
+                "edamer": 0
+            }
+        }
+    },
+    "Campo de Ourique": {
+        "1": {
+            "date": "2023-11-28",
+            "production": {
+                "big_ball": 28,
+                "small_ball": 0,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
+            }
         }
     }
 }

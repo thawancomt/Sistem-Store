@@ -13,7 +13,6 @@ class DbConnection():
     ]
 
     stores = {
-        0: None,
         3: 'Colombo',
         5: 'Odivelas',
         11: 'Campo de Ourique',
@@ -159,7 +158,7 @@ class DbConnection():
             {'production': generated_data}, Query().date == str(date))
 
     def get_day_production(self, store, date):
-        store_name = self.stores[store]
+        store_name = self.stores[int(store)]
 
         result = self.db.table(store_name).search(Query().date == str(date))
 

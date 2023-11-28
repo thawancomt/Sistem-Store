@@ -23,3 +23,10 @@ class Production():
 
     def get_already_produced(self, store):
         return DbConnection('databases/production.json').get_day_production(store, self.date)
+
+
+class Stores(Production):
+
+    def __init__(self):
+        super().__init__(self.get_already_produced)
+        self.store = 0

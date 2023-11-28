@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = '2222'
 
 
-def user_data(date_for="1999-01-01"):
+def user_data(date_for="1999-01-01", store_to_show=5):
 
     if not date_for == "1999-01-01":
         data = {
@@ -18,7 +18,13 @@ def user_data(date_for="1999-01-01"):
             'level': Session(request.remote_addr).level(),
             'articles': Production.articles,
             'store_name': Session(request.remote_addr).store_name(),
-            'total_of_the_day': Production(date_for).get_already_produced(Session(request.remote_addr).store_name(id=True))
+            'total_of_the_day': Production(date_for).get_already_produced(store_to_show),
+            'stores': {
+                3: 'Colombo',
+                5: 'Odivelas',
+                11: 'Campo de Ourique',
+                25: 'Baixa Chiado'
+            }
         }
 
         return data
@@ -27,7 +33,13 @@ def user_data(date_for="1999-01-01"):
             'username': Session(request.remote_addr).name(),
             'level': Session(request.remote_addr).level(),
             'articles': Production.articles,
-            'store_name': Session(request.remote_addr).store_name()
+            'store_name': Session(request.remote_addr).store_name(),
+            'stores': {
+                3: 'Colombo',
+                5: 'Odivelas',
+                11: 'Campo de Ourique',
+                25: 'Baixa Chiado'
+            }
         }
         return data
 
@@ -89,22 +101,32 @@ def logout():
 
 @app.route('/homepage/')
 def redirect_home():
-    return redirect(f'/homepage/{date.today()}')
+    user_store = Session(request.remote_addr).store_name(id=True)
+    return redirect(f'/homepage/{date.today()}/{user_store}')
 
 
-@app.route('/homepage/<date_for>')
-def home(date_for):
+@app.route('/homepage/<date_for>/<store_to_show>')
+def home(date_for, store_to_show):
+
+    user_store = Session(request.remote_addr).store_name(id=True)
 
     if is_user_logged_in(request.remote_addr):
         pass
     else:
         return redirect('/login')
 
-    return render_template('homepage.html', data=user_data(date_for), date_for=date_for)
+    if user_data(date_for=date_for)['level'] == 'Administrador':
+        user_store = store_to_show
+        return render_template('homepage.html', data=user_data(date_for, store_to_show=user_store), date_for=date_for, store_to_show=store_to_show)
+
+    else:
+
+        data = user_data(date_for=date_for, store_to_show=user_store)
+        return render_template('homepage.html', data=data, date_for=date_for, store_to_show=store_to_show)
 
 
-@app.route('/production/<date_for>', methods=['GET', 'POST'])
-def enter_production(date_for):
+@app.route('/production/<date_for>/<store_to_send>', methods=['GET', 'POST'])
+def enter_production(date_for, store_to_send):
     data = {}
 
     old_production = Production(date_for).get_already_produced(
@@ -124,12 +146,11 @@ def enter_production(date_for):
             except KeyError:
                 data[article_id] = 0
 
-    print(data, old_production)
     production = Production(date_for, data)
     production.store = Session(request.remote_addr).store_name(id=True)
     production.send_production()
 
-    return redirect(f'/homepage/{date_for}')
+    return redirect(f'/homepage/{date_for}/{store_to_send}')
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])

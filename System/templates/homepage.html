@@ -5,6 +5,21 @@
 {% endblock %}
 
 {% block content  %}
+    <!-- Search Bar if admin -->
+    {% if data['level'] == 'Administrador' %}
+    <div class="w-full h-8 flex justify-center mb-4 space-x-1">
+        <div class="w-1/6">
+            <h1 class="select-primary p-0 h-full flex justify-center items-center ">Select an store</h1>
+        </div>
+        <form action=""></form>
+        <select name="store" id="" class="select-primary w-2/6 p-0 text-center">
+            {% for store_id, store_name in data['stores'].items() %}
+            <option value="{{ store_id }}">{{ store_name }}</option>
+            {% endfor %}
+        </select>
+
+    </div>
+    {% endif %}
     <!-- Production Card -->
     <div class="w-full flex justify-center">
         <!-- Container -->
@@ -13,7 +28,7 @@
                 <h1 class="font-bold text-emerald-500 text-2xl">Enter the Production</h1>
             </div>
 
-            <form action="/production/{{ date_for }}" class="flex flex-col m-4" method="POST" id="production-form">
+            <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col m-4" method="POST" id="production-form">
                 {% for article, article_name in data['articles'].items() %}
                 <!-- Inputs of production -->
                     <div class="w-full flex justify-between">
