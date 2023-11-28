@@ -15,7 +15,7 @@
                 justify-center">
         
         <!-- Login Container -->
-        <div class="flex
+        <div class="flex transition-all ease-in-out duration-1000
                     w-auto h-auto
                     border dark:border-white border-gray-800 rounded-lg">
             <div class="w-3/6 dark:bg-transparent bg-green-200 m-4 rounded-lg">
@@ -35,12 +35,22 @@
                         hover:bg-emerald-500 hover:text-gray-800">Enter</button>
                     </form>
                 </div>
+                <div>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <h1 class="m-4"> {{ message }}</h1>
+                            {% endfor %}
+                        {% endif  %}
+                    {% endwith %}
+                </div>
                 <div class="m-4">
                     <h4 class="dark:text-indigo-100 text-gray-800
                     font-semibold text-sm">Don't have an accouunt?</h4>
                     <a href="/register" class="
                     font-semibold text-sm text-emerald-600 hover:underline">Create Now</a>
                 </div>
+                
             </div>
             
 

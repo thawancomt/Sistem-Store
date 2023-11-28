@@ -63,8 +63,6 @@ class Login(DbConnection):
                           (Query().password == self.password)):
             return True
         else:
-
-            print("Invalid username or password")
             return False
 
 

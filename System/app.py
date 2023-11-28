@@ -76,6 +76,7 @@ def login():
             Session.connected_users[request.remote_addr]['status'] = True
 
             return redirect('/homepage/')
+        flash('Incorrect email or password')
 
     return render_template('login.html')
 
@@ -178,7 +179,7 @@ def show_users_filtered():
     username = request.form.get('filter')
     filtered_user = User().return_filtered_users(username)
 
-    return render_template('users.html', data=user_data, users=filtered_user)
+    return render_template('users.html', data=user_data(), users=filtered_user)
 
 
 if __name__ == "__main__":
