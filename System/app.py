@@ -69,10 +69,12 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        # Create a new user object and set email and password
         connected_user = User()
         connected_user.email = email
         connected_user.password = password
 
+        # Validate return is Boolean
         result = Login(connected_user).validate()
 
         if result:
@@ -101,6 +103,7 @@ def logout():
 
 @app.route('/homepage/')
 def redirect_home():
+    # If the user enter on homepage without a date
     user_store = Session(request.remote_addr).store_name(id=True)
     return redirect(f'/homepage/{date.today()}/{user_store}')
 
