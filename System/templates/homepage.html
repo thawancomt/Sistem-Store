@@ -11,13 +11,19 @@
         <div class="w-1/6">
             <h1 class="select-primary p-0 h-full flex justify-center items-center ">Select an store</h1>
         </div>
-        <form action=""></form>
-        <select name="store" id="" class="select-primary w-2/6 p-0 text-center">
-            {% for store_id, store_name in data['stores'].items() %}
-            <option value="{{ store_id }}">{{ store_name }}</option>
-            {% endfor %}
-        </select>
+        <form action="/homepage/{{date_for}}/{{store_to_show}}" class="flex" method="post">
+            <select name="store_by_select_form" id="" class="select-primary w-44 p-0 text-center h-full">
+                {% for store_id, store_name in data['stores'].items() %}
+                {% if store_id == store_to_show|int  %}
+                <option value="{{ store_id }}" selected>{{ store_name }}</option>
+                {% else %}
+                <option value="{{ store_id }}" >{{ store_name }}</option>
+                {% endif %}
 
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-primary-rounded w-20 my-0 ml-1 h-full">Show</button>
+        </form>
     </div>
     {% endif %}
     <!-- Production Card -->

@@ -11,6 +11,12 @@ class Production():
 
 
     }
+    stores = {
+        3: 'Colombo',
+        5: 'Odivelas',
+        11: 'Campo de Ourique',
+        25: 'Baixa Chiado'
+    }
 
     def __init__(self, date, data={}):
         self.store = 0

@@ -105,7 +105,7 @@ def redirect_home():
     return redirect(f'/homepage/{date.today()}/{user_store}')
 
 
-@app.route('/homepage/<date_for>/<store_to_show>')
+@app.route('/homepage/<date_for>/<store_to_show>', methods=['GET', 'POST'])
 def home(date_for, store_to_show):
 
     user_store = Session(request.remote_addr).store_name(id=True)
@@ -117,12 +117,46 @@ def home(date_for, store_to_show):
 
     if user_data(date_for=date_for)['level'] == 'Administrador':
         user_store = store_to_show
-        return render_template('homepage.html', data=user_data(date_for, store_to_show=user_store), date_for=date_for, store_to_show=store_to_show)
+
+        show_store_by_select_form = request.form.get('store_by_select_form')
+
+        if show_store_by_select_form:
+
+            for store_id, store_name in Production.stores.items():
+                if store_name == show_store_by_select_form:
+                    show_store_by_select_form = store_id
+
+            return render_template('homepage.html', data=user_data(date_for, store_to_show=int(show_store_by_select_form)),
+                                   date_for=date_for,
+                                   store_to_show=show_store_by_select_form,
+                                   stores=Production.stores)
+
+        return render_template('homepage.html', data=user_data(date_for, store_to_show=user_store),
+                               date_for=date_for,
+                               store_to_show=store_to_show,
+                               stores=Production.stores)
 
     else:
 
         data = user_data(date_for=date_for, store_to_show=user_store)
-        return render_template('homepage.html', data=data, date_for=date_for, store_to_show=store_to_show)
+        return render_template('homepage.html', data=data, date_for=date_for, store_to_show=store_to_show,
+                               stores=Production.stores)
+
+
+# @app.route('/show_store_production_if_admin')
+# def show_store_production_if_admin():
+
+#     if request.method == 'POST':
+#         store = request.form.get('store_by_select_form')
+#         store_to_send = 0
+#         for store_id, store_name in Production.stores.items():
+#             if store_name == store:
+#                 store_to_send = store_id
+
+#                 return render_template('homepage.html', )
+#             else:
+#                 return 'Store not found'
+#     return r'teste'
 
 
 @app.route('/production/<date_for>/<store_to_send>', methods=['GET', 'POST'])
@@ -147,7 +181,7 @@ def enter_production(date_for, store_to_send):
                 data[article_id] = 0
 
     production = Production(date_for, data)
-    production.store = Session(request.remote_addr).store_name(id=True)
+    production.store = int(store_to_send)
     production.send_production()
 
     return redirect(f'/homepage/{date_for}/{store_to_send}')
