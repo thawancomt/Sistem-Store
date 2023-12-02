@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block user_title %}
-    <div class="w-auto h-full flex items-center ">
+    <div class="w-auto h-full flex items-center " id="admin">
         <!-- Name with admin or not -->
         <div class="-space-y-1 flex flex-col items-center">
             <h1 class="text-emerald-500 font-semibold text-lg">{{data['username']}}</h1>
@@ -79,7 +79,7 @@
                                 <input type="number" value="{{ data['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
                             {% else %}
                                 <div class="h-7 w-full"></div>
-                                <input type="text" value="{{ data['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
+                                <input type="number" value="{{ data['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
                             {% endif %}
                         </div>
 
