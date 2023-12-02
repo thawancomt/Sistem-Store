@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>edit User</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Edit {{username}}</h1>
+
+    <form action="">
+        <input type="text" placeholder="{{old_data['username']}}">
+        <input type="text" placeholder="{{old_data['password']}}">
+        <input type="email" placeholder="{{old_data['email']}}">
+        <select name="store" id="">
+
+            {% for store_id, store_name in data['stores'].items() %}
+                {% if store_id == old_data['store'] %}
+                    <option value="{{store_id}}" selected>{{ store_name }}</option>
+                {% else %}
+                    <option value="{{store_id}}" >{{ store_name }}</option>
+                {% endif %}
+            {% endfor %}
+            
+        </select>
+    </form>
+
+    <h1>{{old_data}}</h1>
+
+    <a href="/users"> Voltar</a>
+
+{% endblock %}

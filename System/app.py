@@ -47,10 +47,15 @@ def user_data(date_for="1999-01-01", store_to_show=5):
 def is_user_logged_in(ip):
     # Check if user is logged in
     try:
-        if Session.connected_users[ip]['status']:
+        result = Session.connected_users[ip]['status']
+        if result:
             return True
     except KeyError:
         return False
+
+
+def login_required():
+    return 'fodas'
 
 
 @app.route('/')
@@ -98,7 +103,7 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     Session(request.remote_addr).disconnect_user()
-    return redirect('/homepage/')
+    return redirect('/login')
 
 
 @app.route('/homepage/')
@@ -111,18 +116,22 @@ def redirect_home():
 @app.route('/homepage/<date_for>/<store_to_show>', methods=['GET', 'POST'])
 def home(date_for, store_to_show):
 
-    user_store = Session(request.remote_addr).store_name(id=True)
-
     if is_user_logged_in(request.remote_addr):
         pass
     else:
         return redirect('/login')
 
+    user_store = Session(request.remote_addr).store_name(id=True)
+
     if user_data(date_for=date_for)['level'] == 'Administrador':
+
+        # The store to show on page, if equal to store_to_show will show the url store Id
         user_store = store_to_show
 
+        # Try to get the store by the select element in the homepage
         show_store_by_select_form = request.form.get('store_by_select_form')
 
+        # if the store to show is from the select form
         if show_store_by_select_form:
 
             for store_id, store_name in Production.stores.items():
@@ -191,8 +200,18 @@ def enter_production(date_for, store_to_send):
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
-def edit_user():
+def edit_logged_user():
     return render_template('user.html', username=Session(request.remote_addr).name())
+
+
+@app.route('/edit/user/<username>', methods=['GET', 'POST'])
+def edit_user(username):
+
+    old_user = User()
+    old_user.username = username
+    old_data = User().get_user_data(old_user)
+
+    return render_template("edit_user.html", username=username, data=user_data(), old_data=old_data)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -222,6 +241,12 @@ def register_user():
 
 @app.route('/users')
 def show_users():
+
+    if is_user_logged_in(request.remote_addr):
+        pass
+    else:
+        return redirect('/login')
+
     return render_template('users.html', data=user_data(), users=User().return_all_users())
 
 
