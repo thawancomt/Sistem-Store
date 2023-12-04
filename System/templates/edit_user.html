@@ -1,31 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}
-    <title>edit User</title>
-{% endblock %}
-
 {% block content %}
-    <h1>Edit {{username}}</h1>
 
-    <form action="">
-        <input type="text" placeholder="{{old_data['username']}}">
-        <input type="text" placeholder="{{old_data['password']}}">
-        <input type="email" placeholder="{{old_data['email']}}">
-        <select name="store" id="">
+<div class="m-4 border min-h-full max-h-fit">
+    <section class="w-full flex">
+        <div class="w-3/6 h-96 m-4 border ">
 
-            {% for store_id, store_name in data['stores'].items() %}
-                {% if store_id == old_data['store'] %}
-                    <option value="{{store_id}}" selected>{{ store_name }}</option>
-                {% else %}
-                    <option value="{{store_id}}" >{{ store_name }}</option>
-                {% endif %}
-            {% endfor %}
-            
-        </select>
-    </form>
+            <header class="m-4">
+                <h1 class="w-full text-center title-primary">Old data</h1>
+            </header>
+            <form action="" class="flex flex-col">
+                <label for="">username</label>
+                <input type="text" name="old_username" id="" placeholder="{{old_data['username']}}">
 
-    <h1>{{old_data}}</h1>
+                <label for="">Old password</label>
+                <input type="password" name="old_username" id="" placeholder="{{old_data['password']}}">
+                
+                <label for="">Old email</label>
+                <input type="text" name="old_username" id="" placeholder="{{old_data['email']}}">
+            </form>
 
-    <a href="/users"> Voltar</a>
+        </div>
+        <div class="w-3/6 h-96 m-4 border ">
+
+            <header class="m-4">
+                <h1 class="w-full text-center title-primary">New data</h1>
+            </header>
+            <form action="">
+                <input type="text">
+            </form>
+    
+        </div>
+
+    </section>
+    
+    <div class="border m-4 h-56">
+
+    </div>
+
+    
+
+</div>
 
 {% endblock %}
