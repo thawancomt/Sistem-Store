@@ -9,15 +9,24 @@
             <header class="m-4">
                 <h1 class="w-full text-center title-primary">Old data</h1>
             </header>
-            <form action="" class="flex flex-col">
-                <label for="">username</label>
-                <input type="text" name="old_username" id="" placeholder="{{old_data['username']}}">
+            <form action="" class="flex flex-col w-full items-center">
+                <label for="" class="text-white font-semibold">username</label>
+                <input type="text" name="old_username" id="" placeholder="{{old_data['username']}}" class="select-primary w-4/6" disabled>
 
-                <label for="">Old password</label>
-                <input type="password" name="old_username" id="" placeholder="{{old_data['password']}}">
+                <label for="" class="text-white font-semibold">Actual password</label>
+                <input type="password" name="old_username" id="" placeholder="{{old_data['password']}}" class="select-primary w-4/6" disabled>
                 
-                <label for="">Old email</label>
-                <input type="text" name="old_username" id="" placeholder="{{old_data['email']}}">
+                <label for="" class="text-white font-semibold">Actual email</label>
+                <input type="text" name="old_username" id="" placeholder="{{old_data['email']}}" class="select-primary w-4/6" disabled>
+                <select name="" id="" class="mt-4 select-primary w-3/6">
+                    {% for store_id, store_name in data['stores'].items() %}
+                        {% if store_id == old_data['store'] %}
+                            <option value="{{store_id}}">{{store_name}}</option>
+                        {% endif %}
+
+                    {% endfor %}
+                </select>
+                
             </form>
 
         </div>
@@ -26,8 +35,23 @@
             <header class="m-4">
                 <h1 class="w-full text-center title-primary">New data</h1>
             </header>
-            <form action="">
-                <input type="text">
+            <form action="/edit/user/{{username}}" class="flex flex-col w-full items-center" method="POST">
+                <label for="" class="text-white font-semibold">New username</label>
+                <input type="text" name="new_username" id="" placeholder="{{old_data['username']}}" class="select-primary w-4/6">
+
+                <label for="" class="text-white font-semibold">New  password</label>
+                <input type="password" name="new_password" id="" placeholder="{{old_data['password']}}" class="select-primary w-4/6">
+                
+                <label for="" class="text-white font-semibold">New  email</label>
+                <input type="text" name="new_email" id="" placeholder="{{old_data['email']}}" class="select-primary w-4/6">
+                
+                <select name="new_store" id="" class="mt-4 select-primary w-3/6">
+                    {% for store_id, store_name in data['stores'].items() %}
+                        <option value="{{store_id}}">{{store_name}}</option>
+
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn-primary">Send</button>
             </form>
     
         </div>

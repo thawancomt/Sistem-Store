@@ -66,8 +66,38 @@ class DbConnection():
             self.db.insert(data_to_insert)
             return True
 
+    def check_user_exist(self, username : str = '', email : str = ''):
+
+        if not self.search_username(username):
+            return self.search_email(email)
+        else:
+            return True
+        
+
+
     # A class User need to be passed into the constructor
     def update_user(self, who, new_info):
+        """ This two for loops verify if the info of new info is empty
+        case true: delete the key, and update just changed info
+        """
+        
+        try:
+            if self.check_user_exist(new_info['username'], new_info['email']):
+                raise KeyError
+        except:
+            pass
+
+        keys_to_delete = []
+
+        for key, value in new_info.items():
+            if not value:
+                keys_to_delete.append(key)
+
+        for key in keys_to_delete:
+            del new_info[key]
+
+
+
         self.db.update(new_info, Query().email == who.email)
 
     def get_user_data(self, who):

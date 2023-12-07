@@ -1,51 +1,22 @@
 {
     "_default": {
         "1": {
-            "username": "Thawan Henrique Flausino",
+            "username": "Flauzino",
             "password": "Dez1633#",
             "email": "thawancomt@gmail.com",
-            "store": 11,
-            "last_login": "2023-12-07",
-            "level": "Administrador"
-        },
-        "2": {
-            "username": "Igor Moreira",
-            "password": "teste",
-            "email": "igorteste@gmail.com",
-            "store": 3,
-            "level": "Visitante"
-        },
-        "3": {
-            "username": "Matias De Souza",
-            "password": "matias",
-            "email": "matias@gmail.com",
-            "store": 5,
-            "level": "Colaborador"
-        },
-        "4": {
-            "username": "Fausto Silva Globo",
-            "password": "fausto",
-            "email": "faustao@gmail.com",
-            "store": 25,
-            "level": "Administrador"
-        },
-        "5": {
-            "username": "Teste",
-            "password": "Dez1633#",
-            "email": "teste@gmail.comaaa",
-            "store": 3,
-            "level": "Colaborador",
-            "last_login": "2023-12-07",
-            "when_created": "2023-11-26"
-        },
-        "6": {
-            "username": "Marina Silva",
-            "password": "marina",
-            "email": "marinadosilveira@gmail.com",
             "store": 3,
             "level": "Administrador",
+            "last_login": "2023-12-07",
+            "when_created": "2023-12-07"
+        },
+        "2": {
+            "username": "dasd",
+            "password": "das",
+            "email": "asdasd@gmail.com",
+            "store": 5,
+            "level": "Visitante",
             "last_login": "",
-            "when_created": "2023-11-26"
+            "when_created": "2023-12-07"
         }
     }
 }

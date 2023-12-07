@@ -211,9 +211,38 @@ def edit_logged_user():
 @app.route('/edit/user/<username>', methods=['GET', 'POST'])
 def edit_user(username):
 
+    # set old user
     old_user = User()
     old_user.username = username
+
+    # after set old user, get their data
     old_data = User().get_user_data(old_user)
+
+    # with his data define the old user email
+    old_user.email = old_data['email']
+
+    if request.method == 'POST':
+
+        new_username = request.form.get('new_username')
+        new_password = request.form.get('new_password')
+        new_email = request.form.get('new_email')
+        new_store = int(request.form.get('new_store'))
+
+        new_data = {
+            'username' :  new_username,
+            'password' : new_password,
+            'email' : new_email,
+            'store' : new_store
+        }
+
+        try:
+        
+            User().edit_user(old_user, new_data)
+            return redirect(f'/edit/user/{new_data["username"]}')
+        except KeyError:
+            return 'ERROR EDITING USER'
+
+
 
     return render_template("edit_user.html", username=username, data=user_data(), old_data=old_data)
 
