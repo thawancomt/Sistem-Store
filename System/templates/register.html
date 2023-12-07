@@ -34,13 +34,13 @@
                     <input type="password" name="password" id="" class="form-control-1" required>
                 </div>
 
-            <select name="store" id="">
+            <select name="store" id="" class="select-primary mt-4">
                 {% for store_id, store_name in data['stores'].items() %}
                 <option value="{{store_id}}"> {{store_name}}</option>
                 {% endfor %}
             </select>
 
-            <select name="level" id="">
+            <select name="level" id="" class="select-primary">
                 {% for level in data['levels'] %}
                 <option value="{{level}}"> {{level}}</option>
                 {% endfor %}

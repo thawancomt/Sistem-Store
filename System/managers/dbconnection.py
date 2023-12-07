@@ -116,6 +116,17 @@ class DbConnection():
 
         return filtered_users
 
+    def get_users_by_store(self, store):
+        users = self.get_all_users()
+
+        filtered_users = []
+
+        for user in users:
+            if int(store) == user['store']:
+                filtered_users.append(user)
+
+        return filtered_users
+
     def insert_production(self, store, date, data):
 
         store_name = self.stores[store]

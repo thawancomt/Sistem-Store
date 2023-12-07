@@ -141,18 +141,22 @@ def home(date_for, store_to_show):
             return render_template('homepage.html', data=user_data(date_for, store_to_show=int(show_store_by_select_form)),
                                    date_for=date_for,
                                    store_to_show=show_store_by_select_form,
-                                   stores=Production.stores)
+                                   stores=Production.stores, users=User().return_filtered_users_by_store(int(store_to_show)))
 
         return render_template('homepage.html', data=user_data(date_for, store_to_show=user_store),
                                date_for=date_for,
                                store_to_show=store_to_show,
-                               stores=Production.stores)
+                               stores=Production.stores, users=User().return_filtered_users_by_store(int(store_to_show)))
 
     else:
+        if int(user_store) != int(store_to_show):
+            flash("You can't edit other store")
+            return redirect('/homepage')
 
         data = user_data(date_for=date_for, store_to_show=user_store)
+
         return render_template('homepage.html', data=data, date_for=date_for, store_to_show=store_to_show,
-                               stores=Production.stores)
+                               stores=Production.stores, users=User().return_filtered_users_by_store(int(store_to_show)))
 
 
 # @app.route('/show_store_production_if_admin')

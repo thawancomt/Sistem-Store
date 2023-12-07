@@ -33,6 +33,22 @@
 {% endblock %}
 
 {% block content  %}
+    <!-- Can´t edit if not admin -->
+    {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+
+                    <div class="w-full flex justify-center">
+                        <div class="w-5/6 h-48 border border-emerald-500 m-4">
+                            <h1 class="m-4 text-white"> {{ message }}</h1>
+                        </div>
+                        
+                    </div>
+                        
+                    {% endfor %}
+                {% endif  %}
+            {% endwith %}
+    
     <!-- Search Bar if admin -->
     {% if data['level'] == 'Administrador' %}
     <div class="w-full h-8 flex justify-center mb-4 space-x-1">
@@ -109,6 +125,14 @@
                 <input type="number" name="big_ball" class="form-control-1">
                 <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
                 <input type="number" name="big_ball" class="form-control-1">
+                
+                <label for="" class="text-lg text-white font-semibold">Worker</label>
+                <select name="who_consume" id="" class="select-primary" >
+                    {% for user in users %}
+                    <option value="{{user['store']}}">{{user['username']}}</option>
+                    {% endfor %}
+                </select>
+                
                 <button type="button" class="btn-primary-rounded w-3/6">Send</button>
             </form>
 

@@ -31,6 +31,9 @@ class User():
 
     def return_filtered_users(self, search):
         return DbConnection('databases/users.json').get_users_by_search(search)
+    
+    def return_filtered_users_by_store(self, store):
+        return DbConnection('databases/users.json').get_users_by_store(store)
 
 
 class CreateUser(User):

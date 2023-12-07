@@ -54,7 +54,11 @@
                     </div>
                 
                     <div class="w-full flex  ">
-                        <h2 class="sub-title-primary"> Last login: 2021-23-45</h2>
+                        {% if not user['last_login'] %}
+                        <h2 class="sub-title-primary"> Last login: Never</h2>
+                        {% else %}
+                        <h2 class="sub-title-primary"> Last login: {{user['last_login']}}</h2>
+                        {% endif %}
                     </div>
                 </div>
                 <form action="/edit/user/{{user['username']}}">
