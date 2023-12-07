@@ -1,0 +1,33 @@
+{
+    "Campo de Ourique": {
+        "1": {
+            "date": "2022",
+            "consumes": {
+                "worker": "dada",
+                "consumes": {
+                    "bread": 12
+                }
+            }
+        },
+        "2": {
+            "date": "2022",
+            "consumes": {
+                "worker": "dada",
+                "consume": {
+                    "bread": 12
+                }
+            }
+        }
+    },
+    "Odivelas": {
+        "1": {
+            "date": "2022",
+            "consumes": {
+                "worker": "dada",
+                "consume": {
+                    "bread": 12
+                }
+            }
+        }
+    }
+}

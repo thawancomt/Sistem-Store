@@ -80,11 +80,11 @@ class DbConnection():
         """ This two for loops verify if the info of new info is empty
         case true: delete the key, and update just changed info
         """
-        
+
         try:
             if self.check_user_exist(new_info['username'], new_info['email']):
                 raise KeyError
-        except:
+        except KeyError:
             pass
 
         keys_to_delete = []
@@ -212,6 +212,20 @@ class DbConnection():
 
         except KeyError:
             return self.default_production
+    
+    def insert_consumes(self, who, date, store, data):
+
+        store_name = self.stores[store]
+
+        self.db.table(store_name).insert({'date' : date, 'consumes' : data})
+
+    def get_day_consume(self, store, date):
+
+        store_name = self.stores[store]
+
+        result = self.db.table(store_name)
+
+        return result
 
 
 if __name__ == '__main__':

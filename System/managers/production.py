@@ -1,4 +1,5 @@
-from managers.dbconnection import DbConnection
+if not __name__ == '__main__':
+    from managers.dbconnection import DbConnection
 
 
 class Production():
@@ -30,9 +31,39 @@ class Production():
     def get_already_produced(self, store):
         return DbConnection('databases/production.json').get_day_production(store, self.date)
 
+class Consumes():
+    def __init__(self):
+        self.worker : str  = ''
+        self.store : int  = 0
+        self.date : str = ''
+        self.data : str = ''
+        
 
+    
+    def send_consume(self):
+        DbConnection('databases/consumes.json').insert_consumes(who = self.worker,
+                                                                date = self.date,
+                                                                store = self.store,
+                                                                data = self.data)
+        
+    def get_consume_by_day(self, store, date):
+        return DbConnection('databases/consumes.json').get_day_consume(store, date)
+        
 class Stores(Production):
 
     def __init__(self):
         super().__init__(self.get_already_produced)
         self.store = 0
+
+if __name__ == '__main__':
+
+    from dbconnection import DbConnection
+    
+    teste = Consumes()
+    teste.worker = 'dada'
+    teste.store = 5
+    teste.date = '2022'
+    teste.data = {'worker' : teste.worker, 'consume': {'bread': 12}}
+
+    teste.send_consume()
+    print(teste)
