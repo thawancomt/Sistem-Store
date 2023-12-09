@@ -1,4 +1,5 @@
 from tinydb import TinyDB, Query
+from tinydb.operations import increment
 
 
 class DbConnection():
@@ -217,13 +218,34 @@ class DbConnection():
 
         store_name = self.stores[store]
 
-        self.db.table(store_name).insert({'date' : date, 'consumes' : data})
+        result = self.get_day_consume(store, date)
+
+        if result:
+            self.update_consume(who, date, store, result[0], data)
+        else:
+            self.db.table(store_name).insert({'date' : date, who : data})
+
+        
+    
+    def update_consume(self, who, date, store, old_data, new_data):
+        store_name = self.stores[store]
+
+        
+        try:
+            for key, value in old_data[who].items():
+                new_data[key] += value
+        except KeyError:
+            pass
+        
+        self.db.table(store_name).update({who : new_data}, Query().date == date)
+            
+        
 
     def get_day_consume(self, store, date):
 
         store_name = self.stores[store]
 
-        result = self.db.table(store_name)
+        result = self.db.table(store_name).search((Query().date == date))
 
         return result
 

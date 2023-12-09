@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
-from managers.production import Production
+from managers.production import Production, Consumes
 
 from datetime import date
 
@@ -120,6 +120,9 @@ def home(date_for, store_to_show):
         pass
     else:
         return redirect('/login')
+    
+    if request.method == 'POST':
+        return redirect(f'/homepage/{date_for}/{request.form.get("store_by_select_form")}')
 
     user_store = Session(request.remote_addr).store_name(id=True)
 
@@ -201,6 +204,23 @@ def enter_production(date_for, store_to_send):
     production.send_production()
 
     return redirect(f'/homepage/{date_for}/{store_to_send}')
+
+@app.route('/consume/<date_for>/<store_to_send>', methods=['GET', 'POST'])
+def enter_consume(date_for, store_to_send):
+    consume = Consumes()
+    consume.date = date_for
+    consume.store = int(store_to_send)
+
+    if request.method == 'POST':
+        
+        bread = request.form.get('bread')
+        slice = request.form.get('slice')
+        consume.worker = request.form.get('who_consume')
+
+        consume.data = {'bread' : int(bread), 'slices' : int(slice)}
+        consume.send_consume()
+
+        return redirect('/homepage')
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])

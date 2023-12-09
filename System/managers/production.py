@@ -60,10 +60,11 @@ if __name__ == '__main__':
     from dbconnection import DbConnection
     
     teste = Consumes()
-    teste.worker = 'dada'
-    teste.store = 5
-    teste.date = '2022'
-    teste.data = {'worker' : teste.worker, 'consume': {'bread': 12}}
 
+    teste.worker = 'Thawan HG'
+    teste.store = 11
+    teste.date = 22
+    teste.data = {'slices': 30, 'bread' : 20}
     teste.send_consume()
-    print(teste)
+
+    # print(Consumes().get_consume_by_day(5, 22))

@@ -1,32 +1,40 @@
 {
-    "Campo de Ourique": {
+    "Colombo": {
         "1": {
-            "date": "2022",
-            "consumes": {
-                "worker": "dada",
-                "consumes": {
-                    "bread": 12
-                }
+            "date": "2023-12-09",
+            "Sturt": {
+                "bread": 3,
+                "slices": 2
+            },
+            "Flauzino": {
+                "bread": 6,
+                "slices": 5
+            },
+            "Lost Fa": {
+                "bread": 0,
+                "slices": 0
+            },
+            "Isa": {
+                "bread": 3,
+                "slices": 3
             }
-        },
-        "2": {
-            "date": "2022",
-            "consumes": {
-                "worker": "dada",
-                "consume": {
-                    "bread": 12
-                }
+        }
+    },
+    "Baixa Chiado": {
+        "1": {
+            "date": "2023-12-09",
+            "Fatima": {
+                "bread": 5,
+                "slices": 56
             }
         }
     },
     "Odivelas": {
         "1": {
-            "date": "2022",
-            "consumes": {
-                "worker": "dada",
-                "consume": {
-                    "bread": 12
-                }
+            "date": "2023-12-09",
+            "dasd": {
+                "bread": 2,
+                "slices": 6
             }
         }
     }

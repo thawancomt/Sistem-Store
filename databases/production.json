@@ -63,6 +63,16 @@
                 "mozzarela": 0,
                 "edamer": 1
             }
+        },
+        "3": {
+            "date": "2023-12-09",
+            "production": {
+                "big_ball": 12,
+                "small_ball": 0,
+                "garlic_bread": 33,
+                "mozzarela": 0,
+                "edamer": 32
+            }
         }
     },
     "Odivelas": {
@@ -74,6 +84,16 @@
                 "garlic_bread": 32,
                 "mozzarela": 12,
                 "edamer": 123
+            }
+        },
+        "2": {
+            "date": "2023-12-09",
+            "production": {
+                "big_ball": 0,
+                "small_ball": 4,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
             }
         }
     }

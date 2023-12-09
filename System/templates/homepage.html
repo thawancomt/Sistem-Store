@@ -56,16 +56,18 @@
             <h1 class="select-primary p-0 h-full flex justify-center items-center ">Select an store</h1>
         </div>
         <form action="/homepage/{{date_for}}/{{store_to_show}}" class="flex" method="post">
+            
             <select name="store_by_select_form" id="" class="select-primary w-44 p-0 text-center h-full">
                 {% for store_id, store_name in data['stores'].items() %}
-                {% if store_id == store_to_show|int  %}
-                <option value="{{ store_id }}" selected>{{ store_name }}</option>
-                {% else %}
-                <option value="{{ store_id }}" >{{ store_name }}</option>
+                    {% if store_id == store_to_show|int  %}
+                        <option value="{{ store_id }}" selected>{{ store_name }}</option>
+                    {% else %}
+                        <option value="{{ store_id }}" >{{ store_name }}</option>
                 {% endif %}
 
                 {% endfor %}
             </select>
+            
             <button type="submit" class="btn-primary-rounded w-20 my-0 ml-1 h-full">Show</button>
         </form>
     </div>
@@ -120,20 +122,23 @@
                 <h1 class="font-bold text-emerald-500">Enter your consume</h1>
             </div>
 
-            <form action="/production" class="flex flex-col m-4" >
+            <form action="/consume/{{date_for}}/{{store_to_show}}" class="flex flex-col m-4" method="POST">
+
                 <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
-                <input type="number" name="big_ball" class="form-control-1">
+                <input type="number" name="slice" class="form-control-1" value="0">
+
                 <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
-                <input type="number" name="big_ball" class="form-control-1">
+                <input type="number" name="bread" class="form-control-1" value="0">
                 
                 <label for="" class="text-lg text-white font-semibold">Worker</label>
+
                 <select name="who_consume" id="" class="select-primary" >
                     {% for user in users %}
-                    <option value="{{user['store']}}">{{user['username']}}</option>
+                    <option value="{{user['username']}}">{{user['username']}}</option>
                     {% endfor %}
                 </select>
                 
-                <button type="button" class="btn-primary-rounded w-3/6">Send</button>
+                <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
             </form>
 
         </div>
