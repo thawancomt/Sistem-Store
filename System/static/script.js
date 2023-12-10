@@ -25,23 +25,29 @@ new Chart(ctx, {
     datasets: [
     {
       label: 'Big Ball',
-      data: big
+      data: big,
+      
+      borderWidth: 2,
     },
     {
         label : 'Small Ball',
-        data: small
+        data: small,
+        borderWidth: 2,
     },
     {
         label : 'Garlic Bread',
-        data: garlic
+        data: garlic,
+        borderWidth: 2,
     },
     {
         label : 'Mozzarela',
-        data: mozzarela
+        data: mozzarela,
+        borderWidth: 2,
     },
     {
         label : 'Edamer',
-        data: edamer
+        data: edamer,
+        borderWidth: 2,
     },
 ],
     

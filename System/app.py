@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = '2222'
 
 
-def user_data(date_for="1999-01-01", store_to_show=5):
+def user_data(date_for="1999-01-01", store_to_show=5, lenght=-4):
 
     if not date_for == "1999-01-01":
         data = {
@@ -25,7 +25,7 @@ def user_data(date_for="1999-01-01", store_to_show=5):
                 11: 'Campo de Ourique',
                 25: 'Baixa Chiado'
             },
-            'week' : Production(date_for).create_data_to_ball_usage_chart(store_to_show, length=-7)
+            'week': Production(date_for).create_data_to_ball_usage_chart(store_to_show, lenght)
         }
 
         return data
@@ -121,14 +121,13 @@ def home(date_for, store_to_show):
         pass
     else:
         return redirect('/login')
-    
+
     if request.method == 'POST':
         return redirect(f'/homepage/{date_for}/{request.form.get("store_by_select_form")}')
 
     user_store = Session(request.remote_addr).store_name(id=True)
 
     if user_data(date_for=date_for)['level'] == 'Administrador':
-        
 
         # The store to show on page, if equal to store_to_show will show the url store Id
         user_store = store_to_show
@@ -207,6 +206,7 @@ def enter_production(date_for, store_to_send):
 
     return redirect(f'/homepage/{date_for}/{store_to_send}')
 
+
 @app.route('/consume/<date_for>/<store_to_send>', methods=['GET', 'POST'])
 def enter_consume(date_for, store_to_send):
     consume = Consumes()
@@ -214,12 +214,12 @@ def enter_consume(date_for, store_to_send):
     consume.store = int(store_to_send)
 
     if request.method == 'POST':
-        
+
         bread = request.form.get('bread')
         slice = request.form.get('slice')
         consume.worker = request.form.get('who_consume')
 
-        consume.data = {'bread' : int(bread), 'slices' : int(slice)}
+        consume.data = {'bread': int(bread), 'slices': int(slice)}
         consume.send_consume()
 
         return redirect('/homepage')
@@ -251,20 +251,18 @@ def edit_user(username):
         new_store = int(request.form.get('new_store'))
 
         new_data = {
-            'username' :  new_username,
-            'password' : new_password,
-            'email' : new_email,
-            'store' : new_store
+            'username':  new_username,
+            'password': new_password,
+            'email': new_email,
+            'store': new_store
         }
 
         try:
-        
+
             User().edit_user(old_user, new_data)
             return redirect(f'/edit/user/{new_data["username"]}')
         except KeyError:
             pass
-
-
 
     return render_template("edit_user.html", username=username, data=user_data(), old_data=old_data)
 

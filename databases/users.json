@@ -40,7 +40,7 @@
             "username": "Sturt",
             "password": "Dez1633#",
             "email": "sturt@gmail.com",
-            "store": 3,
+            "store": 25,
             "level": "Administrador",
             "last_login": "",
             "when_created": "2023-12-09"
@@ -69,7 +69,7 @@
             "email": "fafa@gmail.com",
             "store": 11,
             "level": "Visitante",
-            "last_login": "",
+            "last_login": "2023-12-10",
             "when_created": "2023-12-09"
         }
     }

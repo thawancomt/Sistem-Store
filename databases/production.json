@@ -49,6 +49,46 @@
                 "mozzarela": 24,
                 "edamer": 6
             }
+        },
+        "6": {
+            "date": "2023-12-03",
+            "production": {
+                "big_ball": 0,
+                "small_ball": 0,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
+            }
+        },
+        "7": {
+            "date": "2023-12-03",
+            "production": {
+                "big_ball": 0,
+                "small_ball": 0,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
+            }
+        },
+        "8": {
+            "date": "2023-12-03",
+            "production": {
+                "big_ball": 0,
+                "small_ball": 0,
+                "garlic_bread": 0,
+                "mozzarela": -244,
+                "edamer": 0
+            }
+        },
+        "9": {
+            "date": "2023-12-03",
+            "production": {
+                "big_ball": 2,
+                "small_ball": 0,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
+            }
         }
     },
     "Baixa Chiado": {
@@ -85,11 +125,21 @@
         "4": {
             "date": "2023-12-10",
             "production": {
-                "big_ball": 12,
+                "big_ball": 46,
                 "small_ball": 12,
-                "garlic_bread": 0,
+                "garlic_bread": 64,
                 "mozzarela": 24,
-                "edamer": 0
+                "edamer": 12
+            }
+        },
+        "5": {
+            "date": "2023-12-05",
+            "production": {
+                "big_ball": 58,
+                "small_ball": 69,
+                "garlic_bread": 24,
+                "mozzarela": 53,
+                "edamer": 81
             }
         }
     },
