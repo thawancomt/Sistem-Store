@@ -4,15 +4,15 @@
             "username": "Flauzino",
             "password": "Dez1633#",
             "email": "thawancomt@gmail.com",
-            "store": 3,
+            "store": 25,
             "level": "Administrador",
-            "last_login": "2023-12-09",
+            "last_login": "2023-12-10",
             "when_created": "2023-12-07"
         },
         "2": {
-            "username": "dasd",
+            "username": "LIZA sun",
             "password": "das",
-            "email": "asdasd@gmail.com",
+            "email": "Liza@gmail.com",
             "store": 5,
             "level": "Visitante",
             "last_login": "",
@@ -31,7 +31,7 @@
             "username": "Matias Da sensi",
             "password": "Dez1633#",
             "email": "matias@gmail.com",
-            "store": 3,
+            "store": 11,
             "level": "Visitante",
             "last_login": "",
             "when_created": "2023-12-09"
@@ -67,7 +67,7 @@
             "username": "Fatima",
             "password": "Dez1633#",
             "email": "fafa@gmail.com",
-            "store": 25,
+            "store": 11,
             "level": "Visitante",
             "last_login": "",
             "when_created": "2023-12-09"

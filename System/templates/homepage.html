@@ -111,8 +111,20 @@
                 </div>
                 
             </form>
+            <!-- Chart Js -->
+            <div>
+                <div class="">
+                    <canvas id="myChart" ></canvas>
+                </div>
+                  
+                  
+                  
+                  
+                <h1 class="title-primary">Chaat</h1>
+            </div>
 
         </div>
+        
     </div>
     <!-- Consume Card -->
     <div class="w-full flex justify-center mt-4">
@@ -167,5 +179,15 @@
         </form>
         
     </div>
-    
+
+    <h1>{{ data['week'][1][0] }}</h1>
+    <script>
+        var dates = {{ data['week'][0] | tojson }}
+        var big = {{ data['week'][1][0] | tojson }}
+        var small = {{ data['week'][1][1] | tojson }}
+        var garlic = {{ data['week'][1][2] | tojson }}
+        var mozzarela = {{ data['week'][1][3] | tojson }}
+        var edamer = {{ data['week'][1][4] | tojson }}
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>   
 {% endblock %}

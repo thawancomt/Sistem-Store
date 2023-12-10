@@ -13,3 +13,44 @@ btnProduction.addEventListener('click', function() {
         productionForm.submit();
     }
 })
+
+const ctx = document.getElementById('myChart');
+
+
+                  
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: dates,
+    datasets: [
+    {
+      label: 'Big Ball',
+      data: big
+    },
+    {
+        label : 'Small Ball',
+        data: small
+    },
+    {
+        label : 'Garlic Bread',
+        data: garlic
+    },
+    {
+        label : 'Mozzarela',
+        data: mozzarela
+    },
+    {
+        label : 'Edamer',
+        data: edamer
+    },
+],
+    
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});

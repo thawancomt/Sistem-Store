@@ -24,7 +24,8 @@ def user_data(date_for="1999-01-01", store_to_show=5):
                 5: 'Odivelas',
                 11: 'Campo de Ourique',
                 25: 'Baixa Chiado'
-            }
+            },
+            'week' : Production(date_for).create_data_to_ball_usage_chart(store_to_show, length=-7)
         }
 
         return data
@@ -127,6 +128,7 @@ def home(date_for, store_to_show):
     user_store = Session(request.remote_addr).store_name(id=True)
 
     if user_data(date_for=date_for)['level'] == 'Administrador':
+        
 
         # The store to show on page, if equal to store_to_show will show the url store Id
         user_store = store_to_show
@@ -260,7 +262,7 @@ def edit_user(username):
             User().edit_user(old_user, new_data)
             return redirect(f'/edit/user/{new_data["username"]}')
         except KeyError:
-            return 'ERROR EDITING USER'
+            pass
 
 
 
