@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = '2222'
 
 
-def user_data(date_for="1999-01-01", store_to_show=5, lenght=-4):
+def user_data(date_for="1999-01-01", store_to_show=5, lenght=-7):
 
     if not date_for == "1999-01-01":
         data = {

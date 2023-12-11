@@ -2,6 +2,7 @@ let btnProduction = document.querySelector('#submit-production-btn');
 
 let productionForm = document.querySelector('#production-form');
 
+
 function enterProduction () {
     var result = window.confirm("Confirm the amount production?");
 
@@ -14,12 +15,14 @@ btnProduction.addEventListener('click', function() {
     }
 })
 
+
+
 const ctx = document.getElementById('myChart');
 
 
-                  
+                
 new Chart(ctx, {
-  type: 'bar',
+  type: 'line',
   data: {
     labels: dates,
     datasets: [
@@ -53,9 +56,10 @@ new Chart(ctx, {
     
   },
   options: {
+    tension: 0.3,
     scales: {
       y: {
-        beginAtZero: true
+        beginAtZero: false
       }
     }
   }
