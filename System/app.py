@@ -241,6 +241,10 @@ def edit_logged_user():
 @app.route('/edit/user/<username>', methods=['GET', 'POST'])
 def edit_user(username):
 
+    if not is_user_logged_in(request.remote_addr):
+        return redirect('/login')
+
+
     # set old user
     old_user = User()
     old_user.username = username
@@ -271,8 +275,11 @@ def edit_user(username):
             return redirect(f'/edit/user/{new_data["username"]}')
         except KeyError:
             pass
+    
 
-    return render_template("edit_user.html", username=username, data=user_data(), old_data=old_data)
+    context = {}
+    context['data'] = user_data()
+    return render_template("edit_user.html", username=username, data=user_data(), old_data=old_data, context=context)
 
 
 @app.route('/register', methods=['GET', 'POST'])
