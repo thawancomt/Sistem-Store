@@ -160,12 +160,14 @@ def home(date_for, store_to_show):
         if int(user_store) != int(store_to_show):
             flash("You can't edit other store")
             return redirect('/homepage')
-        
+                            
         context['data'] = user_data(date_for=date_for, store_to_show=user_store)
 
         
     context['data'] = user_data(date_for, context['store_to_show'])
     context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)
+                        
+    context['workers'] = User().return_filtered_users_by_store(int(store_to_show))
     return render_template('homepage.html', context=context, date_for=date_for, store_to_show = store_to_show)
 
 
@@ -306,7 +308,10 @@ def show_users():
     else:
         return redirect('/login')
 
-    return render_template('users.html', data=user_data(), users=User().return_all_users())
+    context = {}
+
+    context['data'] = user_data()
+    return render_template('users.html',context=context, data=user_data(), users=User().return_all_users())
 
 
 @app.route('/users/search/', methods=['GET', 'POST'])

@@ -145,7 +145,7 @@
                 <label for="" class="text-lg text-white font-semibold">Worker</label>
 
                 <select name="who_consume" id="" class="select-primary" >
-                    {% for user in users %}
+                    {% for user in context['workers'] %}
                     <option value="{{user['username']}}">{{user['username']}}</option>
                     {% endfor %}
                 </select>
@@ -181,11 +181,15 @@
     </div>
 
     <script>
+        var labels = {{context['weekly_data']['articles'] | tojson }}
+
+        var data_labels = {{context['weekly_data']['data_labels'] | tojson }}
+
         var dates = {{context['weekly_data']['dates'] | tojson }}
 
-        var big = {{context['weekly_data']['big_ball'] | tojson }}
-        var small = {{context['weekly_data']['small_ball'] | tojson }}
-        var garlic = {{context['weekly_data']['garlic_bread'] | tojson }}
+        var big_ball = {{context['weekly_data']['big_ball'] | tojson }}
+        var small_ball = {{context['weekly_data']['small_ball'] | tojson }}
+        var garlic_bread = {{context['weekly_data']['garlic_bread'] | tojson }}
         var mozzarela = {{context['weekly_data']['mozzarela'] | tojson }}
         var edamer = {{context['weekly_data']['edamer'] | tojson }}
 

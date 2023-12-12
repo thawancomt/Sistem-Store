@@ -79,7 +79,9 @@ class Production():
                 'small_ball' : [],
                 'garlic_bread' : [],
                 'mozzarela' : [],
-                'edamer' : []}
+                'edamer' : [],
+                'articles' : []}
+        labels_col = []
 
         for day in before_week:
 
@@ -89,11 +91,24 @@ class Production():
             dates.append(day)
 
             for key, value in self.articles.items():
+
+                if not value in data_to_return['articles']: 
+                    data_to_return['articles'].append(value)
+                
+                
+
                 data_to_return[key].append(result[key])
 
             result = self.get_already_produced(store)
 
+        for key, value in self.articles.items():
+            labels_col.append({'label' : value,
+                                'data' : data_to_return[key]})
+
         data_to_return['dates'] = dates
+        
+        data_to_return['data_labels'] = labels_col
+
         return data_to_return
 
 
