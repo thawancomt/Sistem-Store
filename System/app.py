@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
 from managers.production import Production, Consumes
+from managers.analyses import Analyse
 
 from datetime import date
 
@@ -10,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = '2222'
 
 
-def user_data(date_for="1999-01-01", store_to_show=5, lenght=-7):
+def user_data(date_for="1999-01-01", store_to_show=5):
 
     if not date_for == "1999-01-01":
         data = {
@@ -24,8 +25,7 @@ def user_data(date_for="1999-01-01", store_to_show=5, lenght=-7):
                 5: 'Odivelas',
                 11: 'Campo de Ourique',
                 25: 'Baixa Chiado'
-            },
-            'week': Production(date_for).create_data_to_ball_usage_chart(store_to_show, lenght)
+            }
         }
 
         return data
@@ -44,6 +44,11 @@ def user_data(date_for="1999-01-01", store_to_show=5, lenght=-7):
         }
         return data
 
+def data_to_analyses(store_to_show, date_for, lenght=-7 ):
+    data = {'week': Production(date_for).create_data_to_ball_usage_chart(store_to_show, lenght),
+            }
+    
+    return data
 
 def is_user_logged_in(ip):
     # Check if user is logged in
@@ -116,6 +121,7 @@ def redirect_home():
 
 @app.route('/homepage/<date_for>/<store_to_show>', methods=['GET', 'POST'])
 def home(date_for, store_to_show):
+    context = {}
 
     if is_user_logged_in(request.remote_addr):
         pass
@@ -123,44 +129,44 @@ def home(date_for, store_to_show):
         return redirect('/login')
 
     if request.method == 'POST':
+        context['store_to_show'] = int(request.form.get("store_by_select_form"))
         return redirect(f'/homepage/{date_for}/{request.form.get("store_by_select_form")}')
 
     user_store = Session(request.remote_addr).store_name(id=True)
 
+    
+    context['date_for'] = date_for
+    context['stores'] = Production.stores
+    
+
+    # if user is admin
     if user_data(date_for=date_for)['level'] == 'Administrador':
 
-        # The store to show on page, if equal to store_to_show will show the url store Id
-        user_store = store_to_show
+        context['level'] = 'Administrador'
 
-        # Try to get the store by the select element in the homepage
-        show_store_by_select_form = request.form.get('store_by_select_form')
+        # The store to show on page, if equal to store_to_show will show the url store Id
+        context['store_to_show'] = store_to_show
 
         # if the store to show is from the select form
-        if show_store_by_select_form:
+        if request.form.get('store_by_select_form'):
+
+            context['show_store_by_select_form'] = int(request.form.get('store_by_select_form'))
 
             for store_id, store_name in Production.stores.items():
                 if store_name == show_store_by_select_form:
                     show_store_by_select_form = store_id
 
-            return render_template('homepage.html', data=user_data(date_for, store_to_show=int(show_store_by_select_form)),
-                                   date_for=date_for,
-                                   store_to_show=show_store_by_select_form,
-                                   stores=Production.stores, users=User().return_filtered_users_by_store(int(store_to_show)))
-
-        return render_template('homepage.html', data=user_data(date_for, store_to_show=user_store),
-                               date_for=date_for,
-                               store_to_show=store_to_show,
-                               stores=Production.stores, users=User().return_filtered_users_by_store(int(store_to_show)))
-
     else:
         if int(user_store) != int(store_to_show):
             flash("You can't edit other store")
             return redirect('/homepage')
+        
+        context['data'] = user_data(date_for=date_for, store_to_show=user_store)
 
-        data = user_data(date_for=date_for, store_to_show=user_store)
-
-        return render_template('homepage.html', data=data, date_for=date_for, store_to_show=store_to_show,
-                               stores=Production.stores, users=User().return_filtered_users_by_store(int(store_to_show)))
+        
+    context['data'] = user_data(date_for, context['store_to_show'])
+    context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)
+    return render_template('homepage.html', context=context, date_for=date_for, store_to_show = store_to_show)
 
 
 # @app.route('/show_store_production_if_admin')

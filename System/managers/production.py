@@ -74,30 +74,27 @@ class Production():
         before_week.append(initial_date_to_show_in_final_of_chart)
 
         dates = []
-        amount = []
-
-        big_ball = []
-        small_ball = []
-        garlic_bread = []
-        mozzarela = []
-        edamer = []
+        
+        data_to_return = {'big_ball' : [],
+                'small_ball' : [],
+                'garlic_bread' : [],
+                'mozzarela' : [],
+                'edamer' : []}
 
         for day in before_week:
 
             self.date = day
+            result = self.get_already_produced(store)
+
             dates.append(day)
+
+            for key, value in self.articles.items():
+                data_to_return[key].append(result[key])
 
             result = self.get_already_produced(store)
 
-            big_ball.append(result['big_ball'])
-            small_ball.append(result['small_ball'])
-            garlic_bread.append(result['garlic_bread'])
-            mozzarela.append(result['mozzarela'])
-            edamer.append(result['edamer'])
-
-        amount.append([big_ball, small_ball, garlic_bread, mozzarela, edamer])
-
-        return [dates, amount[0]]
+        data_to_return['dates'] = dates
+        return data_to_return
 
 
 class Consumes():

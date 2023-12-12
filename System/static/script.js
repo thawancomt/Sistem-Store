@@ -30,33 +30,38 @@ new Chart(ctx, {
       label: 'Big Ball',
       data: big,
       
-      borderWidth: 2,
+      borderWidth: 3,
     },
     {
         label : 'Small Ball',
         data: small,
-        borderWidth: 2,
+        borderWidth: 3,
     },
     {
         label : 'Garlic Bread',
         data: garlic,
-        borderWidth: 2,
+        borderWidth: 3,
     },
     {
         label : 'Mozzarela',
         data: mozzarela,
-        borderWidth: 2,
+        borderWidth: 3,
+        
     },
     {
         label : 'Edamer',
         data: edamer,
-        borderWidth: 2,
+        borderWidth: 3,
+        
     },
 ],
     
   },
   options: {
-    tension: 0.3,
+    tension: 0.16,
+    pointHoverBackgroundColor: true,
+    fill: false,
+    spanGaps: true,
     scales: {
       y: {
         beginAtZero: false
