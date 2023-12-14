@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
 from managers.production import Production, Consumes
-from managers.analyses import Analyse
+from managers.analyses import Analyze
 
 from datetime import date
 
@@ -135,8 +135,7 @@ def home(date_for, store_to_show):
     user_store = Session(request.remote_addr).store_name(id=True)
 
     
-    context['date_for'] = date_for
-    context['stores'] = Production.stores
+    
     
 
     # if user is admin
@@ -163,9 +162,19 @@ def home(date_for, store_to_show):
                             
         context['data'] = user_data(date_for=date_for, store_to_show=user_store)
 
-        
+    context['date_for'] = date_for
+    context['stores'] = Production.stores
     context['data'] = user_data(date_for, context['store_to_show'])
     context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)
+    context['dates'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)['dates']
+
+    analyze = Analyze()
+
+    analyze.data = context['weekly_data']['big_ball']
+    analyze.dates = context['dates']
+    
+
+    context['analyze'] = analyze.genarate_insigths()
                         
     context['workers'] = User().return_filtered_users_by_store(int(store_to_show))
     return render_template('homepage.html', context=context, date_for=date_for, store_to_show = store_to_show)
@@ -272,14 +281,18 @@ def edit_user(username):
         try:
 
             User().edit_user(old_user, new_data)
-            return redirect(f'/edit/user/{new_data["username"]}')
+            return redirect(f'/edit/user/{new_username}')
         except KeyError:
             pass
     
 
     context = {}
     context['data'] = user_data()
-    return render_template("edit_user.html", username=username, data=user_data(), old_data=old_data, context=context)
+    context['old_data'] = old_data
+    context['old_user'] = old_user
+    context['username'] = username
+
+    return render_template("edit_user.html", context=context)
 
 
 @app.route('/register', methods=['GET', 'POST'])

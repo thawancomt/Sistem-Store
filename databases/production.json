@@ -127,7 +127,7 @@
             "production": {
                 "big_ball": 12,
                 "small_ball": 44,
-                "garlic_bread": 64,
+                "garlic_bread": 40,
                 "mozzarela": 32,
                 "edamer": 12
             }
@@ -147,7 +147,7 @@
             "production": {
                 "big_ball": 46,
                 "small_ball": 12,
-                "garlic_bread": 64,
+                "garlic_bread": 34,
                 "mozzarela": 24,
                 "edamer": 12
             }
@@ -195,11 +195,31 @@
         "9": {
             "date": "2023-12-12",
             "production": {
-                "big_ball": 9,
+                "big_ball": 23,
                 "small_ball": 0,
                 "garlic_bread": 0,
                 "mozzarela": 0,
-                "edamer": 0
+                "edamer": 13
+            }
+        },
+        "10": {
+            "date": "2023-12-14",
+            "production": {
+                "big_ball": 96,
+                "small_ball": 24,
+                "garlic_bread": 24,
+                "mozzarela": 24,
+                "edamer": 6
+            }
+        },
+        "11": {
+            "date": "2023-12-13",
+            "production": {
+                "big_ball": 43,
+                "small_ball": 12,
+                "garlic_bread": 32,
+                "mozzarela": 12,
+                "edamer": 3
             }
         }
     },

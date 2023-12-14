@@ -74,6 +74,31 @@
         </form>
     </div>
     {% endif %}
+    <!-- Tasks Card -->
+    <div class="w-full flex justify-center">
+        <div class="container-primary">
+            <div class="m-4">
+                <h1 class="text-xl text-left title-primary">Tasks</h1>
+
+                <a href="">
+                    <button class="btn-primary"> Open tasks </button>
+                </a>
+                <a href="">
+                    <button class="btn-primary"> Open tasks </button>
+                </a>
+                <a href="">
+                    <button class="btn-primary"> Open tasks </button>
+                </a>
+                <a href="">
+                    <button class="btn-primary"> Open tasks </button>
+                </a>
+            </div>
+            
+        </div>
+    </div>  
+    
+
+
     <!-- Production Card -->
     <div class="w-full flex justify-center">
         <!-- Container -->
@@ -86,7 +111,7 @@
                 {% for article, article_name in context['data']['articles'].items() %}
                 <!-- Inputs of production -->
                     <div class="w-full flex justify-between">
-                        <div class="w-3/6">
+                        <div class="w-[50%]">
                             <label for="{{article}}" class="text-lg text-white font-semibold"> {{article_name}}</label>
                             <input type="number" name="{{article}}" class="form-control-1" value="0" id="{{article}}" >  
                         </div>
@@ -114,13 +139,18 @@
                 
             </form>
             <!-- Chart Js -->
-            <canvas id="myChart" class="m-4"></canvas>
+            <div class="">
+                <canvas id="myChart" class="m-4"></canvas>
+            </div>
+            
             <section>
                 <h1 class="title-primary text-center mt-4">insights of this week</h1>
                 <article class="w-full m-4">
-                    <h4 class="sub-title-primary"> Big Ball Median: 14</h4>
-                    <h4 class="sub-title-primary"> Small Ball Median: 14</h4>
-                    <h4 class="sub-title-primary"> Small Ball Median: 14</h4>
+
+                    {% for value in context['analyze'] %}
+                        <h4 class="sub-title-primary">{{value}}</h4>
+                    {% endfor %}
+                    
                 </article>
             </section>
         </div>
