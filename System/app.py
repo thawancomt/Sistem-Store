@@ -174,7 +174,7 @@ def home(date_for, store_to_show):
     analyze.dates = context['dates']
     
 
-    context['analyze'] = analyze.genarate_insigths()
+    context['analyze'] = analyze.genarate_insights()
                         
     context['workers'] = User().return_filtered_users_by_store(int(store_to_show))
     return render_template('homepage.html', context=context, date_for=date_for, store_to_show = store_to_show)

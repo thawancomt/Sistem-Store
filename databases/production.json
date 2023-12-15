@@ -205,7 +205,7 @@
         "10": {
             "date": "2023-12-14",
             "production": {
-                "big_ball": 96,
+                "big_ball": -1,
                 "small_ball": 24,
                 "garlic_bread": 24,
                 "mozzarela": 24,
