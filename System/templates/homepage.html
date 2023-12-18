@@ -74,6 +74,16 @@
         </form>
     </div>
     {% endif %}
+    <!-- Alerts -->
+    <div class="w-full flex justify-center">
+        <div class="container-primary">
+            {% for insight, insight_info in context['analyze'].items() %}
+                <ol>
+                    <li>{{insight_info}}</li>
+                </ol>
+            {% endfor %}
+        </div>
+    </div>
     <!-- Tasks Card -->
     <div class="w-full flex justify-center">
         <div class="container-primary">
