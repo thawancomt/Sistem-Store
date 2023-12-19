@@ -168,6 +168,9 @@ def home(date_for, store_to_show):
     context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)
     context['dates'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)['dates']
 
+    context['consumes'] = Consumes().get_consume_by_day(int(store_to_show), date_for)
+    context['consume_data'] = Consumes().create_data_to_consume_chart(int(store_to_show), date_for)
+
     analyze = Analyze()
 
     analyze.data = context['weekly_data']['big_ball']
@@ -239,7 +242,7 @@ def enter_consume(date_for, store_to_send):
         consume.data = {'bread': int(bread), 'slices': int(slice)}
         consume.send_consume()
 
-        return redirect('/homepage')
+        return redirect(f'/homepage/{date_for}/{store_to_send}')
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])

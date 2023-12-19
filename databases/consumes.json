@@ -18,6 +18,29 @@
                 "bread": 3,
                 "slices": 3
             }
+        },
+        "2": {
+            "date": "2023-12-19",
+            "Matias Carneiro": {
+                "bread": 3,
+                "slices": 4
+            },
+            "Lost Fa": {
+                "bread": 1,
+                "slices": 3
+            },
+            "Sturt Little": {
+                "bread": 2,
+                "slices": 2
+            },
+            "Olaf Non'neve": {
+                "bread": 1,
+                "slices": 2
+            },
+            "Isa": {
+                "bread": 2,
+                "slices": 5
+            }
         }
     },
     "Baixa Chiado": {
@@ -27,6 +50,13 @@
                 "bread": 5,
                 "slices": 56
             }
+        },
+        "2": {
+            "date": "2023-12-19",
+            "Flauzino": {
+                "bread": 1,
+                "slices": 6
+            }
         }
     },
     "Odivelas": {
@@ -35,6 +65,13 @@
             "dasd": {
                 "bread": 2,
                 "slices": 6
+            }
+        },
+        "2": {
+            "date": "2023-12-19",
+            "Liza Sunaga": {
+                "bread": 1,
+                "slices": 2
             }
         }
     }

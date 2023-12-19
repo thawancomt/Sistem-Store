@@ -128,7 +128,41 @@ class Consumes():
     def get_consume_by_day(self, store, date):
         return DbConnection('databases/consumes.json').get_day_consume(store, date)
 
+    def create_data_to_consume_chart(self, store, date):
+        articles = ['bread', 'slices']
 
+        if self.get_consume_by_day(store, date):
+            workers_consume = self.get_consume_by_day(store, date)[0]
+        else:
+            workers_consume = self.get_consume_by_day(store, date)
+        result = {'data' : [],
+                  'workers': []}
+
+        workers_labels = []
+
+        bread_label = []
+
+        slices_label = []
+
+        for worker in workers_consume:
+            workers_labels.append(worker)
+
+        
+        for worker in workers_labels:
+            bread_label.append(workers_consume[worker]['bread'])
+            slices_label.append(workers_consume[worker]['slices'])
+
+        
+        result['data'].append({'label' :  'Garlic Bread', 'data' : bread_label})
+        result['data'].append({'label' :  'Slices', 'data' : slices_label})
+        result['workers'] = workers_labels
+
+        
+                
+
+
+        return result
+    
 class Stores(Production):
 
     def __init__(self):
@@ -140,6 +174,8 @@ if __name__ == '__main__':
 
     from dbconnection import DbConnection
 
-    print(Production("2023-12-09").create_data_to_ball_usage_chart(11, -7))
+    print(Consumes().create_data_to_consume_chart(3, '2023-12-19'))
+
+    print
 
     # print(Consumes().get_consume_by_day(5, 22))

@@ -6,7 +6,7 @@
             "email": "thawancomt@gmail.com",
             "store": 25,
             "level": "Administrador",
-            "last_login": "2023-12-18",
+            "last_login": "2023-12-19",
             "when_created": "2023-12-07"
         },
         "2": {
@@ -37,10 +37,10 @@
             "when_created": "2023-12-09"
         },
         "5": {
-            "username": "Sturt Little",
+            "username": "thawancomt@gmail.com",
             "password": "Dez1633#",
             "email": "sturtlittleponey2@gmail.com",
-            "store": 3,
+            "store": 11,
             "level": "Administrador",
             "last_login": "",
             "when_created": "2023-12-09"
@@ -49,7 +49,7 @@
             "username": "Isa",
             "password": "Dez1633#",
             "email": "isadora@gmail.com",
-            "store": 3,
+            "store": 5,
             "level": "Colaborador",
             "last_login": "",
             "when_created": "2023-12-09"

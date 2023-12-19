@@ -19,7 +19,7 @@ btnProduction.addEventListener('click', function() {
 
 const ctx = document.getElementById('myChart');
 
-
+const consumeChart = document.getElementById('consumeChart')
                 
 new Chart(ctx, {
   type: 'line',
@@ -36,6 +36,25 @@ new Chart(ctx, {
     scales: {
       y: {
         beginAtZero: false
+      }
+    }
+  }
+});
+
+new Chart(consumeChart, {
+  type: 'bar',
+  data: {
+    labels: consumeWorkers,
+    datasets: consumeData
+  },
+  options: {
+    tension: 0.16,
+    pointHoverBackgroundColor: true,
+    fill: false,
+    spanGaps: true,
+    scales: {
+      y: {
+        beginAtZero: true
       }
     }
   }

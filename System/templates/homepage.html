@@ -114,84 +114,86 @@
         <!-- Container -->
         <div class="w-5/6 border border-emerald-500">
             <div class="w-full h-8 flex items-center m-4">
-                <h1 class="font-bold text-emerald-500 text-2xl">Enter the Production</h1>
+                <h1 class="font-bold text-emerald-500 text-2xl w-full">Enter the Production</h1>
             </div>
-
-            <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col m-4" method="POST" id="production-form">
-                {% for article, article_name in context['data']['articles'].items() %}
-                <!-- Inputs of production -->
-                    <div class="w-full flex justify-between">
-                        <div class="w-[50%]">
-                            <label for="{{article}}" class="text-lg text-white font-semibold"> {{article_name}}</label>
-                            <input type="number" name="{{article}}" class="form-control-1" value="0" id="{{article}}" >  
-                        </div>
-                        <div class="w-2/5">
-                            {% if article == 'big_ball' %}
-                            <div class="h-7 ">
-                                <label for="amount_{{article}}" class="text-sm text-white font-semibold sm:text-sm  ">Total of the day</label>
+            <section class="flex w-full">
+                <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col w-3/6 m-4" method="POST" id="production-form">
+                    {% for article, article_name in context['data']['articles'].items() %}
+                    <!-- Inputs of production -->
+                        <div class="w-full flex justify-between">
+                            <div class="w-[50%]">
+                                <label for="{{article}}" class="text-sm text-white font-semibold"> {{article_name}}</label>
+                                <input type="number" name="{{article}}" class="form-control-1" value="0" id="{{article}}" >  
                             </div>
-                                
-                                <input type="number" value="{{ context['data']['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
-                            {% else %}
-                                <div class="h-7 w-full"></div>
-                                <input type="number" value="{{ context['data']['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
-                            {% endif %}
+                            <div class="w-2/5">
+                                {% if article == 'big_ball' %}
+                                <div class="h-7 ">
+                                    <label for="amount_{{article}}" class="text-sm text-white font-semibold sm:text-sm  ">Total of the day</label>
+                                </div>
+                                    
+                                    <input type="number" value="{{ context['data']['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
+                                {% else %}
+                                    <div class="h-7 w-full"></div>
+                                    <input type="number" value="{{ context['data']['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
+                                {% endif %}
+                            </div>
+    
+                            
+    
+    
                         </div>
-
-                        
-
-
-                    </div>
-                {% endfor %}
-                <div class="w-full">
-                    <button type="button" class="btn-primary-rounded w-3/6" id="submit-production-btn">Send</button>
-                </div>
-                
-            </form>
-            <!-- Chart Js -->
-            <div class="">
-                <canvas id="myChart" class="m-4"></canvas>
-            </div>
-            
-            <section>
-                <h1 class="title-primary text-center mt-4">insights of this week</h1>
-                <article class="w-full m-4">
-
-                    {% for value in context['analyze'] %}
-                        <h4 class="sub-title-primary">{{value}}</h4>
                     {% endfor %}
+                    <div class="w-full">
+                        <button type="button" class="btn-primary-rounded w-3/6" id="submit-production-btn">Send</button>
+                    </div>
                     
-                </article>
+                </form>
+                <!-- Chart Js -->
+                
+    
+                <div class="w-3/6 m-4">
+                    <canvas id="myChart" class=""></canvas>
+                </div>
+    
             </section>
+            
         </div>
+        
         
     </div>
     <!-- Consume Card -->
     <div class="w-full flex justify-center mt-4">
         <!-- Container -->
-        <div class="w-5/6 border border-emerald-500">
-            <div class="w-full h-8 flex items-center m-4">
-                <h1 class="font-bold text-emerald-500">Enter your consume</h1>
+        <div class="w-5/6 border border-emerald-500 flex">
+            <section class="w-3/6">
+                <div class="w-full h-8 flex items-center m-4">
+                    <h1 class="font-bold text-emerald-500">Enter your consume</h1>
+                </div>
+    
+                <form action="/consume/{{date_for}}/{{store_to_show}}" class="flex flex-col m-4" method="POST">
+    
+                    <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
+                    <input type="number" name="slice" class="form-control-1" value="0">
+    
+                    <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
+                    <input type="number" name="bread" class="form-control-1" value="0">
+                    
+                    <label for="" class="text-lg text-white font-semibold">Worker</label>
+    
+                    <select name="who_consume" id="" class="select-primary" >
+                        {% for user in context['workers'] %}
+                        <option value="{{user['username']}}">{{user['username']}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
+                </form>
+            </section>
+
+
+            <div class="w-3/6 m-4">
+                <canvas id="consumeChart"></canvas>
             </div>
-
-            <form action="/consume/{{date_for}}/{{store_to_show}}" class="flex flex-col m-4" method="POST">
-
-                <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
-                <input type="number" name="slice" class="form-control-1" value="0">
-
-                <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
-                <input type="number" name="bread" class="form-control-1" value="0">
-                
-                <label for="" class="text-lg text-white font-semibold">Worker</label>
-
-                <select name="who_consume" id="" class="select-primary" >
-                    {% for user in context['workers'] %}
-                    <option value="{{user['username']}}">{{user['username']}}</option>
-                    {% endfor %}
-                </select>
-                
-                <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
-            </form>
 
         </div>
     </div>
@@ -221,11 +223,15 @@
     </div>
 
     <script>
-        var labels = {{context['weekly_data']['articles'] | tojson }}
+        var labels = {{ context['weekly_data']['articles'] | tojson }}
 
-        var data_labels = {{context['weekly_data']['data_labels'] | tojson }}
+        var data_labels = {{ context['weekly_data']['data_labels'] | tojson }}
 
-        var dates = {{context['weekly_data']['dates'] | tojson }}
+        var dates = {{ context['weekly_data']['dates'] | tojson }}
+        
+        var consumeWorkers = {{ context['consume_data']['workers'] | tojson }}
+
+        var consumeData = {{ context['consume_data']['data'] | tojson }}
 
     </script>
     

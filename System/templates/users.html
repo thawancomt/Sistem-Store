@@ -60,6 +60,9 @@
                         <h2 class="sub-title-primary"> Last login: {{user['last_login']}}</h2>
                         {% endif %}
                     </div>
+                    <div class="w-full flex ">
+                        <h2 class="sub-title-primary">Store: {{ context['data']['stores'][user['store']]  }}</h2>
+                    </div>
                 </div>
                 <form action="/edit/user/{{user['username']}}">
                     <button class="btn-primary">Edit</button>

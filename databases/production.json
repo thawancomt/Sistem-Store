@@ -196,16 +196,16 @@
             "date": "2023-12-12",
             "production": {
                 "big_ball": 23,
-                "small_ball": 0,
-                "garlic_bread": 0,
-                "mozzarela": 0,
-                "edamer": 13
+                "small_ball": 12,
+                "garlic_bread": 8,
+                "mozzarela": 20,
+                "edamer": 17
             }
         },
         "10": {
             "date": "2023-12-14",
             "production": {
-                "big_ball": -1,
+                "big_ball": 13,
                 "small_ball": 24,
                 "garlic_bread": 24,
                 "mozzarela": 24,
@@ -220,6 +220,46 @@
                 "garlic_bread": 32,
                 "mozzarela": 12,
                 "edamer": 3
+            }
+        },
+        "12": {
+            "date": "2023-12-16",
+            "production": {
+                "big_ball": 42,
+                "small_ball": 12,
+                "garlic_bread": 48,
+                "mozzarela": 32,
+                "edamer": 8
+            }
+        },
+        "13": {
+            "date": "2023-12-15",
+            "production": {
+                "big_ball": 41,
+                "small_ball": 24,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
+            }
+        },
+        "14": {
+            "date": "2023-12-18",
+            "production": {
+                "big_ball": 47,
+                "small_ball": 12,
+                "garlic_bread": 32,
+                "mozzarela": 24,
+                "edamer": 6
+            }
+        },
+        "15": {
+            "date": "2023-12-17",
+            "production": {
+                "big_ball": 53,
+                "small_ball": 24,
+                "garlic_bread": 24,
+                "mozzarela": 32,
+                "edamer": 8
             }
         }
     },
@@ -252,6 +292,16 @@
                 "garlic_bread": 85,
                 "mozzarela": 0,
                 "edamer": 35
+            }
+        },
+        "4": {
+            "date": "2023-12-19",
+            "production": {
+                "big_ball": 12,
+                "small_ball": 24,
+                "garlic_bread": 32,
+                "mozzarela": 24,
+                "edamer": 6
             }
         }
     },

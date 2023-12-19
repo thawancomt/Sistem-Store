@@ -247,6 +247,8 @@ class DbConnection():
 
         result = self.db.table(store_name).search((Query().date == date))
 
+        if result:
+            del result[0]['date']
         return result
 
 
