@@ -129,32 +129,41 @@ class Consumes():
         return DbConnection('databases/consumes.json').get_day_consume(store, date)
 
     def create_data_to_consume_chart(self, store, date):
-        articles = ['bread', 'slices']
 
-        if self.get_consume_by_day(store, date):
+
+        # Try to get already consumed amount, if indexError, return empty values
+        try:
             workers_consume = self.get_consume_by_day(store, date)[0]
-        else:
+        except IndexError:
             workers_consume = self.get_consume_by_day(store, date)
+
+        # Base to send to the chartJS
         result = {'data' : [],
                   'workers': []}
 
+        # Workers to create the col in the chartJs
         workers_labels = []
-
+        
+        # Data to add at each worker in the ChartJs
         bread_label = []
-
         slices_label = []
+
 
         for worker in workers_consume:
             workers_labels.append(worker)
 
-        
+        # Create the data by consumes amount
         for worker in workers_labels:
             bread_label.append(workers_consume[worker]['bread'])
             slices_label.append(workers_consume[worker]['slices'])
 
         
+
+        # Add to result the consumed data
         result['data'].append({'label' :  'Garlic Bread', 'data' : bread_label})
         result['data'].append({'label' :  'Slices', 'data' : slices_label})
+
+        # Add to result the workers list
         result['workers'] = workers_labels
 
         
