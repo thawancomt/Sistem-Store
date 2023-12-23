@@ -28,6 +28,8 @@ class DbConnection():
         'edamer': 0,
     }
 
+    
+
     def __init__(self, db):
         self.db = TinyDB(db, indent=4)
 
@@ -257,36 +259,28 @@ class DbConnection():
             Query().date == date)
 
         if result:
-            try:
-                if result[0][who]:
-                    self.update_wasted(who, date, store, data)
-            except:
-                self.db.table(store_name).update(
-                    result, {'date': date, who:  data})
+            self.update_wasted(who, date, store, data)
         else:
             self.db.table(store_name).insert({'date': date, who: data})
 
     def update_wasted(self, who, date, store, data):
         store_name = self.stores[store]
 
-        result = self.db.table(store_name).search(Query().date == date)[0]
-
+        result = self.db.table(store_name).search(Query().date == date)
+        
+        new_data = data
         try:
-            old_wasted = result[who]
-
-            for key, value in old_wasted.items():
-                if key in data:
-                    data[key] += old_wasted[key]
-                else:
-                    data[key] = value
-
-            self.db.table(store_name).update({'date': date, who: data})
-
+            old_data = result[0][who]
+            
+            for item, value in old_data.items():
+                new_data[item] += int(old_data[item])
         except:
             pass
 
+        self.db.table(store_name).update({who : data}, Query().date == date)
+
 
 if __name__ == '__main__':
-    teste = DbConnection('databases/consumes.json')
+    teste = DbConnection('databases/waste.json')
     # print(teste.insert_wasted('Thawan', '2023', 3, {'bread': 5}))
-    teste.insert_consumes('Thawan', '2023', 3, {'Laranja': 5})
+    teste.insert_wasted('dgf', '2023', 3, {'Laranda': 5})

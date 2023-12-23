@@ -205,11 +205,28 @@
                 <h1 class="font-bold text-emerald-500">Enter the Wasted</h1>
             </div>
 
-            <form action="production" class="flex flex-col m-4">
-                <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
+            <form action="/waste/{{date_for}}/{{store_to_show}}" method="POST" class="flex flex-col m-4">
+
+                <label for="big_ball" class="text-lg text-white font-semibold">Big Ball</label>
                 <input type="number" name="big_ball" class="form-control-1">
+
+                <label for="big_ball" class="text-lg text-white font-semibold">Small Balls</label>
+                <input type="number" name="small_ball" class="form-control-1">
+
                 <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
-                <input type="number" name="big_ball" class="form-control-1">
+                <input type="number" name="garlic_bread" class="form-control-1">
+
+                <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
+                <input type="number" name="slices" class="form-control-1">
+
+                <select name="who_consume" id="" class="select-primary mt-4" >
+                    {% for user in context['workers'] %}
+                    <option value="{{user['username']}}">{{user['username']}}</option>
+                    {% endfor %}
+                </select>
+
+                </select>
+                <button type="submit" class="btn-primary">Enter</button>
             </form>
 
         </div>

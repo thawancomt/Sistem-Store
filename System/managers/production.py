@@ -176,10 +176,16 @@ if __name__ == '__main__':
 
 
 class Wasted():
-    def __init__(self):
-        super().__init__()
-        date_for = str
-        data = {}
+    def __init__(self, date_for, store):
+        self.store = store
+        self.date_for = date_for
+        self.data = {}
+        self.worker = str
 
-    def enter_wasted(self, date_for, store_to_send):
-        return DbConnection.send_wasted()
+    def enter_wasted(self):
+        return DbConnection('databases/waste.json').insert_wasted(who=self.worker,
+                                            date=self.date_for,
+                                            store=self.store,
+                                            data=self.data)
+    
+

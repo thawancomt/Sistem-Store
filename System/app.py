@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
-from managers.production import Production, Consumes
+from managers.production import Production, Consumes, Wasted
 from managers.analyses import Analyze
 
 from datetime import date
@@ -241,6 +241,44 @@ def enter_consume(date_for, store_to_send):
         consume.send_consume()
 
         return redirect(f'/homepage/{date_for}/{store_to_send}')
+
+
+@app.route('/waste/<date_for>/<store_to_send>', methods=['GET', 'POST'])
+def enter_waste(date_for, store_to_send):
+
+    permissive_keys_to_enter_waste = [
+        'big_ball',
+        'small_ball',
+        'garlic_bread',
+        'slices'
+    ]
+    
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        who = data['who_consume']
+
+
+
+        del data['who_consume']
+        
+        for item, value in data.items():
+
+
+            if value == '':
+                data[item] = 0
+            else:
+                data[item] = int(value)
+
+        
+
+        wasted = Wasted(date_for=date_for, store=int(store_to_send))
+
+        wasted.worker = who
+        wasted.data = data
+        wasted.enter_wasted()
+
+        return redirect('/homepage')
+
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
