@@ -47,15 +47,24 @@ new Chart(consumeChart, {
     labels: consumeWorkers,
     datasets: consumeData
   },
-  options: {
-    tension: 0.16,
-    pointHoverBackgroundColor: true,
-    fill: false,
-    spanGaps: true,
-    scales: {
-      y: {
-        beginAtZero: true
+  options: options
+});
+
+
+var options = {
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      stacked: true,
+      grid: {
+        display: true,
+        color: "rgba(255,99,132,0.2)"
+      }
+    },
+    x: {
+      grid: {
+        display: false
       }
     }
   }
-});
+};

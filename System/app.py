@@ -44,11 +44,13 @@ def user_data(date_for="1999-01-01", store_to_show=5):
         }
         return data
 
-def data_to_analyses(store_to_show, date_for, lenght=-7 ):
+
+def data_to_analyses(store_to_show, date_for, lenght=-7):
     data = {'week': Production(date_for).create_data_to_ball_usage_chart(store_to_show, lenght),
             }
-    
+
     return data
+
 
 def is_user_logged_in(ip):
     # Check if user is logged in
@@ -72,9 +74,11 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
+    # Check if the user is logged in, if true redirect to homepage
     if is_user_logged_in(request.remote_addr):
         return redirect('/homepage')
 
+    #
     if request.method == 'POST':
 
         email = request.form.get('email')
@@ -123,20 +127,19 @@ def redirect_home():
 def home(date_for, store_to_show):
     context = {}
 
+    # Check if the user is logged in, else redirect to login page
     if is_user_logged_in(request.remote_addr):
         pass
     else:
         return redirect('/login')
 
     if request.method == 'POST':
-        context['store_to_show'] = int(request.form.get("store_by_select_form"))
+        context['store_to_show'] = int(
+            request.form.get("store_by_select_form"))
         return redirect(f'/homepage/{date_for}/{request.form.get("store_by_select_form")}')
 
+    # Get the user store by Id ( Id=False if want the name)
     user_store = Session(request.remote_addr).store_name(id=True)
-
-    
-    
-    
 
     # if user is admin
     if user_data(date_for=date_for)['level'] == 'Administrador':
@@ -149,7 +152,8 @@ def home(date_for, store_to_show):
         # if the store to show is from the select form
         if request.form.get('store_by_select_form'):
 
-            context['show_store_by_select_form'] = int(request.form.get('store_by_select_form'))
+            context['show_store_by_select_form'] = int(
+                request.form.get('store_by_select_form'))
 
             for store_id, store_name in Production.stores.items():
                 if store_name == show_store_by_select_form:
@@ -159,50 +163,40 @@ def home(date_for, store_to_show):
         if int(user_store) != int(store_to_show):
             flash("You can't edit other store")
             return redirect('/homepage')
-                            
-        context['data'] = user_data(date_for=date_for, store_to_show=user_store)
+
+        context['data'] = user_data(
+            date_for=date_for, store_to_show=user_store)
 
     context['date_for'] = date_for
     context['stores'] = Production.stores
     context['data'] = user_data(date_for, context['store_to_show'])
-    context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)
-    context['dates'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)['dates']
+    context['weekly_data'] = Production(
+        date_for).create_data_to_ball_usage_chart(store_to_show, -7)
+    context['dates'] = Production(date_for).create_data_to_ball_usage_chart(
+        store_to_show, -7)['dates']
 
-    context['consumes'] = Consumes().get_consume_by_day(int(store_to_show), date_for)
-    context['consume_data'] = Consumes().create_data_to_consume_chart(int(store_to_show), date_for)
+    context['consumes'] = Consumes().get_consume_by_day(
+        int(store_to_show), date_for)
+    context['consume_data'] = Consumes().create_data_to_consume_chart(
+        int(store_to_show), date_for)
 
     analyze = Analyze()
 
     analyze.data = context['weekly_data']['big_ball']
     analyze.dates = context['dates']
-    
 
     context['analyze'] = analyze.genarate_insights()
-                        
-    context['workers'] = User().return_filtered_users_by_store(int(store_to_show))
-    return render_template('homepage.html', context=context, date_for=date_for, store_to_show = store_to_show)
 
-
-# @app.route('/show_store_production_if_admin')
-# def show_store_production_if_admin():
-
-#     if request.method == 'POST':
-#         store = request.form.get('store_by_select_form')
-#         store_to_send = 0
-#         for store_id, store_name in Production.stores.items():
-#             if store_name == store:
-#                 store_to_send = store_id
-
-#                 return render_template('homepage.html', )
-#             else:
-#                 return 'Store not found'
-#     return r'teste'
+    context['workers'] = User().return_filtered_users_by_store(
+        int(store_to_show))
+    return render_template('homepage.html', context=context, date_for=date_for, store_to_show=store_to_show)
 
 
 @app.route('/production/<date_for>/<store_to_send>', methods=['GET', 'POST'])
 def enter_production(date_for, store_to_send):
     data = {}
 
+    # Get the old production of the store
     old_production = Production(date_for).get_already_produced(
         Session(request.remote_addr).store_name(id=True))
 
@@ -220,6 +214,7 @@ def enter_production(date_for, store_to_send):
             except KeyError:
                 data[article_id] = 0
 
+    # Create a new production objetct, set the value and send it
     production = Production(date_for, data)
     production.store = int(store_to_send)
     production.send_production()
@@ -229,6 +224,8 @@ def enter_production(date_for, store_to_send):
 
 @app.route('/consume/<date_for>/<store_to_send>', methods=['GET', 'POST'])
 def enter_consume(date_for, store_to_send):
+
+    # Create a consume objetct and set the date to send the consume and the store
     consume = Consumes()
     consume.date = date_for
     consume.store = int(store_to_send)
@@ -239,6 +236,7 @@ def enter_consume(date_for, store_to_send):
         slice = request.form.get('slice')
         consume.worker = request.form.get('who_consume')
 
+        # Set the data to send and send the consumes
         consume.data = {'bread': int(bread), 'slices': int(slice)}
         consume.send_consume()
 
@@ -255,7 +253,6 @@ def edit_user(username):
 
     if not is_user_logged_in(request.remote_addr):
         return redirect('/login')
-
 
     # set old user
     old_user = User()
@@ -287,7 +284,6 @@ def edit_user(username):
             return redirect(f'/edit/user/{new_username}')
         except KeyError:
             pass
-    
 
     context = {}
     context['data'] = user_data()
@@ -334,7 +330,7 @@ def show_users():
     context = {}
 
     context['data'] = user_data()
-    return render_template('users.html',context=context, data=user_data(), users=User().return_all_users())
+    return render_template('users.html', context=context, data=user_data(), users=User().return_all_users())
 
 
 @app.route('/users/search/', methods=['GET', 'POST'])

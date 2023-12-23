@@ -67,19 +67,18 @@ class DbConnection():
             self.db.insert(data_to_insert)
             return True
 
-    def check_user_exist(self, username : str = '', email : str = ''):
+    def check_user_exist(self, username: str = '', email: str = ''):
 
         if not self.search_username(username):
             return self.search_email(email)
         else:
             return True
-        
-
 
     # A class User need to be passed into the constructor
+
     def update_user(self, who, new_info):
         """ This two for loops verify if the info of new info is empty
-        case true: delete the key, and update just changed info
+            case true: delete the key, and update just the changed info
         """
 
         try:
@@ -96,8 +95,6 @@ class DbConnection():
 
         for key in keys_to_delete:
             del new_info[key]
-
-
 
         self.db.update(new_info, Query().email == who.email)
 
@@ -183,7 +180,14 @@ class DbConnection():
                 store=store, date=date, old_data=old_data, new_data=data)
 
     def update_production(self, store, date, old_data, new_data):
+        """_summary_
 
+        Args:
+            store (_type_): _description_
+            date (_type_): _description_
+            old_data (_type_): _description_
+            new_data (_type_): _description_
+        """
         store_name = self.stores[store]
 
         generated_data = {}
@@ -213,7 +217,7 @@ class DbConnection():
 
         except KeyError:
             return self.default_production
-    
+
     def insert_consumes(self, who, date, store, data):
 
         store_name = self.stores[store]
@@ -223,23 +227,18 @@ class DbConnection():
         if result:
             self.update_consume(who, date, store, result[0], data)
         else:
-            self.db.table(store_name).insert({'date' : date, who : data})
+            self.db.table(store_name).insert({'date': date, who: data})
 
-        
-    
     def update_consume(self, who, date, store, old_data, new_data):
         store_name = self.stores[store]
 
-        
         try:
             for key, value in old_data[who].items():
                 new_data[key] += value
         except KeyError:
             pass
-        
-        self.db.table(store_name).update({who : new_data}, Query().date == date)
-            
-        
+
+        self.db.table(store_name).update({who: new_data}, Query().date == date)
 
     def get_day_consume(self, store, date):
 
@@ -251,7 +250,43 @@ class DbConnection():
             del result[0]['date']
         return result
 
+    def insert_wasted(self, who, date, store, data):
+        store_name = self.stores[store]
+
+        result = self.db.table(store_name).search(
+            Query().date == date)
+
+        if result:
+            try:
+                if result[0][who]:
+                    self.update_wasted(who, date, store, data)
+            except:
+                self.db.table(store_name).update(
+                    result, {'date': date, who:  data})
+        else:
+            self.db.table(store_name).insert({'date': date, who: data})
+
+    def update_wasted(self, who, date, store, data):
+        store_name = self.stores[store]
+
+        result = self.db.table(store_name).search(Query().date == date)[0]
+
+        try:
+            old_wasted = result[who]
+
+            for key, value in old_wasted.items():
+                if key in data:
+                    data[key] += old_wasted[key]
+                else:
+                    data[key] = value
+
+            self.db.table(store_name).update({'date': date, who: data})
+
+        except:
+            pass
+
 
 if __name__ == '__main__':
-    teste = DbConnection('databases/users.json')
-    print(teste.get_all_users())
+    teste = DbConnection('databases/consumes.json')
+    # print(teste.insert_wasted('Thawan', '2023', 3, {'bread': 5}))
+    teste.insert_consumes('Thawan', '2023', 3, {'Laranja': 5})

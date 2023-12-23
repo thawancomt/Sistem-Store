@@ -74,13 +74,13 @@ class Production():
         before_week.append(initial_date_to_show_in_final_of_chart)
 
         dates = []
-        
-        data_to_return = {'big_ball' : [],
-                'small_ball' : [],
-                'garlic_bread' : [],
-                'mozzarela' : [],
-                'edamer' : [],
-                'articles' : []}
+
+        data_to_return = {'big_ball': [],
+                          'small_ball': [],
+                          'garlic_bread': [],
+                          'mozzarela': [],
+                          'edamer': [],
+                          'articles': []}
         labels_col = []
 
         for day in before_week:
@@ -92,27 +92,26 @@ class Production():
 
             for key, value in self.articles.items():
 
-                if not value in data_to_return['articles']: 
+                if not value in data_to_return['articles']:
                     data_to_return['articles'].append(value)
-                
-                
 
                 data_to_return[key].append(result[key])
 
             result = self.get_already_produced(store)
 
         for key, value in self.articles.items():
-            labels_col.append({'label' : value,
-                                'data' : data_to_return[key]})
+            labels_col.append({'label': value,
+                               'data': data_to_return[key]})
 
         data_to_return['dates'] = dates
-        
+
         data_to_return['data_labels'] = labels_col
 
         return data_to_return
 
 
 class Consumes():
+
     def __init__(self):
         self.worker: str = ''
         self.store: int = 0
@@ -130,7 +129,6 @@ class Consumes():
 
     def create_data_to_consume_chart(self, store, date):
 
-
         # Try to get already consumed amount, if indexError, return empty values
         try:
             workers_consume = self.get_consume_by_day(store, date)[0]
@@ -138,16 +136,15 @@ class Consumes():
             workers_consume = self.get_consume_by_day(store, date)
 
         # Base to send to the chartJS
-        result = {'data' : [],
+        result = {'data': [],
                   'workers': []}
 
         # Workers to create the col in the chartJs
         workers_labels = []
-        
+
         # Data to add at each worker in the ChartJs
         bread_label = []
         slices_label = []
-
 
         for worker in workers_consume:
             workers_labels.append(worker)
@@ -157,26 +154,14 @@ class Consumes():
             bread_label.append(workers_consume[worker]['bread'])
             slices_label.append(workers_consume[worker]['slices'])
 
-        
-
         # Add to result the consumed data
-        result['data'].append({'label' :  'Garlic Bread', 'data' : bread_label})
-        result['data'].append({'label' :  'Slices', 'data' : slices_label})
+        result['data'].append({'label':  'Garlic Bread', 'data': bread_label})
+        result['data'].append({'label':  'Slices', 'data': slices_label})
 
         # Add to result the workers list
         result['workers'] = workers_labels
 
-        
-                
-
-
         return result
-    
-class Stores(Production):
-
-    def __init__(self):
-        super().__init__(self.get_already_produced)
-        self.store = 0
 
 
 if __name__ == '__main__':
@@ -188,3 +173,13 @@ if __name__ == '__main__':
     print
 
     # print(Consumes().get_consume_by_day(5, 22))
+
+
+class Wasted():
+    def __init__(self):
+        super().__init__()
+        date_for = str
+        data = {}
+
+    def enter_wasted(self, date_for, store_to_send):
+        return DbConnection.send_wasted()
