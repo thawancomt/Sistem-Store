@@ -168,11 +168,7 @@ if __name__ == '__main__':
 
     from dbconnection import DbConnection
 
-    print(Consumes().create_data_to_consume_chart(3, '2023-12-19'))
-
-    print
-
-    # print(Consumes().get_consume_by_day(5, 22))
+    teste = Consumes()
 
 
 class Wasted():

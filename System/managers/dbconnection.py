@@ -277,6 +277,7 @@ class DbConnection():
         except:
             pass
 
+<<<<<<< Updated upstream
         self.db.table(store_name).update({who : data}, Query().date == date)
 
 
@@ -284,3 +285,27 @@ if __name__ == '__main__':
     teste = DbConnection('databases/waste.json')
     # print(teste.insert_wasted('Thawan', '2023', 3, {'bread': 5}))
     teste.insert_wasted('dgf', '2023', 3, {'Laranda': 5})
+=======
+    def create_task(self, date, store, task):
+        store_name = self.stores[store]
+
+        result = self.db.table(store_name).search(Query().date == date)
+
+        if result:
+            self.db.table(store_name).update(
+                {'tasks':  [task]}, Query().date == date)
+        else:
+            self.db.table(store_name).insert(
+                {'date': date, 'tasks': [task]})
+
+    def delete_task(self, date, store, task):
+        store_name = self.stores[store]
+        self.db.table(store_name).remove(Query().tasks == task)
+
+
+if __name__ == '__main__':
+    teste = DbConnection('databases/tasks.json')
+    # print(teste.insert_wasted('Thawan', '2023', 3, {'bread': 5}))
+    # teste.delete_task('2023', 5, 'Limpar loja')
+    teste.create_task('2023', 5, 'Limpar loja')
+>>>>>>> Stashed changes
