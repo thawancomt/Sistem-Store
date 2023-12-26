@@ -74,7 +74,7 @@
         </form>
     </div>
     {% endif %}
-    <!-- Alerts -->
+    {# <!-- Alerts -->
     <div class="w-full flex justify-center">
         <div class="container-primary">
             {% for insight, insight_info in context['analyze'].items() %}
@@ -83,25 +83,38 @@
                 </ol>
             {% endfor %}
         </div>
-    </div>
+    </div> #}
     <!-- Tasks Card -->
     <div class="w-full flex justify-center">
         <div class="container-primary">
             <div class="m-4">
-                <h1 class="text-xl text-left title-primary">Tasks</h1>
+                <h1 class="text-xl text-left title-primary">Tasks to do</h1>
 
-                <a href="">
-                    <button class="btn-primary"> Open tasks </button>
-                </a>
-                <a href="">
-                    <button class="btn-primary"> Open tasks </button>
-                </a>
-                <a href="">
-                    <button class="btn-primary"> Open tasks </button>
-                </a>
-                <a href="">
-                    <button class="btn-primary"> Open tasks </button>
-                </a>
+                <div class="space-y-4">
+                    {% if context['tasks'] %}
+                        {% for tasks in context['tasks'] %}
+                        <div class="flex justify-around container-primary w-full m-0">
+
+                            <div>
+                                
+                            </div>
+                            <h4 class="w-[90%] sub-title-primary"> {{ tasks }}</h4>
+                            <input type="checkbox" name="{{task}}" placeholder="{{task}}" class="w-[20px]">
+                        </div>
+                        {% endfor %}
+                    {% else  %}
+                        <h1 class="sub-title-primary">Empty to do list</h1>
+                    {% endif %}
+                    
+                </div>
+                
+
+                <form action="/tasks/{{date_for}}/{{store_to_show}}/create" method="POST" class="mt-4">
+                    <label for="task_to_send" class="sub-title-primary">Add some task</label>
+                    <input type="text" name="task_to_send">
+                    <button type="submit" class="btn-primary"> Create task </button>
+                </form>
+                    
             </div>
             
         </div>

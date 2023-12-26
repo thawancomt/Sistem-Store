@@ -1,18 +1,20 @@
-from users import User
+from managers.users import User
 
+from managers.dbconnection import DbConnection
 
 class Store():
 
-    def __init__(self, store):
-        self.store = int
-        self.workers = User().return_filtered_users_by_store(store)
+    def __init__(self):
+        self.store = 0
+        self.workers = User().return_filtered_users_by_store(self.store)
         self.frizers = []
         self.tasks = {}
 
-    def open_task(self):
-        self.tasks['open_tasks'] = ['turn on the light', 'turn on the oven']
+    def create_task(self, date, task):
+        return DbConnection('databases/tasks.json').create_task(date, self.store, task)
 
-
-teste = Store(5)
-
-print(teste.workers)
+    def delete_task(self, date, task):
+        return DbConnection('databases/tasks.json').delete_task(date, self.store, task)
+    
+    def get_all_tasks(self, date):
+        return DbConnection('databases/tasks.json').get_all_tasks(date, self.store)

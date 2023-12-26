@@ -2,6 +2,8 @@ from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
 from managers.production import Production, Consumes, Wasted
 from managers.analyses import Analyze
+from managers.stores_management import Store
+
 
 from datetime import date
 
@@ -141,6 +143,10 @@ def home(date_for, store_to_show):
     # Get the user store by Id ( Id=False if want the name)
     user_store = Session(request.remote_addr).store_name(id=True)
 
+    # Object to get management of the store
+    store = Store()
+    store.store = store_to_show
+
     # if user is admin
     if user_data(date_for=date_for)['level'] == 'Administrador':
 
@@ -171,7 +177,7 @@ def home(date_for, store_to_show):
     context['stores'] = Production.stores
     context['data'] = user_data(date_for, context['store_to_show'])
     context['weekly_data'] = Production(
-        date_for).create_data_to_ball_usage_chart(store_to_show, -7)
+        date_for).create_data_to_ball_usage_chart(store_to_show, -30)
     context['dates'] = Production(date_for).create_data_to_ball_usage_chart(
         store_to_show, -7)['dates']
 
@@ -185,10 +191,12 @@ def home(date_for, store_to_show):
     analyze.data = context['weekly_data']['big_ball']
     analyze.dates = context['dates']
 
-    context['analyze'] = analyze.genarate_insights()
+    # context['analyze'] = analyze.genarate_insights()
 
     context['workers'] = User().return_filtered_users_by_store(
         int(store_to_show))
+    
+    context['tasks'] = store.get_all_tasks(date_for)
     return render_template('homepage.html', context=context, date_for=date_for, store_to_show=store_to_show)
 
 
@@ -384,7 +392,23 @@ def show_users_filtered():
     filtered_user = User().return_filtered_users(username)
 
     return render_template('users.html', data=user_data(), users=filtered_user)
+@app.route('/tasks/<date_for>/<store_to_send>/<action>', methods=['GET', 'POST'])
+def tasks(date_for, store_to_send, action):
+    store = Store()
+    store.store = store_to_send
 
+
+    if request.method == 'POST':
+        task = request.form.get('task_to_send')
+
+        if action == 'create':
+            store.create_task(date_for, task)
+            
+        elif action == 'delete':
+            for task_to_delete in task:
+                store.delete_task(date_for, task_to_delete)
+
+        return redirect(f'/homepage/{date_for}/{store_to_send}')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)

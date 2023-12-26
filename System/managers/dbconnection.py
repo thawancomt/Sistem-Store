@@ -277,35 +277,45 @@ class DbConnection():
         except:
             pass
 
-<<<<<<< Updated upstream
-        self.db.table(store_name).update({who : data}, Query().date == date)
-
-
-if __name__ == '__main__':
-    teste = DbConnection('databases/waste.json')
-    # print(teste.insert_wasted('Thawan', '2023', 3, {'bread': 5}))
-    teste.insert_wasted('dgf', '2023', 3, {'Laranda': 5})
-=======
     def create_task(self, date, store, task):
-        store_name = self.stores[store]
+        store_name = self.stores[int(store)]
 
         result = self.db.table(store_name).search(Query().date == date)
 
         if result:
+            existent_tasks = result[0]['tasks']
+            existent_tasks.append(task)
+
             self.db.table(store_name).update(
-                {'tasks':  [task]}, Query().date == date)
+                {'tasks':  existent_tasks}, Query().date == date)
         else:
             self.db.table(store_name).insert(
                 {'date': date, 'tasks': [task]})
 
-    def delete_task(self, date, store, task):
-        store_name = self.stores[store]
-        self.db.table(store_name).remove(Query().tasks == task)
+    def delete_task(self, date, store, task_to_delete):
 
+        store_name = self.stores[int(store)]
+
+        result = self.db.table(store_name).search(Query().date == date)
+
+        if result:
+            task_to_maintain = result[0]['tasks']
+
+            if task_to_delete in task_to_maintain:
+                task_to_maintain.remove(task_to_delete)
+            
+                self.db.table(store_name).update({'tasks' : task_to_maintain},
+                                                 Query().date == date)
+    def get_all_tasks(self, date, store):
+        store_name = self.stores[int(store)]
+
+        result = self.db.table(store_name).search(Query().date == date)
+
+        if result:
+            return result[0]['tasks']
 
 if __name__ == '__main__':
     teste = DbConnection('databases/tasks.json')
     # print(teste.insert_wasted('Thawan', '2023', 3, {'bread': 5}))
     # teste.delete_task('2023', 5, 'Limpar loja')
-    teste.create_task('2023', 5, 'Limpar loja')
->>>>>>> Stashed changes
+    teste.create_task('2023', 11, 'Limpar bancada')

@@ -1,7 +1,7 @@
 from tinydb import Query
 
-from dbconnection import DbConnection
 
+from managers.dbconnection import DbConnection
 
 class User():
     permissive_keys = ['username', 'password',
