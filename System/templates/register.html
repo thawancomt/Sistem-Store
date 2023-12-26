@@ -33,12 +33,15 @@
                     <label for="password" class="text-lg text-white font-semibold"> password </label>
                     <input type="password" name="password" id="" class="form-control-1" required>
                 </div>
-
-            <select name="store" id="" class="select-primary mt-4">
-                {% for store_id, store_name in data['stores'].items() %}
-                <option value="{{store_id}}"> {{store_name}}</option>
-                {% endfor %}
-            </select>
+                <div>
+                    <h4 class="sub-title-primary">Store</h4>
+                    <select name="store" id="" class="select-primary ">
+                        {% for store_id, store_name in data['stores'].items() %}
+                        <option value="{{store_id}}"> {{store_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
 
             <select name="level" id="" class="select-primary">
                 {% for level in data['levels'] %}

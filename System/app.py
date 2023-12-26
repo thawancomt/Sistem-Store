@@ -325,9 +325,11 @@ def edit_user(username):
         }
 
         try:
-
             User().edit_user(old_user, new_data)
-            return redirect(f'/edit/user/{new_username}')
+            if new_username:
+                return redirect(f'/edit/user/{new_username}')
+            else:
+                return redirect(f'/edit/user/{old_data['username']}')
         except KeyError:
             pass
 
