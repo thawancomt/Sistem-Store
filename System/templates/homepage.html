@@ -92,15 +92,20 @@
 
                 <div class="space-y-4">
                     {% if context['tasks'] %}
-                        {% for tasks in context['tasks'] %}
-                        <div class="flex justify-around container-primary w-full m-0">
+                        {% for task in context['tasks'] %}
+                            <div class="flex justify-around container-primary w-full m-0">
 
-                            <div>
+                                <div>
+                                    
+                                </div>
+                                <h4 class="w-[90%] sub-title-primary"> {{ task }}</h4>
+
+                                <form action="/tasks/{{date_for}}/{{store_to_show}}/delete" method="POST">
+                                    <input type="text" name="{{task}}" placeholder="{{task}}" class="w-[20px]">
+                                    <button type="submit" class="btn-primary">Delete</button>
+                                </form>
                                 
                             </div>
-                            <h4 class="w-[90%] sub-title-primary"> {{ tasks }}</h4>
-                            <input type="checkbox" name="{{task}}" placeholder="{{task}}" class="w-[20px]">
-                        </div>
                         {% endfor %}
                     {% else  %}
                         <h1 class="sub-title-primary">Empty to do list</h1>

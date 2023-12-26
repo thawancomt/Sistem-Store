@@ -28,8 +28,6 @@ class DbConnection():
         'edamer': 0,
     }
 
-    
-
     def __init__(self, db):
         self.db = TinyDB(db, indent=4)
 
@@ -267,11 +265,11 @@ class DbConnection():
         store_name = self.stores[store]
 
         result = self.db.table(store_name).search(Query().date == date)
-        
+
         new_data = data
         try:
             old_data = result[0][who]
-            
+
             for item, value in old_data.items():
                 new_data[item] += int(old_data[item])
         except:
@@ -303,9 +301,31 @@ class DbConnection():
 
             if task_to_delete in task_to_maintain:
                 task_to_maintain.remove(task_to_delete)
-            
-                self.db.table(store_name).update({'tasks' : task_to_maintain},
+
+                self.db.table(store_name).update({'tasks': task_to_maintain},
                                                  Query().date == date)
+
+    def put_task_as_concluded(self, date, store, task_to_put_as_concluded):
+        store_name = self.stores[int(store)]
+
+        result = self.db.table(store_name).search(Query().date == date)
+
+        if result:
+            try:
+                list_of_concluded_tasks = result[0]['concluded']
+
+                list_of_concluded_tasks.append(task_to_put_as_concluded)
+
+                self.db.table(store_name).update(
+                    {'concluded': list_of_concluded_tasks}, Query().date == date)
+
+                self.delete_task(date, store, task_to_put_as_concluded)
+
+            except KeyError:
+                self.db.table(store_name).update(
+                    {'concluded': [task_to_put_as_concluded]}, Query().date == date)
+                self.delete_task(date, store, task_to_put_as_concluded)
+
     def get_all_tasks(self, date, store):
         store_name = self.stores[int(store)]
 
@@ -314,8 +334,8 @@ class DbConnection():
         if result:
             return result[0]['tasks']
 
+
 if __name__ == '__main__':
     teste = DbConnection('databases/tasks.json')
-    # print(teste.insert_wasted('Thawan', '2023', 3, {'bread': 5}))
-    # teste.delete_task('2023', 5, 'Limpar loja')
-    teste.create_task('2023', 11, 'Limpar bancada')
+    # teste.create_task('2023', 25, 'Entrada mercadorias')
+    teste.put_task_as_concluded('2023', 25, 'Fazer Bolo')

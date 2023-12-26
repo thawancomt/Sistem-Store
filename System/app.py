@@ -195,7 +195,7 @@ def home(date_for, store_to_show):
 
     context['workers'] = User().return_filtered_users_by_store(
         int(store_to_show))
-    
+
     context['tasks'] = store.get_all_tasks(date_for)
     return render_template('homepage.html', context=context, date_for=date_for, store_to_show=store_to_show)
 
@@ -260,24 +260,19 @@ def enter_waste(date_for, store_to_send):
         'garlic_bread',
         'slices'
     ]
-    
+
     if request.method == 'POST':
         data = request.form.to_dict()
         who = data['who_consume']
 
-
-
         del data['who_consume']
-        
-        for item, value in data.items():
 
+        for item, value in data.items():
 
             if value == '':
                 data[item] = 0
             else:
                 data[item] = int(value)
-
-        
 
         wasted = Wasted(date_for=date_for, store=int(store_to_send))
 
@@ -286,7 +281,6 @@ def enter_waste(date_for, store_to_send):
         wasted.enter_wasted()
 
         return redirect('/homepage')
-
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
@@ -394,23 +388,26 @@ def show_users_filtered():
     filtered_user = User().return_filtered_users(username)
 
     return render_template('users.html', data=user_data(), users=filtered_user)
+
+
 @app.route('/tasks/<date_for>/<store_to_send>/<action>', methods=['GET', 'POST'])
 def tasks(date_for, store_to_send, action):
     store = Store()
     store.store = store_to_send
 
-
     if request.method == 'POST':
         task = request.form.get('task_to_send')
+        task_to_delete = request.form.items()
 
         if action == 'create':
             store.create_task(date_for, task)
-            
+
         elif action == 'delete':
-            for task_to_delete in task:
-                store.delete_task(date_for, task_to_delete)
+            for task_, value in task_to_delete:
+                store.delete_task(date_for, task_)
 
         return redirect(f'/homepage/{date_for}/{store_to_send}')
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
