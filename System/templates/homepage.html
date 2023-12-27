@@ -91,18 +91,22 @@
                 <h1 class="text-xl text-left title-primary">Tasks to do</h1>
 
                 <div class="space-y-4">
-                    {% if context['tasks'] %}
-                        {% for task in context['tasks'] %}
-                            <div class="flex justify-around container-primary w-full m-0">
+                    {% if context['tasks'][0] %}
+                        {% for task in context['tasks'][0] %}
+                            <div class="flex justify-around container-primary w-full m-0 items-center
+                            hover:border-red-500">
 
-                                <div>
-                                    
-                                </div>
-                                <h4 class="w-[90%] sub-title-primary"> {{ task }}</h4>
+                                
+                                <h4 class="w-[90%] sub-title-primary mt-0"> {{ task }}</h4>
+
+                                <form action="/tasks/{{date_for}}/{{store_to_show}}/concluded" method="POST">
+                                    <input type="text" name="{{task}}" hidden>
+                                    <button type="submit" class="btn-primary m-0">Finish</button>
+                                </form>
 
                                 <form action="/tasks/{{date_for}}/{{store_to_show}}/delete" method="POST">
-                                    <input type="text" name="{{task}}" placeholder="{{task}}" class="w-[20px]">
-                                    <button type="submit" class="btn-primary">Delete</button>
+                                    <input type="text" name="{{task}}" hidden>
+                                    <button type="submit" class="btn-primary m-0">Delete</button>
                                 </form>
                                 
                             </div>
@@ -110,6 +114,15 @@
                     {% else  %}
                         <h1 class="sub-title-primary">Empty to do list</h1>
                     {% endif %}
+                    
+                    <h1 class="title-primary text-xl">Concluded tasks</h1>
+                    <ul class="*:border *:border-yellow-300 *:w-fit">
+                        {% for concluded_task in context['tasks'][1] %}
+                        <li class="line-through font-semibold text-emerald-200">{{concluded_task}}</li>
+                     
+                        {% endfor %}
+                    </ul>
+                    
                     
                 </div>
                 

@@ -334,8 +334,23 @@ class DbConnection():
         if result:
             return result[0]['tasks']
 
+    def get_all_tasks_concluded(self, date, store):
+        store_name = self.stores[int(store)]
+
+        result = self.db.table(store_name).search(Query().date == date)
+
+        if result:
+            try:
+                concluded_tasks = result[0]['concluded']
+                return concluded_tasks
+
+            except KeyError:
+                return []
+        else:
+            return []
+
 
 if __name__ == '__main__':
     teste = DbConnection('databases/tasks.json')
     # teste.create_task('2023', 25, 'Entrada mercadorias')
-    teste.put_task_as_concluded('2023', 25, 'Fazer Bolo')
+    print(teste.delete_task('2023-12-27', 25, 'Entrada mercadorias'))

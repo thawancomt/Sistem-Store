@@ -196,7 +196,9 @@ def home(date_for, store_to_show):
     context['workers'] = User().return_filtered_users_by_store(
         int(store_to_show))
 
-    context['tasks'] = store.get_all_tasks(date_for)
+    context['tasks'] = [store.get_all_tasks(
+        date_for), store.get_concluded_tasks(date_for)]
+
     return render_template('homepage.html', context=context, date_for=date_for, store_to_show=store_to_show)
 
 
@@ -396,15 +398,18 @@ def tasks(date_for, store_to_send, action):
     store.store = store_to_send
 
     if request.method == 'POST':
-        task = request.form.get('task_to_send')
+        task_to_create = request.form.get('task_to_send')
         task_to_delete = request.form.items()
 
         if action == 'create':
-            store.create_task(date_for, task)
+            store.create_task(date_for, task_to_create)
 
         elif action == 'delete':
             for task_, value in task_to_delete:
                 store.delete_task(date_for, task_)
+        elif action == 'concluded':
+            for task_, value in task_to_delete:
+                store.task_concluded(date_for, task_)
 
         return redirect(f'/homepage/{date_for}/{store_to_send}')
 
