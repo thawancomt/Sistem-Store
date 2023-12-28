@@ -406,10 +406,10 @@ def tasks(date_for, store_to_send, action):
             store.create_task(date_for, task_to_create, task_description)
 
         elif action == 'delete':
-            return task_to_delete
-            for task_, value in task_to_delete:
+            for task_, value in task_to_delete.items():
                 store.delete_task(date_for, task_)
         elif action == 'concluded':
+
             for task_, value in task_to_delete:
                 store.task_concluded(date_for, task_)
 
