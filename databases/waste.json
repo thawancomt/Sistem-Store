@@ -23,5 +23,16 @@
                 "Laranda": 35
             }
         }
+    },
+    "Odivelas": {
+        "1": {
+            "date": "2023-12-26",
+            "Flauzino": {
+                "big_ball": 0,
+                "small_ball": 0,
+                "garlic_bread": 0,
+                "slices": 0
+            }
+        }
     }
 }

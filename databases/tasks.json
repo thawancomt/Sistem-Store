@@ -1,58 +1,20 @@
 {
-    "Baixa Chiado": {
-        "1": {
-            "date": "2023-12-25",
-            "tasks": [
-                "fazer",
-                "Limpar loja",
-                "21",
-                "Limpar loja",
-                "Limpar loja",
-                "fazer  Limpar loja  21  Limpar loja  Limpar lojafazer  Limpar loja  21  Limpar loja  Limpar lojafazer  Limpar loja  21  Limpar loja  Limpar lojafazer  Limpar loja  21  Limpar loja  Limpar loja"
-            ]
-        },
-        "2": {
-            "date": "2023-12-26",
-            "tasks": [
-                "Limpar bancada",
-                "Checar massas estao ok"
-            ]
-        },
-        "3": {
-            "date": "2023-12-27",
-            "tasks": [
-                "Limpar loja"
-            ]
-        }
-    },
     "Odivelas": {
         "1": {
-            "date": "2023-12-27",
+            "date": "2023-12-28",
             "tasks": [
-                "Limpar loja"
-            ]
-        },
-        "2": {
-            "date": "2023-12-26",
-            "tasks": [
-                "Thawan Lindo",
-                "Limpar loja"
-            ]
-        }
-    },
-    "Campo de Ourique": {
-        "1": {
-            "date": "2023-12-26",
-            "tasks": [
-                "Checar massas estao ok"
-            ]
-        }
-    },
-    "Colombo": {
-        "1": {
-            "date": "2023-12-26",
-            "tasks": [
-                "Verificar money"
+                {
+                    "Limpar loja": "Fazer bolo na cozinha"
+                },
+                {
+                    "Checar massas estao ok": "22"
+                },
+                {
+                    "21": "Limpeza profunda"
+                },
+                {
+                    "Limpar bancada": "22"
+                }
             ]
         }
     }

@@ -399,12 +399,14 @@ def tasks(date_for, store_to_send, action):
 
     if request.method == 'POST':
         task_to_create = request.form.get('task_to_send')
-        task_to_delete = request.form.items()
+        task_description = request.form.get('task_description')
+        task_to_delete = request.form.to_dict()
 
         if action == 'create':
-            store.create_task(date_for, task_to_create)
+            store.create_task(date_for, task_to_create, task_description)
 
         elif action == 'delete':
+            return task_to_delete
             for task_, value in task_to_delete:
                 store.delete_task(date_for, task_)
         elif action == 'concluded':

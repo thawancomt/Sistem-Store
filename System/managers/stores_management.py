@@ -11,8 +11,8 @@ class Store():
         self.frizers = []
         self.tasks = {}
 
-    def create_task(self, date, task):
-        return DbConnection('databases/tasks.json').create_task(date, self.store, task)
+    def create_task(self, date, task, description = ''):
+        return DbConnection('databases/tasks.json').create_task(date, self.store, task, description)
 
     def delete_task(self, date, task):
         return DbConnection('databases/tasks.json').delete_task(date, self.store, task)

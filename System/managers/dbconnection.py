@@ -275,20 +275,46 @@ class DbConnection():
         except:
             pass
 
-    def create_task(self, date, store, task):
+    def create_task(self, date, store, task, description = ''):
+
+        if not description:
+            description = 'Empty description'
+
+        if not task:
+            return False
+
         store_name = self.stores[int(store)]
 
         result = self.db.table(store_name).search(Query().date == date)
 
         if result:
-            existent_tasks = result[0]['tasks']
-            existent_tasks.append(task)
 
-            self.db.table(store_name).update(
-                {'tasks':  existent_tasks}, Query().date == date)
+            existent_tasks = result[0]['tasks']
+
+            final_tasks = []
+
+            
+            if len(existent_tasks) > 0:
+                
+                for task_ in existent_tasks:
+                    
+                    for task_name, task_description in task_.items():
+
+                        if task_name != task:
+
+                            final_tasks.append({task_name : task_description})
+
+                final_tasks.append({task: description})
+
+                self.db.table(store_name).update(
+                                    {'tasks':  final_tasks}, Query().date == date)       
+            else:
+                self.db.table(store_name).update(
+                                    {'tasks':  [{task : description}]}, Query().date == date)
+
         else:
             self.db.table(store_name).insert(
-                {'date': date, 'tasks': [task]})
+                {'date': date, 'tasks': [{task : description}]})
 
     def delete_task(self, date, store, task_to_delete):
 
@@ -297,35 +323,60 @@ class DbConnection():
         result = self.db.table(store_name).search(Query().date == date)
 
         if result:
-            task_to_maintain = result[0]['tasks']
 
-            if task_to_delete in task_to_maintain:
-                task_to_maintain.remove(task_to_delete)
+            tasks = result[0]['tasks']
 
-                self.db.table(store_name).update({'tasks': task_to_maintain},
-                                                 Query().date == date)
+            final_task = []
+
+            for task in tasks:
+                for task_name, task_description in task.items():
+                    if task_name != task_to_delete:
+                        final_task.append({task_name: task_description})
+
+
+            self.db.table(store_name).update({'tasks' : final_task}, Query().date == date)
+
+            
+
+    def get_task_description(self, date, store, task_to_search):
+
+        store_name = self.stores[int(store)]
+
+        result = self.db.table(store_name).search(Query().date == date)
+
+        if result:
+            for task in result[0]['tasks']:
+                for task_name, task_description in task.items():
+                    if task_name == task_to_search:        
+                        if task_description:
+                            return task_description
+        else:
+            return False
 
     def put_task_as_concluded(self, date, store, task_to_put_as_concluded):
         store_name = self.stores[int(store)]
 
         result = self.db.table(store_name).search(Query().date == date)
 
+        # Verify if task exitst in tasks:
+        if not self.get_task_description(date, store, task_to_put_as_concluded):
+            return False
+
         if result:
+            
             try:
-                list_of_concluded_tasks = result[0]['concluded']
-
-                list_of_concluded_tasks.append(task_to_put_as_concluded)
-
-                self.db.table(store_name).update(
-                    {'concluded': list_of_concluded_tasks}, Query().date == date)
-
+                concluded_tasks = result[0]['concluded']
+                task_description = self.get_task_description(date, store, task_to_put_as_concluded)
+                concluded_tasks.append({task_to_put_as_concluded : task_description})
+                self.db.table(store_name).update({'concluded' : concluded_tasks}, Query().date == date)
                 self.delete_task(date, store, task_to_put_as_concluded)
 
             except KeyError:
-                self.db.table(store_name).update(
-                    {'concluded': [task_to_put_as_concluded]}, Query().date == date)
+                
+                task_description = self.get_task_description(date, store, task_to_put_as_concluded)
+                self.db.table(store_name).update({'concluded' : [{task_to_put_as_concluded : task_description}]})
                 self.delete_task(date, store, task_to_put_as_concluded)
-
+           
     def get_all_tasks(self, date, store):
         store_name = self.stores[int(store)]
 
@@ -352,5 +403,4 @@ class DbConnection():
 
 if __name__ == '__main__':
     teste = DbConnection('databases/tasks.json')
-    # teste.create_task('2023', 25, 'Entrada mercadorias')
-    print(teste.delete_task('2023-12-27', 25, 'Entrada mercadorias'))
+    teste.create_task('2023-12-28', 5, '2')

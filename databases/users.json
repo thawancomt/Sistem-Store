@@ -4,16 +4,16 @@
             "username": "Flauzino",
             "password": "Dez1633#",
             "email": "thawancomt@gmail.com",
-            "store": 25,
+            "store": 5,
             "level": "Administrador",
-            "last_login": "2023-12-27",
+            "last_login": "2023-12-28",
             "when_created": "2023-12-07"
         },
         "2": {
             "username": "Liza Sunaga",
             "password": "Dez1633#",
             "email": "Liza@gmail.com",
-            "store": 5,
+            "store": 25,
             "level": "Visitante",
             "last_login": "",
             "when_created": "2023-12-07"
@@ -80,6 +80,15 @@
             "level": "Colaborador",
             "last_login": "",
             "when_created": "2023-12-20"
+        },
+        "10": {
+            "username": "Ana luiza",
+            "password": "Dez1633#",
+            "email": "analu@gmail.com",
+            "store": 5,
+            "level": "Colaborador",
+            "last_login": "",
+            "when_created": "2023-12-26"
         }
     }
 }
