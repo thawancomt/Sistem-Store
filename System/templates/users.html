@@ -14,7 +14,7 @@
     </form>
 </div>
 
-{% if users|length == 0 %}
+{% if context['users']|length == 0 %}
             <div class="w-full h-full flex text-center justify-center items-center">
                 <h1 class="title-primary "> Not Users Founds</h1>
             </div>
@@ -29,7 +29,8 @@
     <!-- Container -->
     <div class="w-full h-full flex flex-wrap justify-around ">
         
-        {% for user in users %}
+        {% for user in context['users'] %}
+
         
             <div class="w-96 h-80 border border-emerald-500 rounded-lg flex flex-col justify-evenly mx-2 mt-6 p-2
             hover:border-[10px] transition-all ease-in-out duration-200">

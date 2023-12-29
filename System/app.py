@@ -374,6 +374,8 @@ def show_users():
     context = {}
 
     context['data'] = user_data()
+    context['users'] = User().return_all_users()
+
     return render_template('users.html', context=context, data=user_data(), users=User().return_all_users())
 
 
@@ -386,10 +388,20 @@ def show_users_filtered():
     from. This is equivalent to showing the entire list of users without any
     filtering.'.
     """
-    username = request.form.get('filter')
-    filtered_user = User().return_filtered_users(username)
 
-    return render_template('users.html', data=user_data(), users=filtered_user)
+    if is_user_logged_in(request.remote_addr):
+        pass
+    else:
+        return redirect('/login')
+
+    username = request.form.get('filter')
+    filtered_users = User().return_filtered_users(username)
+
+    context = {}
+    context['data'] = user_data()
+    context['users'] = filtered_users
+
+    return render_template('users.html', data=user_data(), context=context)
 
 
 @app.route('/tasks/<date_for>/<store_to_send>/<action>', methods=['GET', 'POST'])
@@ -400,18 +412,19 @@ def tasks(date_for, store_to_send, action):
     if request.method == 'POST':
         task_to_create = request.form.get('task_to_send')
         task_description = request.form.get('task_description')
+
         task_to_delete = request.form.to_dict()
 
         if action == 'create':
             store.create_task(date_for, task_to_create, task_description)
 
         elif action == 'delete':
-            for task_, value in task_to_delete.items():
-                store.delete_task(date_for, task_)
+            for task, value in task_to_delete.items():
+                store.delete_task(date_for, task)
         elif action == 'concluded':
 
-            for task_, value in task_to_delete:
-                store.task_concluded(date_for, task_)
+            for task, value in task_to_delete.items():
+                store.task_concluded(date_for, task)
 
         return redirect(f'/homepage/{date_for}/{store_to_send}')
 

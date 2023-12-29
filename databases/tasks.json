@@ -6,6 +6,23 @@
                 {
                     "Limpar a loja": "Se voce limpar a loja por baixo fica mais facil, entao o ideal \u00e9 nao fazer a limpeza por cnima, e mas sempre de 2 pessoas pra que um possa atender o caixa enquanto o outro fica responsavel pela limpeza do centro comercial"
                 }
+            ],
+            "concluded": [
+                {
+                    "Limpar a loja": "teste"
+                }
+            ]
+        },
+        "2": {
+            "date": "2023-12-29",
+            "tasks": [],
+            "concluded": [
+                {
+                    "Limpar a loja": "teste"
+                },
+                {
+                    "Thawan Lindo": "teste"
+                }
             ]
         }
     }
