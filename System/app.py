@@ -127,78 +127,56 @@ def redirect_home():
 
 @app.route('/homepage/<date_for>/<store_to_show>', methods=['GET', 'POST'])
 def home(date_for, store_to_show):
-    
-    # We need to create a context to send to the template
+    # Create a context to send to the template
     context = {}
     context['store_to_show'] = store_to_show
 
     # Check if the user is logged in, else redirect to login page
-    if is_user_logged_in(request.remote_addr):
-        pass
-    else:
+    if not is_user_logged_in(request.remote_addr):
         return redirect('/login')
 
     if request.method == 'POST':
-        context['store_to_show'] = int(
-            request.form.get("store_by_select_form"))
-        return redirect(f'/homepage/{date_for}/{request.form.get("store_by_select_form")}')
+        selected_store = request.form.get("store_by_select_form")
+        context['store_to_show'] = int(selected_store)
+        return redirect(f'/homepage/{date_for}/{selected_store}')
 
-    # Get the user store by Id ( Id=False if want the name)
+    # Get the user store by Id (Id=False if want the name)
     user_store = Session(request.remote_addr).store_name(id=True)
 
     # Object to get management of the store
     store = Store()
     store.store = store_to_show
 
-    
-
-    context['data'] = user_data(
-            date_for=date_for, store_to_show=user_store)
-    
+    context['data'] = user_data(date_for=date_for, store_to_show=user_store)
     context['level'] = context['data']['level']
 
     if int(user_store) != int(store_to_show) and context['level'] != 'Administrador':
-            flash("You can't edit other store")
-            return redirect('/homepage')
-    
+        flash("You can't edit other store")
+        return redirect('/homepage')
 
-
-        # The store to show on page, if equal to store_to_show will show the url store Id
+    # The store to show on page, if equal to store_to_show will show the url store Id
     context['store_to_show'] = store_to_show
 
-        # if the store to show is from the select form
+    # If the store to show is from the select form
     if request.form.get('store_by_select_form'):
-
-            context['show_store_by_select_form'] = int(
-                request.form.get('store_by_select_form'))
-
+        context['show_store_by_select_form'] = int(request.form.get('store_by_select_form'))
 
     context['date_for'] = date_for
     context['stores'] = Production.stores
     context['data'] = user_data(date_for, context['store_to_show'])
-    
-    context['weekly_data'] = Production(
-        date_for).create_data_to_ball_usage_chart(store_to_show, -30)
-    context['dates'] = Production(date_for).create_data_to_ball_usage_chart(
-        store_to_show, -7)['dates']
-
-    context['consumes'] = Consumes().get_consume_by_day(
-        int(store_to_show), date_for)
-    context['consume_data'] = Consumes().create_data_to_consume_chart(
-        int(store_to_show), date_for)
+    context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -30)
+    context['dates'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)['dates']
+    context['consumes'] = Consumes().get_consume_by_day(int(store_to_show), date_for)
+    context['consume_data'] = Consumes().create_data_to_consume_chart(int(store_to_show), date_for)
 
     analyze = Analyze()
-
     analyze.data = context['weekly_data']['big_ball']
     analyze.dates = context['dates']
 
     # context['analyze'] = analyze.genarate_insights()
 
-    context['workers'] = User().return_filtered_users_by_store(
-        int(store_to_show))
-
-    context['tasks'] = [store.get_all_tasks(
-        date_for), store.get_concluded_tasks(date_for)]
+    context['workers'] = User().return_filtered_users_by_store(int(store_to_show))
+    context['tasks'] = [store.get_all_tasks(date_for), store.get_concluded_tasks(date_for)]
 
     return render_template('homepage.html', context=context, date_for=date_for, store_to_show=store_to_show)
 
