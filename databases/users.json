@@ -1,21 +1,21 @@
 {
     "_default": {
         "1": {
-            "username": "Flauzino",
+            "username": "Henrique",
             "password": "Dez1633#",
             "email": "thawancomt@gmail.com",
-            "store": 5,
+            "store": 11,
             "level": "Administrador",
-            "last_login": "2023-12-29",
+            "last_login": "2023-12-31",
             "when_created": "2023-12-07"
         },
         "2": {
-            "username": "Liza Sunaga",
+            "username": "thawancomt@gmail.com",
             "password": "Dez1633#",
             "email": "Liza@gmail.com",
             "store": 25,
             "level": "Visitante",
-            "last_login": "",
+            "last_login": "2023-12-31",
             "when_created": "2023-12-07"
         },
         "3": {

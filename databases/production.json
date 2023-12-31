@@ -109,6 +109,16 @@
                 "mozzarela": 0,
                 "edamer": 0
             }
+        },
+        "12": {
+            "date": "2023-12-31",
+            "production": {
+                "big_ball": 12,
+                "small_ball": 12,
+                "garlic_bread": 23,
+                "mozzarela": 42,
+                "edamer": 12
+            }
         }
     },
     "Baixa Chiado": {
@@ -477,5 +487,4 @@
             }
         }
     }
-    
 }

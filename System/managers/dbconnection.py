@@ -355,7 +355,8 @@ class DbConnection():
 
     def put_task_as_concluded(self, date, store, task_to_put_as_concluded):
         store_name = self.stores[int(store)]
-
+        
+        # Get the tasks from the database based on the date provided
         result = self.db.table(store_name).search(Query().date == date)
 
         # Verify if task exitst in tasks:
@@ -363,19 +364,23 @@ class DbConnection():
             return False
 
         if result:
+            # Get the concluded tasks
+            concluded_tasks = result[0].get('concluded', [])
             
-            try:
-                concluded_tasks = result[0]['concluded']
-                task_description = self.get_task_description(date, store, task_to_put_as_concluded)
-                concluded_tasks.append({task_to_put_as_concluded : task_description})
-                self.db.table(store_name).update({'concluded' : concluded_tasks}, Query().date == date)
-                self.delete_task(date, store, task_to_put_as_concluded)
+            # Get the task description
+            task_description = self.get_task_description(date, store, task_to_put_as_concluded)
 
-            except KeyError:
-                
-                task_description = self.get_task_description(date, store, task_to_put_as_concluded)
-                self.db.table(store_name).update({'concluded' : [{task_to_put_as_concluded : task_description}]})
-                self.delete_task(date, store, task_to_put_as_concluded)
+            # Set the new concluded task in a variable
+            new_concluded_task = {task_to_put_as_concluded : task_description}
+
+            # Append the new concluded task to the concluded tasks
+            concluded_tasks.append(new_concluded_task)
+
+            # Update the database
+            self.db.table(store_name).update({'concluded' : concluded_tasks}, Query().date == date)
+
+            # Delete the task from the tasks
+            self.delete_task(date, store, task_to_put_as_concluded)
            
     def get_all_tasks(self, date, store):
         store_name = self.stores[int(store)]
@@ -399,8 +404,9 @@ class DbConnection():
                 return []
         else:
             return []
-
+    
 
 if __name__ == '__main__':
     teste = DbConnection('databases/tasks.json')
-    teste.create_task('2023-12-28', 5, '2')
+    print(teste.get_all_tasks('2023-12-28', 5)
+)

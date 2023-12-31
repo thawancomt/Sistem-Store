@@ -127,7 +127,10 @@ def redirect_home():
 
 @app.route('/homepage/<date_for>/<store_to_show>', methods=['GET', 'POST'])
 def home(date_for, store_to_show):
+    
+    # We need to create a context to send to the template
     context = {}
+    context['store_to_show'] = store_to_show
 
     # Check if the user is logged in, else redirect to login page
     if is_user_logged_in(request.remote_addr):
@@ -147,35 +150,33 @@ def home(date_for, store_to_show):
     store = Store()
     store.store = store_to_show
 
-    # if user is admin
-    if user_data(date_for=date_for)['level'] == 'Administrador':
+    
 
-        context['level'] = 'Administrador'
+    context['data'] = user_data(
+            date_for=date_for, store_to_show=user_store)
+    
+    context['level'] = context['data']['level']
+
+    if int(user_store) != int(store_to_show) and context['level'] != 'Administrador':
+            flash("You can't edit other store")
+            return redirect('/homepage')
+    
+
 
         # The store to show on page, if equal to store_to_show will show the url store Id
-        context['store_to_show'] = store_to_show
+    context['store_to_show'] = store_to_show
 
         # if the store to show is from the select form
-        if request.form.get('store_by_select_form'):
+    if request.form.get('store_by_select_form'):
 
             context['show_store_by_select_form'] = int(
                 request.form.get('store_by_select_form'))
 
-            for store_id, store_name in Production.stores.items():
-                if store_name == show_store_by_select_form:
-                    show_store_by_select_form = store_id
-
-    else:
-        if int(user_store) != int(store_to_show):
-            flash("You can't edit other store")
-            return redirect('/homepage')
-
-        context['data'] = user_data(
-            date_for=date_for, store_to_show=user_store)
 
     context['date_for'] = date_for
     context['stores'] = Production.stores
     context['data'] = user_data(date_for, context['store_to_show'])
+    
     context['weekly_data'] = Production(
         date_for).create_data_to_ball_usage_chart(store_to_show, -30)
     context['dates'] = Production(date_for).create_data_to_ball_usage_chart(
@@ -414,7 +415,8 @@ def tasks(date_for, store_to_send, action):
         task_description = request.form.get('task_description')
 
         task_to_delete = request.form.to_dict()
-
+        
+        
         if action == 'create':
             store.create_task(date_for, task_to_create, task_description)
 

@@ -52,7 +52,7 @@
             {% endwith %}
     
     <!-- Search Bar if admin -->
-    {% if context['data']['level'] == 'Administrador' %}
+    {% if context['level'] == 'Administrador' %}
     <div class="w-full h-8 flex justify-center mb-4 space-x-1">
         <div class="w-1/6">
             <h1 class="select-primary p-0 h-full flex justify-center items-center ">Select an store</h1>
