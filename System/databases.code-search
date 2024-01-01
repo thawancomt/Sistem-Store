@@ -1,0 +1,76 @@
+# Query: databases
+# ContextLines: 1
+
+19 results - 4 files
+
+System\managers\dbconnection.py:
+  409  if __name__ == '__main__':
+  410:     teste = DbConnection('System/databases/tasks.json')
+  411      print(teste.get_all_tasks('2023-12-28', 5)
+
+System\managers\production.py:
+   27      def send_production(self):
+   28:         DbConnection('System/databases/production.json').insert_production(
+   29              self.store, self.date, self.data)
+
+   31      def get_already_produced(self, store):
+   32:         return DbConnection('System/databases/production.json').get_day_production(store, self.date)
+   33  
+
+  121      def send_consume(self):
+  122:         DbConnection('System/databases/consumes.json').insert_consumes(who=self.worker,
+  123                                                                  date=self.date,
+
+  127      def get_consume_by_day(self, store, date):
+  128:         return DbConnection('System/databases/consumes.json').get_day_consume(store, date)
+  129  
+
+  181      def enter_wasted(self):
+  182:         return DbConnection('System/databases/waste.json').insert_wasted(who=self.worker,
+  183                                              date=self.date_for,
+
+System\managers\stores_management.py:
+  14      def create_task(self, date, task, description = ''):
+  15:         return DbConnection('System/databases/tasks.json').create_task(date, self.store, task, description)
+  16  
+  17      def delete_task(self, date, task):
+  18:         return DbConnection('System/databases/tasks.json').delete_task(date, self.store, task)
+  19  
+  20      def task_concluded(self, date, task):
+  21:         return DbConnection('System/databases/tasks.json').put_task_as_concluded(date, self.store, task)
+  22  
+  23      def get_all_tasks(self, date):
+  24:         return DbConnection('System/databases/tasks.json').get_all_tasks(date, self.store)
+  25  
+  26      def get_concluded_tasks(self, date):
+  27:         return DbConnection('System/databases/tasks.json').get_all_tasks_concluded(date, self.store)
+
+System\managers\users.py:
+  19      def get_user_data(self, who):
+  20:         result = DbConnection('System/databases/users.json').get_user_data(who)
+  21          return result
+
+  23      def edit_user(self, who, new_data):
+  24:         DbConnection('System/databases/users.json').update_user(who, new_data)
+  25  
+  26      def return_all_users(self):
+  27:         return DbConnection('System/databases/users.json').get_all_users()
+  28  
+  29      def return_filtered_users(self, search):
+  30:         return DbConnection('System/databases/users.json').get_users_by_search(search)
+  31  
+  32      def return_filtered_users_by_store(self, store):
+  33:         return DbConnection('System/databases/users.json').get_users_by_store(store)
+  34  
+
+  50  
+  51:         DbConnection('System/databases/users.json').insert_user(data)
+  52  
+
+  55  
+  56:     def __init__(self, who, db='System/databases/users.json'):
+  57          super().__init__(db)
+
+  73  
+  74:         super().__init__('System/databases/users.json')
+  75  

@@ -1,0 +1,23 @@
+{
+    "Colombo": {
+        "1": {
+            "date": "2023",
+            "Thawan": {
+                "Laranja": 15
+            }
+        }
+    },
+    "Baixa Chiado": {
+        "1": {
+            "date": "2023-12-31",
+            "thawancomt@gmail.com": {
+                "bread": 4,
+                "slices": 3
+            },
+            "Nicolas": {
+                "bread": 0,
+                "slices": 0
+            }
+        }
+    }
+}

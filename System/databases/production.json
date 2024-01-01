@@ -1,0 +1,14 @@
+{
+    "Campo de Ourique": {
+        "1": {
+            "date": "2024-01-01",
+            "production": {
+                "big_ball": "20",
+                "small_ball": "003",
+                "garlic_bread": "00",
+                "mozzarela": "00",
+                "edamer": "00"
+            }
+        }
+    }
+}

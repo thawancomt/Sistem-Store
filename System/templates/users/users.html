@@ -35,7 +35,7 @@
             <div class="w-96 h-80 border border-emerald-500 rounded-lg flex flex-col justify-evenly mx-2 mt-6 p-2
             hover:border-[10px] transition-all ease-in-out duration-200">
                 <!-- User Name -->
-                {% if data['username'] == user['username'] %}
+                {% if context['data']['username'] == user['username'] %}
                 <div class="w-full h-12 flex items-center justify-center">
                     <h1 class="title-primary text-white">You</h1>
                 </div>

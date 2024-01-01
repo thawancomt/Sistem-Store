@@ -25,11 +25,11 @@ class Production():
         self.date = date  # Date
 
     def send_production(self):
-        DbConnection('databases/production.json').insert_production(
+        DbConnection('System/databases/production.json').insert_production(
             self.store, self.date, self.data)
 
     def get_already_produced(self, store):
-        return DbConnection('databases/production.json').get_day_production(store, self.date)
+        return DbConnection('System/databases/production.json').get_day_production(store, self.date)
 
     def create_data_to_ball_usage_chart(self, store, length, end=1):
         """receive a list to create a chart
@@ -112,6 +112,13 @@ class Production():
 
 class Consumes():
 
+    permissive_keys_to_enter_waste = [
+        'big_ball',
+        'small_ball',
+        'garlic_bread',
+        'slices'
+    ]
+
     def __init__(self):
         self.worker: str = ''
         self.store: int = 0
@@ -119,13 +126,13 @@ class Consumes():
         self.data: str = ''
 
     def send_consume(self):
-        DbConnection('databases/consumes.json').insert_consumes(who=self.worker,
+        DbConnection('System/databases/consumes.json').insert_consumes(who=self.worker,
                                                                 date=self.date,
                                                                 store=self.store,
                                                                 data=self.data)
 
     def get_consume_by_day(self, store, date):
-        return DbConnection('databases/consumes.json').get_day_consume(store, date)
+        return DbConnection('System/databases/consumes.json').get_day_consume(store, date)
 
     def create_data_to_consume_chart(self, store, date):
 
@@ -179,7 +186,7 @@ class Wasted():
         self.worker = str
 
     def enter_wasted(self):
-        return DbConnection('databases/waste.json').insert_wasted(who=self.worker,
+        return DbConnection('System/databases/waste.json').insert_wasted(who=self.worker,
                                             date=self.date_for,
                                             store=self.store,
                                             data=self.data)

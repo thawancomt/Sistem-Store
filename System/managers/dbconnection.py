@@ -28,6 +28,8 @@ class DbConnection():
         'edamer': 0,
     }
 
+    
+
     def __init__(self, db):
         self.db = TinyDB(db, indent=4)
 
@@ -224,6 +226,8 @@ class DbConnection():
 
         result = self.get_day_consume(store, date)
 
+        del data['who_consume']
+
         if result:
             self.update_consume(who, date, store, result[0], data)
         else:
@@ -255,6 +259,9 @@ class DbConnection():
 
         result = self.db.table(store_name).search(
             Query().date == date)
+
+        # delete the who_consume key to send directly to the database
+        del data['who_consume']
 
         if result:
             self.update_wasted(who, date, store, data)

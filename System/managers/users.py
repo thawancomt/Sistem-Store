@@ -6,6 +6,11 @@ from managers.dbconnection import DbConnection
 class User():
     permissive_keys = ['username', 'password',
                        'level', 'email', 'store', 'last_login']
+    levels_of_users = [
+        'admin',
+        'worker',
+        'guest'
+    ]
 
     def __init__(self):
         self.username = ''
@@ -17,20 +22,20 @@ class User():
         self.when_was_created = None
 
     def get_user_data(self, who):
-        result = DbConnection('databases/users.json').get_user_data(who)
+        result = DbConnection('System/databases/users.json').get_user_data(who)
         return result
 
     def edit_user(self, who, new_data):
-        DbConnection('databases/users.json').update_user(who, new_data)
+        DbConnection('System/databases/users.json').update_user(who, new_data)
 
     def return_all_users(self):
-        return DbConnection('databases/users.json').get_all_users()
+        return DbConnection('System/databases/users.json').get_all_users()
 
     def return_filtered_users(self, search):
-        return DbConnection('databases/users.json').get_users_by_search(search)
+        return DbConnection('System/databases/users.json').get_users_by_search(search)
 
     def return_filtered_users_by_store(self, store):
-        return DbConnection('databases/users.json').get_users_by_store(store)
+        return DbConnection('System/databases/users.json').get_users_by_store(store)
 
 
 class CreateUser(User):
@@ -48,12 +53,12 @@ class CreateUser(User):
             'when_created': who.when_was_created,
         }
 
-        DbConnection('databases/users.json').insert_user(data)
+        DbConnection('System/databases/users.json').insert_user(data)
 
 
 class Login(DbConnection):
 
-    def __init__(self, who, db='databases/users.json'):
+    def __init__(self, who, db='System/databases/users.json'):
         super().__init__(db)
         self.email = who.email
         self.password = who.password
@@ -71,7 +76,7 @@ class Session(DbConnection):
 
     def __init__(self, adress=None, who=None):
 
-        super().__init__('databases/users.json')
+        super().__init__('System/databases/users.json')
 
         self.adress = adress
         self.who = who

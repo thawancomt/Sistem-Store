@@ -52,7 +52,7 @@
             {% endwith %}
     
     <!-- Search Bar if admin -->
-    {% if context['level'] == 'Administrador' %}
+    {% if context['level'] == 'admin'%}
     <div class="w-full h-8 flex justify-center mb-4 space-x-1">
         <div class="w-1/6">
             <h1 class="select-primary p-0 h-full flex justify-center items-center ">Select an store</h1>
@@ -270,13 +270,15 @@
 
         </div>
     </div>
-
-    <div class="w-full ">
-        <form action="/users" class="w-full flex justify-center">
-            <button type="submit" class="btn-primary w-5/6">Access users</button>
-        </form>
-        
-    </div>
+    {% if context['level'] == 'admin' %}
+        <div class="w-full ">
+            <form action="/users" class="w-full flex justify-center">
+                <button type="submit" class="btn-primary w-5/6">Access users</button>
+            </form>
+            
+        </div>
+    {% endif %}
+    
 
     <script>
         var labels = {{ context['weekly_data']['articles'] | tojson }}

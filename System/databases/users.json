@@ -1,12 +1,12 @@
 {
     "_default": {
         "1": {
-            "username": "Henrique",
+            "username": "Lucio",
             "password": "Dez1633#",
             "email": "thawancomt@gmail.com",
-            "store": 11,
-            "level": "Administrador",
-            "last_login": "2023-12-31",
+            "store": 3,
+            "level": "admin",
+            "last_login": "2024-01-01",
             "when_created": "2023-12-07"
         },
         "2": {
@@ -15,11 +15,11 @@
             "email": "Liza@gmail.com",
             "store": 25,
             "level": "Visitante",
-            "last_login": "2023-12-31",
+            "last_login": "2024-01-01",
             "when_created": "2023-12-07"
         },
         "3": {
-            "username": "Lost Fa",
+            "username": "Lost Fagundes",
             "password": "Dez1633#",
             "email": "lostf@gmail.com",
             "store": 3,

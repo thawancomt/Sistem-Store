@@ -36,7 +36,7 @@
                 <div>
                     <h4 class="sub-title-primary">Store</h4>
                     <select name="store" id="" class="select-primary ">
-                        {% for store_id, store_name in data['stores'].items() %}
+                        {% for store_id, store_name in context['data']['stores'].items() %}
                         <option value="{{store_id}}"> {{store_name}}</option>
                         {% endfor %}
                     </select>
@@ -44,7 +44,7 @@
             
 
             <select name="level" id="" class="select-primary">
-                {% for level in data['levels'] %}
+                {% for level in context['levels'] %}
                 <option value="{{level}}"> {{level}}</option>
                 {% endfor %}
             </select>
