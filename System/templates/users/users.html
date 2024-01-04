@@ -6,7 +6,7 @@
 
 {% block content %}
 
-
+<!-- Search Bar -->
 <div class="flex justify-center">
     <form action="/users/search/" class="w-11/12" method="POST">
         <input type="text" class="form-control-1 text-center" placeholder="Search user" name="filter">
@@ -21,8 +21,18 @@
                 
 {% endif %}
 
+<div class="flex justify-center">
+        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <h1 class="m-4"> {{ message }}</h1>
+                            {% endfor %}
+                        {% endif  %}
+        {% endwith %}
+</div>
+
 <div class="max-h-fit min-h-full">
-    <!-- Search Bar -->
+    
     
 
 

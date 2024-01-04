@@ -52,27 +52,24 @@ class DbConnection():
         """
         data_to_insert = {}
 
-        def check_user_exist():
-            username = data['username']
+        username = data['username']
+        email = data['email']
 
-            result = self.search_username(username)
-
-            if result is not None:
-                return result
-
-        if not check_user_exist():
+        if not self.check_user_exist(username, email):
             for key, value in data.items():
                 if key in self.permissive_keys_for_create_users:
                     data_to_insert[key] = value
                 else:
                     pass
+                
             self.db.insert(data_to_insert)
             return True
 
     def check_user_exist(self, username: str = '', email: str = ''):
 
         if not self.search_username(username):
-            return self.search_email(email)
+            if self.search_email(email):
+                return True
         else:
             return True
 
@@ -82,12 +79,15 @@ class DbConnection():
         """ This two for loops verify if the info of new info is empty
             case true: delete the key, and update just the changed info
         """
+        
 
         try:
-            if self.check_user_exist(new_info['username'], new_info['email']):
-                raise KeyError
-        except KeyError:
-            pass
+            username = new_info['username']
+            email = new_info['email']
+            if self.check_user_exist(username, email):
+                raise 'This User Already Exist'
+        except:
+            return False
 
         keys_to_delete = []
 
@@ -99,6 +99,9 @@ class DbConnection():
             del new_info[key]
 
         self.db.update(new_info, Query().email == who.email)
+
+    def delete_user(self, email):
+        print( self.db.remove(Query().email == email))
 
     def get_user_data(self, who):
 
@@ -414,6 +417,5 @@ class DbConnection():
     
 
 if __name__ == '__main__':
-    teste = DbConnection('databases/tasks.json')
-    print(teste.get_all_tasks('2023-12-28', 5)
-)
+    teste = DbConnection('System/databases/users.json')
+    teste.delete_user('tiago@gmail.com')

@@ -39,7 +39,7 @@
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
                             {% for message in messages %}
-                                <h1 class="m-4"> {{ message }}</h1>
+                                <h1 class="m-4 sub-title-primary text-red-400" > {{ message }}</h1>
                             {% endfor %}
                         {% endif  %}
                     {% endwith %}

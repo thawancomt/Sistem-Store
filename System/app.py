@@ -282,9 +282,30 @@ def edit_user(username):
     context['old_data'] = old_data
     context['old_user'] = old_user
     context['username'] = username
+    context['email'] = old_user.email
 
     return render_template("users/edit_user.html", context=context)
 
+@app.route('/delete/user/', methods=['GET', 'POST'])
+def delete_user():
+
+    if request.method == 'POST':
+
+        username = request.form.get('old_username')
+        email = request.form.get('old_email')
+
+        deleted_user = User()
+        deleted_user.username = username
+        deleted_user.email = email
+
+        deleted_user.delete_user(email)
+
+        if username == Session(request.remote_addr).name():
+            logout()
+            
+        flash('User deleted')
+
+    return redirect('/users')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():

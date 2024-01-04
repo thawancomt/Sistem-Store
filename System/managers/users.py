@@ -37,7 +37,9 @@ class User():
     def return_filtered_users_by_store(self, store):
         return DbConnection('System/databases/users.json').get_users_by_store(store)
 
-
+    def delete_user(self, who):
+        DbConnection('System/databases/users.json').delete_user(who)
+        
 class CreateUser(User):
     def __init__(self, who):
 

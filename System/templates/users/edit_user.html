@@ -11,13 +11,13 @@
             </header>
             <form action="" class="flex flex-col w-full items-center">
                 <label for="" class="text-white font-semibold">username</label>
-                <input type="text" name="old_username" id="" placeholder="{{context['old_data']['username']}}" class="select-primary w-4/6" disabled>
+                <input type="text" name="old_username" placeholder="{{context['old_data']['username']}}" class="select-primary w-4/6" disabled>
 
                 <label for="" class="text-white font-semibold">Actual password</label>
-                <input type="password" name="old_username" id="" placeholder="{{context['old_data']['password']}}" class="select-primary w-4/6" disabled>
+                <input type="password" placeholder="{{context['old_data']['password']}}" class="select-primary w-4/6" disabled>
                 
                 <label for="" class="text-white font-semibold">Actual email</label>
-                <input type="text" name="old_username" id="" placeholder="{{context['old_data']['email']}}" class="select-primary w-4/6" disabled>
+                <input type="text" name="old_email" placeholder="{{context['old_data']['email']}}" class="select-primary w-4/6" disabled>
                 <select name="" id="" class="mt-4 select-primary w-3/6">
                     {% for store_id, store_name in context['data']['stores'].items() %}
                         {% if store_id == context['old_data']['store'] %}
@@ -59,7 +59,11 @@
     </section>
     
     <div class="border m-4 h-56">
-
+        <form action="/delete/user/" method="POST">
+            <input type="hidden" name="old_username" value="{{context['username']}}">
+            <input type="hidden" name="old_email" value="{{context['email']}}">
+            <button type="submit" class="btn-primary">Delete</button>
+        </form>
     </div>
 
     
