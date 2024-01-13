@@ -15,8 +15,8 @@
         "1": {
             "date": "2024-01-13",
             "production": {
-                "big_ball": 250000,
-                "small_ball": 530000,
+                "big_ball": 0,
+                "small_ball": 0,
                 "garlic_bread": 0,
                 "mozzarela": 0,
                 "edamer": 0
@@ -30,6 +30,26 @@
                 "garlic_bread": 0,
                 "mozzarela": 0,
                 "edamer": 0
+            }
+        },
+        "3": {
+            "date": "2024-01-12",
+            "production": {
+                "big_ball": "047",
+                "small_ball": "58",
+                "garlic_bread": "0",
+                "mozzarela": "0",
+                "edamer": "0"
+            }
+        },
+        "4": {
+            "date": "2024-01-13",
+            "production": {
+                "big_ball": "12",
+                "small_ball": "32",
+                "garlic_bread": "011",
+                "mozzarela": "0",
+                "edamer": "0"
             }
         }
     }

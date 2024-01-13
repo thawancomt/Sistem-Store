@@ -11,7 +11,8 @@ from datetime import date
 app = Flask(__name__)
 
 app.secret_key = '2222'
-
+def external_ip():
+    return request.headers.get('X-Forwarded-For')
 
 def user_data(date_for = '', store_to_show = 0):
     
@@ -33,10 +34,10 @@ def user_data(date_for = '', store_to_show = 0):
 
     if store_to_show:
         data['total_of_the_day'] = Production(date_for).get_already_produced(store_to_show)
-        data['store_name'] = Session(request.remote_addr).store_name()
+        data['store_name'] = Session(external_ip()).store_name()
 
-    data['username'] = Session(request.remote_addr).name()
-    data['level'] = Session(request.remote_addr).level()
+    data['username'] = Session(external_ip()).name()
+    data['level'] = Session(external_ip()).level()
     data['articles'] = Production.articles
     data['stores'] = Production.stores
 
@@ -51,11 +52,17 @@ def is_user_logged_in(ip):
     except KeyError:
         return False
 
+@app.route('/ip')
+def ip():
+    return f'{request.headers.get("X-Forwarded-For")}'
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
     # Check if the user is logged in, if true redirect to homepage
-    if is_user_logged_in(request.remote_addr):
+    if is_user_logged_in(external_ip()):
         return redirect('/homepage')
 
     if request.method == 'POST':
@@ -73,10 +80,10 @@ def login():
 
         if result:
             # insert the user into the logged users
-            Session(request.remote_addr, connected_user).connect_user()
+            Session(external_ip(), connected_user).connect_user()
 
             # define this user as logged in
-            Session.connected_users[request.remote_addr]['status'] = True
+            Session.connected_users[external_ip()]['status'] = True
 
             # update the last login of user
             User().edit_user(who=connected_user,new_data={'last_login': str(date.today())})
@@ -91,7 +98,7 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     # Disconnect the user
-    Session(request.remote_addr).disconnect_user()
+    Session(external_ip()).disconnect_user()
     return redirect('/login')
 
 
@@ -106,7 +113,7 @@ def index():
 @app.route('/homepage/')
 def redirect_home():
     # If the user enter on homepage without a date
-    user_store = Session(request.remote_addr).store_name(id=True)
+    user_store = Session(external_ip()).store_name(id=True)
     return redirect(f'/homepage/{date.today()}/{user_store}')
 
 
@@ -114,7 +121,7 @@ def redirect_home():
 def home(date_for, store_to_show):
 
     # Get the user store by Id (Id=False if want the name)
-    user_store = Session(request.remote_addr).store_name(id=True)
+    user_store = Session(external_ip()).store_name(id=True)
 
     # Object to get management of the store
     store = Store()
@@ -122,7 +129,7 @@ def home(date_for, store_to_show):
 
 
     # Check if the user is logged in, else redirect to login page
-    if not is_user_logged_in(request.remote_addr):
+    if not is_user_logged_in(external_ip()):
         return redirect('/login')
 
     # Create a context to send to the template
@@ -240,7 +247,7 @@ def enter_waste(date_for, store_to_send):
 @app.route('/edit/user/<username>', methods=['GET', 'POST'])
 def edit_user(username):
 
-    if not is_user_logged_in(request.remote_addr):
+    if not is_user_logged_in(external_ip()):
         return redirect('/login')
 
     # set old user
@@ -300,7 +307,7 @@ def delete_user():
 
         deleted_user.delete_user(email)
 
-        if username == Session(request.remote_addr).name():
+        if username == Session(external_ip()).name():
             logout()
             
         flash('User deleted')
@@ -334,7 +341,7 @@ def register_user():
 @app.route('/users')
 def show_users():
 
-    if is_user_logged_in(request.remote_addr):
+    if is_user_logged_in(external_ip()):
         pass
     else:
         return redirect('/login')
@@ -357,7 +364,7 @@ def show_users_filtered():
     filtering.'.
     """
 
-    if is_user_logged_in(request.remote_addr):
+    if is_user_logged_in(external_ip()):
         pass
     else:
         return redirect('/login')
@@ -400,6 +407,6 @@ def tasks(date_for, store_to_send, action):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, port=5000)
 
 
