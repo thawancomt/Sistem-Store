@@ -202,8 +202,7 @@ class DbConnection():
             if new_data[article_id] == 0:
                 generated_data[article_id] = old_data[article_id]
             else:
-                generated_data[article_id] = old_data[article_id] + \
-                    new_data[article_id]
+                generated_data[article_id] = int(old_data[article_id]) + int(new_data[article_id])
 
         self.db.table(store_name).update(
             {'production': generated_data}, Query().date == str(date))

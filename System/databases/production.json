@@ -10,5 +10,27 @@
                 "edamer": "00"
             }
         }
+    },
+    "Colombo": {
+        "1": {
+            "date": "2024-01-13",
+            "production": {
+                "big_ball": 250000,
+                "small_ball": 530000,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
+            }
+        },
+        "2": {
+            "date": "2024-01-11",
+            "production": {
+                "big_ball": 12,
+                "small_ball": 0,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0
+            }
+        }
     }
 }

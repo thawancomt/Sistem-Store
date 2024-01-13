@@ -32,12 +32,7 @@ new Chart(ctx, {
     tension: 0.16,
     pointHoverBackgroundColor: true,
     fill: false,
-    spanGaps: true,
-    scales: {
-      y: {
-        beginAtZero: false
-      }
-    }
+    spanGaps: true
   }
 });
 

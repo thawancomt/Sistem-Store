@@ -117,7 +117,7 @@
                             </div>
                         {% endfor %}
                     {% else  %}
-                        <h1 class="sub-title-primary">Empty to do list</h1>
+                        <h1 class="sub-title-primary line-through">Empty to do list</h1>
                     {% endif %}
                     
                     <h1 class="title-primary text-xl">Concluded tasks</h1>
@@ -134,10 +134,10 @@
 
                 <form action="/tasks/{{date_for}}/{{store_to_show}}/create" method="POST" class="mt-4">
                     <label for="task_to_send" class="sub-title-primary">Add some task</label>
-                    <input type="text" name="task_to_send">
+                    <input type="text" name="task_to_send" class="form-control-1">
 
                     <label for="task_to_send" class="sub-title-primary">description</label>
-                    <input type="text" name="task_description">
+                    <input type="text" name="task_description" class="form-control-1">
                     <button type="submit" class="btn-primary"> Create task </button>
                 </form>
                     
@@ -153,7 +153,7 @@
         <!-- Container -->
         <div class="w-5/6 border border-emerald-500">
             <div class="w-full h-8 flex items-center m-4">
-                <h1 class="font-bold text-emerald-500 text-2xl w-full">Enter the Production</h1>
+                <h1 class="font-bold text-emerald-500 text-2xl w-full">Insert the Production</h1>
             </div>
             <section class="flex w-full">
                 <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col w-3/6 m-4" method="POST" id="production-form">
@@ -190,8 +190,8 @@
                 <!-- Chart Js -->
                 
     
-                <div class="m-4 w-full">
-                    <canvas id="myChart" class=""></canvas>
+                <div class="m-4 w-full" >
+                    <canvas id="myChart" class="overflow-hidden"></canvas>
                 </div>
     
             </section>

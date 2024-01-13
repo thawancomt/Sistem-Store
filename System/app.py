@@ -141,7 +141,7 @@ def home(date_for, store_to_show):
     context['stores'] = Production.stores
 
     # Production context
-    context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -30)
+    context['weekly_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)
     context['dates'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)['dates']
 
     # Consume context
@@ -149,7 +149,7 @@ def home(date_for, store_to_show):
     context['consume_data'] = Consumes().create_data_to_consume_chart(int(store_to_show), date_for)
 
     # Check if the user is allowed to edit and visualize the store
-    if int(user_store) != int(store_to_show) and context['level'] != 'Administrador':
+    if int(user_store) != int(store_to_show) and context['level'] != 'admin':
             flash("You can't edit other store")
             return redirect('/homepage/')
     
@@ -177,7 +177,7 @@ def enter_production(date_for, store_to_send):
         data_to_send_production = {}
 
         for article_id, article_name in Production.articles.items():
-            data_to_send_production[article_id] = request.form.get(article_id, int(old_production[article_id]))
+            data_to_send_production[article_id] = request.form.get(article_id, 0)
 
         # Create a new production objetct, set the value and send it
         production = Production(date_for, data_to_send_production)
