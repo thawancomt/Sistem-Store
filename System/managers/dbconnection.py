@@ -168,12 +168,15 @@ class DbConnection():
             'garlic_bread': 0,
             'mozzarela': 0,
             'edamer': 0,
-
-
-        }
+            }
         for article, amount in data.items():
-            data[article] = int(amount)
             
+            if amount.isnumeric():
+                data[article] = int(amount)
+
+            # If the amount is not numeric, return false
+            return False
+
         if self.get_day_production(store, date) == default_day:
             self.db.table(store_name).insert({'date': str(date),
                                               'production': data})
