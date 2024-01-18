@@ -6,3 +6,6 @@
 /System/managers/__pycache__/users.cpython-311.pyc
 /venv
 myvenv
+tailwind
+*.css
+.vscode
