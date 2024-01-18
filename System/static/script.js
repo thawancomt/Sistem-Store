@@ -32,8 +32,16 @@ new Chart(ctx, {
     tension: 0.16,
     pointHoverBackgroundColor: true,
     fill: false,
-    spanGaps: true
-  }
+    spanGaps: true,
+    scales: {
+      y:{
+        beginAtZero: true
+      }
+      
+    }
+    
+  },
+  
 });
 
 new Chart(consumeChart, {
