@@ -7,3 +7,4 @@
 /venv
 myvenv
 .vscode
+tailwind/node_modules
