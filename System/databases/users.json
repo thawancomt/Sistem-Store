@@ -90,5 +90,14 @@
             "last_login": "",
             "when_created": "2023-12-26"
         }
+    },
+    "Odivelas": {
+        "1": {
+            "date": "22",
+            "thawan": {
+                "slices": 1,
+                "bread": 1
+            }
+        }
     }
 }

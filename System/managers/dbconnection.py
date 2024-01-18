@@ -28,8 +28,6 @@ class DbConnection():
         'edamer': 0,
     }
 
-    
-
     def __init__(self, db):
         self.db = TinyDB(db, indent=4)
 
@@ -173,6 +171,9 @@ class DbConnection():
 
 
         }
+        for article, amount in data.items():
+            data[article] = int(amount)
+            
         if self.get_day_production(store, date) == default_day:
             self.db.table(store_name).insert({'date': str(date),
                                               'production': data})
@@ -224,27 +225,38 @@ class DbConnection():
 
     def insert_consumes(self, who, date, store, data):
 
+        # Convert the data to int
+        for article, amount in data.items():
+            if not article == 'who_consume':
+                data[article] = int(amount)
+
         store_name = self.stores[store]
 
         result = self.get_day_consume(store, date)
 
-        del data['who_consume']
+        if data.get('who_consume'):
+            del data['who_consume']
 
         if result:
-            self.update_consume(who, date, store, result[0], data)
+            self.update_consume(who, date, store, data)
         else:
             self.db.table(store_name).insert({'date': date, who: data})
 
-    def update_consume(self, who, date, store, old_data, new_data):
+    def update_consume(self, who, date, store, new_data):
+
         store_name = self.stores[store]
 
-        try:
-            for key, value in old_data[who].items():
-                new_data[key] += value
-        except KeyError:
-            pass
+        if new_data:
 
-        self.db.table(store_name).update({who: new_data}, Query().date == date)
+            old_data = self.get_day_consume(store, date).get(who, {})
+
+
+            
+            for article, amount in old_data.items():
+                new_data[article] = int(new_data[article])
+                new_data[article] += int(amount)
+
+            self.db.table(store_name).update({who: new_data}, Query().date == date)
 
     def get_day_consume(self, store, date):
 
@@ -252,15 +264,20 @@ class DbConnection():
 
         result = self.db.table(store_name).search((Query().date == date))
 
+        # Delete the date key to return just the consume
         if result:
-            del result[0]['date']
-        return result
+            # Check if the result has a date key
+            if result[0].get('date'):
+                del result[0]['date']
+                
+            return result[0]
+        else:
+            return {}
 
     def insert_wasted(self, who, date, store, data):
         store_name = self.stores[store]
 
-        result = self.db.table(store_name).search(
-            Query().date == date)
+        result = self.db.table(store_name).search(Query().date == date)
 
         # delete the who_consume key to send directly to the database
         del data['who_consume']
@@ -272,16 +289,14 @@ class DbConnection():
 
     def update_wasted(self, who, date, store, data):
         store_name = self.stores[store]
-
+        old_data = {}
         result = self.db.table(store_name).search(Query().date == date)
 
         new_data = data
         try:
-            old_data = result[0][who]
-
-            for item, value in old_data.items():
-                new_data[item] += int(old_data[item])
-        except:
+            for key, value in old_data[who].items():
+                new_data[key] += value
+        except KeyError:
             pass
 
     def create_task(self, date, store, task, description = ''):
@@ -416,5 +431,6 @@ class DbConnection():
     
 
 if __name__ == '__main__':
-    teste = DbConnection('System/databases/users.json')
-    teste.delete_user('tiago@gmail.com')
+    teste = DbConnection('System/databases/consumes.json')
+    # print(teste.get_day_consume(5, '2024-01-18'))
+    teste.insert_consumes('thawan2', '2024-01-18', 5, {'slices' : 2, 'bread' : -1})

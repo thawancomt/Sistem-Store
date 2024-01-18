@@ -1,55 +1,13 @@
 {
-    "Campo de Ourique": {
-        "1": {
-            "date": "2024-01-01",
-            "production": {
-                "big_ball": "20",
-                "small_ball": "003",
-                "garlic_bread": "00",
-                "mozzarela": "00",
-                "edamer": "00"
-            }
-        }
-    },
     "Colombo": {
         "1": {
-            "date": "2024-01-13",
+            "date": "2024-01-18",
             "production": {
-                "big_ball": 0,
-                "small_ball": 0,
-                "garlic_bread": 0,
-                "mozzarela": 0,
-                "edamer": 0
-            }
-        },
-        "2": {
-            "date": "2024-01-11",
-            "production": {
-                "big_ball": 12,
-                "small_ball": 0,
-                "garlic_bread": 0,
-                "mozzarela": 0,
-                "edamer": 0
-            }
-        },
-        "3": {
-            "date": "2024-01-12",
-            "production": {
-                "big_ball": "047",
-                "small_ball": "58",
-                "garlic_bread": "0",
-                "mozzarela": "0",
-                "edamer": "0"
-            }
-        },
-        "4": {
-            "date": "2024-01-13",
-            "production": {
-                "big_ball": "12",
-                "small_ball": "32",
-                "garlic_bread": "011",
-                "mozzarela": "0",
-                "edamer": "0"
+                "big_ball": 10,
+                "small_ball": 6,
+                "garlic_bread": 2,
+                "mozzarela": 7,
+                "edamer": 5
             }
         }
     }

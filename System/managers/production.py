@@ -137,10 +137,7 @@ class Consumes():
     def create_data_to_consume_chart(self, store, date):
 
         # Try to get already consumed amount, if indexError, return empty values
-        try:
-            workers_consume = self.get_consume_by_day(store, date)[0]
-        except IndexError:
-            workers_consume = self.get_consume_by_day(store, date)
+        workers_consume = self.get_consume_by_day(store, date)
 
         # Base to send to the chartJS
         result = {'data': [],
@@ -158,14 +155,14 @@ class Consumes():
 
         # Create the data by consumes amount
         for worker in workers_labels:
-            bread_label.append(workers_consume[worker]['bread'])
-            slices_label.append(workers_consume[worker]['slices'])
+            bread_label.append(workers_consume[worker])
+            slices_label.append(workers_consume[worker])
 
         # Add to result the consumed data
         result['data'].append({'label':  'Garlic Bread', 'data': bread_label})
         result['data'].append({'label':  'Slices', 'data': slices_label})
 
-        # Add to result the workers list
+        # Add to result the workers list                             
         result['workers'] = workers_labels
 
         return result
@@ -176,6 +173,7 @@ if __name__ == '__main__':
     from dbconnection import DbConnection
 
     teste = Consumes()
+    print(teste.create_data_to_consume_chart(5, '2024-01-18'))
 
 
 class Wasted():
@@ -187,6 +185,11 @@ class Wasted():
 
     def enter_wasted(self):
         return DbConnection('System/databases/waste.json').insert_wasted(who=self.worker,
+                                            date=self.date_for,
+                                            store=self.store,
+                                            data=self.data)
+    def update_wasted(self):
+        return DbConnection('System/databases/waste.json').update_wasted(who=self.worker,
                                             date=self.date_for,
                                             store=self.store,
                                             data=self.data)

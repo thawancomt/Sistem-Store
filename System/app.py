@@ -177,7 +177,6 @@ def home(date_for, store_to_show):
 def enter_production(date_for, store_to_send):
 
     if request.method == 'POST':
-
         # Get the old production data
         old_production = Production(date_for).get_already_produced(store_to_send)
 
@@ -222,14 +221,15 @@ def enter_waste(date_for, store_to_send):
     if request.method == 'POST':
         # Get the data from the form and delete the who consume
         data = request.form.to_dict()
-        del data['who_consume']
 
         # create a new variable to receive who consume separately
         who = data['who_consume']
 
+        # delete the who consume from the data
+        if data.get('who_consume'):
+            del data['who_consume']
         
         for article, article_amount in data.items():
-            
             if article_amount == '':
                 data[article] = 0
             else:
