@@ -172,8 +172,10 @@ if __name__ == '__main__':
 
     from dbconnection import DbConnection
 
-    teste = Consumes()
-    print(teste.create_data_to_consume_chart(5, '2024-01-18'))
+    teste = Production('29')
+    teste.store = '5'
+    teste.data = {'teste' : 12}
+    teste.send_production()
 
 
 class Wasted():
