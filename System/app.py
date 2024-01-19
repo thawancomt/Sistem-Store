@@ -331,6 +331,7 @@ def register_user():
 
         if CreateUser(new_user).create_user():
             flash(True)
+            return redirect('/login')
         else:
             flash(False)
 

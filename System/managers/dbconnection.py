@@ -9,7 +9,7 @@ class DbConnection():
         'level',
         'email',
         'store',
-        'when_created',
+        'when_was_created',
         'last_login'
     ]
 
