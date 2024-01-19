@@ -182,13 +182,15 @@ class DbConnection():
             'edamer': 0,
             }
         for article, amount in data.items():
-
             if amount.isnumeric():
-                print(amount.isnumeric(), amount)
-                data[article] = int(amount)
+                amount = int(amount)
+                data[article] = amount
             else:
-                # If the amount is not numeric, return false
-                return False
+                try:
+                    data[article] = int(amount)
+                except:
+                    return False
+            
 
         if self.get_day_production(store, date) == default_day:
             self.db.table(store_name).insert({'date': str(date),
@@ -240,11 +242,13 @@ class DbConnection():
             return self.default_production
 
     def insert_consumes(self, who, date, store, data):
-
-        # Convert the data to int
         for article, amount in data.items():
-            if not article == 'who_consume':
+            if amount.isnumeric():
                 data[article] = int(amount)
+            else:
+                # If the amount is not numeric, return false
+                return False
+           
 
         store_name = self.stores[store]
 
@@ -269,7 +273,6 @@ class DbConnection():
 
             
             for article, amount in old_data.items():
-                new_data[article] = int(new_data[article])
                 new_data[article] += int(amount)
 
             self.db.table(store_name).update({who: new_data}, Query().date == date)
@@ -289,14 +292,31 @@ class DbConnection():
             return result[0]
         else:
             return {}
-
-    def insert_wasted(self, who, date, store, data):
+        
+    def get_wasted(self, store, date):
         store_name = self.stores[store]
 
         result = self.db.table(store_name).search(Query().date == date)
 
+        if result:
+            return result[0]
+        return {}
+
+    def insert_wasted(self, who, date, store, data):
+
+        for article, amount in data.items():
+                if amount.isnumeric():
+                    data[article] = int(amount)
+                
+                
+            
+        store_name = self.stores[store]
+
+        result = self.get_wasted(store, date)
+
         # delete the who_consume key to send directly to the database
-        del data['who_consume']
+        if data.get('who_consume'):
+            del data['who_consume']
 
         if result:
             self.update_wasted(who, date, store, data)
@@ -304,16 +324,18 @@ class DbConnection():
             self.db.table(store_name).insert({'date': date, who: data})
 
     def update_wasted(self, who, date, store, data):
-        store_name = self.stores[store]
-        old_data = {}
-        result = self.db.table(store_name).search(Query().date == date)
 
-        new_data = data
-        try:
-            for key, value in old_data[who].items():
-                new_data[key] += value
-        except KeyError:
-            pass
+        store_name = self.stores[store]
+
+        if data:
+            old_data = self.get_wasted(store, date).get(who, {})
+
+            for article, amount in old_data.items():
+                data[article] += int(amount)
+        
+            self.db.table(store_name).update({who: data}, Query().date == date)
+            
+        
 
     def create_task(self, date, store, task, description = ''):
 
@@ -446,6 +468,3 @@ class DbConnection():
             return []
     
 
-if __name__ == '__main__':
-    teste = DbConnection('System/databases/users.json')
-    print(teste.get_all_users())

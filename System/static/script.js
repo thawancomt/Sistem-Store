@@ -11,7 +11,7 @@ function enterProduction () {
 
 btnProduction.addEventListener('click', function() {
     if (enterProduction()) {
-        productionForm.submit();
+        productionForm.getAttribute('value')
     }
 })
 
