@@ -329,7 +329,11 @@ def register_user():
         new_user.last_login = ''
         new_user.when_was_created = str(date.today())
 
-        CreateUser(new_user)
+        if CreateUser(new_user).create_user():
+            flash(True)
+        else:
+            flash(False)
+
 
     context = {}
     context['data'] = user_data()

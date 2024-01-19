@@ -45,7 +45,7 @@ class CreateUser(User):
 
         super().__init__()
 
-        data = {
+        self.data = {
             'username': who.username,
             'password': who.password,
             'email': who.email,
@@ -55,7 +55,11 @@ class CreateUser(User):
             'when_created': who.when_was_created,
         }
 
-        DbConnection('System/databases/users.json').insert_user(data)
+    def create_user(self):
+        if DbConnection('System/databases/users.json').insert_user(self.data):
+            return True
+        else:
+            return False
 
 
 class Login(DbConnection):

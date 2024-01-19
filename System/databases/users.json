@@ -1,0 +1,49 @@
+{
+    "Colombo": {
+        "1": {
+            "username": "thawancomt@gmail.com1",
+            "password": "Dez1633#",
+            "email": "thawancomt@gmail.com1",
+            "store": 3,
+            "level": "admin",
+            "last_login": "",
+            "when_created": "2024-01-19"
+        },
+        "2": {
+            "username": "thawancomt@gmail.com",
+            "password": "Dez1633#",
+            "email": "thawancomt@gmail.com",
+            "store": 3,
+            "level": "admin",
+            "last_login": "",
+            "when_created": "2024-01-19"
+        },
+        "3": {
+            "username": "thawancomt@gmail.com5",
+            "password": "Dez1633#",
+            "email": "thawancomt@gmail.com5",
+            "store": 3,
+            "level": "admin",
+            "last_login": "",
+            "when_created": "2024-01-19"
+        },
+        "4": {
+            "username": "thawancomt@gmail.com66",
+            "password": "Dez1633#",
+            "email": "thawancomt@gmail.com55",
+            "store": 3,
+            "level": "admin",
+            "last_login": "",
+            "when_created": "2024-01-19"
+        },
+        "5": {
+            "username": "thawancomt@gmail.comg",
+            "password": "Dez1633#",
+            "email": "thawancomt@gmail.comt",
+            "store": 3,
+            "level": "admin",
+            "last_login": "",
+            "when_created": "2024-01-19"
+        }
+    }
+}

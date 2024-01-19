@@ -30,14 +30,19 @@ class DbConnection():
 
     def __init__(self, db):
         self.db = TinyDB(db, indent=4)
+        self.tables = self.db.tables()
 
     def search_username(self, username):
-        result = self.db.search(Query().username == username)
-        return result
+        for table in self.tables:
+            result = self.db.table(table).search(Query().username == username)
+            if result:
+                return result
 
     def search_email(self, email):
-        result = self.db.search(Query().email == email)
-        return result
+        for table in self.tables:
+            result = self.db.table(table).search(Query().email == email)
+            if result:
+                return result
 
     def insert_user(self, data):
         """Insert a new user into the database
@@ -48,6 +53,7 @@ class DbConnection():
         Returns:
             bool: True if successful inserted, false otherwise 
         """
+        store_name = self.stores[data['store']]
         data_to_insert = {}
 
         username = data['username']
@@ -60,16 +66,14 @@ class DbConnection():
                 else:
                     pass
                 
-            self.db.insert(data_to_insert)
+            self.db.table(store_name).insert(data_to_insert)
             return True
+        else:
+            return False
 
     def check_user_exist(self, username: str = '', email: str = ''):
 
-        if not self.search_username(username):
-            if self.search_email(email):
-                return True
-        else:
-            return True
+        return True if self.search_username(username) or self.search_email(email) else False
 
     # A class User need to be passed into the constructor
 
@@ -435,6 +439,5 @@ class DbConnection():
     
 
 if __name__ == '__main__':
-    teste = DbConnection('System/databases/consumes.json')
-    # print(teste.get_day_consume(5, '2024-01-18'))
-    teste.insert_consumes('thawan2', '2024-01-18', 5, {'slices' : 2, 'bread' : -1})
+    teste = DbConnection('System/databases/users.json')
+    print(teste.check_user_exist('thawancomt@gmail.com'))

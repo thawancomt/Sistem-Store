@@ -50,8 +50,29 @@
             </select>
 
             <!-- <input type="checkbox" name="admin" id=""> -->
-
+            
             <button type="submit" class="btn-primary">Enter</button>
+
+            {# Section to show result of creation of user #}
+            <div class="h-5">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+
+                        {% if message %}
+                            <div>
+                                <p class="text-emerald-400"> User Created </p>
+                            </div>
+                        {% else %}
+                            <div>
+                                <p class="text-red-500"> User not created </p>
+                            </div>
+                        {% endif %}
+                        
+                        {% endfor %}
+            {% endif  %}
+    {% endwith %}
+            </div>
 
             </form>
             <div class="w-full flex justify-center">

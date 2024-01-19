@@ -37,19 +37,19 @@
 {% block content  %}
     <!-- Can´t edit if not admin -->
     {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
+            {% if messages %}
+                {% for message in messages %}
 
-                    <div class="w-full flex justify-center">
-                        <div class="w-5/6 h-48 border border-emerald-500 m-4">
-                            <h1 class="m-4 text-white"> {{ message }}</h1>
-                        </div>
-                        
+                <div class="w-full flex justify-center">
+                    <div class="w-5/6 h-48 border border-emerald-500 m-4">
+                        <h1 class="m-4 text-white"> {{ message }}</h1>
                     </div>
-                        
-                    {% endfor %}
-                {% endif  %}
-            {% endwith %}
+                    
+                </div>
+                    
+                {% endfor %}
+            {% endif  %}
+    {% endwith %}
     
     <!-- Search Bar if admin -->
     {% if context['level'] == 'admin'%}
