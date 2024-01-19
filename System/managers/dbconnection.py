@@ -305,7 +305,7 @@ class DbConnection():
     def insert_wasted(self, who, date, store, data):
 
         for article, amount in data.items():
-                if amount.isnumeric():
+                if str(amount).isnumeric():
                     data[article] = int(amount)
                 
                 
