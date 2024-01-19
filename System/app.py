@@ -230,11 +230,14 @@ def enter_waste(date_for, store_to_send):
         if data.get('who_consume'):
             del data['who_consume']
         
+        # Before the treat of inputed data was here, but i change the treat handler to the dbmanager
+        # If some value is not int, the db return False and dont insert the consume
+            
         for article, article_amount in data.items():
             if article_amount == '':
                 data[article] = 0
             else:
-                data[article] = int(article_amount)
+                data[article] = article_amount
 
         wasted = Wasted(date_for=date_for, store=int(store_to_send))
 
