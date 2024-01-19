@@ -177,6 +177,7 @@ def home(date_for, store_to_show):
 def enter_production(date_for, store_to_send):
 
     if request.method == 'POST':
+        # return request.form.to_dict()
         # Get the old production data
         old_production = Production(date_for).get_already_produced(store_to_send)
 

@@ -242,12 +242,18 @@ class DbConnection():
             return self.default_production
 
     def insert_consumes(self, who, date, store, data):
+        if data.get('who_consume'):
+            del data['who_consume']
         for article, amount in data.items():
+
             if amount.isnumeric():
-                data[article] = int(amount)
+                amount = int(amount)
+                data[article] = amount
             else:
-                # If the amount is not numeric, return false
-                return False
+                try:
+                    data[article] = int(amount)
+                except:
+                    return False
            
 
         store_name = self.stores[store]

@@ -1,16 +1,7 @@
 {
     "Colombo": {
         "1": {
-            "username": "thawancomt@gmail.com1",
-            "password": "Dez1633#",
-            "email": "thawancomt@gmail.com1",
-            "store": 3,
-            "level": "admin",
-            "last_login": "",
-            "when_created": "2024-01-19"
-        },
-        "2": {
-            "username": "thawancomt@gmail.com",
+            "username": "Thawan",
             "password": "Dez1633#",
             "email": "thawancomt@gmail.com",
             "store": 3,
@@ -18,29 +9,22 @@
             "last_login": "",
             "when_created": "2024-01-19"
         },
-        "3": {
-            "username": "thawancomt@gmail.com5",
+        "2": {
+            "username": "Igor Menezes",
             "password": "Dez1633#",
-            "email": "thawancomt@gmail.com5",
+            "email": "igormenezes@gmail.com",
             "store": 3,
-            "level": "admin",
+            "level": "worker",
             "last_login": "",
             "when_created": "2024-01-19"
-        },
-        "4": {
-            "username": "thawancomt@gmail.com66",
+        }
+    },
+    "Campo de Ourique": {
+        "1": {
+            "username": "Marina",
             "password": "Dez1633#",
-            "email": "thawancomt@gmail.com55",
-            "store": 3,
-            "level": "admin",
-            "last_login": "",
-            "when_created": "2024-01-19"
-        },
-        "5": {
-            "username": "thawancomt@gmail.comg",
-            "password": "Dez1633#",
-            "email": "thawancomt@gmail.comt",
-            "store": 3,
+            "email": "marina@gmail.com",
+            "store": 11,
             "level": "admin",
             "last_login": "",
             "when_created": "2024-01-19"
