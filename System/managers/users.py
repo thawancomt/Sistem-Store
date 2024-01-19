@@ -3,7 +3,7 @@ from tinydb import Query
 
 from managers.dbconnection import DbConnection
 
-class User():
+class User(DbConnection):
     permissive_keys = ['username', 'password',
                        'level', 'email', 'store', 'last_login']
     levels_of_users = [
@@ -20,6 +20,7 @@ class User():
         self.last_login = None
         self.level = None
         self.when_was_created = None
+        super().__init__('System/databases/users.json')
 
     def get_user_data(self, who):
         result = DbConnection('System/databases/users.json').get_user_data(who)
@@ -70,9 +71,10 @@ class Login(DbConnection):
         self.password = who.password
 
     def validate(self):
-        if self.db.search((Query().email == self.email) &
-                          (Query().password == self.password)):
-            return True
+        for table in self.db.tables():
+            if self.db.table(table).search((Query().email == self.email) &
+                            (Query().password == self.password)):
+                return True
         else:
             return False
 

@@ -118,27 +118,35 @@ class DbConnection():
 
         # Try to get the user by username, if it is a empty dict then try to get by email
         try:
-            by_username = self.db.search(Query().username == who.username)
-            by_email = self.db.search(Query().email == who.email)
-            if not by_username:
-                return by_email[0]
-            else:
-                return by_username[0]
+            for table in self.tables:
+                by_username = self.db.table(table).search(Query().username == who.username)
+                by_email = self.db.table(table).search(Query().email == who.email)
+                
+                if by_username:
+                    return by_username[0]
+                elif by_email:
+                    return by_email[0]
 
         # Dont need error thrating
         except:
             return guest
 
     def get_all_users(self):
-        users = self.db.search(Query().username != '')
+        users = []
+        for table in self.tables:
+            users_temp = self.db.table(table).search(Query().username != '')
+
+            for user in users_temp:
+                if user:
+                    users.append(user)
+        
         new_users_protected = []
 
         # For security reasons the password is deleted before returning
         for user in users:
-            del user['password']
             new_users_protected.append(user)
 
-        return new_users_protected
+        return users
 
     def get_users_by_search(self, search):
         users = self.get_all_users()
@@ -440,4 +448,4 @@ class DbConnection():
 
 if __name__ == '__main__':
     teste = DbConnection('System/databases/users.json')
-    print(teste.check_user_exist('thawancomt@gmail.com'))
+    print(teste.get_all_users())
