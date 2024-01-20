@@ -20,3 +20,10 @@ Gestao de erros:
 
 Sistema de controle de produção, com exibição da produção ja lançada no dia:
 ![image](https://github.com/thawancomt/Sistem-Store/assets/131563700/ed10033d-1e20-49fa-947d-4bc3835ed022)
+
+Instalação:
+1 - Selecione seu ambiente virtual, caso queira
+2 - Instale os requisitos do Python
+    pip install -r requirements.txt
+3 - Execute o App Flask
+    python -u System/app.py
