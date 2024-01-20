@@ -23,7 +23,9 @@ Sistema de controle de produção, com exibição da produção ja lançada no d
 
 Instalação:
 1 - Selecione seu ambiente virtual, caso queira
+
 2 - Instale os requisitos do Python
     pip install -r requirements.txt
-3 - Execute o App Flask
+    
+3 - Execute o App Flask                                                                      
     python -u System/app.py
