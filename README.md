@@ -35,8 +35,6 @@ Python, Flask, TinyDB, HTML, CSS...
 
 ## Installation
 
-Install my-project with npm
-
 ```bash
     pip install -r requirements.txt                                                                
     python -u System/app.py
