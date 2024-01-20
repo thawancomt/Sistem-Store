@@ -18,7 +18,7 @@
                 
                 <label for="" class="text-white font-semibold">Actual email</label>
                 <input type="text" name="old_email" placeholder="{{context['old_data']['email']}}" class="select-primary w-4/6" disabled>
-                <select name="" id="" class="mt-4 select-primary w-3/6">
+                <select name="" id="" class="mt-4 select-primary w-4/6">
                     {% for store_id, store_name in context['data']['stores'].items() %}
                         {% if store_id == context['old_data']['store'] %}
                             <option value="{{store_id}}">{{store_name}}</option>
@@ -45,13 +45,16 @@
                 <label for="" class="text-white font-semibold">New  email</label>
                 <input type="text" name="new_email" id="" placeholder="{{context['old_data']['email']}}" class="select-primary w-4/6">
                 
-                <select name="new_store" id="" class="mt-4 select-primary w-3/6">
-                    {% for store_id, store_name in context['data']['stores'].items() %}
-                        <option value="{{store_id}}">{{store_name}}</option>
-
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn-primary">Send</button>
+                <div class="flex w-4/6 space-x-2">
+                    <select name="new_store" id="" class="mt-4 select-primary w-3/6">
+                        {% for store_id, store_name in context['data']['stores'].items() %}
+                            <option value="{{store_id}}">{{store_name}}</option>
+    
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn-primary w-3/6 h-12 rounded-md">Send</button>
+                </div>
+                
             </form>
     
         </div>
@@ -62,7 +65,7 @@
         <form action="/delete/user/" method="POST">
             <input type="hidden" name="old_username" value="{{context['username']}}">
             <input type="hidden" name="old_email" value="{{context['email']}}">
-            <button type="submit" class="btn-primary">Delete</button>
+            <button type="submit" class="btn-primary w-3/12">Delete</button>
         </form>
     </div>
 
