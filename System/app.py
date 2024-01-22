@@ -15,17 +15,6 @@ def external_ip():
     return request.headers.get('X-Forwarded-For')
 
 def user_data(date_for = '', store_to_show = 0):
-    
-    """
-    This function is used to create a dictionary with all the data that is use
-    to get the user data. This function is used to avoid the repetition of code
-    
-    :param date_for: The date to get the data
-    :param store_to_show: The store to get the data
-
-    :return: A dictionary with all the data
-
-    """
 
     data = {}
 
@@ -414,8 +403,13 @@ def tasks(date_for, store_to_send, action):
         return redirect(f'/homepage/{date_for}/{store_to_send}')
 
 
+@app.route('/stock')
+def stock():
+    context = {}
+    context['data'] = user_data(1, 5)
+
+    return render_template('/store/stock_page.html', context=context)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
-
-
