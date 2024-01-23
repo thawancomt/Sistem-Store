@@ -474,3 +474,7 @@ class DbConnection():
             return []
     
 
+    def insert_stock(self, data):
+        self.db = TinyDB('System/databases/stock.json', indent=4)
+        
+        self.db.insert(data)
