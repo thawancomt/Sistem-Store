@@ -1,1 +1,6 @@
 {% extends "base.html" %}
+
+{% for article in context.articles %}
+    <label for="{{article}}">{{article}}</label>
+    <input type="text" name="{{article}}">
+{% endfor %}

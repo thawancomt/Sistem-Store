@@ -1,7 +1,7 @@
 if __name__ == '__main__' or __name__ == 'stock.py':
     from dbconnection import DbConnection
 else:
-    from System.managers.dbconnection import DbConnection
+    from managers.dbconnection import DbConnection
 
 class Stock():
     pass

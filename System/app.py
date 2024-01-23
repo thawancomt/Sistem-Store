@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
 from managers.production import Production, Consumes, Wasted
+from managers.stock import StockArticles
 from managers.analyses import Analyze
 from managers.stores_management import Store
 
@@ -46,7 +47,7 @@ def ip():
     return f'{request.headers.get("X-Forwarded-For")}'
 
 
-
+                                                           
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -407,6 +408,7 @@ def tasks(date_for, store_to_send, action):
 def stock():
     context = {}
     context['data'] = user_data(1, 5)
+    context['articles'] = StockArticles().get_all_articles()
 
     return render_template('/store/stock_page.html', context=context)
 
