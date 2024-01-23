@@ -31,7 +31,10 @@ class StockArticles(DbConnection):
         self.articles_names = self.get_all_articles()
 
     def get_all_articles(self) -> list:
-        return self.db.table('articles').all()[0].get('articles')
+        if 'articles' in self.db.tables():
+            return self.db.table('articles').all()[0].get('articles', [])
+        else:
+            return []
     
     def check_if_articles_exist(self, article_name) -> bool:
         articles = self.get_all_articles()
@@ -56,12 +59,15 @@ class StockArticles(DbConnection):
         new_data = old_data
         new_data.append(article_name)
 
-        if self.check_if_articles_exist(article_name):
-            print('Articles already exist')
-            return False
+        if old_data:
+            if self.check_if_articles_exist(article_name):
+                print('Articles already exist')
+                return False
+            else:
+                self.update_articles(new_data)
+                return True
         else:
-            self.update_articles(new_data)
-            return True
+            return False
     
     def insert_multiples_articles(self, articles, duplicated = False) -> None:
         """
@@ -207,19 +213,22 @@ class StoreStock(StockArticles):
         return self.db.table(store_name).update(self.generated_data(store, date, data))
 
     def enter_stock(self, store, date, data):
+
         store_name = DbConnection.get_store_name(int(store))
         old_stock_count = StoreStock().get_store_stock(store)
+        if old_stock_count:
+            if isinstance(data, dict):
+                for article, amount in data.items():
+                    old_stock_count[article] = amount
 
-        if isinstance(data, dict):
-            for article, amount in data.items():
-                old_stock_count[article] = amount
-
-        new_stock_count = old_stock_count
+            new_stock_count = old_stock_count
 
 
-        self.update_store_count(store, date, new_stock_count)
+            self.update_store_count(store, date, new_stock_count)
+        else:
+            return False
 
 
 
 teste = StoreStock()
-print(teste.enter_stock(5, 0, {'bacon' : 12}))
+print(teste.get_store_stock(5))
