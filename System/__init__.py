@@ -1,3 +1,2 @@
-a = '-1'
-
-print(int(a))
+from datetime import datetime
+print(str(datetime.today()))

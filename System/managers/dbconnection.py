@@ -31,6 +31,10 @@ class DbConnection():
     def __init__(self, db):
         self.db = TinyDB(db, indent=4)
         self.tables = self.db.tables()
+    
+    @staticmethod
+    def get_store_name(store_id):
+        return DbConnection.stores.get(store_id)
 
     def search_username(self, username):
         for table in self.tables:

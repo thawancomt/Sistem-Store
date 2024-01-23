@@ -406,6 +406,8 @@ def tasks(date_for, store_to_send, action):
 
 @app.route('/stock')
 def stock():
+    if not is_user_logged_in(external_ip()):
+        return redirect('/login')
     context = {}
     context['data'] = user_data(1, 5)
     context['articles'] = StockArticles().get_all_articles()

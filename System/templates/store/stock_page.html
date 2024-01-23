@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
-{% for article in context.articles %}
-    <label for="{{article}}">{{article}}</label>
-    <input type="text" name="{{article}}">
-{% endfor %}
+{% block content %}
+    <div class="flex">
+        {% if context.articles %}
+            <form action="" class="flex flex-col">
+                {% for article in context.articles %}
+                <label for="{{article}}" class="sub-title-primary">{{article}}</label>
+                <input type="text" name="{{article}}" class="form-control-1">
+                {% endfor %}
+            </form>
+        {% endif %}
+    </div>
+    
+{% endblock content %}
+

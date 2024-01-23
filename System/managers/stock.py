@@ -3,12 +3,32 @@ if __name__ == '__main__' or __name__ == 'stock.py':
 else:
     from managers.dbconnection import DbConnection
 
+from datetime import datetime
+from tinydb import Query
+
+def get_timestamp(date = 0):
+
+    if not date:
+        date = str(datetime.today())
+
+    date_obj = datetime.strptime(date,'%Y-%m-%d %H:%M:%S.%f')
+    return date_obj.timestamp()
+
+
+
 class Stock():
     pass
 
 class StockArticles(DbConnection):
+    """
+    Use this class to create, edit, update or delete the articles
+    of the DB
+    """
+
     def __init__(self, db = 'System/databases/stock.json'):
         super().__init__(db)
+
+        self.articles_names = self.get_all_articles()
 
     def get_all_articles(self) -> list:
         return self.db.table('articles').all()[0].get('articles')
@@ -112,3 +132,94 @@ class StockArticles(DbConnection):
                 not_founded_articles.append(article)
 
         print(f'These articles was not found {not_founded_articles}')
+
+class StoreStock(StockArticles):
+    """
+    Use this class to create, edit, delete or update in the 
+    Store Stock DB
+    """
+    def __init__(self, db='System/databases/stock.json'):
+        super().__init__(db)
+
+    def generated_data(self, store, date, data):
+        return {'store' : store, 
+                'date' : get_timestamp(date),
+                'articles' : data}
+    
+    def check_if_store_exist(self, store):
+        """
+        This function check if the store exist in DB
+        store: str
+        return: bool
+        """
+        store_name = DbConnection.stores.get(int(store))
+
+        if store_name in self.db.tables():
+            return True
+        else:
+            return False
+
+    def create_store_stock(self, store, date = 0):
+        """
+        This function create a new table with the store articles in DB
+        store: str
+        return: None
+        """
+
+        store_name = DbConnection.get_store_name(int(store))
+
+        stock_count = {}
+        articles = self.articles_names
+
+        for article in articles:
+            stock_count[article] = 0
+
+        if self.check_if_store_exist(store):
+            print('Store already exist')
+        else:
+            self.db.table(store_name).insert(self.generated_data(store, date, stock_count))
+
+    def reset_stock_count(self, store, date = 0):
+        store_name = DbConnection.get_store_name(store)
+
+        reseted_stock = {}
+        articles = self.articles_names
+
+        for article in articles:
+            reseted_stock[article] = 0
+
+        if self.check_if_store_exist(store):
+            self.db.table(store_name).update(self.generated_data(store, date, reseted_stock))
+
+        else:
+            print("This store, doesn't exist")
+
+    # TO DO @staticmethod
+    def get_store_stock(self, store):
+        store_name = DbConnection.get_store_name(int(store))
+
+        stock_count = StoreStock().db.table(store_name).search(Query().store == int(store))
+        return  stock_count[0].get('articles', []) if stock_count else []
+
+    def update_store_count(self, store, date, data):
+        store_name = DbConnection.get_store_name(int(store))
+
+        return self.db.table(store_name).update(self.generated_data(store, date, data))
+
+    def enter_stock(self, store, date, data):
+        store_name = DbConnection.get_store_name(int(store))
+        old_stock_count = StoreStock().get_store_stock(store)
+
+        if isinstance(data, dict):
+            for article, amount in data.items():
+                old_stock_count[article] = amount
+
+        new_stock_count = old_stock_count
+
+
+        self.update_store_count(store, date, new_stock_count)
+
+
+
+teste = StoreStock()
+print(teste.enter_stock(5, 0, {'bacon' : 12}))
