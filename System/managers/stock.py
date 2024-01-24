@@ -31,6 +31,7 @@ class StockArticles(DbConnection):
         self.articles_names = self.get_all_articles()
 
     def get_all_articles(self) -> list:
+
         if 'articles' in self.db.tables():
             return self.db.table('articles').all()[0].get('articles', [])
         else:
@@ -39,10 +40,12 @@ class StockArticles(DbConnection):
     def check_if_articles_exist(self, article_name) -> bool:
         articles = self.get_all_articles()
 
-        if article_name in articles:
-            return True
-        else:
-            return False
+        if articles:
+
+            if article_name in articles:
+                return True
+            else:
+                return False
         
     def insert_new_article(self, article_name) -> bool:
 
@@ -54,20 +57,35 @@ class StockArticles(DbConnection):
         return: bool
         """
         
+        if isinstance(article_name, list):
+            print("You are passing a list, but this function just suport one 1 article each, calling insert_multiples_articles")
+            self.insert_multiples_articles(article_name)
+            return True
+        
+        if not isinstance(article_name, str):
+            print("You are passing a invalid type, just str or list is accepted")
+            return False
+        
         old_data = self.get_all_articles()
 
-        new_data = old_data
-        new_data.append(article_name)
+        new_data = [article_name]
+        
 
         if old_data:
+
+            new_data = old_data
+            
+
             if self.check_if_articles_exist(article_name):
                 print('Articles already exist')
                 return False
             else:
+                new_data.append(article_name)
                 self.update_articles(new_data)
                 return True
         else:
-            return False
+            self.update_articles(new_data)
+            return True
     
     def insert_multiples_articles(self, articles, duplicated = False) -> None:
         """
@@ -79,11 +97,9 @@ class StockArticles(DbConnection):
 
         duplicated_articles = list()
 
-        for article in articles:
-            if self.insert_new_article(article):
-                pass
-            else:
-                duplicated_articles.append(article)
+        if isinstance(articles, list):
+            for article in articles:
+                self.insert_new_article(article)
     
     def update_articles(self, new_data) -> None:
         """
@@ -91,8 +107,14 @@ class StockArticles(DbConnection):
         new_data : list
         """
         old_articles = self.get_all_articles()
+        new_articles_data = []
 
-        return self.db.table('articles').update({'articles' : new_data})
+        if old_articles:
+            return self.db.table('articles').update({'articles' : new_data})
+        else:
+            return self.db.table('articles').insert({'articles' : new_data})
+
+        
     
     def delete_article(self, article_name):
         """
@@ -230,5 +252,5 @@ class StoreStock(StockArticles):
 
 
 
-teste = StoreStock()
-print(teste.get_store_stock(5))
+teste = StockArticles()
+teste.insert_new_article({'teste' : 1})
