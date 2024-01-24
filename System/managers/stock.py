@@ -205,7 +205,8 @@ class StoreStock(StockArticles):
         if self.check_if_store_exist(store):
             print('Store already exist')
         else:
-            self.db.table(store_name).insert(self.generated_data(store, date, stock_count))
+            self.db.table(store_name).insert(self.generated_data(int(store), date, stock_count))
+            return stock_count
 
     def reset_stock_count(self, store, date = 0):
         store_name = DbConnection.get_store_name(store)
@@ -227,7 +228,8 @@ class StoreStock(StockArticles):
         store_name = DbConnection.get_store_name(int(store))
 
         stock_count = StoreStock().db.table(store_name).search(Query().store == int(store))
-        return  stock_count[0].get('articles', []) if stock_count else []
+
+        return stock_count[0].get('articles', []) if stock_count else self.create_store_stock(int(store))
 
     def update_store_count(self, store, date, data):
         store_name = DbConnection.get_store_name(int(store))
@@ -238,6 +240,7 @@ class StoreStock(StockArticles):
 
         store_name = DbConnection.get_store_name(int(store))
         old_stock_count = StoreStock().get_store_stock(store)
+        
         if old_stock_count:
             if isinstance(data, dict):
                 for article, amount in data.items():

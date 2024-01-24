@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="flex">
+    <div class="flex m-4 border">
         {% if context.articles %}
-            <form action="" class="flex flex-col">
+            <form action="" class="flex-col" method="POST">
                 {% for article in context.articles %}
                 <label for="{{article}}" class="sub-title-primary">{{article}}</label>
-                <input type="text" name="{{article}}" class="form-control-1">
+                <input type="text" name="{{article}}" class="form-control-1" value="{{context.store_stock.get(article, 0)}}">
                 {% endfor %}
+                <button type="submit" class="btn-primary">Update</button>
             </form>
         {% endif %}
     </div>
     
 {% endblock content %}
-

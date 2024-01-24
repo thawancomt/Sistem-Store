@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, flash
 from managers.users import User, Login, CreateUser, Session
 from managers.production import Production, Consumes, Wasted
-from managers.stock import StockArticles
+from managers.stock import StockArticles, StoreStock
 from managers.analyses import Analyze
 from managers.stores_management import Store
 
@@ -404,14 +404,23 @@ def tasks(date_for, store_to_send, action):
         return redirect(f'/homepage/{date_for}/{store_to_send}')
 
 
-@app.route('/stock')
-def stock():
+@app.route('/stock/<store_to_show>/', methods=['GET', 'POST'])
+def stock(store_to_show):
     if not is_user_logged_in(external_ip()):
         return redirect('/login')
     context = {}
     context['data'] = user_data(1, 5)
     context['articles'] = StockArticles().get_all_articles()
+    context['store_stock'] = StoreStock().get_store_stock(store_to_show)
 
+    if request.method == 'POST':
+        stock_count = request.form.to_dict()
+
+        for article, amount in stock_count.items():
+            stock_count[article] = int(amount)
+
+        StoreStock().enter_stock(int(store_to_show), 0, stock_count)
+    
     return render_template('/store/stock_page.html', context=context)
 
 
