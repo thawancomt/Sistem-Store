@@ -206,7 +206,8 @@ class StoreStock(StockArticles):
             print('Store already exist')
         else:
             self.db.table(store_name).insert(self.generated_data(int(store), date, stock_count))
-            return stock_count
+        
+        return stock_count
 
     def reset_stock_count(self, store, date = 0):
         store_name = DbConnection.get_store_name(store)
@@ -224,13 +225,29 @@ class StoreStock(StockArticles):
             print("This store, doesn't exist")
 
     # TO DO @staticmethod
-    def get_store_stock(self, store):
+    def get_store_stock(self, store, all = False, date = 0.0):
+        """
+        return the store stock count
+        if you pass the parameter all as True, the function will return all the store stock count
+        store: str
+        all = bool
+        return: dict or list"""
+
         store_name = DbConnection.get_store_name(int(store))
 
         stock_count = StoreStock().db.table(store_name).search(Query().store == int(store))
 
-        return stock_count[0].get('articles', []) if stock_count else self.create_store_stock(int(store))
-
+        if date:
+            for stock in stock_count:
+                if stock.get('date') == date:
+                    return stock.get('articles')
+            return False
+                
+        if not all:
+            return stock_count[-1].get('articles', {}) if stock_count else self.create_store_stock(int(store))
+        else:
+            return stock_count
+        
     def update_store_count(self, store, date, data):
         store_name = DbConnection.get_store_name(int(store))
 
@@ -248,15 +265,16 @@ class StoreStock(StockArticles):
                 for article, amount in data.items():
                     
                     # Convert amount o int type and verify if amount is not negative
-                    amount = int(amount) if amount and '-' not in amount else 0
+                    amount = int(amount) if amount and int(amount) > 0 else 0
                     old_stock_count[article] = amount
 
             new_stock_count = old_stock_count
 
-            self.update_store_count(store, date, new_stock_count)
+            self.db.table(store_name).insert(self.generated_data(store, date, new_stock_count))
         else:
             return False
 
 
 if __name__ == '__main__':
-    print(StoreStock().get_store_stock(5))
+    stocks = StoreStock().get_store_stock(3, date=1706113068.1772)
+    print(stocks)
