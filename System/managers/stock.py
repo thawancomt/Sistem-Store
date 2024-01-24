@@ -247,9 +247,8 @@ class StoreStock(StockArticles):
             if isinstance(data, dict):
                 for article, amount in data.items():
                     
-                    # Convert amount o int type
-                    amount = int(amount) if amount else 0
-
+                    # Convert amount o int type and verify if amount is not negative
+                    amount = int(amount) if amount and '-' not in amount else 0
                     old_stock_count[article] = amount
 
             new_stock_count = old_stock_count
