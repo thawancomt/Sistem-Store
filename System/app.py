@@ -98,7 +98,7 @@ def page_not_found(e):
 
 @app.route('/')
 def index():
-    return redirect('auth/login')
+    return redirect('/login')
 
 @app.route('/homepage/')
 def redirect_home():
@@ -416,10 +416,8 @@ def stock(store_to_show):
     if request.method == 'POST':
         stock_count = request.form.to_dict()
 
-        for article, amount in stock_count.items():
-            stock_count[article] = int(amount)
-
         StoreStock().enter_stock(int(store_to_show), 0, stock_count)
+        return redirect(f'/stock/{store_to_show}')
     
     return render_template('/store/stock_page.html', context=context)
 

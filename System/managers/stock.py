@@ -240,14 +240,19 @@ class StoreStock(StockArticles):
 
         store_name = DbConnection.get_store_name(int(store))
         old_stock_count = StoreStock().get_store_stock(store)
+
         
+
         if old_stock_count:
             if isinstance(data, dict):
                 for article, amount in data.items():
+                    
+                    # Convert amount o int type
+                    amount = int(amount) if amount else 0
+
                     old_stock_count[article] = amount
 
             new_stock_count = old_stock_count
-
 
             self.update_store_count(store, date, new_stock_count)
         else:
@@ -255,7 +260,4 @@ class StoreStock(StockArticles):
 
 
 if __name__ == '__main__':
-    teste = StockArticles()
-    articles = ["pizzadough", "tomatosauce", "cheese", "pepperoni", "mushrooms", "onions", "bellpeppers", "olives", "sausage", "ham", "bacon", "pineapple", "anchovies", "garlic", "oregano", "basil", "spinach", "artichokes", "jalapenos", "feta"]
-
-    teste.insert_new_article(articles)
+    print(StoreStock().get_store_stock(5))
