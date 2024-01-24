@@ -251,6 +251,8 @@ class StoreStock(StockArticles):
             return False
 
 
+if __name__ == '__main__':
+    teste = StockArticles()
+    articles = ["pizzadough", "tomatosauce", "cheese", "pepperoni", "mushrooms", "onions", "bellpeppers", "olives", "sausage", "ham", "bacon", "pineapple", "anchovies", "garlic", "oregano", "basil", "spinach", "artichokes", "jalapenos", "feta"]
 
-teste = StockArticles()
-teste.insert_new_article({'teste' : 1})
+    teste.insert_new_article(articles)
