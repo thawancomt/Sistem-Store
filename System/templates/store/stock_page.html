@@ -3,24 +3,39 @@
 {% block content %}
     <div class="flex m-4 border">
         {% if context.articles %}
-        <table>
-            <tr>
-                <th>Article</th>
-                <th>Last count</th>
-                <th>Current count</th>
-            </tr>
-            {% for article in context.articles %}
-                <tr>
-                    <td>{{article}}</td>
-                    <td>{{context.store_stock.get(article, 0)}}</td>
-                    <td>{{context.store_stock.get(article, 0)}}</td>
+        <form action="" class="m-4 w-full" method="POST">
+            <table class="w-full">
+                <tr class="*:border *:border-emerald-400 *:text-2xl *:text-white">
+                    <th>Article</th>
+                    <th>Last count</th>
+                    <th>Current count</th>
+                    <th>New Count</th>
                 </tr>
-            {% endfor %}
-        </table>
-
-        {% else %}
-            <p>No articles in stock</p>
-        {% endif %}
+                {% for article in context.articles %}
+                    <tr class="*:border *:border-emerald-400 *:text-center">
+                        <td class="text-emerald-400 font-bold">{{article}}</td>
+                        <td class="text-yellow-400">{{context.store_counts[-1].get('articles').get(article, 0)}}</td>
+                        <td class="text-red-400">{{context.store_stock.get(article, 0)}}</td>
+                        <td class="flex justify-center">
+                            <input type="number" class="form-control-1 text-center rounded-none border-0" name="{{article}}">
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tfoot>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="flex justify-center w-full">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </td>
+                </tfoot>
+            </table>
+    
+            {% else %}
+                <p>No articles in stock</p>
+            {% endif %}
+        </form>
+        
     </div>
     
 {% endblock content %}
