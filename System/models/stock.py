@@ -221,9 +221,21 @@ class StoreStock(StockArticles):
             print("This store, doesn't exist")
 
     def get_stocks_dates(self, store):
-        dates = []
+        from datetime import datetime
+        dates = {}
+        
+
+        def convert_timestamp(timestamp):
+            # Suponhamos que seu timestamp seja 1643145028 (um exemplo qualquer)
+            date = datetime.fromtimestamp(timestamp)
+
+            # Formate a data conforme necessário
+            date = date.strftime('%d/%m/%Y - %H:%M:%S')
+
+            return date
+        
         for stock in self.get_store_stock(store, all = True):
-            dates.append(stock.get('date'))
+            dates[stock.get('date')] = (convert_timestamp(stock.get('date')))
 
         return dates
     
@@ -278,18 +290,24 @@ class StoreStock(StockArticles):
         store_name = DbConnection.get_store_name(int(store))
         old_stock_count = StoreStock().get_store_stock(store)
 
+        if data.get('reference'):
+            pass
+
         
 
         if old_stock_count:
             if isinstance(data, dict):
                 for article, amount in data.items():
                     
-                    # Convert amount o int type and verify if amount is not negative
-                    amount = int(amount) if amount else 0
-                    # Verify if amount is less than 0
-                    if isinstance(amount, int):
-                        if amount < 0:
-                            amount = 0
+                    try:
+                        # Convert amount o int type and verify if amount is not negative
+                        amount = int(amount) if amount else 0
+                        # Verify if amount is less than 0
+                        if isinstance(amount, int):
+                            if amount < 0:
+                                amount = 0
+                    except ValueError:
+                        pass
 
                     old_stock_count[article] = amount
 
@@ -302,5 +320,5 @@ class StoreStock(StockArticles):
 
 if __name__ == '__main__':
     data = StoreStock()
-    a = data.get_store_stock(3, date=1706187296.02202)
+    a = data.get_stocks_dates(3)
     print(a)

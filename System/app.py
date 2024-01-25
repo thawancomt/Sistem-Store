@@ -410,8 +410,13 @@ def stock(store_to_show, date = 'last', reference = 'reference'):
     context['articles'] = StockArticles().get_all_articles()
     context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
     context['reference_count'] = StoreStock().get_store_stock(store_to_show, date=reference)
-
+    context['count_dates'] = StoreStock().get_stocks_dates(store_to_show)
+    
     if request.method == 'POST':
+        if 'reference_count' in request.form.to_dict().keys():
+            reference = request.form.get('reference_count')
+            return redirect(f'/stock/{store_to_show}/{reference}/last')
+        
         stock_count = request.form.to_dict()
 
         if 'date' in stock_count.keys():

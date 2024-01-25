@@ -1,18 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="flex m-4 border">
+    <div class="flex-col m-4 border">
         {% if context.articles %}
-        <form action="" class="m-4 w-full" method="POST">
+        <form action="" method="post" class="m-4">
+            <label for="reference_count" class="sub-title-primary"> Select the refence count</label>
+            <select name="reference_count" id="" class="form-control-1">
+                {% for date, value in context.count_dates.items() %}
+                    <option value="{{date}}">{{value}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-primary">View</button>
+        </form>
+        <form action="" class="m-4 " method="POST">
             <table class="w-full">
                 <tr class="*:border *:border-emerald-400 *:text-2xl *:text-white">
                     <th>Article</th>
-                    <th>Last count</th>
+                    <th>Last Count</th>
                     <th>Current count</th>
                     <th>New Count</th>
                 </tr>
                 {% for article in context.articles %}
-                    <tr class="*:border *:border-emerald-400 *:text-center">
+                    <tr class="*:border *:border-emerald-400 *:text-center hover:bg-slate-200">
                         <td class="text-emerald-400 font-bold">{{article}}</td>
                         <td class="text-yellow-400">{{context.reference_count.get(article, 0)}}</td>
                         <td class="text-red-400">{{context.store_stock.get(article, 0)}}</td>
