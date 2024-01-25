@@ -237,6 +237,10 @@ class StoreStock(StockArticles):
 
         stock_count = StoreStock().db.table(store_name).search(Query().store == int(store))
 
+        if not stock_count:
+            self.create_store_stock(int(store))
+            stock_count = StoreStock().db.table(store_name).search(Query().store == int(store))
+
         if date:
             if date == 'last':
                 return stock_count[-1].get('articles', {})
