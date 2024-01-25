@@ -404,21 +404,25 @@ def tasks(date_for, store_to_send, action):
         return redirect(f'/homepage/{date_for}/{store_to_send}')
 
 
-@app.route('/stock/<store_to_show>/', methods=['GET', 'POST'])
-def stock(store_to_show):
+@app.route('/stock/<store_to_show>/<date>', methods=['GET', 'POST'])
+def stock(store_to_show, date = 'last'):
     if not is_user_logged_in(external_ip()):
         return redirect('/login')
+    
     context = {}
     context['data'] = user_data(1, 5)
     context['articles'] = StockArticles().get_all_articles()
-    context['store_stock'] = StoreStock().get_store_stock(store_to_show)
+    context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
 
     if request.method == 'POST':
         stock_count = request.form.to_dict()
 
-        StoreStock().enter_stock(int(store_to_show), 0, stock_count)
-        return redirect(f'/stock/{store_to_show}')
-    
+        if 'date' in stock_count.keys():
+            context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
+            return redirect(stock_count.get('date'))
+        else:
+            StoreStock().enter_stock(int(store_to_show), 0, stock_count)
+
     return render_template('/store/stock_page.html', context=context)
 
 

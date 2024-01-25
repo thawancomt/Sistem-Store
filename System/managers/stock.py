@@ -225,23 +225,30 @@ class StoreStock(StockArticles):
             print("This store, doesn't exist")
 
     # TO DO @staticmethod
-    def get_store_stock(self, store, all = False, date = 0.0):
+    def get_store_stock(self, store, all = False, date = 0):
         """
         return the store stock count
         if you pass the parameter all as True, the function will return all the store stock count
+        You also can use date filter
         store: str
         all = bool
         return: dict or list"""
+
+        if isinstance(date, str) and '.' in date:
+            date = float(date)
 
         store_name = DbConnection.get_store_name(int(store))
 
         stock_count = StoreStock().db.table(store_name).search(Query().store == int(store))
 
         if date:
+            if date == 'last':
+                return stock_count[-1].get('articles', {})
+        
             for stock in stock_count:
                 if stock.get('date') == date:
                     return stock.get('articles')
-            return False
+            return {}
                 
         if not all:
             return stock_count[-1].get('articles', {}) if stock_count else self.create_store_stock(int(store))
@@ -276,5 +283,5 @@ class StoreStock(StockArticles):
 
 
 if __name__ == '__main__':
-    stocks = StoreStock().get_store_stock(3, date=1706113068.1772)
+    stocks = StoreStock().get_store_stock(3, date='last')
     print(stocks)
