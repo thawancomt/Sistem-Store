@@ -14,10 +14,10 @@
                 {% for article in context.articles %}
                     <tr class="*:border *:border-emerald-400 *:text-center">
                         <td class="text-emerald-400 font-bold">{{article}}</td>
-                        <td class="text-yellow-400">{{context.store_counts[-1].get('articles').get(article, 0)}}</td>
+                        <td class="text-yellow-400">{{context.reference_count.get(article, 0)}}</td>
                         <td class="text-red-400">{{context.store_stock.get(article, 0)}}</td>
-                        <td class="flex justify-center">
-                            <input type="number" class="form-control-1 text-center rounded-none border-0" name="{{article}}">
+                        <td class="flex justify-center border-0">
+                            <input type="number" class="form-control-1 text-center text-black font-black rounded-none border-0 bg-emerald-400" name="{{article}}">
                         </td>
                     </tr>
                 {% endfor %}

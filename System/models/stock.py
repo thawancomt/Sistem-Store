@@ -220,6 +220,13 @@ class StoreStock(StockArticles):
         else:
             print("This store, doesn't exist")
 
+    def get_stocks_dates(self, store):
+        dates = []
+        for stock in self.get_store_stock(store, all = True):
+            dates.append(stock.get('date'))
+
+        return dates
+    
     # TO DO @staticmethod
     def get_store_stock(self, store, all = False, date = 0):
         """
@@ -244,6 +251,12 @@ class StoreStock(StockArticles):
         if date:
             if date == 'last':
                 return stock_count[-1].get('articles', {})
+            
+            elif date == 'reference':
+                try:
+                    return stock_count[-2].get('articles', {})
+                except IndexError:
+                    return stock_count[-1].get('articles', {})
         
             for stock in stock_count:
                 if stock.get('date') == date:
@@ -288,5 +301,6 @@ class StoreStock(StockArticles):
 
 
 if __name__ == '__main__':
-    stocks = StoreStock().get_store_stock(3, all = True)
-    print(stocks)
+    data = StoreStock()
+    a = data.get_store_stock(3, date=1706187296.02202)
+    print(a)
