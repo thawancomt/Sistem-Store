@@ -1,9 +1,5 @@
 from flask import Flask, redirect, render_template, request, flash
-from managers.users import User, Login, CreateUser, Session
-from managers.production import Production, Consumes, Wasted
-from managers.stock import StockArticles, StoreStock
-from managers.analyses import Analyze
-from managers.stores_management import Store
+from models import *
 
 
 from datetime import date

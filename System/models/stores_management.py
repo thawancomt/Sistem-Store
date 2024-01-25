@@ -1,6 +1,5 @@
-from managers.users import User
-
-from managers.dbconnection import DbConnection
+from .users import User
+from .dbconnection import DbConnection
 
 
 class Store():

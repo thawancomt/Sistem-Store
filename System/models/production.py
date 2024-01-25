@@ -1,6 +1,4 @@
-if not __name__ == '__main__':
-    from managers.dbconnection import DbConnection
-
+from .dbconnection import DbConnection
 
 class Production():
     articles = {

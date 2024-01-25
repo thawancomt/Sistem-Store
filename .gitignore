@@ -9,3 +9,4 @@ myvenv
 .vscode
 tailwind/node_modules
 System/databases/
+System/models/__pycache__
