@@ -288,5 +288,5 @@ class StoreStock(StockArticles):
 
 
 if __name__ == '__main__':
-    stocks = StoreStock().get_store_stock(3, date='last')
+    stocks = StoreStock().get_store_stock(3, all = True)
     print(stocks)

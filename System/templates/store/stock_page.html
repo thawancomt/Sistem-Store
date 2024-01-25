@@ -3,19 +3,25 @@
 {% block content %}
     <div class="flex m-4 border">
         {% if context.articles %}
-            <form action="" class="flex-col" method="POST">
-                {% for article in context.articles %}
-                <label for="{{article}}" class="sub-title-primary">{{article}}</label>
-                <input type="text" name="{{article}}" class="form-control-1" value="{{context.store_stock.get(article, 0)}}">
-                {% endfor %}
-                <button type="submit" class="btn-primary">Update</button>
-            </form>
+        <table>
+            <tr>
+                <th>Article</th>
+                <th>Last count</th>
+                <th>Current count</th>
+            </tr>
+            {% for article in context.articles %}
+                <tr>
+                    <td>{{article}}</td>
+                    <td>{{context.store_stock.get(article, 0)}}</td>
+                    <td>{{context.store_stock.get(article, 0)}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% else %}
+            <p>No articles in stock</p>
         {% endif %}
-        <form action="" method="POST">
-            <label for=""> Search date </label>
-            <input type="text" class="form-control-1" name="date" value="0">
-            <button type="submit" class="btn-primary">Search</button>
-        </form>
     </div>
     
 {% endblock content %}
+a

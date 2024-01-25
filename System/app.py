@@ -409,6 +409,7 @@ def stock(store_to_show, date = 'last'):
     context['data'] = user_data(1, 5)
     context['articles'] = StockArticles().get_all_articles()
     context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
+    context['store_counts'] = StoreStock().get_store_stock(store_to_show, all=True)
 
     if request.method == 'POST':
         stock_count = request.form.to_dict()
