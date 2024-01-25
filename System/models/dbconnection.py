@@ -320,8 +320,10 @@ class DbConnection():
     def insert_wasted(self, who, date, store, data):
 
         for article, amount in data.items():
-                if amount.isnumeric():
+                try:
                     data[article] = int(amount)
+                except ValueError:
+                    return False
                 
                 
             
