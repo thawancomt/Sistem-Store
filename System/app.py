@@ -295,7 +295,7 @@ def delete_user():
         deleted_user.username = username
         deleted_user.email = email
 
-        deleted_user.delete_user(email)
+        deleted_user.delete_user(deleted_user)
 
         if username == Session(external_ip()).name():
             logout()

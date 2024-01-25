@@ -37,7 +37,11 @@ class User(DbConnection):
         return DbConnection('System/databases/users.json').get_users_by_store(store)
 
     def delete_user(self, who):
-        DbConnection('System/databases/users.json').delete_user(who)
+        store = User().get_user_data(who)['store']
+        email = who.email
+        
+        return DbConnection('System/databases/users.json').delete_user(store, email)
+        
         
 class CreateUser(User):
     def __init__(self, who):
@@ -122,3 +126,5 @@ class Session(DbConnection):
             return DbConnection.stores[self.get_session()['store']]
         else:
             return self.get_session()['store']
+
+

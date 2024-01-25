@@ -106,8 +106,13 @@ class DbConnection():
 
         self.db.update(new_info, Query().email == who.email)
 
-    def delete_user(self, email):
-        print( self.db.remove(Query().email == email))
+    def delete_user(self, store, email):
+
+        print(f'This is the email {email}')
+
+        store_name = self.stores[store]
+
+        return self.db.table(store_name).remove(Query().email == email)
 
     def get_user_data(self, who):
 
