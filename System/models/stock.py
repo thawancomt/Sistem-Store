@@ -240,7 +240,8 @@ class StoreStock(StockArticles):
         return dates
     
     # TO DO @staticmethod
-    def get_store_stock(self, store, all = False, date = 0):
+    def get_store_stock(self, store, all = False, date = 0.0):
+        
         """
         return the store stock count
         if you pass the parameter all as True, the function will return all the store stock count
@@ -279,7 +280,34 @@ class StoreStock(StockArticles):
             return stock_count[-1].get('articles', {}) if stock_count else self.create_store_stock(int(store))
         else:
             return stock_count
+    
+    def get_difference(self, store, reference):
+        """
+        This function return the difference between the last stock count and the previous
+        store: str
+        return: dict
+        """
+        store_name = DbConnection.get_store_name(int(store))
+
+        stock_count = self.get_store_stock(store, all=True)
+
+        last_stock = stock_count[-1].get('articles', {})
+
+        if len(stock_count) > 1:
+
+            reference_stock = self.get_store_stock(store, date=reference)
+
+
+            difference = {}
+
+            for article, amount in last_stock.items():
+                    difference[article] = amount - reference_stock.get(article, 0)
+
+            return difference
+        else:
+            return {}
         
+
     def update_store_count(self, store, date, data):
         store_name = DbConnection.get_store_name(int(store))
 

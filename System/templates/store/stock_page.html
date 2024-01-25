@@ -18,6 +18,7 @@
                     <th>Article</th>
                     <th>Last Count</th>
                     <th>Current count</th>
+                    <th>Difference</th>
                     <th>New Count</th>
                 </tr>
                 {% for article in context.articles %}
@@ -25,12 +26,14 @@
                         <td class="text-emerald-400 font-bold">{{article}}</td>
                         <td class="text-yellow-400">{{context.reference_count.get(article, 0)}}</td>
                         <td class="text-red-400">{{context.store_stock.get(article, 0)}}</td>
+                        <td class="text-blue-400">{{context.difference.get(article, 0)}}</td>
                         <td class="flex justify-center border-0">
                             <input type="number" class="form-control-1 text-center text-black font-black rounded-none border-0 bg-emerald-400" name="{{article}}">
                         </td>
                     </tr>
                 {% endfor %}
                 <tfoot>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
