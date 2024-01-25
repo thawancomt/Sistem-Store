@@ -137,32 +137,23 @@ class Consumes():
         # Try to get already consumed amount, if indexError, return empty values
         workers_consume = self.get_consume_by_day(store, date)
 
-        # Base to send to the chartJS
-        result = {'data': [],
-                  'workers': []}
+        result = {
+            'data': [],
+            'workers': []
+        }
 
-        # Workers to create the col in the chartJs
-        workers_labels = []
+        for worker, data in workers_consume.items():
+            result['workers'].append(worker)
 
-        # Data to add at each worker in the ChartJs
-        bread_label = []
-        slices_label = []
+        slices = []
+        bread = []
 
-        for worker in workers_consume:
-            workers_labels.append(worker)
-
-        # Create the data by consumes amount
-        for worker in workers_labels:
-            bread_label.append(workers_consume[worker])
-            slices_label.append(workers_consume[worker])
-
-        # Add to result the consumed data
-        result['data'].append({'label':  'Garlic Bread', 'data': bread_label})
-        result['data'].append({'label':  'Slices', 'data': slices_label})
-
-        # Add to result the workers list                             
-        result['workers'] = workers_labels
-
+        for worker in result['workers']:
+            bread.append(workers_consume[worker]['bread'])
+            slices.append(workers_consume[worker]['slice'])
+            
+        result = {'data': [{'label' : 'slice', 'data' : slices,}, {'label': 'bread', 'data' : bread}], 'workers': result['workers']}
+        
         return result
 
 
@@ -170,10 +161,9 @@ if __name__ == '__main__':
 
     from dbconnection import DbConnection
 
-    teste = Production('29')
-    teste.store = '5'
-    teste.data = {'teste' : 12}
-    teste.send_production()
+    teste = Consumes()
+
+    print(teste.create_data_to_consume_chart(3, '2024-01-25'))
 
 
 class Wasted():

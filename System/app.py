@@ -140,7 +140,6 @@ def home(date_for, store_to_show):
     # Consume context
     context['consumes'] = Consumes().get_consume_by_day(int(store_to_show), date_for)
     context['consume_data'] = Consumes().create_data_to_consume_chart(int(store_to_show), date_for)
-
     # Check if the user is allowed to edit and visualize the store
     if int(user_store) != int(store_to_show) and context['level'] != 'admin':
             flash("You can't edit other store")
