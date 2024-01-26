@@ -21,6 +21,8 @@ Um sistema de em python, que simula a operação de uma pizzaria, com sistema de
 ## Sistema de controle de produção, com exibição da produção ja lançada no dia:
 ![image](https://github.com/thawancomt/Sistem-Store/assets/131563700/ed10033d-1e20-49fa-947d-4bc3835ed022)
 
+## Sistema de Estoque
+![image](https://github.com/thawancomt/Sistem-Store/assets/131563700/8bc36680-3ca9-4500-a749-9bfa3bc4bdab)
 
 
 ## Authors
