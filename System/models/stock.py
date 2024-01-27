@@ -344,9 +344,39 @@ class StoreStock(StockArticles):
             self.db.table(store_name).insert(self.generated_data(store, date, new_stock_count))
         else:
             return False
+    def create_data_to_chart(self, store):
+        articles_label = self.articles_names
+        data = []
+        amount = []
+        dates = set()
 
+        lista = {}
+        for article in articles_label:
+            lista[article] = []
+            for date in self.get_stocks_dates(store).keys():
+                dates.add(date)
+                lista[article].append(self.get_store_stock(store, date=date).get(article, 0))
+                amount.append(lista)
+
+            data.append(
+                {
+            'label' : article,
+            'data' : lista[article],
+            'pointRadius' : 10,
+            
+
+            }
+            )           
+        
+        return {'date' : list(dates), 'data' : data}
+
+            
 
 if __name__ == '__main__':
-    data = StoreStock()
-    a = data.get_stocks_dates(3)
-    print(a)
+    import random
+    a = StoreStock()
+    for i in range(10):
+        data = {}
+        for article in a.articles_names:
+            data[article] = random.randint(50, 100)
+        a.enter_stock(3, 0, data=data)

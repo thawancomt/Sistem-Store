@@ -411,6 +411,7 @@ def stock(store_to_show, date = 'last', reference = 'reference'):
     context['reference_count'] = StoreStock().get_store_stock(store_to_show, date=reference)
     context['count_dates'] = StoreStock().get_stocks_dates(store_to_show)
     context['difference'] = StoreStock().get_difference(store_to_show, reference=reference)
+    context['data_to_chart'] = StoreStock().create_data_to_chart(store_to_show)
 
     if request.method == 'POST':
         if 'reference_count' in request.form.to_dict().keys():
@@ -430,4 +431,4 @@ def stock(store_to_show, date = 'last', reference = 'reference'):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True)

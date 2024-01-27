@@ -16,19 +16,19 @@
             <table class="w-full">
                 <tr class="*:border *:border-emerald-400 *:text-2xl *:text-white">
                     <th>Article</th>
-                    <th>Last Count</th>
+                    <th>Reference Count</th>
                     <th>Current count</th>
                     <th>Difference</th>
                     <th>New Count</th>
                 </tr>
                 {% for article in context.articles %}
-                    <tr class="*:border *:border-emerald-400 *:text-center hover:bg-slate-200">
+                    <tr class="*:border *:border-emerald-400 *:text-center hover:bg-slate-200 *:hover:text-black *:hover:font-bold ">
                         <td class="text-emerald-400 font-bold">{{article}}</td>
                         <td class="text-yellow-400">{{context.reference_count.get(article, 0)}}</td>
                         <td class="text-red-400">{{context.store_stock.get(article, 0)}}</td>
                         <td class="text-blue-400">{{context.difference.get(article, 0)}}</td>
-                        <td class="flex justify-center border-0">
-                            <input type="number" class="form-control-1 text-center text-black font-black rounded-none border-0 bg-emerald-400" name="{{article}}">
+                        <td class="w-[15%]">
+                            <input type="number" class="form-control-1" name="{{article}}">
                         </td>
                     </tr>
                 {% endfor %}
@@ -49,6 +49,16 @@
         </form>
         
     </div>
+    <div>
+        <canvas id="ccc"></canvas>
+    </div>
+    <script>
+        var articles = {{ context.articles | safe }};
+        var data_stock = {{ context.data_to_chart['data'] | tojson | safe}};
+        var dates = {{ context.data_to_chart['date'] | safe }};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/stock.js"></script>
+
     
 {% endblock content %}
-a
