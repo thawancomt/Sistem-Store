@@ -52,12 +52,20 @@ class StockArticles(DbConnection):
         article_name: str
         return: bool
         """
-        
+        # Verify if the articles is a list, if true, call the insert multiples articles function
         if isinstance(article_name, list):
             print("You are passing a list, but this function just suport one 1 article each, calling insert_multiples_articles")
             self.insert_multiples_articles(article_name)
             return True
         
+        # In the web page, the user can pass a list of articles like: "bacon, ham, iogurt"
+        # then the handling is needed by this code bellow
+        if isinstance(article_name, str):
+            if ',' in article_name:
+                articles = article_name.split(',')
+                self.insert_multiples_articles(articles=articles)
+                return True
+
         if not isinstance(article_name, str):
             print("You are passing a invalid type, just str or list is accepted")
             return False
@@ -322,28 +330,25 @@ class StoreStock(StockArticles):
             pass
 
         
+        
+        if isinstance(data, dict):
+            for article, amount in data.items():
+                
+                try:
+                    # Convert amount o int type and verify if amount is not negative
+                    amount = int(amount) if amount else 0
+                    # Verify if amount is less than 0
+                    if isinstance(amount, int):
+                        if amount < 0:
+                            amount = 0
+                except ValueError:
+                    pass
+                data[article] = amount
 
-        if old_stock_count:
-            if isinstance(data, dict):
-                for article, amount in data.items():
-                    
-                    try:
-                        # Convert amount o int type and verify if amount is not negative
-                        amount = int(amount) if amount else 0
-                        # Verify if amount is less than 0
-                        if isinstance(amount, int):
-                            if amount < 0:
-                                amount = 0
-                    except ValueError:
-                        pass
+        new_stock_count = data
 
-                    old_stock_count[article] = amount
+        self.db.table(store_name).insert(self.generated_data(store, date, new_stock_count))
 
-            new_stock_count = old_stock_count
-
-            self.db.table(store_name).insert(self.generated_data(store, date, new_stock_count))
-        else:
-            return False
     def create_data_to_chart(self, store):
         articles_label = self.articles_names
         data = []
@@ -375,8 +380,4 @@ class StoreStock(StockArticles):
 if __name__ == '__main__':
     import random
     a = StoreStock()
-    for i in range(10):
-        data = {}
-        for article in a.articles_names:
-            data[article] = random.randint(50, 100)
-        a.enter_stock(3, 0, data=data)
+    a.enter_stock(3, 0, {'bacon' : 12})

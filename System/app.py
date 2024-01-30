@@ -414,18 +414,30 @@ def stock(store_to_show, date = 'last', reference = 'reference'):
     context['data_to_chart'] = StoreStock().create_data_to_chart(store_to_show)
 
     if request.method == 'POST':
-        if 'reference_count' in request.form.to_dict().keys():
+        stock_count = request.form.to_dict()
+
+        if 'create_articles' in request.form.to_dict():
+            articles_obj = StockArticles()
+
+            article = request.form.get('create_articles')
+
+            if article:
+                articles_obj.insert_new_article(article)
+
+            
+
+        # If reference_count is in the request dict, redirect user to page to view this reference
+        # stock aside the last stock count
+        elif 'reference_count' in request.form.to_dict().keys():
             reference = request.form.get('reference_count')
             return redirect(f'/stock/{store_to_show}/{reference}/last')
         
-        stock_count = request.form.to_dict()
-
-        if 'date' in stock_count.keys():
+        elif 'date' in stock_count.keys():
             context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
             return redirect(stock_count.get('date'))
         else:
             StoreStock().enter_stock(int(store_to_show), 0, stock_count)
-            return redirect(f'/stock/{store_to_show}/{reference}/last')
+        return redirect(f'/stock/{store_to_show}/{reference}/last')
 
     return render_template('/store/stock_page.html', context=context)
 
