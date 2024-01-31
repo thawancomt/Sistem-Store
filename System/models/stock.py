@@ -72,7 +72,7 @@ class StockArticles(DbConnection):
         
         old_data = self.get_all_articles()
 
-        new_data = [article_name]
+        new_data = [article_name.replace(' ', '')]
         
 
         if old_data:
@@ -84,7 +84,7 @@ class StockArticles(DbConnection):
                 print('Articles already exist')
                 return False
             else:
-                new_data.append(article_name)
+                new_data.append(article_name.replace(' ', ''))
                 self.update_articles(new_data)
                 return True
         else:

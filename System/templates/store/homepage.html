@@ -35,6 +35,7 @@
 {% endblock %}
 
 {% block content  %}
+
     <!-- Can´t edit if not admin -->
     {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -74,6 +75,26 @@
         </form>
     </div>
     {% endif %}
+    {# Admin section #}
+    <div class="w-full flex justify-center">
+        {% if context['level'] == 'admin' %}
+            <div class="container-primary">
+                <div class="m-4">
+                    <h1 class="title-primary text-yellow-400"> Adiministrator Section*</h1>
+                    <p class="information-primary">This section is desnatited to the store managers, here you can acess users, stock and more</p>
+                </div>
+                <div class="ml-4">
+
+                    <form action="/users" class="flex w-3/12">
+                        <button type="submit" class="btn-primary hover:bg-red-700 hover:border-none">Access users</button>
+                    </form>
+                    <form action="/stock/{{store_to_show}}/reference/last" class="flex w-3/12">
+                        <button type="submit" class="btn-primary">Access Stock</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
     {# <!-- Alerts -->
     <div class="w-full flex justify-center">
         <div class="container-primary">
@@ -206,7 +227,7 @@
         <div class="w-5/6 border border-emerald-500 flex ">
             <section class="w-3/6">
                 <div class="w-full h-8 flex items-center m-4">
-                    <h1 class="font-bold text-emerald-500">Enter your consume</h1>
+                    <h1 class="title-primary">Enter your consume</h1>
                 </div>
     
                 <form action="/consume/{{date_for}}/{{store_to_show}}" class="flex flex-col m-4" method="POST">
@@ -241,7 +262,7 @@
         <!-- Container -->
         <div class="w-5/6 border border-emerald-500">
             <div class="w-full h-8 flex items-center m-4">
-                <h1 class="font-bold text-emerald-500">Enter the Wasted</h1>
+                <h1 class="title-primary">Enter the Wasted</h1>
             </div>
 
             <form action="/waste/{{date_for}}/{{store_to_show}}" method="POST" class="flex flex-col m-4">
@@ -270,18 +291,8 @@
 
         </div>
     </div>
-    {% if context['level'] == 'admin' %}
-        <div class="w-full ">
-            <form action="/users" class="w-full flex justify-center">
-                <button type="submit" class="btn-primary w-5/6">Access users</button>
-            </form>
-            <form action="/stock/{{store_to_show}}/reference/last" class="w-full flex justify-center">
-                <button type="submit" class="btn-primary w-5/6">Access Stock</button>
-            </form>
-        </div>
-    {% endif %}
     
-
+    {# This section is to set in html the variables from the flask to JavaScript #}
     <script>
         var labels = {{ context['weekly_data']['articles'] | tojson }}
 
