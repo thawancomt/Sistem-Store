@@ -38,21 +38,21 @@ class DbConnection():
         """Get the store name based on the dict of store's ID"""
         return DbConnection.stores.get(store_id)
     
-    @check_type(str)
+   
     def search_username(self, username):
         for table in self.tables:
             result = self.db.table(table).search(Query().username == username)
             if result:
                 return result
             
-    @check_type(str)
+    
     def search_email(self, email):
         for table in self.tables:
             result = self.db.table(table).search(Query().email == email)
             if result:
                 return result
 
-    @check_type(dict)
+    
     def insert_user(self, data):
         """Insert a new user into the database
 
@@ -80,7 +80,7 @@ class DbConnection():
         else:
             return False
         
-    @check_type(str)
+    
     def check_user_exist(self, username: str = '', email: str = ''):
 
         return True if self.search_username(username) or self.search_email(email) else False
@@ -162,7 +162,7 @@ class DbConnection():
 
         return users
     
-    @check_type(str)
+    
     def get_users_by_search(self, search):
         users = self.get_all_users()
 
@@ -174,7 +174,7 @@ class DbConnection():
 
         return filtered_users
     
-    @check_type(int)
+    
     def get_users_by_store(self, store):
         users = self.get_all_users()
 
@@ -491,7 +491,7 @@ class DbConnection():
         else:
             return []
     
-    @check_type(dict)
+    
     def insert_stock(self, data):
         self.db = TinyDB('System/databases/stock.json', indent=4)
         

@@ -33,7 +33,7 @@ class StockArticles(DbConnection):
         else:
             return []
         
-    @check_type(str)
+    
     def check_if_articles_exist(self, article_name) -> bool:
         articles = self.get_all_articles()
 
@@ -44,7 +44,7 @@ class StockArticles(DbConnection):
             else:
                 return False
             
-    @check_type(str)
+    
     def insert_new_article(self, article_name) -> bool:
 
         """
@@ -73,7 +73,7 @@ class StockArticles(DbConnection):
             self.update_articles(new_data)
             return True
         
-    @check_type(list)
+    
     def insert_multiples_articles(self, articles) -> None:
         """
         This function insert multiples article in the database,
@@ -88,7 +88,7 @@ class StockArticles(DbConnection):
             for article in articles:
                 self.insert_new_article(article)
     
-    @check_type(list)
+    
     def update_articles(self, new_data) -> None:
         """
         This funcion update all the database, be carefull
@@ -103,7 +103,7 @@ class StockArticles(DbConnection):
             return self.db.table('articles').insert({'articles' : new_data})
 
         
-    @check_type(str)
+    
     def delete_article(self, article_name):
         """
         This function delete a article in the database,
@@ -129,7 +129,7 @@ class StockArticles(DbConnection):
                 print(f'{article_name} Not Found')
         else:
             return False
-    @check_type(list)
+    
     def delete_multiples_articles(self, articles):
         """
         This funcion delete multples articles of the database
@@ -162,7 +162,7 @@ class StoreStock(StockArticles):
                 'date' : get_timestamp(date),
                 'articles' : data}
     
-    @check_type(int)
+    
     def check_if_store_exist(self, store):
         """
         This function check if the store exist in DB
@@ -213,7 +213,7 @@ class StoreStock(StockArticles):
         else:
             print("This store, doesn't exist")
 
-    @check_type(int)
+    
     def get_stocks_dates(self, store):
         from datetime import datetime
         dates = {}
@@ -334,7 +334,7 @@ class StoreStock(StockArticles):
 
         self.db.table(store_name).insert(self.generated_data(store, date, new_stock_count))
 
-    @check_type(int)
+    
     def create_data_to_chart(self, store):
         articles_label = self.articles_names
         data = []
