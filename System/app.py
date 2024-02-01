@@ -111,7 +111,7 @@ def home(date_for, store_to_show):
 
     # Object to get management of the store
     store = Store()
-    store.store = store_to_show
+    store.store = int(store_to_show)
 
 
     # Check if the user is logged in, else redirect to login page
