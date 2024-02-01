@@ -1,5 +1,6 @@
 from tinydb import TinyDB, Query
 from tinydb.operations import increment
+from .utils import *
 
 
 class DbConnection():
@@ -33,21 +34,25 @@ class DbConnection():
         self.tables = self.db.tables()
     
     @staticmethod
-    def get_store_name(store_id):
+    def get_store_name(store_id : int) -> str:
+        """Get the store name based on the dict of store's ID"""
         return DbConnection.stores.get(store_id)
-
+    
+    @check_type(str)
     def search_username(self, username):
         for table in self.tables:
             result = self.db.table(table).search(Query().username == username)
             if result:
                 return result
-
+            
+    @check_type(str)
     def search_email(self, email):
         for table in self.tables:
             result = self.db.table(table).search(Query().email == email)
             if result:
                 return result
 
+    @check_type(dict)
     def insert_user(self, data):
         """Insert a new user into the database
 
@@ -74,13 +79,13 @@ class DbConnection():
             return True
         else:
             return False
-
+        
+    @check_type(str)
     def check_user_exist(self, username: str = '', email: str = ''):
 
         return True if self.search_username(username) or self.search_email(email) else False
 
     # A class User need to be passed into the constructor
-
     def update_user(self, who, new_info):
         """ This two for loops verify if the info of new info is empty
             case true: delete the key, and update just the changed info
@@ -156,25 +161,27 @@ class DbConnection():
             new_users_protected.append(user)
 
         return users
-
+    
+    @check_type(str)
     def get_users_by_search(self, search):
         users = self.get_all_users()
 
         filtered_users = []
 
         for user in users:
-            if str(search).lower() in str(user['username']).lower():
+            if search.lower() in user['username'].lower():
                 filtered_users.append(user)
 
         return filtered_users
-
+    
+    @check_type(int)
     def get_users_by_store(self, store):
         users = self.get_all_users()
 
         filtered_users = []
 
         for user in users:
-            if int(store) == user['store']:
+            if store == user['store']:
                 filtered_users.append(user)
 
         return filtered_users
@@ -484,8 +491,12 @@ class DbConnection():
         else:
             return []
     
-
+    @check_type(dict)
     def insert_stock(self, data):
         self.db = TinyDB('System/databases/stock.json', indent=4)
         
         self.db.insert(data)
+
+if __name__ == '__main__':
+    a = DbConnection('System/databases/users.json')
+    print(a.search_username(2))

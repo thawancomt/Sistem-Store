@@ -10,3 +10,4 @@ myvenv
 tailwind/node_modules
 System/databases/
 System/models/__pycache__
+System/models/utils/__pycache__

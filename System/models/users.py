@@ -34,7 +34,7 @@ class User(DbConnection):
         return DbConnection('System/databases/users.json').get_users_by_search(search)
 
     def return_filtered_users_by_store(self, store):
-        return DbConnection('System/databases/users.json').get_users_by_store(store)
+        return DbConnection('System/databases/users.json').get_users_by_store(int(store))
 
     def delete_user(self, who):
         store = User().get_user_data(who)['store']

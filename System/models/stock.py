@@ -1,7 +1,7 @@
 from .dbconnection import DbConnection
 from datetime import datetime
 from tinydb import Query
-
+from .utils import *
 def get_timestamp(date = 0):
 
     if not date:
@@ -32,7 +32,8 @@ class StockArticles(DbConnection):
             return self.db.table('articles').all()[0].get('articles', [])
         else:
             return []
-    
+        
+    @check_type(str)
     def check_if_articles_exist(self, article_name) -> bool:
         articles = self.get_all_articles()
 
@@ -42,7 +43,8 @@ class StockArticles(DbConnection):
                 return True
             else:
                 return False
-        
+            
+    @check_type(str)
     def insert_new_article(self, article_name) -> bool:
 
         """
@@ -52,29 +54,9 @@ class StockArticles(DbConnection):
         article_name: str
         return: bool
         """
-        # Verify if the articles is a list, if true, call the insert multiples articles function
-        if isinstance(article_name, list):
-            print("You are passing a list, but this function just suport one 1 article each, calling insert_multiples_articles")
-            self.insert_multiples_articles(article_name)
-            return True
-        
-        # In the web page, the user can pass a list of articles like: "bacon, ham, iogurt"
-        # then the handling is needed by this code bellow
-        if isinstance(article_name, str):
-            if ',' in article_name:
-                articles = article_name.split(',')
-                self.insert_multiples_articles(articles=articles)
-                return True
 
-        if not isinstance(article_name, str):
-            print("You are passing a invalid type, just str or list is accepted")
-            return False
-        
         old_data = self.get_all_articles()
-
-        new_data = [article_name.replace(' ', '')]
         
-
         if old_data:
 
             new_data = old_data
@@ -90,8 +72,9 @@ class StockArticles(DbConnection):
         else:
             self.update_articles(new_data)
             return True
-    
-    def insert_multiples_articles(self, articles, duplicated = False) -> None:
+        
+    @check_type(list)
+    def insert_multiples_articles(self, articles) -> None:
         """
         This function insert multiples article in the database,
         if some articles is already on the database will be added into the variable
@@ -105,6 +88,7 @@ class StockArticles(DbConnection):
             for article in articles:
                 self.insert_new_article(article)
     
+    @check_type(list)
     def update_articles(self, new_data) -> None:
         """
         This funcion update all the database, be carefull
@@ -119,7 +103,7 @@ class StockArticles(DbConnection):
             return self.db.table('articles').insert({'articles' : new_data})
 
         
-    
+    @check_type(str)
     def delete_article(self, article_name):
         """
         This function delete a article in the database,
@@ -145,7 +129,7 @@ class StockArticles(DbConnection):
                 print(f'{article_name} Not Found')
         else:
             return False
-
+    @check_type(list)
     def delete_multiples_articles(self, articles):
         """
         This funcion delete multples articles of the database
@@ -178,13 +162,14 @@ class StoreStock(StockArticles):
                 'date' : get_timestamp(date),
                 'articles' : data}
     
+    @check_type(int)
     def check_if_store_exist(self, store):
         """
         This function check if the store exist in DB
         store: str
         return: bool
         """
-        store_name = DbConnection.stores.get(int(store))
+        store_name = DbConnection.stores.get(int)
 
         if store_name in self.db.tables():
             return True
@@ -228,6 +213,7 @@ class StoreStock(StockArticles):
         else:
             print("This store, doesn't exist")
 
+    @check_type(int)
     def get_stocks_dates(self, store):
         from datetime import datetime
         dates = {}
@@ -246,8 +232,7 @@ class StoreStock(StockArticles):
             dates[stock.get('date')] = (convert_timestamp(stock.get('date')))
 
         return dates
-    
-    # TO DO @staticmethod
+ 
     def get_store_stock(self, store, all = False, date = 0.0):
         
         """
@@ -349,6 +334,7 @@ class StoreStock(StockArticles):
 
         self.db.table(store_name).insert(self.generated_data(store, date, new_stock_count))
 
+    @check_type(int)
     def create_data_to_chart(self, store):
         articles_label = self.articles_names
         data = []

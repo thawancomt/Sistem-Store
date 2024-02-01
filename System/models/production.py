@@ -1,4 +1,5 @@
 from .dbconnection import DbConnection
+from .utils import *
 
 class Production():
     articles = {
@@ -25,10 +26,12 @@ class Production():
     def send_production(self):
         DbConnection('System/databases/production.json').insert_production(
             self.store, self.date, self.data)
-
+        
+    @check_type(int)
     def get_already_produced(self, store):
         return DbConnection('System/databases/production.json').get_day_production(store, self.date)
 
+    @check_type(int)
     def create_data_to_ball_usage_chart(self, store, length, end=1):
         """receive a list to create a chart
 
