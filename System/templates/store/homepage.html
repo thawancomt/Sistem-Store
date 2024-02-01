@@ -95,44 +95,35 @@
             </div>
         {% endif %}
     </div>
-    {# <!-- Alerts -->
-    <div class="w-full flex justify-center">
-        <div class="container-primary">
-            {% for insight, insight_info in context['analyze'].items() %}
-                <ol>
-                    <li>{{insight_info}}</li>
-                </ol>
-            {% endfor %}
-        </div>
-    </div> #}
+    
     <!-- Tasks Card -->
     <div class="w-full flex justify-center">
         <div class="container-primary">
             <div class="m-4">
-                <h1 class="text-xl text-left title-primary">Tasks to do</h1>
+                <h1 class="title-primary">Tasks to do</h1>
+                <p class="information-primary">You can add some task to the store</p>
 
-                <div class="space-y-4">
+                <div class="space-y-4 mt-4">
                     {% if context['tasks'][0] %}
                         {% for task in context['tasks'][0] %}
                             <div class="flex justify-around container-primary w-full m-0 items-center
                             hover:border-emerald-800">
 
                                 {% for task_name, task_description in task.items() %}
-                                    <div class="w-[80%]">
+                                    <div class="w-8/12 p-2">
 
-                                        <h4 class=" sub-title-primary mt-0"> {{ task_name }}</h4>
-                                        <h4 class="text-white">{{task_description}}</h4>
+                                        <h4 class="title-primary text-yellow-500 mt-0"> {{ task_name }}</h4>
+                                        <h4 class="information-primary ml-4">{{task_description}}</h4>
                                     </div>
-                                
 
-                                    <form action="/tasks/{{date_for}}/{{store_to_show}}/concluded" method="POST">
+                                    <form action="/tasks/{{date_for}}/{{store_to_show}}/concluded" method="POST" class="w-2/12">
                                         <input type="text" name="{{task_name}}" hidden>
-                                        <button type="submit" class="btn-primary m-0">Finish</button>
+                                        <button type="submit" class="btn-primary m-0 w-[90%]">Finish</button>
                                     </form>
 
-                                    <form action="/tasks/{{date_for}}/{{store_to_show}}/delete" method="POST">
+                                    <form action="/tasks/{{date_for}}/{{store_to_show}}/delete" method="POST" class="w-2/12">
                                         <input type="text" name="{{task_name}}" hidden>
-                                        <button type="submit" class="btn-primary m-0">Delete</button>
+                                        <button type="submit" class="btn-primary m-0 w-[90%] hover:bg-red-800 border-none hover:border-none transition-all duration-300">Delete</button>
                                     </form>
                                 {% endfor %}
                             </div>
@@ -172,9 +163,10 @@
     <!-- Production Card -->
     <div class="w-full flex justify-center">
         <!-- Container -->
-        <div class="w-5/6 border border-emerald-500">
-            <div class="w-full h-8 flex items-center m-4">
-                <h1 class="font-bold text-emerald-500 text-2xl w-full">Insert the Production</h1>
+        <div class="container-primary">
+            <div class="m-4">
+                <h1 class="title-primary">Insert the Production</h1>
+                <p class="information-primary">Insert here the day production</p>
             </div>
             <section class="flex w-full">
                 <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col w-3/6 m-4" method="POST" id="production-form">
@@ -224,11 +216,14 @@
     <!-- Consume Card -->
     <div class="w-full flex justify-center mt-4">
         <!-- Container -->
-        <div class="w-5/6 border border-emerald-500 flex ">
+        <div class="container-primary flex">
             <section class="w-3/6">
-                <div class="w-full h-8 flex items-center m-4">
+                <div class="m-4">
                     <h1 class="title-primary">Enter your consume</h1>
+                    <p class="information-primary">Insert here each worker and its consumes</p>
                 </div>
+
+                
     
                 <form action="/consume/{{date_for}}/{{store_to_show}}" class="flex flex-col m-4" method="POST">
     
@@ -260,9 +255,10 @@
     <!-- Wasted Items -->
     <div class="w-full flex justify-center mt-4">
         <!-- Container -->
-        <div class="w-5/6 border border-emerald-500">
-            <div class="w-full h-8 flex items-center m-4">
+        <div class="container-primary">
+            <div class="m-4">
                 <h1 class="title-primary">Enter the Wasted</h1>
+                <p class="information-primary">Insert here the wasted articles and its amount</p>
             </div>
 
             <form action="/waste/{{date_for}}/{{store_to_show}}" method="POST" class="flex flex-col m-4">

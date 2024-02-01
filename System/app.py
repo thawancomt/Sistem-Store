@@ -326,7 +326,7 @@ def register_user():
 
 
     context = {}
-    context['data'] = user_data()
+    context['stores'] = Production.stores
     context['levels'] = User.levels_of_users
 
     return render_template('auth/register.html', context=context)
