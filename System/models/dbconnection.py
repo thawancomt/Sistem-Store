@@ -87,14 +87,12 @@ class DbConnection():
 
     # A class User need to be passed into the constructor
     def update_user(self, who, new_info):
-        """ This two for loops verify if the info of new info is empty
-            case true: delete the key, and update just the changed info
-        """
-        
 
         try:
             username = new_info['username']
             email = new_info['email']
+            storeID = self.get_user_data(who)['store']
+            store_name = self.stores[storeID]
             if self.check_user_exist(username, email):
                 raise 'This User Already Exist'
         except:
@@ -109,7 +107,7 @@ class DbConnection():
         for key in keys_to_delete:
             del new_info[key]
 
-        self.db.update(new_info, Query().email == who.email)
+        self.db.table(store_name).update(new_info, Query().email == who.email)
 
     def delete_user(self, store, email):
 
