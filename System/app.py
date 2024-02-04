@@ -400,7 +400,7 @@ def tasks(date_for, store_to_send, action):
 
 
 @app.route('/stock/<store_to_show>/<reference>/<date>', methods=['GET', 'POST'])
-def stock(store_to_show, date = 'last', reference = 'reference'):
+def stock(store_to_show, date = 'last', reference = 'reference', chart_lenght = 0):
     if not is_user_logged_in(external_ip()):
         return redirect('/login')
     
@@ -411,7 +411,7 @@ def stock(store_to_show, date = 'last', reference = 'reference'):
     context['reference_count'] = StoreStock().get_store_stock(store_to_show, date=reference)
     context['count_dates'] = StoreStock().get_stocks_dates(store_to_show)
     context['difference'] = StoreStock().get_difference(store_to_show, reference=reference)
-    context['data_to_chart'] = StoreStock().create_data_to_chart(store_to_show)
+    context['data_to_chart'] = StoreStock().create_data_to_chart(store_to_show, 4)
 
     if request.method == 'POST':
         stock_count = request.form.to_dict()
@@ -421,8 +421,14 @@ def stock(store_to_show, date = 'last', reference = 'reference'):
 
             article = request.form.get('create_articles')
 
+
+            # Check if the input is multiple or single article
             if article:
-                articles_obj.insert_new_article(article)
+                if ',' in article:
+                    article_list = article.split(',')
+                    articles_obj.insert_multiples_articles(article_list)
+                else:
+                    articles_obj.insert_new_article(article)
 
             
 

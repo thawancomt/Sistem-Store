@@ -1,7 +1,6 @@
 from .dbconnection import DbConnection
 from datetime import datetime
 from tinydb import Query
-from .utils import *
 def get_timestamp(date = 0):
 
     if not date:
@@ -41,8 +40,8 @@ class StockArticles(DbConnection):
 
             if article_name in articles:
                 return True
-            else:
-                return False
+        else:
+            return False
             
     
     def insert_new_article(self, article_name) -> bool:
@@ -54,6 +53,14 @@ class StockArticles(DbConnection):
         article_name: str
         return: bool
         """
+
+        def check_article_name(articles_name):
+            invalid_char = ['-', '@', '#']
+            if any(c in article_name for c in invalid_char):
+                return False
+            return True
+            
+        check_article_name(article_name)
 
         old_data = self.get_all_articles()
         
@@ -70,6 +77,7 @@ class StockArticles(DbConnection):
                 self.update_articles(new_data)
                 return True
         else:
+            new_data = [article_name]
             self.update_articles(new_data)
             return True
         
@@ -112,11 +120,6 @@ class StockArticles(DbConnection):
         return: bool
         """
 
-        # Check if the user is passing multiples articles
-        if isinstance(article_name, list):
-            print("You are passing a list, but this function just suport one 1 article each")
-            self.delete_multiples_articles(article_name)
-
         if self.check_if_articles_exist(article_name):
             old_articles_list = self.get_all_articles()
             try:
@@ -140,6 +143,12 @@ class StockArticles(DbConnection):
 
         """
         not_founded_articles = list()
+
+        # Check if the user is passing multiples articles
+        if isinstance(articles, list):
+            print("You are passing a list, but this function just suport one 1 article each")
+            self.delete_multiples_articles(articles)
+
 
         for article in articles:
             if self.delete_article(article):
@@ -214,7 +223,7 @@ class StoreStock(StockArticles):
             print("This store, doesn't exist")
 
     
-    def get_stocks_dates(self, store):
+    def get_stocks_dates(self, store, inverted : bool = False, lenght : int = 0):
         from datetime import datetime
         dates = {}
         
@@ -227,11 +236,24 @@ class StoreStock(StockArticles):
             date = date.strftime('%d/%m/%Y - %H:%M:%S')
 
             return date
+
+        stocks = self.get_store_stock(store, all = True)
+
         
-        for stock in self.get_store_stock(store, all = True):
+
+
+        for stock in stocks:
             dates[stock.get('date')] = (convert_timestamp(stock.get('date')))
 
-        return dates
+        if lenght:
+            # Revert the dict to get the latest one first
+            dates = dict(reversed(dates.items()))
+            i = 0
+
+            while len(dates) > lenght:
+                dates.popitem()
+
+        return dates if not inverted else dict(reversed(dates.items()))
  
     def get_store_stock(self, store, all = False, date = 0.0):
         
@@ -335,29 +357,36 @@ class StoreStock(StockArticles):
         self.db.table(store_name).insert(self.generated_data(store, date, new_stock_count))
 
     
-    def create_data_to_chart(self, store):
+    def create_data_to_chart(self, store, lenght):
         articles_label = self.articles_names
+
         data = []
         amount = []
         dates = set()
 
         lista = {}
+        dates_chart = self.get_stocks_dates(store, False, lenght)
         for article in articles_label:
+
             lista[article] = []
-            for date in self.get_stocks_dates(store).keys():
-                dates.add(date)
+            
+            
+            for date in self.get_stocks_dates(store, False, lenght).keys():
+                
+                
+                dates.add(dates_chart[date])
+
                 lista[article].append(self.get_store_stock(store, date=date).get(article, 0))
+
                 amount.append(lista)
 
+        for article in articles_label:
             data.append(
                 {
-            'label' : article,
-            'data' : lista[article],
-            'pointRadius' : 10,
-            
-
-            }
-            )           
+                    'label' : article,
+                    'data' : lista[article]
+                }
+            ) 
         
         return {'date' : list(dates), 'data' : data}
 
@@ -366,4 +395,4 @@ class StoreStock(StockArticles):
 if __name__ == '__main__':
     import random
     a = StoreStock()
-    a.enter_stock(3, 0, {'bacon' : 12})
+    a.delete_article('maionese4,344')

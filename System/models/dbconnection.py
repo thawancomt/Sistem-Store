@@ -1,6 +1,6 @@
 from tinydb import TinyDB, Query
 from tinydb.operations import increment
-from .utils import *
+
 
 
 class DbConnection():
