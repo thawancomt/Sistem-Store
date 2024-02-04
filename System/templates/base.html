@@ -11,35 +11,34 @@
 </head>
 <h1></h1>
 <body class="w-full h-full">
-    <nav class="bg-slate-800 w-full h-12 flex justify-center mb-4">
-        <div class="flex justify-center items-center border border-emerald-500 m-1">
-            <a href="/homepage" class="text-lg text-emerald-500 font-extrabold m-1">Homepage</a>
+    <nav class="bg-slate-800 w-full h-12 flex mb-4">
+        <div class="flex justify-center items-center w-4/12">
+            <a href="/homepage" class="btn-primary w-fit p-2 rounded-xl">
+                Homepage
+            </a>
         </div>
-        
-        <div class="h-full w-11/12 flex justify-around">
-            
+        <div class="flex text-center items-center justify-center w-4/12">
             {% block store_title %}
-            {% endblock %}
-
-            <div class="w-auto h-full flex items-center ">
-
-                
-                <!-- Name with admin or not -->
-                <div class="-space-y-1 flex flex-col items-center">
-                    <h1 class="text-emerald-500 font-semibold text-lg">{{context['data']['username']}}</h1>
-                    <h4 class="text-white font-semibold text-sm">{{context['level']}}</h4>
-                </div>
-
-                
-                
-                
+             
+            {% endblock store_title %}
+        </div>
+        <div class="flex justify-center items-center space-x-4 w-4/12">
+            <div class="bg-slate-500 flex p-1 rounded-lg items-center justify-center space-x-9">
+                {% if context.level %}
+                <p class="sub-title-primary m-0 p-0">
+                    {{context.level}}
+                </p>    
+                 
+                {% endif %}
+                <h1 class="title-primary m-0 p-0">
+                    {{context.data.username}}
+                </h1>
             </div>
-            <div class="w-auto h-full flex items-center underline">
-                <form action="/logout" method="POST">
-                    <button type="submit" class="btn-primary-logout">Log Out</button>
-                </form>
+            <div>
+                <a href="/logout" class="btn-primary p-2 rounded-xl">
+                    Loggout
+                </a>
             </div>
-            
         </div>
         
     </nav>

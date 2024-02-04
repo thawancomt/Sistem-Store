@@ -5,33 +5,16 @@
 {% endblock %}
 
 {% block store_title %}
-    <div class="h-full flex items-center justify-center">
-        {% if context['stores'][store_to_show | int ] ==  context['data']['store_name'] %}
-            <h1 class="text-emerald-500 font-semibold text-lg text-center"> Gestão {{ context['stores'][store_to_show | int ]  }}</h1>
-        {% else %}
-            <h1 class="text-red-400 font-semibold text-lg text-center"
-            title="The user store is different of the store that will receive the production"
-            >Gestão {{ context['stores'][store_to_show | int ] }}* </h1>
+    <div>
+        <h1 class="title-primary text-center">
+            Gestão {{context.stores[store_to_show | int ]}}
+        </h1>
         
-        {% endif %}
     </div>
 {% endblock %}
 
 {% block user_title %}
-    <div class="w-auto h-full flex items-center " id="admin">
-        <!-- Name with admin or not -->
-        <div class="-space-y-1 flex flex-col items-center">
-            <h1 class="text-emerald-500 font-semibold text-lg">{{context['data']['username']}}</h1>
-            <h4 class="text-white font-semibold text-sm">{{context['data']['level']}}</h4>
-        </div>
-        
-        
-    </div>
-    <div class="w-auto h-full flex items-center underline">
-        <form action="/logout" method="POST">
-            <button type="submit" class="btn-primary-logout">Log Out</button>
-        </form>
-    </div>
+    
 {% endblock %}
 
 {% block content  %}
