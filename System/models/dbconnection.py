@@ -138,9 +138,7 @@ class DbConnection():
             if result[0].get('date'):
                 del result[0]['date']
 
-            return result[0]
-        else:
-            return {}
+        return result[0] if result else {}
         
 
     def get_wasted(self, store, date):
@@ -148,24 +146,19 @@ class DbConnection():
 
         result = self.db.table(store_name).search(Query().date == date)
 
-        if result:
-            return result[0]
-        return {}
+        return result[0] if result else {}
     
 
     def get_day_production(self, store, date):
-        store_name = self.stores[int(store)]
+        store_name = DbConnection.get_store_name(store)
 
         result = self.db.table(store_name).search(Query().date == str(date))
 
         try:
             return result[0]['production']
 
-        except IndexError:
+        except (IndexError, KeyError):
 
-            return self.default_production
-
-        except KeyError:
             return self.default_production
 
     # Insert functions
@@ -178,7 +171,7 @@ class DbConnection():
         Returns:
             bool: True if successful inserted, false otherwise
         """
-        store_name = self.stores[data['store']]
+        store_name = DbConnection.get_store_name(data.get('store'))
         data_to_insert = {}
 
         username = data['username']
@@ -188,8 +181,6 @@ class DbConnection():
             for key, value in data.items():
                 if key in self.permissive_keys_for_create_users:
                     data_to_insert[key] = value
-                else:
-                    pass
 
             self.db.table(store_name).insert(data_to_insert)
             return True
@@ -239,7 +230,7 @@ class DbConnection():
 
 
 
-        store_name = self.stores[store]
+        store_name = DbConnection.get_store_name(store)
 
         result = self.get_wasted(store, date)
 
@@ -254,7 +245,7 @@ class DbConnection():
 
     def insert_production(self, store, date, data):
 
-        store_name = self.stores[store]
+        store_name = DbConnection.get_store_name(store)
 
         default_day = {
             'big_ball': 0,
@@ -323,7 +314,7 @@ class DbConnection():
             old_data (_type_): _description_
             new_data (_type_): _description_
         """
-        store_name = self.stores[store]
+        store_name = DbConnection.get_store_name(store)
 
         generated_data = {}
 
@@ -343,7 +334,7 @@ class DbConnection():
     
     def update_consume(self, who, date, store, new_data):
 
-        store_name = self.stores[store]
+        store_name = DbConnection.get_store_name(store)
 
         if new_data:
 
@@ -359,7 +350,7 @@ class DbConnection():
     
     def update_wasted(self, who, date, store, data):
 
-        store_name = self.stores[store]
+        store_name = DbConnection.get_store_name(store)
 
         if data:
             old_data = self.get_wasted(store, date).get(who, {})
@@ -486,6 +477,6 @@ class DbConnection():
 
         print(f'This is the email {email}')
 
-        store_name = self.stores[store]
+        store_name = DbConnection.get_store_name(store)
 
         return self.db.table(store_name).remove(Query().email == email)
