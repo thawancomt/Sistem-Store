@@ -1,6 +1,9 @@
 from tinydb import Query
 from .dbconnection import DbConnection
 
+
+default_path = {'users' : 'System/databases/users.json'}
+
 class User(DbConnection):
     permissive_keys = ['username', 'password',
                        'level', 'email', 'store', 'last_login']
@@ -18,29 +21,29 @@ class User(DbConnection):
         self.last_login = None
         self.level = None
         self.when_was_created = None
-        super().__init__('System/databases/users.json')
+        super().__init__(default_path.get('users'))
 
     def get_user_data(self, who):
-        result = DbConnection('System/databases/users.json').get_user_data(who)
+        result = DbConnection(default_path.get('users')).get_user_data(who)
         return result
 
     def edit_user(self, who, new_data):
-        DbConnection('System/databases/users.json').update_user(who, new_data)
+        DbConnection(default_path.get('users')).update_user(who, new_data)
 
     def return_all_users(self):
-        return DbConnection('System/databases/users.json').get_all_users()
+        return DbConnection(default_path.get('users')).get_all_users()
 
     def return_filtered_users(self, search):
-        return DbConnection('System/databases/users.json').get_users_by_search(search)
+        return DbConnection(default_path.get('users')).get_users_by_search(search)
 
     def return_filtered_users_by_store(self, store):
-        return DbConnection('System/databases/users.json').get_users_by_store(int(store))
+        return DbConnection(default_path.get('users')).get_users_by_store(int(store))
 
     def delete_user(self, who):
         store = User().get_user_data(who)['store']
         email = who.email
         
-        return DbConnection('System/databases/users.json').delete_user(store, email)
+        return DbConnection(default_path.get('users')).delete_user(store, email)
         
         
 class CreateUser(User):
@@ -59,7 +62,7 @@ class CreateUser(User):
         }
 
     def create_user(self):
-        if DbConnection('System/databases/users.json').insert_user(self.data):
+        if DbConnection(default_path.get('users')).insert_user(self.data):
             return True
         else:
             return False
@@ -67,7 +70,7 @@ class CreateUser(User):
 
 class Login(DbConnection):
 
-    def __init__(self, who, db='System/databases/users.json'):
+    def __init__(self, who, db=default_path.get('users')):
         super().__init__(db)
         self.email = who.email
         self.password = who.password
@@ -86,7 +89,7 @@ class Session(DbConnection):
 
     def __init__(self, adress=None, who=None):
 
-        super().__init__('System/databases/users.json')
+        super().__init__(default_path.get('users'))
 
         self.adress = adress
         self.who = who
@@ -126,5 +129,3 @@ class Session(DbConnection):
             return DbConnection.stores[self.get_session()['store']]
         else:
             return self.get_session()['store']
-
-

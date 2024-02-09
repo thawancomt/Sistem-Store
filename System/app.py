@@ -7,11 +7,12 @@ from datetime import date
 
 app = Flask(__name__)
 
-app.secret_key = '2222'
-def external_ip():
-    return request.headers.get('X-Forwarded-For')
 
-def user_data(date_for = '', store_to_show = 0):
+def external_ip():
+    return request.remote_addr
+
+
+def user_data(date_for='', store_to_show=0):
 
     data = {}
 
@@ -29,6 +30,7 @@ def user_data(date_for = '', store_to_show = 0):
 
     return data
 
+
 def is_user_logged_in(ip):
     # Check if user is logged in
     try:
@@ -38,12 +40,7 @@ def is_user_logged_in(ip):
     except KeyError:
         return False
 
-@app.route('/ip')
-def ip():
-    return f'{request.headers.get("X-Forwarded-For")}'
 
-
-                                                           
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -83,8 +80,17 @@ def login():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    # Disconnect the user
-    Session(external_ip()).disconnect_user()
+
+    if is_user_logged_in(external_ip()):
+
+        # Set the user that gonna be disconnected
+        user = User()
+        user.username = user_data().get('username')
+        user.email = user_data().get('email')
+
+        # Disconnect the user
+        Session(external_ip(), user).disconnect_user()
+        
     return redirect('/login')
 
 
@@ -92,9 +98,11 @@ def logout():
 def page_not_found(e):
     return render_template('error/404.html'), 404
 
+
 @app.route('/')
 def index():
     return redirect('/login')
+
 
 @app.route('/homepage/')
 def redirect_home():
@@ -106,21 +114,19 @@ def redirect_home():
 @app.route('/homepage/<date_for>/<store_to_show>', methods=['GET', 'POST'])
 def home(date_for, store_to_show):
 
-    # Get the user store by Id (Id=False if want the name)
+    # Check if the user is logged in, else redirect to login page
+    if not is_user_logged_in(external_ip()):
+        return redirect('/login')
+
     user_store = Session(external_ip()).store_name(id=True)
 
     # Object to get management of the store
     store = Store()
     store.store = int(store_to_show)
 
-
-    # Check if the user is logged in, else redirect to login page
-    if not is_user_logged_in(external_ip()):
-        return redirect('/login')
-
     # Create a context to send to the template
     context = {}
-    
+
     # User context
     context['store_to_show'] = store_to_show
     context['data'] = user_data(date_for, store_to_show)
@@ -142,9 +148,9 @@ def home(date_for, store_to_show):
     context['consume_data'] = Consumes().create_data_to_consume_chart(int(store_to_show), date_for)
     # Check if the user is allowed to edit and visualize the store
     if int(user_store) != int(store_to_show) and context['level'] != 'admin':
-            flash("You can't edit other store")
-            return redirect('/homepage/')
-    
+        flash("You can't edit other store")
+        return redirect('/homepage/')
+
     # Handle the POST request
     if request.method == 'POST':
 
@@ -153,7 +159,6 @@ def home(date_for, store_to_show):
         context['store_to_show'] = int(store_to_redirect)
 
         return redirect(f'/homepage/{date_for}/{store_to_redirect}')
-
 
     return render_template('store/homepage.html', context=context, date_for=date_for, store_to_show=store_to_show)
 
@@ -187,7 +192,7 @@ def enter_consume(date_for, store_to_send):
         # Get the data from the form
         data_to_send_consume = request.form.to_dict()
 
-        # Create a consume objetct and set the date to send the consume and the store
+        # Create a consume object and set the date to send the consume and the store
         consume = Consumes()
         consume.worker = request.form.get('who_consume')
 
@@ -205,19 +210,19 @@ def enter_consume(date_for, store_to_send):
 def enter_waste(date_for, store_to_send):
 
     if request.method == 'POST':
-        # Get the data from the form and delete the who consume
+        # Get the data from the form and delete who consume
         data = request.form.to_dict()
 
         # create a new variable to receive who consume separately
         who = data['who_consume']
 
-        # delete the who consume from the data
+        # delete who consume from the data
         if data.get('who_consume'):
             del data['who_consume']
-        
-        # Before the treat of inputed data was here, but i change the treat handler to the dbmanager
-        # If some value is not int, the db return False and dont insert the consume
-            
+
+        # Before the treat of inputed data was here, but I change the treat handler to the DB manager
+        # If some value is not int, the db return False and don't insert consume
+
         for article, article_amount in data.items():
             if article_amount == '':
                 data[article] = 0
@@ -298,7 +303,7 @@ def delete_user():
 
         if username == Session(external_ip()).name():
             logout()
-            
+
         flash('User deleted')
 
     return redirect('/users')
@@ -370,7 +375,7 @@ def show_users_filtered():
     context['data'] = user_data()
     context['users'] = filtered_users
 
-    return render_template('users.html', data=user_data(), context=context)
+    return render_template('users/users.html', data=user_data(), context=context)
 
 
 @app.route('/tasks/<date_for>/<store_to_send>/<action>', methods=['GET', 'POST'])
@@ -383,8 +388,8 @@ def tasks(date_for, store_to_send, action):
         task_description = request.form.get('task_description')
 
         task_to_delete = request.form.to_dict()
-        
-        
+
+
         if action == 'create':
             store.create_task(date_for, task_to_create, task_description)
 
@@ -401,10 +406,12 @@ def tasks(date_for, store_to_send, action):
 
 @app.route('/stock/<store_to_show>/<reference>/<date>', methods=['GET', 'POST'])
 def stock(store_to_show, date = 'last', reference = 'reference', chart_lenght = 0):
+
     if not is_user_logged_in(external_ip()):
         return redirect('/login')
-    
+
     context = {}
+
     context['data'] = user_data(1, 5)
     context['articles'] = StockArticles().get_all_articles()
     context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
@@ -421,7 +428,6 @@ def stock(store_to_show, date = 'last', reference = 'reference', chart_lenght = 
 
             article = request.form.get('create_articles')
 
-
             # Check if the input is multiple or single article
             if article:
                 if ',' in article:
@@ -430,19 +436,20 @@ def stock(store_to_show, date = 'last', reference = 'reference', chart_lenght = 
                 else:
                     articles_obj.insert_new_article(article)
 
-            
+
 
         # If reference_count is in the request dict, redirect user to page to view this reference
         # stock aside the last stock count
         elif 'reference_count' in request.form.to_dict().keys():
             reference = request.form.get('reference_count')
             return redirect(f'/stock/{store_to_show}/{reference}/last')
-        
+
         elif 'date' in stock_count.keys():
             context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
             return redirect(stock_count.get('date'))
         else:
             StoreStock().enter_stock(int(store_to_show), 0, stock_count)
+
         return redirect(f'/stock/{store_to_show}/{reference}/last')
 
     return render_template('/store/stock_page.html', context=context)

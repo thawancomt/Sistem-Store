@@ -1,6 +1,8 @@
 from .dbconnection import DbConnection
 from datetime import datetime
 from tinydb import Query
+
+default_path = 'System/databases/stock.json'
 def get_timestamp(date = 0):
 
     if not date:
@@ -20,7 +22,7 @@ class StockArticles(DbConnection):
     of the DB
     """
 
-    def __init__(self, db = 'System/databases/stock.json'):
+    def __init__(self, db = default_path):
         super().__init__(db)
 
         self.articles_names = self.get_all_articles()
@@ -163,7 +165,7 @@ class StoreStock(StockArticles):
     Use this class to create, edit, delete or update in the 
     Store Stock DB
     """
-    def __init__(self, db='System/databases/stock.json'):
+    def __init__(self, db=default_path):
         super().__init__(db)
 
     def generated_data(self, store, date, data):

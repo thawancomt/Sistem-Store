@@ -1,6 +1,9 @@
 from .dbconnection import DbConnection
 from .utils import *
 
+default_path = {'production': 'System/databases/production.json',
+                'consumes': 'System/databases/consumes.json'}
+
 class Production():
     articles = {
         'big_ball': 'Big Ball',
@@ -8,6 +11,7 @@ class Production():
         'garlic_bread': 'Garlic bread',
         'mozzarela': 'Mozzarela',
         'edamer': 'Edamer',
+        'bacon' : 'Bacon'
 
 
     }
@@ -18,18 +22,20 @@ class Production():
         25: 'Baixa Chiado'
     }
 
-    def __init__(self, date, data={}):
+    def __init__(self, date, data = {}):
+        if data is None:
+            data = {}
         self.store = 0
         self.data = data  # Data
         self.date = date  # Date
 
     def send_production(self):
-        DbConnection('System/databases/production.json').insert_production(
+        DbConnection(default_path.get('production')).insert_production(
             self.store, self.date, self.data)
         
     
     def get_already_produced(self, store):
-        return DbConnection('System/databases/production.json').get_day_production(store, self.date)
+        return DbConnection(default_path.get('production')).get_day_production(store, self.date)
 
     
     def create_data_to_ball_usage_chart(self, store, length, end=1):
@@ -48,7 +54,7 @@ class Production():
         """
         initial_date_to_show_in_final_of_chart = self.date
 
-        def increment_date(day: int) -> str:  # OK
+        def increment_date(day: int) -> str:
             from datetime import datetime, timedelta
 
             try:
@@ -96,13 +102,13 @@ class Production():
                 if not value in data_to_return['articles']:
                     data_to_return['articles'].append(value)
 
-                data_to_return[key].append(result[key])
+                data_to_return.get(key, []).append(result.get(key, 0))
 
             result = self.get_already_produced(store)
 
         for key, value in self.articles.items():
             labels_col.append({'label': value,
-                               'data': data_to_return[key]})
+                               'data': data_to_return.get(key, [])})
 
         data_to_return['dates'] = dates
 
@@ -127,13 +133,13 @@ class Consumes():
         self.data: str = ''
 
     def send_consume(self):
-        DbConnection('System/databases/consumes.json').insert_consumes(who=self.worker,
+        DbConnection(default_path.get('consumes')).insert_consumes(who=self.worker,
                                                                 date=self.date,
                                                                 store=self.store,
                                                                 data=self.data)
 
     def get_consume_by_day(self, store, date):
-        return DbConnection('System/databases/consumes.json').get_day_consume(store, date)
+        return DbConnection(default_path.get('consumes')).get_day_consume(store, date)
 
     def create_data_to_consume_chart(self, store, date):
 
@@ -177,12 +183,12 @@ class Wasted():
         self.worker = str
 
     def enter_wasted(self):
-        return DbConnection('System/databases/waste.json').insert_wasted(who=self.worker,
+        return DbConnection('databases/waste.json').insert_wasted(who=self.worker,
                                             date=self.date_for,
                                             store=self.store,
                                             data=self.data)
     def update_wasted(self):
-        return DbConnection('System/databases/waste.json').update_wasted(who=self.worker,
+        return DbConnection('databases/waste.json').update_wasted(who=self.worker,
                                             date=self.date_for,
                                             store=self.store,
                                             data=self.data)
