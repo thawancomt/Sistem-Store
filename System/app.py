@@ -7,6 +7,8 @@ from datetime import date
 
 app = Flask(__name__)
 
+app.secret_key = '2222'
+
 
 def external_ip():
     return request.remote_addr

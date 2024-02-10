@@ -48,15 +48,7 @@ new Chart(consumeChart, {
   type: 'bar',
   data: {
     labels: consumeWorkers,
-    datasets: [
-      {
-        label: 'slices',
-        data: [12, 23],
-      },
-      {
-      label: 'breads',
-      data: [2, 12]
-    }]
+    datasets: consumeData
   },
   options: options
 });

@@ -1,5 +1,5 @@
 from .dbconnection import DbConnection
-from .utils import *
+
 
 default_path = {'production': 'System/databases/production.json',
                 'consumes': 'System/databases/consumes.json'}
@@ -172,7 +172,7 @@ if __name__ == '__main__':
 
     teste = Consumes()
 
-    print(teste.create_data_to_consume_chart(3, '2024-01-25'))
+    print(teste.create_data_to_consume_chart(3, '2024-02-10').get('data'))
 
 
 class Wasted():
