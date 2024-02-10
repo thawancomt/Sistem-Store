@@ -35,7 +35,8 @@
                     <th>New Count</th>
                 </tr>
                 {% for article in context.articles %}
-                    <tr class="*:border *:border-emerald-400 *:text-center hover:bg-slate-200 *:hover:text-black *:hover:font-bold ">
+                    <tr class="*:border *:border-emerald-400 *:text-center hover:bg-slate-200 *:hover:text-black *:hover:font-bold
+                    odd:bg-slate-950 even:bg-slate-800">
                         <td class="text-emerald-400 font-bold">{{article}}</td>
                         <td class="text-yellow-400">{{context.reference_count.get(article, 0)}}</td>
                         <td class="text-red-400">{{context.store_stock.get(article, 0)}}</td>
