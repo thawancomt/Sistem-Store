@@ -23,18 +23,18 @@
             {% endblock store_title %}
         </div>
         <div class="flex justify-center items-center space-x-4 w-4/12">
-            <div class="bg-slate-500 flex p-1 rounded-lg items-center justify-center space-x-9">
+            <div class="bg-slate-500 flex p-1 rounded-lg items-center justify-center ">
                 {% if context.level %}
-                <p class="sub-title-primary m-0 p-0">
+                <p class="sub-title-primary m-0 p-0 text-xs hover:text-cyan-400">
                     {{context.level}}
                 </p>    
                  
                 {% endif %}
-                <h1 class="title-primary m-0 p-0">
+                <h1 class="title-primary text-black m-0 p-0">
                     {{context.data.username}}
                 </h1>
             </div>
-            <div>
+            <div class="visible">
                 <a href="/logout" class="btn-primary p-2 rounded-xl">
                     Loggout
                 </a>

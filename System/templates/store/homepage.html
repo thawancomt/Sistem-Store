@@ -152,7 +152,7 @@
                 <p class="information-primary">Insert here the day production</p>
             </div>
             <section class="flex w-full">
-                <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col w-3/6 m-4" method="POST" id="production-form">
+                <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col w-3/6 m-4 " method="POST" id="production-form">
                     {% for article, article_name in context['data']['articles'].items() %}
                     <!-- Inputs of production -->
                         <div class="w-full flex justify-between">
