@@ -1,8 +1,9 @@
-from .dbconnection import DbConnection
+from dbconnection import DbConnection
 
 
 default_path = {'production': 'System/databases/production.json',
-                'consumes': 'System/databases/consumes.json'}
+                'consumes': 'System/databases/consumes.json',
+                'waste': 'System/databases/waste.json'}
 
 class Production():
     articles = {
@@ -12,7 +13,6 @@ class Production():
         'mozzarela': 'Mozzarela',
         'edamer': 'Edamer',
         'bacon' : 'Bacon'
-
 
     }
     stores = {
@@ -166,13 +166,6 @@ class Consumes():
         return result
 
 
-if __name__ == '__main__':
-
-    from dbconnection import DbConnection
-
-    teste = Consumes()
-
-    print(teste.create_data_to_consume_chart(3, '2024-02-10').get('data'))
 
 
 class Wasted():
@@ -183,14 +176,19 @@ class Wasted():
         self.worker = str
 
     def enter_wasted(self):
-        return DbConnection('databases/waste.json').insert_wasted(who=self.worker,
+        return DbConnection(default_path.get('waste')).insert_wasted(who=self.worker,
                                             date=self.date_for,
                                             store=self.store,
                                             data=self.data)
     def update_wasted(self):
-        return DbConnection('databases/waste.json').update_wasted(who=self.worker,
+        return DbConnection(default_path.get('waste')).update_wasted(who=self.worker,
                                             date=self.date_for,
                                             store=self.store,
                                             data=self.data)
     
 
+if __name__ == '__main__':
+    a = Wasted('29', 5)
+    a.data = {'slice' : 20}
+    a.worker = 'Thawan'
+    a.enter_wasted()

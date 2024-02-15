@@ -228,8 +228,6 @@ class DbConnection():
                 except ValueError:
                     return False
 
-
-
         store_name = DbConnection.get_store_name(store)
 
         result = self.get_wasted(store, date)
@@ -351,10 +349,9 @@ class DbConnection():
     def update_wasted(self, who, date, store, data):
 
         store_name = DbConnection.get_store_name(store)
+        old_data = self.get_wasted(store, date).get(who, {})
 
         if data:
-            old_data = self.get_wasted(store, date).get(who, {})
-
             for article, amount in old_data.items():
                 data[article] += int(amount)
 
