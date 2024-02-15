@@ -87,6 +87,7 @@ class Production():
                           'garlic_bread': [],
                           'mozzarela': [],
                           'edamer': [],
+                          'bacon': [],
                           'articles': []}
         labels_col = []
 
