@@ -1,5 +1,6 @@
 from tinydb import TinyDB, Query
 from tinydb.operations import increment
+from hashlib import sha256
 
 class DbConnection():
     permissive_keys_for_create_users = [
@@ -297,6 +298,8 @@ class DbConnection():
         for key, value in new_info.items():
             if not value:
                 keys_to_delete.append(key)
+            if key == 'password':
+                new_info[key] = sha256(value.encode()).hexdigest()
 
         for key in keys_to_delete:
             del new_info[key]

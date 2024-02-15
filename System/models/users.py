@@ -46,10 +46,8 @@ class User(DbConnection):
         return DbConnection(default_path.get('users')).delete_user(store, email)
         
         
-class CreateUser(User):
+class CreateUser():
     def __init__(self, who):
-
-        super().__init__()
 
         self.data = {
             'username': who.username,
@@ -60,6 +58,7 @@ class CreateUser(User):
             'last_login': who.last_login,
             'when_created': who.when_was_created,
         }
+
 
     def create_user(self):
         if DbConnection(default_path.get('users')).insert_user(self.data):
