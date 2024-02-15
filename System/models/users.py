@@ -1,6 +1,6 @@
 from tinydb import Query
 from .dbconnection import DbConnection
-
+from hashlib import sha256
 
 default_path = {'users' : 'System/databases/users.json'}
 
@@ -53,7 +53,7 @@ class CreateUser(User):
 
         self.data = {
             'username': who.username,
-            'password': who.password,
+            'password': sha256(who.password.encode()).hexdigest(),
             'email': who.email,
             'store': who.store,
             'level': who.level,
@@ -74,6 +74,14 @@ class Login(DbConnection):
         super().__init__(db)
         self.email = who.email
         self.password = who.password
+
+    @property
+    def password(self):
+        return sha256(self._password.encode()).hexdigest()
+    
+    @password.setter
+    def password(self, value):
+        self._password = value
 
     def validate(self):
         for table in self.db.tables():

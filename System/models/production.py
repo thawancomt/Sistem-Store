@@ -1,4 +1,4 @@
-from dbconnection import DbConnection
+from .dbconnection import DbConnection
 
 
 default_path = {'production': 'System/databases/production.json',
