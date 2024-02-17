@@ -1,29 +1,59 @@
-from .dbconnection import DbConnection
+from dbconnection import DbConnection
 
 
-default_path = {'production': 'System/databases/production.json',
+default_path = {'production': 'testEmptyInsert.json',
                 'consumes': 'System/databases/consumes.json',
                 'waste': 'System/databases/waste.json'}
 
 class Production():
-    articles = DbConnection.articles
-    stores = {
-        3: 'Colombo',
-        5: 'Odivelas',
-        11: 'Campo de Ourique',
-        25: 'Baixa Chiado'
-    }
 
-    def __init__(self, date, data = {}):
-        if data is None:
-            data = {}
-        self.store = 0
+    articles = DbConnection.articles
+
+    stores = DbConnection.stores
+
+    def __init__(self, date = '' , data = {}):
+
+        self.store : int
         self.data = data  # Data
         self.date = date  # Date
+
+    @property
+    def date(self):
+        return self._date
+    
+    @date.setter
+    def date(self, value):
+        if value == '':
+            raise ValueError('Date cannot be empty')
+        self._date = value
+
+    @property
+    def data(self):
+        return self._data
+    
+    @data.setter
+    def data(self, value):
+        if not isinstance(value, dict):
+            raise ValueError('data must be a dictionary')
+        self._data = value
+
+    @property
+    def store(self):
+        return self._store
+    
+    @store.setter
+    def store(self, value):
+        if value not in self.stores:
+            raise KeyError('This store doesnt exist in the setup')
+        self._store = value
+
+
 
     def send_production(self):
         return DbConnection(default_path.get('production')).insert_production(
             self.store, self.date, self.data)
+    
+
         
     
     def get_already_produced(self, store):

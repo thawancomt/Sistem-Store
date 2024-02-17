@@ -1,5 +1,8 @@
 import unittest
 from dbconnection import DbConnection
+from production import Production
+
+from tinydb import Query, TinyDB
 
 
 
@@ -160,6 +163,104 @@ class Test_Production(unittest.TestCase):
         for i in range(1, 4):
             self.assertEqual(self.db.stores[i], expected_names[i-1])
 
+class Test_ProductionByClass(unittest.TestCase):
+    def setUp(self) -> None:
+        self.pr = Production('2020-01-01')
+        self.pr.store = 3
+
+        self.db = DbConnection('testEmptyInsert.json')
     
-unittest.TestLoader.sortTestMethodsUsing = None
+
+    def test_insert_production(self):
+        self.db.db.drop_tables()
+
+        self.pr.store = 3
+        self.pr.date = '2020-01-01'
+        self.pr.data = {'chicken': 4}
+
+        self.pr.send_production()
+
+        expected = {'chicken': 4}
+
+        self.assertEqual(self.pr.get_already_produced(3), expected)
+    
+    def test_insert_with_already_produced(self):
+        self.db.db.drop_tables()
+
+        self.pr.store = 3
+        self.pr.date = '2020-01-01'
+        self.pr.data = {'chicken': 4}
+
+        self.pr.send_production()
+
+        self.pr.data = {'chicken': 4}
+
+        self.pr.send_production()
+
+        expected = {'chicken': 8}
+
+        self.assertEqual(self.pr.get_already_produced(3), expected)
+
+
+    def test_insert_production_with_empty_date(self):
+        self.db.db.drop_tables()
+
+        with self.assertRaises(ValueError):
+            self.pr.store = 3
+            self.pr.date = ''
+            self.pr.get_already_produced(3)
+
+    def test_not_listed_store(self):
+        
+        with self.assertRaises(KeyError):
+            self.pr.store = 0
+    
+    def test_insert_multiples_dates_and_inserts(self):
+
+        self.db.db.drop_tables()
+
+        self.pr.data = {'bacon' : 1, 'mozzarela' : 5}
+
+        self.pr.store = 3
+
+        self.pr.send_production()
+        self.pr.send_production()
+
+        self.pr.date = '2020-01-02'
+
+        self.pr.data = {'bacon' : 1, 'mozzarela' : 5}
+
+        self.pr.store = 3
+
+        self.pr.send_production()
+        self.pr.send_production()
+
+        expected = {'bacon' : 2, 'mozzarela' : 10}
+
+        self.assertEqual(self.db.get_day_production(3, '2020-01-01'), expected)
+        self.assertEqual(self.db.get_day_production(3, '2020-01-02'), expected)
+
+
+    @unittest.expectedFailure
+    def test_chart_creation(self):
+        self.db.db.drop_tables()
+
+        self.pr.store = 3
+
+        self.pr.date = '2020-01-02'
+
+        self.pr.data = {'big_ball' : 2, 'small_ball' : 20}
+
+        self.pr.send_production()
+
+        self.pr.date = '2020-01-01'
+
+        self.pr.data = {'big_ball' : 4, 'cheese' : 30}
+
+        expected = {}
+
+        self.assertEqual(self.pr.create_data_to_ball_usage_chart(3, 3), expected)
+
+        
+
 unittest.main(verbosity=4)
