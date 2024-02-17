@@ -6,15 +6,7 @@ default_path = {'production': 'System/databases/production.json',
                 'waste': 'System/databases/waste.json'}
 
 class Production():
-    articles = {
-        'big_ball': 'Big Ball',
-        'small_ball': 'Small Ball',
-        'garlic_bread': 'Garlic bread',
-        'mozzarela': 'Mozzarela',
-        'edamer': 'Edamer',
-        'bacon' : 'Bacon'
-
-    }
+    articles = DbConnection.articles
     stores = {
         3: 'Colombo',
         5: 'Odivelas',
@@ -30,7 +22,7 @@ class Production():
         self.date = date  # Date
 
     def send_production(self):
-        DbConnection(default_path.get('production')).insert_production(
+        return DbConnection(default_path.get('production')).insert_production(
             self.store, self.date, self.data)
         
     
@@ -81,14 +73,12 @@ class Production():
         before_week.append(initial_date_to_show_in_final_of_chart)
 
         dates = []
+        
+        data_to_return = {'articles': []}
+        
+        for article_name, artciles_code in self.articles.items():
+            data_to_return[article_name] = []
 
-        data_to_return = {'big_ball': [],
-                          'small_ball': [],
-                          'garlic_bread': [],
-                          'mozzarela': [],
-                          'edamer': [],
-                          'bacon': [],
-                          'articles': []}
         labels_col = []
 
         for day in before_week:

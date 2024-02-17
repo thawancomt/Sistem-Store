@@ -133,6 +133,6 @@ class Session(DbConnection):
 
     def store_name(self, id=False):
         if not id:
-            return DbConnection.stores[self.get_session()['store']]
+            return DbConnection.stores.get(self.get_session()['store'])
         else:
             return self.get_session()['store']

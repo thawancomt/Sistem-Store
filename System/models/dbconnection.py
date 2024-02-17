@@ -18,27 +18,51 @@ class DbConnection():
         5: 'Odivelas',
         11: 'Campo de Ourique',
         25: 'Baixa Chiado',
+        13: 'Alvalade',
+        17: 'Amoreiras',
+        19: 'Saldanha',
+        23: 'Areeiro',
+        29: 'Avenida',
+        31: 'Entrecampos',
 
     }
 
-    default_production = {
-        'big_ball': 0,
-        'small_ball': 0,
-        'garlic_bread': 0,
-        'mozzarela': 0,
-        'edamer': 0,
+    articles = {
+        'big_ball': 'Big Ball',
+        'small_ball': 'Small Ball',
+        'garlic_bread': 'Garlic bread',
+        'mozzarela': 'Mozzarela',
+        'edamer': 'Edamer',
+        'bacon' : 'Bacon',
+        'goronzola' : 'Goronzola',
+        'pepperoni' : 'Pepperoni',
     }
+
+    default_production = {}
+    for article in articles:
+        default_production[article] = 0
 
     def __init__(self, db):
+        self.db_text = db
         self.db = TinyDB(db, indent=4)
         self.tables = self.db.tables()
 
+    def __del__(self):
+        self.db.close()
 
     # Get functions
     @staticmethod
     def get_store_name(store_id : int) -> str:
-        """Get the store name based on the dict of store's ID"""
-        return DbConnection.stores.get(int(store_id))
+        """
+        Get the store name based on the dict of store's ID
+        """
+        store_id = int(store_id)
+        
+        
+        if store_id not in DbConnection.stores:
+            raise ValueError('Store not found')
+
+        return DbConnection.stores.get(store_id, 0)
     
     def get_user_data(self, who):
 
@@ -155,12 +179,7 @@ class DbConnection():
 
         result = self.db.table(store_name).search(Query().date == str(date))
 
-        try:
-            return result[0]['production']
-
-        except (IndexError, KeyError):
-
-            return self.default_production
+        return result[0].get('production',  {}) if result else {}
 
     # Insert functions
     def insert_user(self, data):
@@ -246,35 +265,15 @@ class DbConnection():
 
         store_name = DbConnection.get_store_name(store)
 
-        default_day = {
-            'big_ball': 0,
-            'small_ball': 0,
-            'garlic_bread': 0,
-            'mozzarela': 0,
-            'edamer': 0,
-            }
-        for article, amount in data.items():
-            if amount.isnumeric():
-                amount = int(amount)
-                data[article] = amount
-            else:
-                try:
-                    data[article] = int(amount)
-                except:
-                    return False
+        produced = DbConnection(self.db_text).get_day_production(store, date)
 
+        if not date:
+            return False
 
-        if self.get_day_production(store, date) == default_day:
-            self.db.table(store_name).insert({'date': str(date),
-                                              'production': data})
-
+        if not produced:
+            self.db.table(store_name).insert({'date': date, 'production': data})
         else:
-
-            old_data = self.get_day_production(store, date)
-
-            self.update_production(
-                store=store, date=date, old_data=old_data, new_data=data)
-
+            self.update_production(store, date, produced, data)
 
     def check_user_exist(self, username: str = '', email: str = ''):
 
@@ -315,23 +314,19 @@ class DbConnection():
             old_data (_type_): _description_
             new_data (_type_): _description_
         """
+
         store_name = DbConnection.get_store_name(store)
 
         generated_data = {}
 
-        for article_id, article_name in old_data.items():
+        for article, amount in new_data.items():
+            generated_data[article] = amount + old_data.get(article, 0)
 
-            if new_data[article_id] == 0:
-                generated_data[article_id] = old_data[article_id]
-            else:
-                generated_data[article_id] = int(old_data[article_id]) + int(new_data[article_id])
+        for article, amount in old_data.items():
+            if article not in new_data:
+                generated_data[article] = amount
 
-        self.db.table(store_name).update(
-            {'production': generated_data}, Query().date == str(date)
-        )
-
-    
-
+        self.db.table(store_name).update({'production': generated_data}, Query().date == date)
     
     def update_consume(self, who, date, store, new_data):
 
@@ -480,3 +475,4 @@ class DbConnection():
         store_name = DbConnection.get_store_name(store)
 
         return self.db.table(store_name).remove(Query().email == email)
+
