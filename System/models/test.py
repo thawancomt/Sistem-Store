@@ -276,6 +276,17 @@ class Test_ProductionByClass(unittest.TestCase):
                     ]}
 
         self.assertEqual(self.pr.create_data_to_ball_usage_chart(3, -3), expected)
+    
+    def test_creation_chart_with_empty_production(self):
+        self.db.db.drop_tables()
+
+        self.pr.date = '2020-01-03'
+
+        expected = {'labels' : ['2020-01-01', '2020-01-02'],
+                    'datasets' : []}
+        
+        self.assertEqual(self.pr.create_data_to_ball_usage_chart(3, -2), expected)
+
 
 unittest.TestCase.maxDiff = None    
 unittest.util.MAX_LENGTH = 9999999
