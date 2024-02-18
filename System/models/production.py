@@ -95,47 +95,41 @@ class Production():
         else:
             end = 0
 
-        before_week: list = []
+        dates = []
 
         for day in range(length, end):
-            before_week.append(increment_date(day))
-
-        before_week.append(initial_date_to_show_in_final_of_chart)
-
-        dates = []
+            dates.append(increment_date(day))
         
-        data_to_return = {'articles': []}
-        
-        for article_name, artciles_code in self.articles.items():
-            data_to_return[article_name] = []
+        articles = {}
 
-        labels_col = []
-
-        for day in before_week:
-
+        # 1 loop
+        # Used to navigation in all days
+        for day in dates:
             self.date = day
-            result = self.get_already_produced(store)
+            produced = self.get_already_produced(store)
 
-            dates.append(day)
+            # This internal loop is to add all articles to artciles dict
+            # to understand the needed of separated loop, day 1 may have an articles
+            # and day 2 dont
+            # so we need to pass all day to verify all articles
+            for article in produced.keys():
+                if article not in articles:
+                    articles[article] = []
+                    
+        # Finally when all articles was checked and added into the dict
+        # We can pass in all days again and catch this articles production
+        # if this production doesnt have an production in the day, return 0
+        
+        for day in dates:
+            self.date = day
+            for article in articles:
+                articles[article].append(self.get_already_produced(store).get(article, 0))
 
-            for key, value in self.articles.items():
-
-                if not value in data_to_return['articles']:
-                    data_to_return['articles'].append(value)
-
-                data_to_return.get(key, []).append(result.get(key, 0))
-
-            result = self.get_already_produced(store)
-
-        for key, value in self.articles.items():
-            labels_col.append({'label': value,
-                               'data': data_to_return.get(key, [])})
-
-        data_to_return['dates'] = dates
-
-        data_to_return['data_labels'] = labels_col
-
-        return data_to_return
+        return {'labels' : dates,
+                'datasets' : [
+                    ({'label' : item,
+                      'data' : articles.get(item)}) for item in articles
+                ]}
 
 
 class Consumes():

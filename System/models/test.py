@@ -241,26 +241,42 @@ class Test_ProductionByClass(unittest.TestCase):
         self.assertEqual(self.db.get_day_production(3, '2020-01-02'), expected)
 
 
-    @unittest.expectedFailure
+    
     def test_chart_creation(self):
         self.db.db.drop_tables()
 
         self.pr.store = 3
 
-        self.pr.date = '2020-01-02'
+        self.pr.date = '2020-01-01'
 
         self.pr.data = {'big_ball' : 2, 'small_ball' : 20}
 
         self.pr.send_production()
 
-        self.pr.date = '2020-01-01'
+        self.pr.date = '2020-01-02'
 
         self.pr.data = {'big_ball' : 4, 'cheese' : 30}
 
-        expected = {}
+        self.pr.send_production()
 
-        self.assertEqual(self.pr.create_data_to_ball_usage_chart(3, 3), expected)
+        self.pr.date = '2020-01-03'
+        self.pr.data = {'big_ball' : 5, 'small_ball' : 12}
+        self.pr.send_production()
 
-        
+        self.pr.date = '2020-01-04'
 
+        expected = {'labels' : ['2020-01-01', '2020-01-02', '2020-01-03'],
+                    'datasets' : [
+                        {'label' : 'big_ball',
+                         'data' : [2, 4, 5]},
+                        {'label' : 'small_ball',
+                         'data' : [20, 0, 12]},
+                        {'label' : 'cheese',
+                         'data' : [0, 30, 0]} 
+                    ]}
+
+        self.assertEqual(self.pr.create_data_to_ball_usage_chart(3, -3), expected)
+
+unittest.TestCase.maxDiff = None    
+unittest.util.MAX_LENGTH = 9999999
 unittest.main(verbosity=4)
