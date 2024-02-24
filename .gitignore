@@ -1,13 +1,1 @@
-/.idea
-/.vscode
-/node_modules
-/System/__pycache__
-/System/managers/__pycache__
-/System/managers/__pycache__/users.cpython-311.pyc
 /venv
-myvenv
-.vscode
-tailwind/node_modules
-System/databases/
-System/models/__pycache__
-System/models/utils/__pycache__
