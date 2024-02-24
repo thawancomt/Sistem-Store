@@ -1,0 +1,30 @@
+{
+    "Colombo": {
+        "1": {
+            "date": "2024-02-24",
+            "production": {
+                "big_ball": 3,
+                "small_ball": 3,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0,
+                "bacon": 0,
+                "goronzola": 0,
+                "pepperoni": 0
+            }
+        },
+        "2": {
+            "date": "2024-02-25",
+            "production": {
+                "big_ball": 3,
+                "small_ball": 4,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0,
+                "bacon": 0,
+                "goronzola": 0,
+                "pepperoni": 0
+            }
+        }
+    }
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-slate-900 h-full dark" id="html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+        
+    {% endblock %}
+    <link rel="stylesheet" href="/static/output.css">
+    
+</head>
+<h1></h1>
+<body class="w-full h-full">
+    <nav class="bg-slate-800 w-full h-12 flex mb-4">
+        <div class="flex justify-center items-center w-4/12">
+            <a href="/homepage" class="btn-primary w-fit p-2 rounded-xl">
+                Homepage
+            </a>
+        </div>
+        <div class="flex text-center items-center justify-center w-4/12 space-x-4">
+            <h1 class="title-primary text-black m-0 p-0 bg-emerald-400 rounded-xl p-1">
+                    {{context.data.username}}
+            </h1>
+
+            {% block store_title %}
+            {% endblock store_title %}
+        </div>
+        <div class="flex justify-center items-center space-x-4 w-4/12">
+            <div class="bg-slate-500 flex p-1 rounded-lg items-center justify-center ">
+                {% if context.level %}
+                <p class="sub-title-primary m-0 p-0 text-xs hover:text-cyan-400">
+                    {{context.level}}
+                </p>    
+                 
+                {% endif %}
+
+            </div>
+            <div class="visible">
+                <a href="/logout" class="btn-primary p-2 rounded-xl">
+                    Loggout
+                </a>
+            </div>
+        </div>
+        
+    </nav>
+    
+    <div class="h-fit min-h-[100vh]">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+     
+    
+    <footer class="bg-gray-800 w-full h-32 flex justify-center mt-4 bottom-0">
+        <div class="w-5/6 h-full flex items-center justify-evenly">
+            <div class="">
+            <h1 class="text-emerald-500 font-semibold text-lg">Created By Thawan Henrique</h1>
+        </div>
+        <div class="flex justify-center items-center space-x-2">
+            <div class="w-full ">
+                <a href="https://www.instagram.com/thawan_henriquee/"class="flex space-x-2">
+                    <span> Instagram </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 7.082c1.602 0 1.792.006 2.425.035 1.627.074 2.385.845 2.46 2.459.028.633.034.822.034 2.424s-.006 1.792-.034 2.424c-.075 1.613-.832 2.386-2.46 2.46-.633.028-.822.035-2.425.035-1.602 0-1.792-.006-2.424-.035-1.63-.075-2.385-.849-2.46-2.46-.028-.632-.035-.822-.035-2.424s.007-1.792.035-2.424c.074-1.615.832-2.386 2.46-2.46.632-.029.822-.034 2.424-.034zm0-1.082c-1.63 0-1.833.007-2.474.037-2.18.1-3.39 1.309-3.49 3.489-.029.641-.036.845-.036 2.474 0 1.63.007 1.834.036 2.474.1 2.179 1.31 3.39 3.49 3.49.641.029.844.036 2.474.036 1.63 0 1.834-.007 2.475-.036 2.176-.1 3.391-1.309 3.489-3.49.029-.64.036-.844.036-2.474 0-1.629-.007-1.833-.036-2.474-.098-2.177-1.309-3.39-3.489-3.489-.641-.03-.845-.037-2.475-.037zm0 2.919c-1.701 0-3.081 1.379-3.081 3.081s1.38 3.081 3.081 3.081 3.081-1.379 3.081-3.081c0-1.701-1.38-3.081-3.081-3.081zm0 5.081c-1.105 0-2-.895-2-2 0-1.104.895-2 2-2 1.104 0 2.001.895 2.001 2s-.897 2-2.001 2zm3.202-5.922c-.397 0-.72.322-.72.72 0 .397.322.72.72.72.398 0 .721-.322.721-.72 0-.398-.322-.72-.721-.72z"/></svg>
+                </a>
+                
+                
+            </div>
+            <div class="w-full">
+                <a href="https://www.linkedin.com/in/thawan-barroso-27600024a/"class="flex space-x-2">
+                    <span>Linkedin</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+            <div class="w-full ">
+                <a href="https://www.youtube.com/@ThawanHenriquee" class="flex space-x-2">
+                    <span>Youtube</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.23 7.102c-2.002-.136-6.462-.135-8.461 0-2.165.148-2.419 1.456-2.436 4.898.017 3.436.27 4.75 2.437 4.898 1.999.135 6.459.136 8.461 0 2.165-.148 2.42-1.457 2.437-4.898-.018-3.436-.271-4.75-2.438-4.898zm-6.23 7.12v-4.444l4.778 2.218-4.778 2.226zm2-12.222c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z"/></svg>
+                    
+                </a>
+            </div>
+            <div class="w-full ">
+                <a href="https://github.com/thawancomt" class="flex space-x-2">
+                    <span>GitHub</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 6c-3.313 0-6 2.686-6 6 0 2.651 1.719 4.9 4.104 5.693.3.056.396-.13.396-.289v-1.117c-1.669.363-2.017-.707-2.017-.707-.272-.693-.666-.878-.666-.878-.544-.373.041-.365.041-.365.603.042.92.619.92.619.535.917 1.403.652 1.746.499.054-.388.209-.652.381-.802-1.333-.152-2.733-.667-2.733-2.965 0-.655.234-1.19.618-1.61-.062-.153-.268-.764.058-1.59 0 0 .504-.161 1.65.615.479-.133.992-.199 1.502-.202.51.002 1.023.069 1.503.202 1.146-.776 1.648-.615 1.648-.615.327.826.121 1.437.06 1.588.385.42.617.955.617 1.61 0 2.305-1.404 2.812-2.74 2.96.216.186.412.551.412 1.111v1.646c0 .16.096.347.4.288 2.383-.793 4.1-3.041 4.1-5.691 0-3.314-2.687-6-6-6z"/></svg>
+                </a>
+            </div>
+            
+        </div>
+        </div>
+        
+    </footer>
+
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

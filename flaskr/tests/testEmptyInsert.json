@@ -1,0 +1,25 @@
+{
+    "Colombo": {
+        "1": {
+            "date": "2020-01-01",
+            "production": {
+                "big_ball": 2,
+                "small_ball": 20
+            }
+        },
+        "2": {
+            "date": "2020-01-02",
+            "production": {
+                "big_ball": 4,
+                "cheese": 30
+            }
+        },
+        "3": {
+            "date": "2020-01-03",
+            "production": {
+                "big_ball": 5,
+                "small_ball": 12
+            }
+        }
+    }
+}

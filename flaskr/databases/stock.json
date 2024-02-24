@@ -1,0 +1,18 @@
+{
+    "Colombo": {
+        "1": {
+            "store": 3,
+            "date": 1707529290.478626,
+            "articles": {}
+        }
+    },
+    "articles": {
+        "1": {
+            "articles": [
+                "bacon",
+                "Fiambre",
+                "bacon2"
+            ]
+        }
+    }
+}
