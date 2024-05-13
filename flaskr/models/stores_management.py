@@ -1,6 +1,6 @@
 from flaskr.models import User
 from flaskr.dbconnection import DbConnection
-default_path = {'tasks': 'databases/tasks.json'}
+default_path = {'tasks': 'flaskr/databases/tasks.json'}
 class Store():
 
     def __init__(self):

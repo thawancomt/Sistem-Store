@@ -6,6 +6,13 @@
                 "slice": 2,
                 "bread": 3
             }
+        },
+        "2": {
+            "date": "2024-05-13",
+            "thawacomt": {
+                "slice": 35,
+                "bread": 60
+            }
         }
     }
 }

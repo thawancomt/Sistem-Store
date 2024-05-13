@@ -4,7 +4,7 @@ from hashlib import sha256
 
 from flaskr.dbconnection import DbConnection
 
-default_path = {'users' : 'databases/users.json'}
+default_path = {'users' : 'flaskr/databases/users.json'}
 
 
 class User(DbConnection):
@@ -64,10 +64,14 @@ class CreateUser():
 
 
     def create_user(self):
-        if DbConnection(default_path.get('users')).insert_user(self.data):
-            return True
-        else:
-            return False
+        try:
+            if DbConnection(default_path.get('users')).insert_user(self.data):
+                return True
+            else:
+                return False
+        except FileNotFoundError:
+            pass
+            
 
 
 class Login(DbConnection):

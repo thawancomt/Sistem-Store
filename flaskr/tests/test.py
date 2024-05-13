@@ -1,7 +1,18 @@
 import unittest
 
-from flaskr.dbconnection import DbConnection
+import sys, os
+
+
+sys.path.append(f'{os.getcwd()}')
+
+a = sys.path
+for i in sys.path:
+    print (i)
+
 from flaskr.models.production import Production
+from flaskr.dbconnection import DbConnection
+
+
 
 
 class test_Production(unittest.TestCase):
@@ -250,3 +261,5 @@ class test_ProductionByClass (unittest.TestCase):
 
         self.assertEqual (self.pr.create_data_to_ball_usage_chart (3, -2), expected)
 
+a = test_Production()
+b = test_ProductionByClass()

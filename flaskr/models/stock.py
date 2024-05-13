@@ -3,7 +3,7 @@ from datetime import datetime
 from tinydb import Query
 from flaskr.models import *
 
-default_path = 'databases/stock.json'
+default_path = 'flaskr/databases/stock.json'
 def get_timestamp(date = 0):
 
     if not date:

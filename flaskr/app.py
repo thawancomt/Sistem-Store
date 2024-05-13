@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, flash
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from models import *
+from flaskr.models import *
 
 
 from datetime import date

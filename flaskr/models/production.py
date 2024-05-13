@@ -1,7 +1,7 @@
 from flaskr.dbconnection import DbConnection
-default_path = {'production': 'testEmptyInsert.json',
-                'consumes': 'databases/consumes.json',
-                'waste': 'databases/waste.json'}
+default_path = {'production': 'flaskr/databases/production.json',
+                'consumes': 'flaskr/databases/consumes.json',
+                'waste': 'flaskr/databases/waste.json'}
 
 class Production():
 
@@ -123,7 +123,7 @@ class Production():
             for article in articles:
                 articles[article].append(self.get_already_produced(store).get(article, 0))
 
-        return {'labels' : dates,
+        return {'labels' : ['g', 'k'],
                 'datasets' : [
                     ({'label' : item,
                       'data' : articles.get(item)}) for item in articles

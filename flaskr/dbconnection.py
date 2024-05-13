@@ -207,7 +207,7 @@ class DbConnection():
             return False
         
     def insert_stock(self, data):
-        self.db = TinyDB('System/databases/stock.json', indent=4)
+        self.db = TinyDB('flaskr/databases/stock.json', indent=4)
 
         self.db.insert(data)
 
