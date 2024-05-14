@@ -1,11 +1,11 @@
-from flask import Blueprint, request, redirect, render_template, flash
+from flask import Blueprint, request, redirect, render_template, flash, url_for
 
 from flaskr.models.users import Session, Login, User
 
 from datetime import datetime
 
 login_bp = Blueprint('login_bp', __name__,
-                     static_url_path='/login')
+                     url_prefix='/login')
 
 def external_ip():
     return request.remote_addr
@@ -19,7 +19,7 @@ def is_user_logged_in(ip):
     except KeyError:
         return False
 
-@login_bp.route('/login', methods=['GET'])
+@login_bp.route('/', methods=['GET'])
 def login_page():
     
     
@@ -29,7 +29,7 @@ def login_page():
     
     return render_template('auth/login.html')
 
-@login_bp.route('/login/', methods=['POST'])
+@login_bp.route('/log_in', methods=['POST'])
 def log_in():
     date = datetime.now().strftime('%Y-%m-%d')
 
@@ -44,6 +44,10 @@ def log_in():
     
     result = Login(connected_user).validate()
     
+    Session(external_ip(), connected_user).connect_user()
+    
+    
+    
         
-    return f'{result}'
+    return redirect(url_for('home_bp.home'))
     

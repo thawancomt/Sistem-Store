@@ -78,9 +78,8 @@ class Production():
             from datetime import datetime, timedelta
 
             try:
-                date = datetime.strptime(self.date, '%Y-%m-%d').date()
 
-                incremented_date = str(date + timedelta(days=day))
+                incremented_date = str((datetime.now() + timedelta(days=day)).strftime('%y-%m-%d'))
 
                 return incremented_date
 

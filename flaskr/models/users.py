@@ -117,7 +117,7 @@ class Session(DbConnection):
             'username':  needed_data['username'],
             'email':  needed_data['email'],
             'store': needed_data['store'],
-            'status': self.status,
+            'status': True,
             'level': needed_data['level']
         }
 
