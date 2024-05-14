@@ -5,6 +5,7 @@ from flaskr.models import *
 
 from flaskr.blueprints.login.bp_login import login_bp
 from flaskr.blueprints.home.bp_home import  home_bp
+from flaskr.blueprints.users.bp_users import users_page_bp
 
 from datetime import date
 
@@ -17,6 +18,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 app.register_blueprint(login_bp)
 app.register_blueprint(home_bp)
+app.register_blueprint(users_page_bp)
 
 
 def external_ip():
@@ -226,21 +228,6 @@ def register_user():
 
     return render_template('auth/register.html', context=context)
 
-
-@app.route('/users')
-def show_users():
-
-    if is_user_logged_in(external_ip()):
-        pass
-    else:
-        return redirect('/login')
-
-    context = {}
-
-    context['data'] = user_data()
-    context['users'] = User().return_all_users()
-
-    return render_template('users/users.html', context=context)
 
 
 @app.route('/users/search/', methods=['GET', 'POST'])
