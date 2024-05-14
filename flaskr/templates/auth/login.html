@@ -24,7 +24,7 @@
                             font-semibold text-lg">Insert your data to login</h4>
                 </div>
                 <div class="mx-4 my-10">
-                    <form action="/login" method="post">
+                    <form action="{{ url_for('login_bp.log_in')}}" method="POST" enctype="multipart/form-data">
                         <input type="email" name="email" id="" class="form-control-1 w-full mt-4" required>
                         <input type="password" name="password" id="" class="form-control-1 w-full mt-4 " required>
                         <button type="submit" class="border border-emerald-500

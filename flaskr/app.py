@@ -3,6 +3,8 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from flaskr.models import *
 
+from flaskr.blueprints.login.bp_login import login_bp
+
 
 from datetime import date
 
@@ -12,9 +14,12 @@ app = Flask(__name__)
 app.secret_key = '2222'
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
+
+app.register_blueprint(login_bp)
+
+
 def external_ip():
     return request.remote_addr
-
 
 def user_data(date_for='', store_to_show=0):
 
@@ -35,51 +40,6 @@ def user_data(date_for='', store_to_show=0):
     return data
 
 
-def is_user_logged_in(ip):
-    # Check if user is logged in
-    try:
-        result = Session.connected_users[ip]['status']
-        if result:
-            return True
-    except KeyError:
-        return False
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-
-    # Check if the user is logged in, if true redirect to homepage
-    if is_user_logged_in(external_ip()):
-        return redirect('/homepage')
-
-    if request.method == 'POST':
-
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        # Create a new user object and set email and password
-        connected_user = User()
-        connected_user.email = email
-        connected_user.password = password
-
-        # Validate return is Boolean
-        result = Login(connected_user).validate()
-
-        if result:
-            # insert the user into the logged users
-            Session(external_ip(), connected_user).connect_user()
-
-            # define this user as logged in
-            Session.connected_users[external_ip()]['status'] = True
-
-            # update the last login of user
-            User().edit_user(who=connected_user,new_data={'last_login': str(date.today())})
-
-            return redirect('/homepage/')
-        else:
-            flash('Incorrect email or password')
-
-    return render_template('auth/login.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -110,8 +70,6 @@ def index():
 
 @app.route('/homepage/')
 def redirect_home():
-    if not is_user_logged_in(external_ip()):
-        return redirect('/login')
 
     # If the user enter on homepage without a date
     user_store = Session(external_ip()).store_name(id=True)

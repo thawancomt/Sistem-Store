@@ -89,7 +89,7 @@ class Login(DbConnection):
     def password(self, value):
         self._password = value
 
-    def validate(self):
+    def validate(self) -> bool:
         for table in self.db.tables():
             if self.db.table(table).search((Query().email == self.email) &
                             (Query().password == self.password)):

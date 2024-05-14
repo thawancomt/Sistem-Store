@@ -2,6 +2,9 @@ from tinydb import TinyDB, Query
 from tinydb.operations import increment
 from hashlib import sha256
 
+from datetime import datetime
+
+
 class DbConnection():
     permissive_keys_for_create_users = [
         'username',
@@ -369,6 +372,9 @@ class DbConnection():
 
         if not task:
             return False
+        
+        if not date:
+            date = datetime.now().strftime('%Y-%m-%d')
 
         store_name = self.stores[int(store)]
 

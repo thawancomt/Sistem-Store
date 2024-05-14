@@ -1,2 +1,4 @@
-/venv
-/vevn
+/flaskr/__pycache__
+/flaskr/tests/__pycache__
+/flaskr/models/__pycache__
+/flaskr/blueprints/login/__pycache__
