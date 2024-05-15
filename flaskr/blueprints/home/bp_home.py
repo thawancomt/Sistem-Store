@@ -75,7 +75,7 @@ def home(date_for = date, store_to_show = 5):
     context['stores'] = Production.stores
 
     # Production context
-    context['chart_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)
+    context['chart_data'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -2)
     context['dates'] = Production(date_for).create_data_to_ball_usage_chart(store_to_show, -7)['labels']
 
     # Consume context

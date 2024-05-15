@@ -125,7 +125,7 @@ class Production():
         return {'labels' : dates,
                 'datasets' : [
                     ({'label' : item,
-                      'data' : articles.get(item)}) for item in articles
+                      'data' : '23'}) for item in self.articles
                 ]}
 
 
