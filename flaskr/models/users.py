@@ -6,6 +6,9 @@ from flaskr.dbconnection import DbConnection
 
 default_path = {'users' : 'flaskr/databases/users.json'}
 
+from datetime import datetime
+
+
 
 class User(DbConnection):
     permissive_keys = ['username', 'password',
@@ -31,6 +34,7 @@ class User(DbConnection):
         return result
 
     def edit_user(self, who, new_data):
+        print('EDIIIIIIIIIIIIIIIIIIIII')
         DbConnection(default_path.get('users')).update_user(who, new_data)
 
     def return_all_users(self):
@@ -78,6 +82,7 @@ class Login(DbConnection):
 
     def __init__(self, who, db=default_path.get('users')):
         super().__init__(db)
+        self.who = who
         self.email = who.email
         self.password = who.password
 
@@ -93,9 +98,10 @@ class Login(DbConnection):
         for table in self.db.tables():
             if self.db.table(table).search((Query().email == self.email) &
                             (Query().password == self.password)):
+                User().edit_user(who = self.who,new_data={'last_login': f'{datetime.now()}'})
                 return True
-        else:
-            return False
+            else:
+                return False
 
 
 class Session(DbConnection):

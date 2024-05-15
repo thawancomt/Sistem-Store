@@ -8,7 +8,7 @@ from datetime import datetime
 
 home_bp = Blueprint('home_bp', __name__, url_prefix='/homepage')
 
-date = datetime.now().strftime('%y-%m-%d')
+date = datetime.now().strftime('%Y-%m-%d')
 
 
 def user_data(date_for='', store_to_show=0):

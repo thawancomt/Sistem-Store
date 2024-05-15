@@ -71,7 +71,7 @@
                     <form action="/users" class="flex w-3/12">
                         <button type="submit" class="btn-primary hover:bg-red-700 hover:border-none">Access users</button>
                     </form>
-                    <form action="/stock/{{store_to_show}}/reference/last" class="flex w-3/12">
+                    <form action="{{url_for('stock_bp.stock_page')}}" class="flex w-3/12">
                         <button type="submit" class="btn-primary">Access Stock</button>
                     </form>
                 </div>
@@ -127,7 +127,7 @@
                 </div>
                 
 
-                <form action="/tasks/{{date_for}}/{{store_to_show}}/create" method="POST" class="mt-4">
+                <form action="{{ url_for('tasks_bp.create_task') }}" method="POST" class="mt-4">
                     <label for="task_to_send" class="sub-title-primary">Add some task</label>
                     <input type="text" name="task_to_send" class="form-control-1">
 

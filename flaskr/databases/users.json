@@ -6,6 +6,14 @@
             "email": "thawancomt@gmail.com",
             "store": 3,
             "level": "admin",
+            "last_login": "2024-05-15"
+        },
+        "2": {
+            "username": "Thawan",
+            "password": "090a1fc9bae469577ce220088255d0d1c8790ac82d7f94dca9c04b9bb4c8d282",
+            "email": "loja55615@gmail.com",
+            "store": 3,
+            "level": "admin",
             "last_login": ""
         }
     }

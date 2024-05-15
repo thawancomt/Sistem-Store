@@ -288,11 +288,12 @@ class DbConnection():
     # Update functions
     def update_user(self, who, new_info):
 
+        username = new_info.get('username')
+        email = new_info.get('email')
+        storeID = self.get_user_data(who)['store']
+        print('*******************************',storeID)
+        store_name = self.stores[storeID]
         try:
-            username = new_info['username']
-            email = new_info['email']
-            storeID = self.get_user_data(who)['store']
-            store_name = self.stores[storeID]
             if self.check_user_exist(username, email):
                 raise 'This User Already Exist'
         except:

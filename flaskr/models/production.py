@@ -79,7 +79,7 @@ class Production():
 
             try:
 
-                incremented_date = str((datetime.now() + timedelta(days=day)).strftime('%y-%m-%d'))
+                incremented_date = str((datetime.now() + timedelta(days=day)).strftime('%Y-%m-%d'))
 
                 return incremented_date
 
@@ -122,7 +122,7 @@ class Production():
             for article in articles:
                 articles[article].append(self.get_already_produced(store).get(article, 0))
 
-        return {'labels' : ['g', 'k'],
+        return {'labels' : dates,
                 'datasets' : [
                     ({'label' : item,
                       'data' : articles.get(item)}) for item in articles

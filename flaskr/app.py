@@ -6,6 +6,10 @@ from flaskr.models import *
 from flaskr.blueprints.login.bp_login import login_bp
 from flaskr.blueprints.home.bp_home import  home_bp
 from flaskr.blueprints.users.bp_users import users_page_bp
+from flaskr.blueprints.stock.bp_stock import stock_bp
+from flaskr.blueprints.tasks.bp_tasks import tasks_bp
+
+
 
 from datetime import date
 
@@ -19,6 +23,8 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 app.register_blueprint(login_bp)
 app.register_blueprint(home_bp)
 app.register_blueprint(users_page_bp)
+app.register_blueprint(stock_bp)
+app.register_blueprint(tasks_bp)
 
 
 def external_ip():
@@ -132,9 +138,7 @@ def enter_waste(date_for, store_to_send):
 
 @app.route('/edit/user/<username>', methods=['GET', 'POST'])
 def edit_user(username):
-
-    if not is_user_logged_in(external_ip()):
-        return redirect('/login')
+    
 
     # set old user
     old_user = User()
@@ -255,30 +259,7 @@ def show_users_filtered():
     return render_template('users/users.html', data=user_data(), context=context)
 
 
-@app.route('/tasks/<date_for>/<store_to_send>/<action>', methods=['GET', 'POST'])
-def tasks(date_for, store_to_send, action):
-    store = Store()
-    store.store = store_to_send
 
-    if request.method == 'POST':
-        task_to_create = request.form.get('task_to_send')
-        task_description = request.form.get('task_description')
-
-        task_to_delete = request.form.to_dict()
-
-
-        if action == 'create':
-            store.create_task(date_for, task_to_create, task_description)
-
-        elif action == 'delete':
-            for task, value in task_to_delete.items():
-                store.delete_task(date_for, task)
-        elif action == 'concluded':
-
-            for task, value in task_to_delete.items():
-                store.task_concluded(date_for, task)
-
-        return redirect(f'/homepage/{date_for}/{store_to_send}')
 
 
 @app.route('/stock/<store_to_show>/<reference>/<date>', methods=['GET', 'POST'])

@@ -13,5 +13,20 @@
                 "pepperoni": 0
             }
         }
+    },
+    "Odivelas": {
+        "1": {
+            "date": "2024-05-15",
+            "production": {
+                "big_ball": 0,
+                "small_ball": 32,
+                "garlic_bread": 0,
+                "mozzarela": 0,
+                "edamer": 0,
+                "bacon": 0,
+                "goronzola": 0,
+                "pepperoni": 0
+            }
+        }
     }
 }

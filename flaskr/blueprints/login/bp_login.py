@@ -43,6 +43,7 @@ def log_in():
     connected_user.password = user_password
     
     result = Login(connected_user).validate()
+    User().edit_user(who=connected_user, new_data={'last_login': date })
     
     Session(external_ip(), connected_user).connect_user()
     
