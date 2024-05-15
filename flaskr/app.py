@@ -32,22 +32,6 @@ def external_ip():
 
 
 
-@app.route('/logout', methods=['GET', 'POST'])
-def logout():
-
-    if is_user_logged_in(external_ip()):
-
-        # Set the user that gonna be disconnected
-        user = User()
-        user.username = user_data().get('username')
-        user.email = user_data().get('email')
-
-        # Disconnect the user
-        Session(external_ip(), user).disconnect_user()
-
-    return redirect('/login')
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error/404.html'), 404
@@ -136,52 +120,7 @@ def enter_waste(date_for, store_to_send):
         return redirect('/homepage')
 
 
-@app.route('/edit/user/<username>', methods=['GET', 'POST'])
-def edit_user(username):
-    
 
-    # set old user
-    old_user = User()
-    old_user.username = username
-
-    # after set old user, get their data
-    old_data = User().get_user_data(old_user)
-
-    # with his data define the old user email
-    old_user.email = old_data['email']
-
-    if request.method == 'POST':
-
-        new_username = request.form.get('new_username')
-        new_password = request.form.get('new_password')
-        new_email = request.form.get('new_email')
-        new_store = int(request.form.get('new_store'))
-
-        new_data = {
-            'username':  new_username,
-            'password': new_password,
-            'email': new_email,
-            'store': new_store
-        }
-
-        User().edit_user(old_user, new_data)
-
-        if username == user_data().get('username'):
-            logout()
-
-        if new_username:
-            return redirect(f'/edit/user/{new_username}')
-        else:
-            return redirect(f'/edit/user/{old_data.get("username")}')
-
-    context = {}
-    context['data'] = user_data()
-    context['old_data'] = old_data
-    context['old_user'] = old_user
-    context['username'] = username
-    context['email'] = old_user.email
-
-    return render_template("users/edit_user.html", context=context)
 
 @app.route('/delete/user/', methods=['GET', 'POST'])
 def delete_user():
@@ -258,59 +197,6 @@ def show_users_filtered():
 
     return render_template('users/users.html', data=user_data(), context=context)
 
-
-
-
-
-@app.route('/stock/<store_to_show>/<reference>/<date>', methods=['GET', 'POST'])
-def stock(store_to_show, date = 'last', reference = 'reference', chart_lenght = 0):
-
-    if not is_user_logged_in(external_ip()):
-        return redirect('/login')
-
-    context = {}
-
-    context['data'] = user_data(1, 5)
-    context['articles'] = StockArticles().get_all_articles()
-    context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
-    context['reference_count'] = StoreStock().get_store_stock(store_to_show, date=reference)
-    context['count_dates'] = StoreStock().get_stocks_dates(store_to_show)
-    context['difference'] = StoreStock().get_difference(store_to_show, reference=reference)
-    context['data_to_chart'] = StoreStock().create_data_to_chart(store_to_show, 4)
-
-    if request.method == 'POST':
-        stock_count = request.form.to_dict()
-
-        if 'create_articles' in request.form.to_dict():
-            articles_obj = StockArticles()
-
-            article = request.form.get('create_articles')
-
-            # Check if the input is multiple or single article
-            if article:
-                if ',' in article:
-                    article_list = article.split(',')
-                    articles_obj.insert_multiples_articles(article_list)
-                else:
-                    articles_obj.insert_new_article(article)
-
-
-
-        # If reference_count is in the request dict, redirect user to page to view this reference
-        # stock aside the last stock count
-        elif 'reference_count' in request.form.to_dict().keys():
-            reference = request.form.get('reference_count')
-            return redirect(f'/stock/{store_to_show}/{reference}/last')
-
-        elif 'date' in stock_count.keys():
-            context['store_stock'] = StoreStock().get_store_stock(store_to_show, date=date)
-            return redirect(stock_count.get('date'))
-        else:
-            StoreStock().enter_stock(int(store_to_show), 0, stock_count)
-
-        return redirect(f'/stock/{store_to_show}/{reference}/last')
-
-    return render_template('/store/stock_page.html', context=context)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,13 @@ from flaskr.models.stores_management import Store
 
 from datetime import datetime
 
+from .bp_edit_user import bp_edit_user
+
 users_page_bp = Blueprint('users_page_bp', __name__, url_prefix='/users')
+
+# Child blueprint for edit user
+users_page_bp.register_blueprint(bp_edit_user)
+
 
 def user_data(date_for='', store_to_show=0):
 

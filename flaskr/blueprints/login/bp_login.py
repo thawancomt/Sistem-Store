@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, render_template, flash, url_for
+from flaskr.blueprints import *
 
 from flaskr.models.users import Session, Login, User
 
@@ -29,7 +29,7 @@ def login_page():
     
     return render_template('auth/login.html')
 
-@login_bp.route('/log_in', methods=['POST'])
+@login_bp.route('/', methods=['POST'])
 def log_in():
     date = datetime.now().strftime('%Y-%m-%d')
 
@@ -43,12 +43,13 @@ def log_in():
     connected_user.password = user_password
     
     result = Login(connected_user).validate()
-    User().edit_user(who=connected_user, new_data={'last_login': date })
     
-    Session(external_ip(), connected_user).connect_user()
-    
-    
-    
+    if result:
+        User().edit_user(who=connected_user, new_data={'last_login': date })
+        
+        Session(external_ip(), connected_user).connect_user()
+    else:
+        flash('Verify your credentials', 'error')
         
     return redirect(url_for('home_bp.home'))
     

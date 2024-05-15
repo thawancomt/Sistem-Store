@@ -34,7 +34,6 @@ class User(DbConnection):
         return result
 
     def edit_user(self, who, new_data):
-        print('EDIIIIIIIIIIIIIIIIIIIII')
         DbConnection(default_path.get('users')).update_user(who, new_data)
 
     def return_all_users(self):

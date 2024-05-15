@@ -35,7 +35,7 @@
             <header class="m-4">
                 <h1 class="w-full text-center title-primary">New data</h1>
             </header>
-            <form action="/edit/user/{{context['username']}}" class="flex flex-col w-full items-center" method="POST">
+            <form action="{{ url_for('users_page_bp.edit_user.edit_user', username=context['old_data']['username']) }}" class="flex flex-col w-full items-center" method="POST">
                 <label for="" class="text-white font-semibold">New username</label>
                 <input type="text" name="new_username" id="" placeholder="{{context['old_data']['username']}}" class="select-primary w-4/6">
 
