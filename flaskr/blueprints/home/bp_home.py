@@ -4,6 +4,8 @@ from flaskr.models.users import User, Session
 from flaskr.models.production import Production, Consumes
 from flaskr.models.stores_management import Store
 
+
+
 from datetime import datetime
 
 home_bp = Blueprint('home_bp', __name__, url_prefix='/homepage')
@@ -26,6 +28,7 @@ def user_data(date_for='', store_to_show=0):
     data['level'] = Session(external_ip()).level()
     data['articles'] = Production.articles
     data['stores'] = Production.stores
+    data['t'] = 2
 
     return data
 
@@ -45,31 +48,33 @@ def is_user_logged_in(ip):
 
 
 @home_bp.route('/', methods=['GET', 'POST'])
-def home(date_for = date, store_to_show = 5):
-
-    if is_user_logged_in(external_ip()):
-        pass
-    else:
+def home():
+    from flaskr.blueprints.tasks.task_service import TaskService
+    if not is_user_logged_in(external_ip()):
         return redirect(url_for('login_bp.login_page'))
-    
+
 
     user_store = Session(external_ip()).store_name(id=True)
+    
+    date_for = datetime.now().strftime('%Y-%m-%d')
+
+    store_to_show = user_store
+
 
     # Object to get management of the store
     store = Store()
-    store.store = store_to_show
+    store.store = 5
 
     # Create a context to send to the templates
-    context = {}
+    context = {
+        'store_to_show': store_to_show,
+        'data': user_data(date_for, store_to_show),
+    }
 
-    # User context
-    context['store_to_show'] = store_to_show
-    context['data'] = user_data(date_for, store_to_show)
     context['level'] = context['data']['level']
 
     # Store context
     context['workers'] = User().return_filtered_users_by_store(int(store_to_show))
-    context['tasks'] = [store.get_all_tasks(date_for), store.get_concluded_tasks(date_for)]
     context['store_to_show'] = store_to_show
     context['date_for'] = date_for
     context['stores'] = Production.stores
@@ -81,8 +86,9 @@ def home(date_for = date, store_to_show = 5):
     # Consume context
     context['consumes'] = Consumes().get_consume_by_day(int(store_to_show), date_for)
     context['consume_data'] = Consumes().create_data_to_consume_chart(int(store_to_show), date_for)
-    # Check if the user is allowed to edit and visualize the store
     
+    # Task context
+    context['tasks'] = TaskService().get_tasks()
 
     # Handle the POST request
     if request.method == 'POST':
@@ -93,4 +99,4 @@ def home(date_for = date, store_to_show = 5):
 
         return redirect(f'/homepage/{date_for}/{store_to_redirect}')
 
-    return render_template('store/homepage.html', context=context, date_for=date_for, store_to_show=5)
+    return render_template('store/homepage.html', context=context, date_for=date_for, store_to_show=store.store)

@@ -19,6 +19,15 @@
 
 {% block content  %}
 
+    {% for task in context.t %}
+
+
+        <p>{{task.name}}</p>
+        <p>{{ task.description }}</p>
+
+     
+    {% endfor %}
+
     <!-- Can´t edit if not admin -->
     {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -88,15 +97,12 @@
 
                 <div class="space-y-4 mt-4">
                     {% if context['tasks'][0] %}
-                        {% for task in context['tasks'][0] %}
+                        {% for task in context.tasks %}
                             <div class="flex justify-around container-primary w-full m-0 items-center
                             hover:border-emerald-800">
-
-                                {% for task_name, task_description in task.items() %}
                                     <div class="w-8/12 p-2">
-
-                                        <h4 class="title-primary text-yellow-500 mt-0"> {{ task_name }}</h4>
-                                        <h4 class="information-primary ml-4">{{task_description}}</h4>
+                                        <h4 class="title-primary text-yellow-500 mt-0"> {{ task.name }}</h4>
+                                        <h4 class="information-primary ml-4">{{task.description}}</h4>
                                     </div>
 
                                     <form action="/tasks/{{date_for}}/{{store_to_show}}/concluded" method="POST" class="w-2/12">
@@ -108,7 +114,6 @@
                                         <input type="text" name="{{task_name}}" hidden>
                                         <button type="submit" class="btn-primary m-0 w-[90%] hover:bg-red-800 border-none hover:border-none transition-all duration-300">Delete</button>
                                     </form>
-                                {% endfor %}
                             </div>
                         {% endfor %}
                     {% else  %}
@@ -127,7 +132,7 @@
                 </div>
                 
 
-                <form action="{{ url_for('tasks_bp.create_task') }}" method="POST" class="mt-4">
+                <form action="{{ url_for('tasks_bp.create_task', store = store_to_show) }}" method="POST" class="mt-4">
                     <label for="task_to_send" class="sub-title-primary">Add some task</label>
                     <input type="text" name="task_to_send" class="form-control-1">
 

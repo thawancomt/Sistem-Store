@@ -1,6 +1,8 @@
 from flask import Flask, redirect, render_template, request, flash
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+from flask_sqlalchemy import SQLAlchemy
+
 from flaskr.models import *
 
 from flaskr.blueprints.login.bp_login import login_bp
@@ -16,6 +18,8 @@ from datetime import date
 
 app = Flask(__name__)
 
+app.config.from_object('CONFIG')
+
 app.secret_key = '2222'
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
@@ -25,6 +29,10 @@ app.register_blueprint(home_bp)
 app.register_blueprint(users_page_bp)
 app.register_blueprint(stock_bp)
 app.register_blueprint(tasks_bp)
+
+
+db = SQLAlchemy(app)
+
 
 
 def external_ip():

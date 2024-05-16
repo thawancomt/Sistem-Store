@@ -1,3 +1,6 @@
+import os, sys
+sys.path.append(os.getcwd())
+
 from flaskr.models import User
 from flaskr.dbconnection import DbConnection
 default_path = {'tasks': 'flaskr/databases/tasks.json'}
@@ -26,3 +29,8 @@ class Store():
 
     def get_concluded_tasks(self, date):
         return self.db.get_all_tasks_concluded(date, self.store)
+
+
+a = Store()
+a.store = 5
+print(a.get_all_tasks('2024-05-15'))
