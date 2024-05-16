@@ -146,30 +146,7 @@ class DbConnection():
         return result[0].get('production',  {}) if result else {}
 
     # Insert functions
-    def insert_user(self, data):
-        """Insert a new user into the database
 
-        Args:
-            data dict: User data need be a dict
-
-        Returns:
-            bool: True if successful inserted, false otherwise
-        """
-        store_name = DbConnection.get_store_name(data.get('store'))
-        data_to_insert = {}
-
-        username = data['username']
-        email = data['email']
-
-        if not self.check_user_exist(username, email):
-            for key, value in data.items():
-                if key in self.permissive_keys_for_create_users:
-                    data_to_insert[key] = value
-
-            self.db.table(store_name).insert(data_to_insert)
-            return True
-        else:
-            return False
         
     def insert_stock(self, data):
         self.db = TinyDB('flaskr/databases/stock.json', indent=4)

@@ -17,7 +17,7 @@
         </div>
 
         <div class="h-full w-full">
-            <form action="/register" method="POST" class="flex flex-col justify-evenly h-5/6 w-full ">
+            <form action="{{ url_for('users_page_bp.create_user.create')}}" method="POST" class="flex flex-col justify-evenly h-5/6 w-full ">
             
                 <div>
                     <label for="username"  class="text-lg text-white font-semibold" > Username </label>
@@ -32,8 +32,8 @@
                 <div>
                     <label for="password" class="text-lg text-white font-semibold text-center"> New Password </label>
                     <div class="w-full flex">
-                        <input type="password" name="password" id="" class="form-control-1 w-3/6 mx-2" required placeholder="Password">
-                        <input type="password" name="password" id="" class="form-control-1 w-3/6 mx-2" required placeholder="Confirm password">
+                        <input type="password" name="password" id="password" class="form-control-1 w-3/6 mx-2" required placeholder="Password">
+                        <input type="password" name="password" id="password" class="form-control-1 w-3/6 mx-2" required placeholder="Confirm password">
                     </div>
                     
                 </div>

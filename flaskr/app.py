@@ -44,12 +44,9 @@ def create_app():
     def page_not_found(e):
         return render_template('error/404.html'), 404
 
-
     @app.route('/')
     def index():
         return redirect('/login')
-
-        # If the user enter on homepage without a date
 
 
 

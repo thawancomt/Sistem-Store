@@ -1,3 +1,4 @@
+from multiprocessing import context
 from flaskr.blueprints import *
 
 from flaskr.models.users import User, Session
@@ -8,10 +9,14 @@ from datetime import datetime
 
 from .bp_edit_user import bp_edit_user
 
+from.bp_create_user import create_user
+
 users_page_bp = Blueprint('users_page_bp', __name__, url_prefix='/users')
 
 # Child blueprint for edit user
 users_page_bp.register_blueprint(bp_edit_user)
+users_page_bp.register_blueprint(create_user)
+
 
 
 def user_data(date_for='', store_to_show=0):
@@ -46,14 +51,11 @@ def is_user_logged_in(ip):
 @users_page_bp.route('/')
 def show_users():
 
-    if is_user_logged_in(external_ip()):
-        pass
-    else:
+    if not is_user_logged_in(external_ip()):
         return redirect('/login')
 
-    context = {}
+    context = {'data': user_data()}
 
-    context['data'] = user_data()
     context['users'] = User().return_all_users()
 
     return render_template('users/users.html', context=context)

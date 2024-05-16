@@ -28,8 +28,6 @@ def user_data(date_for='', store_to_show=0):
     data['level'] = Session(external_ip()).level()
     data['articles'] = Production.articles
     data['stores'] = Production.stores
-    data['t'] = 2
-
     return data
 
 
