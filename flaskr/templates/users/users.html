@@ -39,40 +39,40 @@
     <!-- Container -->
     <div class="w-full h-full flex flex-wrap justify-around ">
         
-        {% for user in context['users'] %}
+        {% for user in context['all_users'] %}
 
         
             <div class="w-96 h-80 border border-emerald-500 rounded-lg flex flex-col justify-evenly mx-2 mt-6 p-2
             hover:border-[10px] transition-all ease-in-out duration-200">
                 <!-- User Name -->
-                {% if context['data']['username'] == user['username'] %}
+                {% if 2 == user.username %}
                 <div class="w-full h-12 flex items-center justify-center">
                     <h1 class="title-primary text-white">You</h1>
                 </div>
                 {% else %}
                 <div class="w-full h-12 flex items-center justify-center">
-                    <h1 class="title-primary">{{user['username']}}</h1>
+                    <h1 class="title-primary">{{user.username}}</h1>
                 </div>
                 {% endif %}
                 <!-- User Info -->
                 <div class="px-4">
                     <div class="w-full flex ">   
-                        <h2 class="sub-title-primary">Email : {{user['email']}}</h2>
+                        <h2 class="sub-title-primary">Email : {{user.email}}</h2>
                     </div>
                     
-                    <div class="w-full flex ">
-                        <h2 class="sub-title-primary">Level: {{user['level']}}</h2>
+                    <div class="w-full hidden">
+                        <h2 class="sub-title-primary">Level: {{user.created_at}}</h2>
                     </div>
                 
                     <div class="w-full flex  ">
                         {% if not user['last_login'] %}
                         <h2 class="sub-title-primary"> Last login: Never</h2>
                         {% else %}
-                        <h2 class="sub-title-primary"> Last login: {{user['last_login']}}</h2>
+                        <h2 class="sub-title-primary"> Last login: {{user.last_login}}</h2>
                         {% endif %}
                     </div>
                     <div class="w-full flex ">
-                        <h2 class="sub-title-primary">Store: {{ context['data']['stores'][user['store']]  }}</h2>
+                        <h2 class="sub-title-primary">Store: {{ user.store  }}</h2>
                     </div>
                 </div>
                 <form action="/users/edit/{{user['username']}}">

@@ -1,6 +1,7 @@
 from flaskr.blueprints import *
 
-from flaskr.models.users import Session, Login, User
+
+from .services.login_service import LoginService
 
 from datetime import datetime
 
@@ -10,46 +11,19 @@ login_bp = Blueprint('login_bp', __name__,
 def external_ip():
     return request.remote_addr
 
-def is_user_logged_in(ip):
-    # Check if user is logged in
-    try:
-        result = Session.connected_users[ip]['status']
-        if result:
-            return True
-    except KeyError:
-        return False
 
 @login_bp.route('/', methods=['GET'])
 def login_page():
-    
-    
-    # Check if the user is logged in, if true redirect to homepage
-    if is_user_logged_in(external_ip()):
-        return redirect('/homepage')
+
     
     return render_template('auth/login.html')
 
 @login_bp.route('/', methods=['POST'])
 def log_in():
-    date = datetime.now().strftime('%Y-%m-%d')
+    username = request.form.get('email')
+    password = request.form.get('password')
 
-    data : dict = request.form.to_dict()
-    
-    user_email = data.get('email', '')
-    user_password = data.get('password', '')
-    
-    connected_user = User()
-    connected_user.email = user_email
-    connected_user.password = user_password
-    
-    result = Login(connected_user).validate()
-    
-    if result:
-        User().edit_user(who=connected_user, new_data={'last_login': date })
-        
-        Session(external_ip(), connected_user).connect_user()
-    else:
-        flash('Verify your credentials', 'error')
-        
-    return redirect(url_for('home_bp.home'))
+    if LoginService().login(username, password):
+        return redirect(url_for('home_bp.home'))
+    return redirect(url_for('login_bp.login_page'))
     

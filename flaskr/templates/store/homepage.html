@@ -7,7 +7,7 @@
 {% block store_title %}
     <div>
         <h1 class="title-primary text-center">
-            Gestão {{context.stores[store_to_show | int ]}}
+            Gestão {{context.store_name | title }}
         </h1>
         
     </div>
@@ -53,14 +53,7 @@
         <form action="/homepage/{{date_for}}/{{store_to_show}}" class="flex" method="post">
             
             <select name="store_by_select_form" id="" class="select-primary w-44 p-0 text-center h-full">
-                {% for store_id, store_name in context['data']['stores'].items() %}
-                    {% if store_id == store_to_show|int  %}
-                        <option value="{{ store_id }}" selected>{{ store_name }}</option>
-                    {% else %}
-                        <option value="{{ store_id }}" >{{ store_name }}</option>
-                {% endif %}
-
-                {% endfor %}
+                
             </select>
             
             <button type="submit" class="btn-primary-rounded w-20 my-0 ml-1 h-full">Show</button>
@@ -69,7 +62,7 @@
     {% endif %}
     {# Admin section #}
     <div class="w-full flex justify-center">
-        {% if context['level'] == 'admin' %}
+        {% if not context['level'] == 'admin' %}
             <div class="container-primary">
                 <div class="m-4">
                     <h1 class="title-primary text-yellow-400"> Adiministrator Section*</h1>
@@ -152,7 +145,8 @@
             </div>
             <section class="flex w-full">
                 <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col w-3/6 m-4 " method="POST" id="production-form">
-                    {% for article, article_name in context['data']['articles'].items() %}
+                    {% set customer = ({"Name":"Peter","Surname": "Smith"})	%}
+                    {% for article, article_name in  customer.items() %}
                     <!-- Inputs of production -->
                         <div class="w-full flex justify-between">
                             <div class="w-[50%]">
@@ -165,10 +159,10 @@
                                     <label for="amount_{{article}}" class="text-sm text-white font-semibold sm:text-sm  ">Total of the day</label>
                                 </div>
                                     
-                                    <input type="number" value="{{ context['data']['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
+                                    <input type="number" value="{{ customer }}" class="form-control-1 text-center" disabled>
                                 {% else %}
                                     <div class="h-7 w-full"></div>
-                                    <input type="number" value="{{ context['data']['total_of_the_day'][article] }}" class="form-control-1 text-center" disabled>
+                                    <input type="number" value="{{ customer }}" class="form-control-1 text-center" disabled>
                                 {% endif %}
                             </div>
     
@@ -269,17 +263,7 @@
 
         </div>
     </div>
-
-    {# This section is to set in html the variables from the flask to JavaScript #}
-    <script>
-        var labels = {{ context['chart_data']['labels'] | tojson }}
-
-        var data_labels = {{ context['chart_data']['datasets'] | tojson }}
-        
-        var consumeWorkers = {{ context['consume_data']['workers'] | tojson }}
-
-        var consumeData = {{ context['consume_data']['data'] | tojson }}
-    </script>
+    
     <h1>
         {{ context.chart_data, store_to_show }}
     </h1>

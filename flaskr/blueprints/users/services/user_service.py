@@ -58,6 +58,10 @@ class UserService:
             return User.query.filter_by(email=email).first()
         
         return None
+    
+    def get_all(self):
+        return User.query.all()
+    
 
 
         

@@ -33,3 +33,6 @@ flaskr/blueprints/users/__pycache__/user_service.cpython-312.pyc
 /flaskr/blueprints/users/services/__pycache__
 /flaskr/blueprints/users/views/__pycache__
 /flaskr/blueprints/users/models/__pycache__
+flaskr/blueprints/login/services/__pycache__/login_service.cpython-312.pyc
+flaskr/blueprints/stores_management/service/__pycache__/stores_service.cpython-312.pyc
+flaskr/blueprints/stores_management/models/__pycache__/store_model.cpython-312.pyc
