@@ -230,7 +230,6 @@ class DbConnection():
         username = new_info.get('username')
         email = new_info.get('email')
         storeID = self.get_user_data(who)['store']
-        print('*******************************',storeID)
         store_name = self.stores[storeID]
         try:
             if self.check_user_exist(username, email):

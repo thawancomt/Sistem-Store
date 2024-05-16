@@ -42,7 +42,7 @@ def user_data(date_for='', store_to_show=0):
 
 
 @bp_edit_user.route('/<username>', methods=['GET', 'POST'])
-def edit_user(username):
+def edit(username):
     
 
     # set old user

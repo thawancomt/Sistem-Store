@@ -30,3 +30,6 @@ flaskr/blueprints/home/__pycache__/bp_home.cpython-312.pyc
 flaskr/blueprints/users/__pycache__/users_model.cpython-312.pyc
 flaskr/blueprints/users/__pycache__/bp_create_user.cpython-312.pyc
 flaskr/blueprints/users/__pycache__/user_service.cpython-312.pyc
+/flaskr/blueprints/users/services/__pycache__
+/flaskr/blueprints/users/views/__pycache__
+/flaskr/blueprints/users/models/__pycache__

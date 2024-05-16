@@ -9,7 +9,7 @@ from flaskr.models import *
 
 from flaskr.blueprints.login.bp_login import login_bp
 from flaskr.blueprints.home.bp_home import  home_bp
-from flaskr.blueprints.users.bp_users import users_page_bp
+from flaskr.blueprints.users.views.bp_users import users_page_bp
 from flaskr.blueprints.stock.bp_stock import stock_bp
 from flaskr.blueprints.tasks.bp_tasks import tasks_bp
 
