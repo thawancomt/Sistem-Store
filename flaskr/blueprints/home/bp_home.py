@@ -47,9 +47,9 @@ def is_user_logged_in(ip):
 
 
 
+from flaskr.blueprints.tasks.task_service import TaskService
 @home_bp.route('/', methods=['GET', 'POST'])
 def home():
-    from flaskr.blueprints.tasks.task_service import TaskService
     if not is_user_logged_in(external_ip()):
         return redirect(url_for('login_bp.login_page'))
 

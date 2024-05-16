@@ -103,17 +103,18 @@
                                     <div class="w-8/12 p-2">
                                         <h4 class="title-primary text-yellow-500 mt-0"> {{ task.name }}</h4>
                                         <h4 class="information-primary ml-4">{{task.description}}</h4>
+                                        <h4 class="information-primary ml-4">{{task.id}}</h4>
                                     </div>
 
                                     <form action="/tasks/{{date_for}}/{{store_to_show}}/concluded" method="POST" class="w-2/12">
-                                        <input type="text" name="{{task_name}}" hidden>
+                                        <input type="text" name="{{task.id}}" hidden>
                                         <button type="submit" class="btn-primary m-0 w-[90%]">Finish</button>
                                     </form>
 
-                                    <form action="/tasks/{{date_for}}/{{store_to_show}}/delete" method="POST" class="w-2/12">
-                                        <input type="text" name="{{task_name}}" hidden>
+                                    <form action="{{ url_for('tasks_bp.delete') }}" method="POST" class="w-2/12">
+                                        <input type="text" name="task_id" value="{{task.id}}" hidden>
                                         <button type="submit" class="btn-primary m-0 w-[90%] hover:bg-red-800 border-none hover:border-none transition-all duration-300">Delete</button>
-                                    </form>
+                                    </form>"
                             </div>
                         {% endfor %}
                     {% else  %}
@@ -121,18 +122,11 @@
                     {% endif %}
                     
                     <h1 class="title-primary text-xl">Concluded tasks</h1>
-                    <ul class="*:border *:border-yellow-300 *:w-fit">
-                        {% for concluded_task in context['tasks'][1] %}
-                        <li class="line-through font-semibold text-emerald-200">{{concluded_task}}</li>
-                     
-                        {% endfor %}
-                    </ul>
-                    
                     
                 </div>
                 
 
-                <form action="{{ url_for('tasks_bp.create_task', store = store_to_show) }}" method="POST" class="mt-4">
+                <form action="{{ url_for('tasks_bp.create') }}" method="POST" class="mt-4">
                     <label for="task_to_send" class="sub-title-primary">Add some task</label>
                     <input type="text" name="task_to_send" class="form-control-1">
 

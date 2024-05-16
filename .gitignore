@@ -1,3 +1,6 @@
+/flaskr/blueprints/__pycache__/__init__.cpython-312.pyc
+/flaskr/__pycache__
+/flaskr/blueprints/login/__pycache__
 /flaskr/__pycache__
 /flaskr/tests/__pycache__
 /flaskr/models/__pycache__
@@ -15,3 +18,12 @@
 /Sistem-Store/flaskr/blueprints/stock/__pycache__
 /Sistem-Store/flaskr/blueprints/tasks/__pycache__
 /Sistem-Store/flaskr/blueprints/users/__pycache__
+flaskr/blueprints/users/__pycache__/bp_users.cpython-312.pyc
+flaskr/blueprints/users/__pycache__/bp_edit_user.cpython-312.pyc
+flaskr/blueprints/tasks/__pycache__/task_service.cpython-312.pyc
+flaskr/blueprints/tasks/__pycache__/task_schema.cpython-312.pyc
+flaskr/blueprints/tasks/__pycache__/task_model.cpython-312.pyc
+__pycache__/CONFIG.cpython-312.pyc
+flaskr/blueprints/tasks/__pycache__/bp_tasks.cpython-312.pyc
+flaskr/blueprints/stock/__pycache__/bp_stock.cpython-312.pyc
+flaskr/blueprints/home/__pycache__/bp_home.cpython-312.pyc

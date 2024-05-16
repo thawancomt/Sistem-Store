@@ -1,9 +1,10 @@
-from flaskr.app import db
 from flaskr.blueprints.tasks.task_model import Task
-from flaskr.blueprints.tasks.task_schema import TaskSchema, ValidationError
+from flaskr.extensions import db
+
 
 
 class TaskService:
+    
     def __init__(self):
         self.db = db
         self.db.create_all()
@@ -18,8 +19,7 @@ class TaskService:
         self.db.session.commit()
     
     def delete(self, id):
-        task = self.get_task(id)
-        self.db.session.delete(task)
+        task = Task.query.filter_by(id=id).delete()
         self.db.session.commit()
         
     def get_task(self, id):

@@ -29,8 +29,3 @@ class Store():
 
     def get_concluded_tasks(self, date):
         return self.db.get_all_tasks_concluded(date, self.store)
-
-
-a = Store()
-a.store = 5
-print(a.get_all_tasks('2024-05-15'))
