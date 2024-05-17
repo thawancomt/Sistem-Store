@@ -1,9 +1,6 @@
 from flaskr.extensions import db, login_manager
 from flask_login import UserMixin
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.filter_by(id=user_id).first()
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -14,5 +11,3 @@ class User(db.Model, UserMixin):
     store =db.Column(db.Integer, nullable=False)
     last_login = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
-
-

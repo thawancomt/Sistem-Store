@@ -6,8 +6,11 @@ home_bp = Blueprint('home_bp', __name__, url_prefix='/homepage')
 
 from flaskr.blueprints.tasks.task_service import TaskService
 from flaskr.blueprints.stores_management.services.stores_service import StoresService
+from flask_login import login_required
+
 
 @home_bp.route('/', methods=['GET', 'POST'])
+@login_required
 def home():
 
 

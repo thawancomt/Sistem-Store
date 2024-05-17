@@ -32,7 +32,7 @@ def log_in():
 
 @login_bp.route('/logout')
 def logout():
-    LoginService.logout()
+    LoginService(None, None).logout_user()
     return redirect(url_for('login_bp.login_page'))
 
     

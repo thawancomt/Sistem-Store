@@ -1,6 +1,12 @@
 
 from flaskr.blueprints.users.services.user_service import UserService, check_password_hash, generate_password_hash
+from flaskr.blueprints.users.models.users_model import User
 from flask_login import login_user, logout_user, current_user
+from flaskr.extensions import login_manager
+
+from flask_login import UserMixin
+
+
 
 class LoginService:
     def __init__(self, email, password) -> None:
@@ -8,9 +14,12 @@ class LoginService:
         self.password = password
         self.user = UserService().get_user_by(email = self.email)
         
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.filter_by(id=user_id).first()
+        
     def login(self):
         if self.user and self.verify_password(self.user.password):
-            print(self.user.password)
             login_user(self.user)
             return True
         
