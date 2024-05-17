@@ -22,8 +22,17 @@ def login_page():
 def log_in():
     username = request.form.get('email')
     password = request.form.get('password')
-
-    if LoginService().login(username, password):
+    
+    user = LoginService(username, password)
+    
+    if user.login():
         return redirect(url_for('home_bp.home'))
+    
     return redirect(url_for('login_bp.login_page'))
+
+@login_bp.route('/logout')
+def logout():
+    LoginService.logout()
+    return redirect(url_for('login_bp.login_page'))
+
     

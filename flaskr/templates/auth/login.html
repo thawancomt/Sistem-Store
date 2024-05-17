@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-slate-900 h-screen w-screen>
+<html lang="en" class="bg-slate-900 h-screen w-screen>">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
     <link rel="stylesheet" href="/static/output.css">
 </head>
 <body class="h-full">
@@ -45,7 +42,7 @@
                 <div class="m-4">
                     <h4 class="dark:text-indigo-100 text-gray-800
                     font-semibold text-sm">Don't have an accouunt?</h4>
-                    <a href="/register" class="
+                    <a href="{{ url_for('users_page_bp.create_user.create_user_page') }}" class="
                     font-semibold text-sm text-emerald-600 hover:underline">Create Now</a>
                 </div>
                 

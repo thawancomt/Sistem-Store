@@ -3,6 +3,7 @@ from flaskr.extensions import db
 from datetime import datetime
 from hashlib import sha256
 
+from werkzeug.security import generate_password_hash, check_password_hash
 def hash_password(password):
     return sha256(password.encode()).hexdigest()
 
@@ -16,7 +17,7 @@ class UserService:
         
     def create(self, name, email, password, store):
         
-        password = hash_password(password)
+        password = generate_password_hash(password)
         
         new_user = User()
         new_user.username = name

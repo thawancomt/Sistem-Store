@@ -1,6 +1,8 @@
 from flaskr.blueprints import *
+from flaskr.blueprints.stores_management.services.stores_service import StoresService
 
 from ..services.user_service import UserService
+
 
 create_user = Blueprint('create_user', __name__, url_prefix='/create')
 
@@ -8,9 +10,16 @@ import json
 
 from sqlalchemy.exc import IntegrityError
 
+@create_user.route('/')
+def create_user_page():
+    context = {
+        'stores' : StoresService().get_all()
+    }
+    return render_template('auth/register.html', context=context)
 
 @create_user.route('/', methods=['POST'])
 def create():
+    
     username = request.form.get('username')
     email = request.form.get('email')
     password = request.form.get('password')
@@ -28,4 +37,5 @@ def create():
         return redirect('/')
         
     return redirect('/')
+
 
