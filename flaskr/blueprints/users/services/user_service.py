@@ -3,6 +3,8 @@ from flaskr.extensions import db
 from datetime import datetime
 from hashlib import sha256
 
+from flaskr.blueprints.users.models.users_model import User
+
 from werkzeug.security import generate_password_hash, check_password_hash
 def hash_password(password):
     return sha256(password.encode()).hexdigest()
@@ -41,18 +43,21 @@ class UserService:
         user = User.query.filter_by(id=id).delete()
         db.session.commit()
     
-    def update(self, id, name, email, password,store):
+    def update(self, user, name, email):
         
-        user = User.query.filter_by(id=id)
+        old_user  = user 
         
-        user.update(
-            {
-                "username": name or user.username,
-                "email": email or user.email,
-                'last_login': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                'store' : store or user.store
+        old_user.update(
+            {   
+                'username': name,
+                'email': email,
+                'last_login': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
         )
+        
+        self.db.session.commit()
+        
+        
         
     def get_user_by(self, id = None, username = None, email = None):
         if User.query.filter_by(id=id).first():
