@@ -13,7 +13,6 @@ class UserService:
     
     def __init__(self) -> None:
         self.db = db
-        self.db.create_all()
         
     def create(self, name, email, password, store):
         
@@ -30,7 +29,15 @@ class UserService:
         self.db.session.add(new_user)
         self.db.session.commit()
     
-    def delete(self, id):
+    def delete_user_by_username(self, username) -> bool:
+        if user := User.query.filter_by(username=username):
+            user.delete()
+            db.session.commit()
+            return True
+
+        return False
+    
+    def delete_user_by(self, id):
         user = User.query.filter_by(id=id).delete()
         db.session.commit()
     
@@ -42,7 +49,6 @@ class UserService:
             {
                 "username": name or user.username,
                 "email": email or user.email,
-                "password": hash_password(password) or user.password,
                 'last_login': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 'store' : store or user.store
             }

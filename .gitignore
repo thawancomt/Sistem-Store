@@ -38,3 +38,9 @@ flaskr/blueprints/stores_management/service/__pycache__/stores_service.cpython-3
 flaskr/blueprints/stores_management/models/__pycache__/store_model.cpython-312.pyc
 flaskr/blueprints/home/views/__pycache__/bp_home.cpython-312.pyc
 /flaskr/tailwind
+flaskr/blueprints/stores_management/services/__pycache__/stores_service.cpython-312.pyc
+flaskr/blueprints/stores_management/services/__pycache__/stores_service.cpython-312.pyc
+flaskr/blueprints/stores_management/view/__pycache__/stores.cpython-312.pyc
+flaskr/blueprints/stores_management/services/__pycache__/stores_service.cpython-312.pyc
+flaskr/blueprints/stores_management/services/__pycache__/stores_service.cpython-312.pyc
+/flaskr/blueprints/stores_management/services/__pycache__

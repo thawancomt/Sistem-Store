@@ -13,3 +13,13 @@ class StoresService:
     
     def get_all(self):
         return Store.query.all()
+    
+    def get_name_by_id(self, id):
+        return Store.query.filter_by(id=id).first().name
+    
+    def create(self, store_name, store_id, store_place):
+        store_id = int(store_id)
+        
+        store = Store(name=store_name, id=store_id, place=store_place)
+        db.session.add(store)
+        db.session.commit()

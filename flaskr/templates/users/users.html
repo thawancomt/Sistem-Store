@@ -75,7 +75,7 @@
                         <h2 class="sub-title-primary">Store: {{ user.store  }}</h2>
                     </div>
                 </div>
-                <form action="/users/edit/{{user['username']}}">
+                <form action="{{ url_for('users_page_bp.edit_user.edit', username=user.username) }}">
                     <button class="btn-primary">Edit</button>
                 </form>
 

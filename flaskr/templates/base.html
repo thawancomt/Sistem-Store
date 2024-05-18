@@ -19,7 +19,7 @@
         </div>
         <div class="flex text-center items-center justify-center w-4/12 space-x-4">
             <h1 class="title-primary text-black m-0 p-0 bg-emerald-400 rounded-xl p-1">
-                    2
+                    {{current_user.username}}
             </h1>
 
             {% block store_title %}
@@ -27,13 +27,7 @@
         </div>
         <div class="flex justify-center items-center space-x-4 w-4/12">
             <div class="bg-slate-500 flex p-1 rounded-lg items-center justify-center ">
-                {% if context.level %}
-                <p class="sub-title-primary m-0 p-0 text-xs hover:text-cyan-400">
-                    {{context.level}}
-                </p>    
-                 
-                {% endif %}
-
+                <p>ADMIN</p>
             </div>
             <div class="visible">
                 <a href="{{ url_for('login_bp.logout')}}" class="btn-primary p-2 rounded-xl">

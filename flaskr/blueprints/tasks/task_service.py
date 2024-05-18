@@ -7,7 +7,6 @@ class TaskService:
     
     def __init__(self):
         self.db = db
-        self.db.create_all()
         
     def create(self, name, description):
         newTask = Task()

@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, flash
+from flask import Flask, redirect, render_template, request, flash, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from flask_sqlalchemy import SQLAlchemy
@@ -11,7 +11,7 @@ from flaskr.blueprints.home.views.bp_home import  home_bp
 from flaskr.blueprints.users.views.bp_users import users_page_bp
 from flaskr.blueprints.stock.bp_stock import stock_bp
 from flaskr.blueprints.tasks.bp_tasks import tasks_bp
-
+from flaskr.blueprints.stores_management.view.stores import store_bp
 
 
 from datetime import datetime
@@ -33,10 +33,16 @@ def create_app():
     app.register_blueprint(users_page_bp)
     app.register_blueprint(stock_bp)
     app.register_blueprint(tasks_bp)
+    app.register_blueprint(store_bp)
     
     db.init_app(app)
+    with app.app_context():
+        db.create_all()
     login_manager.init_app(app)
 
+    @app.route('/')
+    def home():
+        return redirect(url_for('home_bp.home'))
 
 
 

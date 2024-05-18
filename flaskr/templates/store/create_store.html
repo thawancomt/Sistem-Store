@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Stores Manager</title>
+{% endblock title %}
+
+{% block content %}
+<div class="m-4 h-full w-full flex flex-col items-center justify-center ">
+    <form action="{{ url_for('stores.create') }}" method="POST">
+        <label for="name" class="text-lg text-white font-semibold">Store Name</label>
+        <input type="text" name="name" id="name" class="form-control-1">
+
+        <label for="id" class="text-lg text-white font-semibold">Store Id</label>
+        <input type="number" name="id" id="id" class="form-control-1">
+
+        <label for="id" class="text-lg text-white font-semibold">Store Id</label>
+        <select name="place" id="place" class="form-control-1">
+            <option value="street">street</option>
+            <option value="shopping">shopping</option>
+"></option>
+        </select>
+
+
+        <input type="submit" value="Create Store" class="btn-primary">
+    </form>
+
+</div>
+    
+{% endblock content %}

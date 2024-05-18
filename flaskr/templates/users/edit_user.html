@@ -3,68 +3,26 @@
 {% block content %}
 
 <div class="m-4 border min-h-full max-h-fit">
-    <section class="w-full flex">
-        <div class="w-3/6 h-96 m-4 border ">
 
-            <header class="m-4">
-                <h1 class="w-full text-center title-primary">Old data</h1>
-            </header>
-            <form action="" class="flex flex-col w-full items-center">
-                <label for="" class="text-white font-semibold">username</label>
-                <input type="text" name="old_username" placeholder="{{context['old_data']['username']}}" class="select-primary w-4/6" disabled>
-
-                <label for="" class="text-white font-semibold">Actual password</label>
-                <input type="password" placeholder="{{context['old_data']['password']}}" class="select-primary w-4/6" disabled>
-                
-                <label for="" class="text-white font-semibold">Actual email</label>
-                <input type="text" name="old_email" placeholder="{{context['old_data']['email']}}" class="select-primary w-4/6" disabled>
-                <select name="" id="" class="mt-4 select-primary w-4/6">
-                    {% for store_id, store_name in context['data']['stores'].items() %}
-                        {% if store_id == context['old_data']['store'] %}
-                            <option value="{{store_id}}">{{store_name}}</option>
-                        {% endif %}
-
+    <section>
+        <div class="m-4">
+            <form action="{{ url_for('users_page_bp.edit_user.edit', username=context['username']) }}" method="POST">
+                <input type="text" value="{{context.username}}">
+                <input type="text" value="{{context.email}}">
+                <select name="store" id="" class="select-primary ">
+                    {% for store in context.stores %}
+                        <option value="{{store.id}}"> {{store.name}}</option>
                     {% endfor %}
                 </select>
-                
+                <button type="submit">Edit</button>
             </form>
-
         </div>
-        <div class="w-3/6 h-96 m-4 border ">
-
-            <header class="m-4">
-                <h1 class="w-full text-center title-primary">New data</h1>
-            </header>
-            <form action="{{ url_for('users_page_bp.edit_user.edit_user', username=context['old_data']['username']) }}" class="flex flex-col w-full items-center" method="POST">
-                <label for="" class="text-white font-semibold">New username</label>
-                <input type="text" name="new_username" id="" placeholder="{{context['old_data']['username']}}" class="select-primary w-4/6">
-
-                <label for="" class="text-white font-semibold">New  password</label>
-                <input type="password" name="new_password" id="" placeholder="{{context['old_data']['password']}}" class="select-primary w-4/6">
-                
-                <label for="" class="text-white font-semibold">New  email</label>
-                <input type="text" name="new_email" id="" placeholder="{{context['old_data']['email']}}" class="select-primary w-4/6">
-                
-                <div class="flex w-4/6 space-x-2">
-                    <select name="new_store" id="" class="mt-4 select-primary w-3/6">
-                        {% for store_id, store_name in context['data']['stores'].items() %}
-                            <option value="{{store_id}}">{{store_name}}</option>
-    
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="btn-primary w-3/6 h-12 rounded-md">Send</button>
-                </div>
-                
-            </form>
-    
-        </div>
-
     </section>
     
+    
     <div class="border m-4 h-56">
-        <form action="/delete/user/" method="POST">
-            <input type="hidden" name="old_username" value="{{context['username']}}">
-            <input type="hidden" name="old_email" value="{{context['email']}}">
+        <form action="{{url_for('users_page_bp.edit_user.delete', username=context['username'])}}" method="POST">
+            <input type="hidden" name="old_username" value="{{context.username}}">
             <button type="submit" class="btn-primary w-3/12">Delete</button>
         </form>
     </div>

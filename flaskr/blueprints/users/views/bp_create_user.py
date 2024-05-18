@@ -33,7 +33,7 @@ def create():
         newUser.create(username, email, password, store)
         flash('User created successfully')
     except IntegrityError as e:
-        flash('User already exists')
+        flash(f'{e.orig}')
         return redirect('/')
         
     return redirect('/')
