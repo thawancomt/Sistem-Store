@@ -44,3 +44,8 @@ flaskr/blueprints/stores_management/view/__pycache__/stores.cpython-312.pyc
 flaskr/blueprints/stores_management/services/__pycache__/stores_service.cpython-312.pyc
 flaskr/blueprints/stores_management/services/__pycache__/stores_service.cpython-312.pyc
 /flaskr/blueprints/stores_management/services/__pycache__
+/flaskr/blueprints/homepage/__pycache__
+/flaskr/blueprints/homepage/views/__pycache__
+/flaskr/blueprints/login/services/__pycache__
+/flaskr/blueprints/stores_management/models/__pycache__
+/flaskr/blueprints/stores_management/view/__pycache__

@@ -6,12 +6,11 @@ from flask_login import LoginManager
 
 from flaskr.extensions import db, login_manager
 
-from flaskr.blueprints.login.bp_login import login_bp
-from flaskr.blueprints.home.views.bp_home import  home_bp
+from flaskr.blueprints.login.views.LoginView import login_bp
+from flaskr.blueprints.homepage.views.Homepage import  homepage
 from flaskr.blueprints.users.views.bp_users import users_page_bp
-from flaskr.blueprints.stock.bp_stock import stock_bp
-from flaskr.blueprints.tasks.bp_tasks import tasks_bp
-from flaskr.blueprints.stores_management.view.stores import store_bp
+from flaskr.blueprints.tasks.views.TaskView import tasks_bp
+from flaskr.blueprints.stores_management.view.StoreView import store_bp
 
 
 from datetime import datetime
@@ -29,9 +28,7 @@ def create_app():
 
 
     app.register_blueprint(login_bp)
-    app.register_blueprint(home_bp)
-    app.register_blueprint(users_page_bp)
-    app.register_blueprint(stock_bp)
+    app.register_blueprint(homepage)
     app.register_blueprint(tasks_bp)
     app.register_blueprint(store_bp)
     

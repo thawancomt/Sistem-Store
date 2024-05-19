@@ -1,5 +1,5 @@
 from flaskr.blueprints import *
-from flaskr.blueprints.stores_management.services.stores_service import StoresService
+from flaskr.blueprints.stores_management.services.StoreService import StoresService
 
 from ..services.user_service import UserService
 

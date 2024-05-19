@@ -47,6 +47,7 @@ class UserService:
         
         old_user  = user 
         
+        
         old_user.update(
             {   
                 'username': name,
@@ -54,7 +55,7 @@ class UserService:
                 'last_login': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
         )
-        
+            
         self.db.session.commit()
         
         
