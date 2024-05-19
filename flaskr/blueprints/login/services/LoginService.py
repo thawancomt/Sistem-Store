@@ -1,11 +1,11 @@
 
-from flaskr.blueprints.users.services.user_service import UserService, check_password_hash, generate_password_hash
-from flaskr.blueprints.users.models.users_model import User
+from flaskr.blueprints.users.services.UserService import UserService, check_password_hash, generate_password_hash
+from flaskr.blueprints.users.models.UserModel import User
 
 from flask_login import login_user, logout_user, current_user
 from flaskr.extensions import login_manager
 
-from flask import  redirect, flash
+from flask import  redirect, flash, url_for
 
 from flask_login import UserMixin
 
@@ -28,7 +28,7 @@ class LoginService:
     @login_manager.unauthorized_handler
     def unauthorized_callback():
         flash('You must be logged to see that page')
-        return redirect('/login')
+        return redirect(url_for('auth.login'))
     
     def login(self):
         if self.user and self.verify_password(self.user.password):

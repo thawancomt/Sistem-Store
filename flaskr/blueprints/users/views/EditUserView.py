@@ -1,14 +1,14 @@
 from flaskr.blueprints import *
-from flaskr.blueprints.users.services.user_service import UserService
+from flaskr.blueprints.users.services.UserService import UserService
 from datetime import datetime
-from flaskr.blueprints.users.models.users_model import User
+from flaskr.blueprints.users.models.UserModel import User
 
 
-bp_edit_user = Blueprint('edit_user', __name__, url_prefix='/edit')
+edit_user = Blueprint('edit_user', __name__, url_prefix='/edit')
 
 
 
-@bp_edit_user.route('/<username>', methods=['GET', 'POST'])
+@edit_user.route('/<username>', methods=['GET', 'POST'])
 def edit(username ):
     
     user_data = UserService().get_user_by(username=username)
@@ -23,8 +23,8 @@ def edit(username ):
     
     return render_template('users/edit_user.html', context=context  )
 
-@bp_edit_user.route('/edit', methods=['POST'])
-def edit_user():
+@edit_user.route('/edit', methods=['POST'])
+def update():
     username = request.form.get('old_username')
     user_data = UserService().get_user_by(username=username)
     
@@ -38,7 +38,7 @@ def edit_user():
 
 
 
-@bp_edit_user.route('/delete/<username>', methods=['POST'])
+@edit_user.route('/delete/<username>', methods=['POST'])
 def delete(username):
     UserService().delete_user_by_username(username=username)
     flash(f'User {username} has been deleted',)

@@ -4,7 +4,7 @@ from flaskr.extensions import db
 class StoreService:
     def __init__(self, store_name = None, store_id = None, store_place = None) -> None:
         self.store_name = store_name
-        self.store_id = int(store_id)
+        self.store_id = int(store_id) if store_id else None
         self.store_place = store_place
         
     def create(self):

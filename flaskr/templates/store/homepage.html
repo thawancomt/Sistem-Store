@@ -78,7 +78,7 @@
                         <button type="submit" class="btn-primary">Access Stock</button>
                     </form>
 
-                    <form action="{{url_for('stores.home')}}" class="flex w-3/12">
+                    <form action="{{url_for('store.home')}}" class="flex w-3/12">
                         <button type="submit" class="btn-primary">Stores</button>
                     </form>
                 </div>
@@ -109,7 +109,7 @@
                                         <button type="submit" class="btn-primary m-0 w-[90%]">Finish</button>
                                     </form>
 
-                                    <form action="{{ url_for('tasks_bp.delete') }}" method="POST" class="w-2/12">
+                                    <form action="{{ url_for('tasks.delete') }}" method="POST" class="w-2/12">
                                         <input type="text" name="task_id" value="{{task.id}}" hidden>
                                         <button type="submit" class="btn-primary m-0 w-[90%] hover:bg-red-800 border-none hover:border-none transition-all duration-300">Delete</button>
                                     </form>"
@@ -124,7 +124,7 @@
                 </div>
                 
 
-                <form action="{{ url_for('tasks_bp.create') }}" method="POST" class="mt-4">
+                <form action="{{ url_for('tasks.create') }}" method="POST" class="mt-4">
                     <label for="task_to_send" class="sub-title-primary">Add some task</label>
                     <input type="text" name="task_to_send" class="form-control-1">
 

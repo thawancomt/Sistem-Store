@@ -1,9 +1,9 @@
-from flaskr.blueprints.users.models.users_model import User # type: ignore
+from flaskr.blueprints.users.models.UserModel import User # type: ignore
 from flaskr.extensions import db
 from datetime import datetime
 from hashlib import sha256
 
-from flaskr.blueprints.users.models.users_model import User
+from flaskr.blueprints.users.models.UserModel import User
 
 from werkzeug.security import generate_password_hash, check_password_hash
 def hash_password(password):

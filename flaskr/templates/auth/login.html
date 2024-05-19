@@ -21,7 +21,7 @@
                             font-semibold text-lg">Insert your data to login</h4>
                 </div>
                 <div class="mx-4 my-10">
-                    <form action="{{ url_for('login_bp.log_in')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url_for('auth.login')}}" method="POST" enctype="multipart/form-data">
                         <input type="email" name="email" id="" class="form-control-1 w-full mt-4" required>
                         <input type="password" name="password" id="" class="form-control-1 w-full mt-4 " required>
                         <button type="submit" class="border border-emerald-500
@@ -42,7 +42,7 @@
                 <div class="m-4">
                     <h4 class="dark:text-indigo-100 text-gray-800
                     font-semibold text-sm">Don't have an accouunt?</h4>
-                    <a href="{{ url_for('users_page_bp.create_user.create_user_page') }}" class="
+                    <a href="{{ url_for('users_page.create_user.create_user_page') }}" class="
                     font-semibold text-sm text-emerald-600 hover:underline">Create Now</a>
                 </div>
                 

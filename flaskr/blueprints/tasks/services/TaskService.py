@@ -8,12 +8,12 @@ class TaskService:
     def __init__(self, task : str = None, task_description : str = None, task_id : int = None):
         self.db = db
         
-        self.taskName = task_name
+        self.taskName = task
         self.taskDescription = task_description
         self.taskId = task_id
         
     def create(self):
-        newTask = Task()
+        newTask = Task() 
         newTask.name = self.task_name
         newTask.description = self.task_description
         
