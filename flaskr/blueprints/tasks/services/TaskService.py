@@ -5,11 +5,11 @@ from flaskr.extensions import db
 
 class TaskService:
     
-    def __init__(self, task : str = None, task_description : str = None, task_id : int = None):
+    def __init__(self, task_name : str = None, task_description : str = None, task_id : int = None):
         self.db = db
         
-        self.taskName = task
-        self.taskDescription = task_description
+        self.task_name = task_name
+        self.task_description = task_description
         self.taskId = task_id
         
     def create(self):

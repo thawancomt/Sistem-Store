@@ -52,3 +52,13 @@ flaskr/blueprints/stores_management/services/__pycache__/stores_service.cpython-
 /venv2
 /tailwind
 flaskr/blueprints/__pycache__/__init__.cpython-311.pyc
+flaskr/blueprints/login/views/__pycache__/LoginView.cpython-312.pyc
+/flaskr/blueprints/production/services/__pycache__
+/flaskr/blueprints/production/views/__pycache__
+/flaskr/blueprints/production/models/__pycache__
+/flaskr/blueprints/tasks/models/__pycache__
+flaskr/blueprints/tasks/services/__pycache__/TaskService.cpython-312.pyc
+flaskr/blueprints/tasks/views/__pycache__/TaskView.cpython-312.pyc
+flaskr/blueprints/login/views/__pycache__/LoginView.cpython-312.pyc
+/flaskr/blueprints/tasks/views/__pycache__
+/flaskr/blueprints/login/views/__pycache__

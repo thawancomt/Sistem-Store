@@ -19,6 +19,7 @@ def login():
     if LoginService(email = email, password = password).login():
         return redirect(url_for('homepage.home'))
     
+    flash('Invalid email or password', 'danger')
     return redirect(url_for('auth.login_page'))
 
 @authentication.route('/logout')

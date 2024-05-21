@@ -6,7 +6,6 @@
 
 {% block store_title %}
     <div>
-        <h1> {{ current_user.username }}</h1>
         <h1 class="title-primary text-center">
             Gestão {{context.store_name | title }}
         </h1>
@@ -125,8 +124,8 @@
                 
 
                 <form action="{{ url_for('tasks.create') }}" method="POST" class="mt-4">
-                    <label for="task_to_send" class="sub-title-primary">Add some task</label>
-                    <input type="text" name="task_to_send" class="form-control-1">
+                    <label for="task_name" class="sub-title-primary">Add some task</label>
+                    <input type="text" name="task_name" class="form-control-1">
 
                     <label for="task_to_send" class="sub-title-primary">description</label>
                     <input type="text" name="task_description" class="form-control-1">
@@ -149,33 +148,14 @@
                 <p class="information-primary">Insert here the day production</p>
             </div>
             <section class="flex w-full">
-                <form action="/production/{{ date_for }}/{{ store_to_show }}" class="flex flex-col w-3/6 m-4 " method="POST" id="production-form">
-                    {% set customer = ({"Name":"Peter","Surname": "Smith"})	%}
-                    {% for article, article_name in  customer.items() %}
-                    <!-- Inputs of production -->
-                        <div class="w-full flex justify-between">
-                            <div class="w-[50%]">
-                                <label for="{{article}}" class="text-sm text-white font-semibold"> {{article_name}}</label>
-                                <input type="number" name="{{article}}" class="form-control-1" value="0" id="{{article}}" >  
-                            </div>
-                            <div class="w-2/5">
-                                {% if article == 'big_ball' %}
-                                <div class="h-7 ">
-                                    <label for="amount_{{article}}" class="text-sm text-white font-semibold sm:text-sm  ">Total of the day</label>
-                                </div>
-                                    
-                                    <input type="number" value="{{ customer }}" class="form-control-1 text-center" disabled>
-                                {% else %}
-                                    <div class="h-7 w-full"></div>
-                                    <input type="number" value="{{ customer }}" class="form-control-1 text-center" disabled>
-                                {% endif %}
-                            </div>
-    
-                            
-    
-    
-                        </div>
-                    {% endfor %}
+                <form action="{{ url_for('production.send') }}" class="flex flex-col w-3/6 m-4 " method="POST" id="production-form">
+                    
+                    <p class="sub-title-primary">Item</p>
+                    <input type="text" name="item" class="form-control-1">
+                    <br>
+                    <p class="sub-title-primary">amount</p>
+                    <input type="number" class="form-control-1" name="amount">
+
                     <div class="w-full">
                         <button type="button" class="btn-primary-rounded w-3/6" id="submit-production-btn">Send</button>
                     </div>
