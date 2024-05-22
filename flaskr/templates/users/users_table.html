@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<table class="border-separate border-spacing-2 border border-slate-500 w-[80%]">
-    <thead>
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
             <th class="border border-slate-600 text-red-400 w-1/3">id</th>
             <th class="border border-slate-600 text-red-400 w-1/3">name</th>
@@ -16,12 +16,12 @@
     </thead>
     <tbody>
         {% for user in context.all_users %}
-        <tr>
-            <td class="border border-slate-600 text-white w-1/3">{{ user.id }}</td>
-            <td class="border border-slate-600 text-white w-1/3">{{ user.username }}</td>
-            <td class="border border-slate-600 text-white w-1/3">{{ user.email }}</td>
-            <td class="border border-slate-600 text-white w-1/3">{{ user.last_login }}</td>
-            <td class="border border-slate-600 text-white w-1/3">{{ context.stores[user.store] }}</td>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 ">
+            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ user.id }}</td>
+            <td class="">{{ user.username }}</td>
+            <td class="">{{ user.email }}</td>
+            <td class="">{{ user.last_login }}</td>
+            <td class="">{{ context.stores[user.store] }}</td>
         </tr>
         {% endfor %}
     </tbody>
