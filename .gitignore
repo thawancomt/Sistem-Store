@@ -62,3 +62,4 @@ flaskr/blueprints/tasks/views/__pycache__/TaskView.cpython-312.pyc
 flaskr/blueprints/login/views/__pycache__/LoginView.cpython-312.pyc
 /flaskr/blueprints/tasks/views/__pycache__
 /flaskr/blueprints/login/views/__pycache__
+/node_modules

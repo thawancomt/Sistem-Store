@@ -27,6 +27,6 @@ class ProductionService:
     
     def update(self):
         Production.query.filter_by(store=self.store, date=self.date).update({
-            'amount': int(self.amount) + int(self.get().first().amount)
+            'amount': Production.amount + self.amount
         })
         db.session.commit()

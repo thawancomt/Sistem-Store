@@ -1,6 +1,7 @@
 from multiprocessing import context
 from flaskr.blueprints import *
 from ..services.UserService import UserService
+from flaskr.blueprints.stores_management.services.StoreService import StoreService
 
 from datetime import datetime
 
@@ -23,3 +24,14 @@ def show_users():
     }
 
     return render_template('users/users.html', context=context)
+
+@users_page.route('/table')
+def users_table():
+    users = UserService().get_all()
+    
+    context = {
+        'all_users': users,
+        'stores' : {store.id : store.name for store in StoreService().get_all_stores()}
+    }
+
+    return render_template('users/users_table.html', context=context)
