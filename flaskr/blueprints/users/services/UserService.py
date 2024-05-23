@@ -32,7 +32,7 @@ class UserService:
         self.db.session.commit()
     
     def delete_user_by_username(self, username) -> bool:
-        if user := User.query.filter_by(username=username):
+        if user := User.query.filter(User.username == username):
             user.delete()
             db.session.commit()
             return True

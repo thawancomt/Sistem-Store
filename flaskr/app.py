@@ -43,6 +43,10 @@ def create_app():
     @app.route('/')
     def home():
         return redirect(url_for('homepage.home'))
+    
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template('/error/404.html'), 404
 
 
     return app

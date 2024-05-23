@@ -1,4 +1,4 @@
-{ {% extends "base.html" %}}
+{% extends "base.html" %}}
 
 {% block content %}
 
@@ -26,9 +26,4 @@
         {% endfor %}
     </tbody>
 </table>
-<h1>
-    {% for store in context.stores %}
-     <p> {{ store }}</p>
-    {% endfor %}
-</h1>
 {% endblock content %}}

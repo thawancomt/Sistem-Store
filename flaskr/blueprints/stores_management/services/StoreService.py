@@ -8,8 +8,6 @@ class StoreService:
         self.store_place = store_place
         
     def create(self):
-        store_id = int(store_id)
-        
         new_store = Store()
         new_store.name = self.store_name
         new_store.id = self.store_id
