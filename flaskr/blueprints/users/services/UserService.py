@@ -44,12 +44,11 @@ class UserService:
         db.session.commit()
     
     def update(self, username, data):
-        user = db.session.query(User).filter(User.username == username).first()
-        
-        user.username = data.get('username')
-        user.email = data.get('email')
-        user.store = data.get('store')
-        
+        if user := db.session.query(User).filter(User.username == username).first():
+            user.username = data.get('new_username')
+            user.email = data.get('email')
+            user.store = data.get('store')
+            
         db.session.commit()
         return user
     
