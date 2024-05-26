@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Stores Manager</title>
+{% endblock title %}
+
+{% block content %}
+<div class="m-4 h-full w-full flex flex-col items-center justify-center ">
+    <form action="{{ url_for('store.create') }}" method="POST">
+        <label for="name" class="text-lg text-white font-semibold">Store Name</label>
+        <input type="text" name="name" id="name" class="form-control-1">
+
+        <label for="id" class="text-lg text-white font-semibold">Store Id</label>
+        <input type="number" name="id" id="id" class="form-control-1">
+
+        <label for="id" class="text-lg text-white font-semibold">Store Id</label>
+        <select name="place" id="place" class="form-control-1">
+            <option value="street">street</option>
+            <option value="shopping">shopping</option>
+        </select>
+        <input type="submit" value="Create Store" class="btn-primary">
+    </form>
+        <div class="container flex justify-center mx-auto">
+            <div class="flex flex-col">
+                <div class="w-full">
+                    <div class="border-b border-gray-200 shadow">
+                        <table class="divide-y divide-gray-300 ">
+                            <thead class="bg-gray-50 ">
+                                <tr class="odd:placeholder-red-600">
+                                    <th class="px-6 py-2 text-xs text-gray-500">
+                                        ID
+                                    </th>
+                                    <th class="px-6 py-2 text-xs text-gray-500">
+                                        Store name
+                                    </th>
+                                    <th class="px-6 py-2 text-xs text-gray-500">
+                                        Place
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-300 odd:text-red-500">
+                                {% for store in context.stores %}
+                                 
+                                 
+                                <tr class="whitespace-nowrap odd:text-right">
+                                    <td class="px-6 py-4 text-sm text-gray-500">
+                                        {{store.id}}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">
+                                        {{store.name}}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">
+                                        {{store.place}}
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</div>
+    
+{% endblock content %}

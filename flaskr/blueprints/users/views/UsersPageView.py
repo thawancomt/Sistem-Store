@@ -9,7 +9,8 @@ from .EditUserView import edit_user
 
 from .CreateUserView import create_user
 
-users_page = Blueprint('users_page', __name__, url_prefix='/users')
+users_page = Blueprint('users_page', __name__, url_prefix='/users',
+                       template_folder='../templates')
 
 # Child blueprint for edit user
 users_page.register_blueprint(edit_user)
@@ -23,7 +24,7 @@ def show_users():
         'all_users': users
     }
 
-    return render_template('users/users.html', context=context)
+    return render_template('users.html', context=context)
 
 @users_page.route('/table')
 def users_table():
@@ -34,4 +35,4 @@ def users_table():
         'stores' : {store.id : store.name for store in StoreService().get_all_stores()}
     }
 
-    return render_template('users/users_table.html', context=context)
+    return render_template('users_table.html', context=context)

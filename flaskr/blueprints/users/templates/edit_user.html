@@ -6,7 +6,7 @@
 
     <section>
         <div class="m-4">
-            <form action="{{ url_for('users_page_bp.edit_user.edit_user', username=context['username']) }}" method="POST">
+            <form action="{{ url_for('users_page.edit_user.update', username=context['username']) }}" method="POST">
                 <input type="text" hidden name="old_username" value="{{context.username}}">
                 <input type="text" name="username" value="{{context.username}}">
                 <input type="text" name="email"  value="{{context.email}}">

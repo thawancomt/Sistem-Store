@@ -4,7 +4,8 @@ from flaskr.blueprints.stores_management.services.StoreService import StoreServi
 from ..services.UserService import UserService
 
 
-create_user = Blueprint('create_user', __name__, url_prefix='/create')
+create_user = Blueprint('create_user', __name__, url_prefix='/create',
+                        template_folder='../templates')
 
 import json
 
@@ -15,7 +16,7 @@ def create_user_page():
     context = {
         'stores' : StoreService().get_all_stores()
     }
-    return render_template('auth/register.html', context=context)
+    return render_template('register.html', context=context)
 
 @create_user.route('/', methods=['POST'])
 def create():

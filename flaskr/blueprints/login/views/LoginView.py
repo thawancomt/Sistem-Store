@@ -4,12 +4,14 @@ from flaskr.blueprints import *
 from ..services.LoginService import LoginService
 
 authentication = Blueprint('auth', __name__,
-                     url_prefix='/auth')
+                     url_prefix='/auth',
+                     template_folder='../templates',
+                     static_folder='..../static')
 
 
 @authentication.route('/', methods=['GET'])
 def login_page():
-    return render_template('auth/login.html')
+    return render_template('login.html')
 
 @authentication.route('/', methods=['POST'])
 def login():

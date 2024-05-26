@@ -21,7 +21,9 @@ def edit(username ):
     }
     
     
-    return render_template('users/edit_user.html', context=context  )
+    
+    
+    return render_template('edit_user.html', context=context  )
 
 @edit_user.route('/edit', methods=['POST'])
 def update():
@@ -29,12 +31,8 @@ def update():
     user_data = UserService().get_user_by(username=username)
     
     new_username = request.form.get('username')
-    new_email = request.form.get('email')
-    
-    old_user = User().query.filter_by(username=username)
-    
-    UserService().update(old_user, new_username, new_email)
-    return redirect(url_for('home_bp.home'))
+    new_email = request.form.get('email')   
+    return redirect(url_for('homepage.home'))
 
 
 

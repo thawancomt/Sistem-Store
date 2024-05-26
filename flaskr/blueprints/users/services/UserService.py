@@ -43,20 +43,12 @@ class UserService:
         user = User.query.filter_by(id=id).delete()
         db.session.commit()
     
-    def update(self, user, name, email):
+    def update(self, username, new_name, new_email):
         
-        old_user  = user 
-        
-        
-        old_user.update(
-            {   
-                'username': name,
-                'email': email,
-                'last_login': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
-        )
-            
-        self.db.session.commit()
+        user = db.session.query(User).filter_by(username = username).first()
+        user.username = new_name
+        user.email = new_email
+        db.session.commit()
         
         
         

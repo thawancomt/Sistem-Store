@@ -14,12 +14,13 @@
     </form>
 </div>
 
-{% if context['users']|length == 0 %}
+{% if context['all_users']|length == 0 %}
             <div class="w-full h-full flex text-center justify-center items-center">
                 <h1 class="title-primary "> Not Users Founds</h1>
             </div>
                 
 {% endif %}
+
 
 <div class="flex justify-center">
         {% with messages = get_flashed_messages() %}
@@ -39,6 +40,9 @@
     <!-- Container -->
     <div class="w-full h-full flex flex-wrap justify-around ">
         
+        <div class=" w-full flex items-center justify-center ">
+            <a href="/users/table" class="text-xl text-blue-500 btn-primary-rounded w-fit">View as tables</a>
+        </div>
         {% for user in context['all_users'] %}
 
         
@@ -81,9 +85,6 @@
 
             </div>
         {% endfor %}
-        <div>
-            <a href="/users/table">Tableas</a>
-        </div>
     </div>
 </div>
 
