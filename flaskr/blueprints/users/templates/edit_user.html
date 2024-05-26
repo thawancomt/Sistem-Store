@@ -6,12 +6,15 @@
 
     <section>
         <div class="m-4">
-            <form action="{{ url_for('users_page.edit_user.update', username=context['username']) }}" method="POST">
-                <input type="text" hidden name="old_username" value="{{context.username}}">
-                <input type="text" name="username" value="{{context.username}}">
-                <input type="text" name="email"  value="{{context.email}}">
+            <form action="{{ url_for('users_page.edit_user.update', username=context.user.username) }}" method="POST">
+                <input type="text" name="username" value="{{context.user.username}}" hidden>
+                <input type="text" name="new_username" value="{{context.user.username}}">
+                <input type="text" name="email"  value="{{context.user.email}}">
                 <select name="store" id="" class="select-primary ">
                     {% for store in context.stores %}
+                        {% if store.id == context.user.store %}
+                            <option value="{{store.id}}" selected> {{store.name}}</option>
+                        {% endif %}
                         <option value="{{store.id}}"> {{store.name}}</option>
                     {% endfor %}
                 </select>

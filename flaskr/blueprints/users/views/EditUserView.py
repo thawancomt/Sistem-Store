@@ -2,6 +2,7 @@ from flaskr.blueprints import *
 from flaskr.blueprints.users.services.UserService import UserService
 from datetime import datetime
 from flaskr.blueprints.users.models.UserModel import User
+from flaskr.blueprints.stores_management.services.StoreService import StoreService
 
 
 edit_user = Blueprint('edit_user', __name__, url_prefix='/edit')
@@ -15,9 +16,8 @@ def edit(username ):
     
     
     context = {
-        'username': user_data.username,
-        'email' : user_data.email,
-        'password' : user_data.password,
+        'user' : user_data,
+        'stores' : StoreService().get_all_stores()
     }
     
     
@@ -26,18 +26,17 @@ def edit(username ):
     return render_template('edit_user.html', context=context  )
 
 @edit_user.route('/edit', methods=['POST'])
-def update():
-    username = request.form.get('old_username')
-    user_data = UserService().get_user_by(username=username)
+def update():  # sourcery skip: avoid-builtin-shadow
+    data = request.form.to_dict()
     
-    new_username = request.form.get('username')
-    new_email = request.form.get('email')   
+    username = data['username']
+    
+    UserService().update(username=username, data=data)
+    
     return redirect(url_for('homepage.home'))
-
-
 
 @edit_user.route('/delete/<username>', methods=['POST'])
 def delete(username):
     UserService().delete_user_by_username(username=username)
     flash(f'User {username} has been deleted',)
-    return redirect(url_for('home_bp.home'))
+    return redirect(url_for('homepage.home'))

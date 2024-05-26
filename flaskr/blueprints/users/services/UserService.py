@@ -13,7 +13,7 @@ def hash_password(password):
 
 class UserService:
     
-    def __init__(self) -> None:
+    def __init__(self, **kwargs) -> None:
         self.db = db
         
     def create(self, name, email, password, store):
@@ -43,14 +43,18 @@ class UserService:
         user = User.query.filter_by(id=id).delete()
         db.session.commit()
     
-    def update(self, username, new_name, new_email):
+    def update(self, username, data):
+        user = db.session.query(User).filter(User.username == username).first()
         
-        user = db.session.query(User).filter_by(username = username).first()
-        user.username = new_name
-        user.email = new_email
+        user.username = data.get('username')
+        user.email = data.get('email')
+        user.store = data.get('store')
+        
         db.session.commit()
-        
-        
+        return user
+    
+    def get_user_by_username(self, username):
+        return User.query.filter_by(username=username).first()
         
     def get_user_by(self, id = None, username = None, email = None):
         if User.query.filter_by(id=id).first():
