@@ -1,15 +1,13 @@
 
 from flaskr.blueprints.users.services.UserService import UserService, check_password_hash, generate_password_hash
-from flaskr.blueprints.users.models.UserModel import User
+from flaskr.blueprints.users.models.UserModel import User, db
 
 from flask_login import login_user, logout_user, current_user
 from flaskr.extensions import login_manager
 
 from flask import  redirect, flash, url_for
 
-from flask_login import UserMixin
-
-
+from datetime import datetime
 
 class LoginService:
     def __init__(self, email = None, password = None) -> None:
@@ -32,6 +30,8 @@ class LoginService:
     
     def login(self):
         if self.user and self.verify_password(self.user.password):
+            self.user.last_login = datetime.now()
+            db.session.commit()            
             login_user(self.user)
             return True
         

@@ -23,9 +23,6 @@ def create_app():
 
     app.config.from_object('CONFIG')
 
-    app.secret_key = '2222'
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
-
 
     app.register_blueprint(authentication)
     app.register_blueprint(homepage)

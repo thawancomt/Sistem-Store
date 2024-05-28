@@ -17,9 +17,6 @@ def create():
     task = TaskService(task_name=task_name, task_description=task_description)
     
     task.create()
-    
-    
-    
     return redirect(url_for('homepage.home'))
 
 @tasks.route('/delete/', methods=['POST'])
@@ -30,4 +27,15 @@ def delete():
     task_ = TaskService()
     task_.delete(task_id)
     
+    return redirect(url_for('homepage.home'))
+
+
+@tasks.route('/finish', methods=['POST'])
+def finish():
+    taskID = request.form.get('task_id')
+    task = TaskService(task_id=taskID)
+    
+    if task.finish():
+        flash('Task finished')
+        
     return redirect(url_for('homepage.home'))

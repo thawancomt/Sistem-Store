@@ -98,13 +98,19 @@
                             <div class="flex justify-around container-primary w-full m-0 items-center
                             hover:border-emerald-800">
                                     <div class="w-8/12 p-2">
-                                        <h4 class="title-primary text-white mt-0"> {{ task.name }}</h4>
+                                        
+                                        {% if task.status | lower  == 'finished' %}
+                                            <h4 class="title-primary text-red-500 mt-0 "> {{ task.name }}</h4>
+                                        {% else %}
+                                            <h4 class="title-primary text-white mt-0"> {{ task.name }}</h4>
+                                            <h4 class="title-primary text-white mt-0"> {{ task }} User</h4>
+                                        {% endif %}
+                                        
                                         <h4 class="information-primary ml-4">{{task.description}}</h4>
-                                        <h4 class="information-primary ml-4">{{task.id}}</h4>
                                     </div>
 
-                                    <form action="/tasks/{{date_for}}/{{store_to_show}}/concluded" method="POST" class="w-2/12">
-                                        <input type="text" name="{{task.id}}" hidden>
+                                    <form action="{{ url_for('tasks.finish') }}" method="POST" class="w-2/12">
+                                        <input type="text" name="task_id" value="{{task.id}}" hidden>
                                         <button type="submit" class="btn-primary m-0 w-[90%]">Finish</button>
                                     </form>
 
