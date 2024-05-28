@@ -103,7 +103,7 @@
                                             <h4 class="title-primary text-red-500 mt-0 "> {{ task.name }}</h4>
                                         {% else %}
                                             <h4 class="title-primary text-white mt-0"> {{ task.name }}</h4>
-                                            <h4 class="title-primary text-white mt-0"> {{ task }} User</h4>
+                                            <p class=" text-white mt-0"> Created by: {{ task.creator.username }}</p>
                                         {% endif %}
                                         
                                         <h4 class="information-primary ml-4">{{task.description}}</h4>

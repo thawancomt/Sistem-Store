@@ -25,9 +25,8 @@ class TaskService:
         
     def finish(self):
         if task := db.session.query(Task).filter(Task.id == self.taskId).one_or_none():
-            return task
             task.finished_by = current_user.id
-            task.status = 'Finished'
+            task.status = 'finished'
             db.session.commit()
             
         else:

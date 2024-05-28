@@ -21,7 +21,7 @@
             <td class="">{{ user.username }}</td>
             <td class="">{{ user.email }}</td>
             <td class="">{{ user.last_login }}</td>
-            <td class="">{{ context.stores[user.store] }}</td>
+            <td class="">{{ user.store_name.name }}</td>
         </tr>
         {% endfor %}
     </tbody>

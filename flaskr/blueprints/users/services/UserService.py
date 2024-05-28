@@ -53,7 +53,7 @@ class UserService:
         return user
     
     def get_user_by_username(self, username):
-        return User.query.filter_by(username=username).first()
+        return User.query.filter_by(username=username).join()
         
     def get_user_by(self, id = None, username = None, email = None):
         if User.query.filter_by(id=id).first():

@@ -31,8 +31,7 @@ def users_table():
     users = UserService().get_all()
     
     context = {
-        'all_users': users,
-        'stores' : {store.id : store.name for store in StoreService().get_all_stores()}
+        'all_users': users
     }
 
     return render_template('users_table.html', context=context)
