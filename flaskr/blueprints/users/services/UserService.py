@@ -47,7 +47,7 @@ class UserService:
         if user := db.session.query(User).filter(User.username == username).first():
             user.username = data.get('new_username')
             user.email = data.get('email')
-            user.store = data.get('store')
+            user.store_id = data.get('store')
             
         db.session.commit()
         return user

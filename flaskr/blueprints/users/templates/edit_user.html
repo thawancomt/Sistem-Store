@@ -15,7 +15,7 @@
                         {% if store.id == context.user.store %}
                             <option value="{{store.id}}" selected> {{store.name}}</option>
                         {% endif %}
-                        <option value="{{store.id}}"> {{store.name}}</option>
+                        <option value="{{store.id}}"> {{store.name}} </option>
                     {% endfor %}
                 </select>
                 <button type="submit">Edit</button>

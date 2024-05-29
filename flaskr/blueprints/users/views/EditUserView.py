@@ -9,7 +9,7 @@ edit_user = Blueprint('edit_user', __name__, url_prefix='/edit')
 
 
 
-@edit_user.route('/<username>', methods=['GET', 'POST'])
+@edit_user.route('/<username>', methods=['GET'])
 def edit(username ):
     
     user_data = UserService().get_user_by(username=username)
