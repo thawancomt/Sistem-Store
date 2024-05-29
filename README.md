@@ -28,7 +28,7 @@ Um sistema em Python que simula as operações de uma pizzaria, com sistema de l
 - [@thawancomt](https://www.github.com/thawancomt)
 
 ## 🛠 Habilidades
-Python, Flask, TinyDB, HTML, CSS...
+Python, Flask, MySQL,SqlALchemy, HTML, CSS, Flask-LOGIN, Flask-SQLALCHEMY...
 
 ## Instalação
 
