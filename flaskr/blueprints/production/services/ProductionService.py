@@ -5,7 +5,7 @@ from flask_login import current_user
 
 class ProductionService:
     def __init__(self, article_id, quantity, date) -> None:
-        self.store_id = current_user.store
+        self.store_id = current_user.store_id
         self.creator_id = current_user.id
         self.article_id = article_id
         self.quantity = quantity

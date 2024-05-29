@@ -10,7 +10,7 @@ class ArticleModel(db.Model):
     description = Column(String(100), nullable=False)
     type_unit = Column(Integer, ForeignKey('type_units.id', ondelete='CASCADE'), nullable=False)
     
-    type_unit_name = relationship('TypeUnitModel', foreign_keys=[type_unit])
+    type = relationship('TypeUnitModel', foreign_keys=[type_unit])
     
 class TypeUnitModel(db.Model):
     __tablename__ = 'type_units'

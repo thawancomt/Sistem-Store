@@ -16,4 +16,4 @@ class Production(db.Model):
 
     store = relationship('Store', foreign_keys=[store_id] )
     article = relationship('ArticleModel', foreign_keys=[article_id] )
-    creator = relationship('User', foreign_keys=[creator_id])
+    creator = relationship('User', foreign_keys=[creator_id]) 

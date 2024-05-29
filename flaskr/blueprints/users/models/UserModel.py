@@ -13,8 +13,8 @@ class User(db.Model, UserMixin):
     username = Column(String(80), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(256), nullable=False)
-    store = Column(Integer, ForeignKey('stores.id'), nullable=False)
+    store_id = Column(Integer, ForeignKey('stores.id'), nullable=False)
     last_login = Column(DateTime, nullable=False)
     created_at = Column(DateTime, nullable=False)
     
-    store_name = relationship("Store", foreign_keys=[store])
+    store_name = relationship("Store", foreign_keys=[store_id])

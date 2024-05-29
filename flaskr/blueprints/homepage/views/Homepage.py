@@ -16,7 +16,7 @@ from flask_login import login_required, current_user
 def home():
     
     context = {'tasks': TaskService().get_tasks()}
-    context['store_name'] = StoreService().get_by_id(current_user.store).name
+    context['store_name'] = StoreService().get_by_id(current_user.store_id).name
     
     
     return render_template('homepage.html', context=context)
