@@ -3,6 +3,8 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_migrate import Migrate
+
 
 from flaskr.extensions import db, login_manager
 
@@ -12,7 +14,7 @@ from flaskr.blueprints.users.views.UsersPageView import users_page
 from flaskr.blueprints.tasks.views.TaskView import tasks
 from flaskr.blueprints.stores_management.view.StoreView import store
 from flaskr.blueprints.articles.views.ArticlesView import articles
-
+from flaskr.blueprints.production.views.ProductionView import production
 
 from datetime import datetime
 
@@ -31,8 +33,10 @@ def create_app():
     app.register_blueprint(store)
     app.register_blueprint(users_page)
     app.register_blueprint(articles)
+    app.register_blueprint(production)
 
 
+    migrate = Migrate(app, db)
 
     db.init_app(app)
     with app.app_context():

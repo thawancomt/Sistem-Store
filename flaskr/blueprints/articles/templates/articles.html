@@ -2,51 +2,53 @@
 
 {% block content %}
 
-<h1>
+<h1 class="text-center text-3xl font-bold text-white mb-4">
     OBS: Before you create articles, be sure that you have the type of article you want to create.
 </h1>
+<div class="flex flex-col w-full">
 
-<div class="w-full flex items-center justify-center">
     
-    <div class="container-primary">
-        <h1 class="title-primary">Edit articles here</h1>
-    </div>
+    
+    <form action="{{url_for('articles.create')}}" method="post">
+        <input type="text" name="name">
+        <input type="text" name="description">
+    
+        <select name="type_unit" id="">
+            {% for type_unit in context.type_units %}
+                <option value=" {{ type_unit.id }}">{{ type_unit.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Create" class="btn-primary">
+    
+    </form>
+    
+    
+    
+    <a href="{{url_for('articles.type_unit.view')}}" class="btn-primary-rounded w-3/12">Units</a>
+</div>
+
+
+<div class="w-full flex">
 
     <table>
         <thead>
-            <th>Article ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Type</th>
+            <th class="border border-slate-600 text-red-400 w-1/5">Article ID</th>
+            <th class="border border-slate-600 text-red-400 w-1/5">Name</th>
+            <th class="border border-slate-600 text-red-400 w-1/5">Description</th>
+            <th class="border border-slate-600 text-red-400 w-1/5">Type</th>
         </thead>
         <tbody>
-            {% for article in articles %}
+            {% for article in context.articles %}
             <tr>
-                <td>{{ article.id }}</td>
-                <td>{{ article.name }}</td>
-                <td>{{ article.description }}</td>
-                <td>{{ article.type }}</td>
+                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.id }}</td>
+                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.name }}</td>
+                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.description }}</td>
+                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.type }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
         
 </div>
-
-<form action="{{url_for('articles.create')}}" method="post">
-    <input type="text" name="name">
-    <input type="text" name="description">
-
-    <select name="type_unit" id="">
-        {% for type_unit in context.type_units %}
-            <option value=" {{ type_unit.id }}">{{ type_unit.name }}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Create">
-
-</form>
-
-
-<a href="{{url_for('articles.type_unit.view')}}" class="btn-primary">Units</a>
 
 {% endblock %}
