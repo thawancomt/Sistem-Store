@@ -2,17 +2,23 @@
 ~
 {% block content %}
 
-<form action="">
-    <select name="" id="">
+<form action="{{
+    url_for('production.create')
+}}" method="post">
+    <select name="article_id" id="">
         {% for article in context.articles %}
             <option value="{{ article.id }}">{{ article.name }}</option>
         {% endfor %}
     </select>
+    <input type="number" name="quantity" id="">
+    <input type="datetime-local" name="date" id="">
+
+    <button type="submit">Create</button>
 </form>
  
 
 {% for production in context.productions %}
-    <h1>{{ production.creator_.username }}</h1>
+    <h1>{{ production.creator.username }}</h1>
  
 {% endfor %}
 

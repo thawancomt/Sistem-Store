@@ -13,3 +13,17 @@ def home():
         'articles' : ArticlesService.get_all()
     }
     return render_template('production.html', context=context)
+
+@production.route('/create', methods=['POST'])
+def create():
+    article_id = request.form.get('article_id')
+    quantity = request.form.get('quantity')
+    date = request.form.get('date')
+    
+    production = ProductionService(article_id, quantity, date)
+    production.create()
+    
+    return redirect(url_for('production.home'))
+
+
+
