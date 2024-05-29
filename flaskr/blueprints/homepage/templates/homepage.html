@@ -43,23 +43,6 @@
                 {% endfor %}
             {% endif  %}
     {% endwith %}
-    
-    <!-- Search Bar if admin -->
-    {% if context['level'] == 'admin'%}
-    <div class="w-full h-8 flex justify-center mb-4 space-x-1">
-        <div class="w-1/6">
-            <h1 class="select-primary p-0 h-full flex justify-center items-center ">Select an store</h1>
-        </div>
-        <form action="/homepage/{{date_for}}/{{store_to_show}}" class="flex" method="post">
-            
-            <select name="store_by_select_form" id="" class="select-primary w-44 p-0 text-center h-full">
-                
-            </select>
-            
-            <button type="submit" class="btn-primary-rounded w-20 my-0 ml-1 h-full">Show</button>
-        </form>
-    </div>
-    {% endif %}
     {# Admin section #}
     <div class="w-full flex justify-center">
         {% if not context['level'] == 'admin' %}
@@ -70,12 +53,15 @@
                 </div>
                 <div class="ml-4">
 
-                    <form action="/users" class="flex w-3/12">
-                        <button type="submit" class="btn-primary hover:bg-red-700 hover:border-none">Access users</button>
-                    </form>
-                    <form action="" class="flex w-3/12">
-                        <button type="submit" class="btn-primary">Access Stock</button>
-                    </form>
+                    
+                    <a href="{{ url_for('users_page.show_users')}}" class="btn-primary hover:bg-red-700 hover:border-none w-3 h-8">
+                        Access Users
+                    </a>
+
+                    <a href="{{url_for('articles.view')}}" class="btn-primary hover:bg-red-700 hover:border-none w-3 h-8">
+                        Articles
+                    </a>
+
 
                     <form action="{{url_for('store.home')}}" class="flex w-3/12">
                         <button type="submit" class="btn-primary">Stores</button>
@@ -143,120 +129,5 @@
         </div>
     </div>  
     
-
-
-    <!-- Production Card -->
-    <div class="w-full flex justify-center">
-        <!-- Container -->
-        <div class="container-primary">
-            <div class="m-4">
-                <h1 class="title-primary">Insert the Production</h1>
-                <p class="information-primary">Insert here the day production</p>
-            </div>
-            <section class="flex w-full">
-                <form action="{{ url_for('production.send') }}" class="flex flex-col w-3/6 m-4 " method="POST" id="production-form">
-                    
-                    <p class="sub-title-primary">Item</p>
-                    <input type="text" name="item" class="form-control-1">
-                    <br>
-                    <p class="sub-title-primary">amount</p>
-                    <input type="number" class="form-control-1" name="amount">
-
-                    <div class="w-full">
-                        <button type="button" class="btn-primary-rounded w-3/6" id="submit-production-btn">Send</button>
-                    </div>
-                    
-                </form>
-                <!-- Chart Js -->
-                
-    
-                <div class="m-4 w-full" >
-                    <canvas id="myChart"></canvas>
-                </div>
-    
-            </section>
-            
-        </div>
-        
-        
-    </div>
-    <!-- Consume Card -->
-    <div class="w-full flex justify-center mt-4">
-        <!-- Container -->
-        <div class="container-primary flex">
-            <section class="w-3/6">
-                <div class="m-4">
-                    <h1 class="title-primary">Enter your consume</h1>
-                    <p class="information-primary">Insert here each worker and its consumes</p>
-                </div>
-
-                
-    
-                <form action="/consume/{{date_for}}/{{store_to_show}}" class="flex flex-col m-4" method="POST">
-    
-                    <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
-                    <input type="number" name="slice" class="form-control-1" value="0">
-    
-                    <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
-                    <input type="number" name="bread" class="form-control-1" value="0">
-                    
-                    <label for="" class="text-lg text-white font-semibold">Worker</label>
-    
-                    <select name="who_consume" id="" class="select-primary" >
-                        {% for user in context['workers'] %}
-                        <option value="{{user['username']}}">{{user['username']}}</option>
-                        {% endfor %}
-                    </select>
-                    
-                    <button type="submit" class="btn-primary-rounded w-3/6">Send</button>
-                </form>
-            </section>
-
-
-            <div class="w-3/6 m-4">
-                <canvas id="consumeChart"></canvas>
-            </div>
-
-        </div>
-    </div>
-    <!-- Wasted Items -->
-    <div class="w-full flex justify-center mt-4">
-        <!-- Container -->
-        <div class="container-primary">
-            <div class="m-4">
-                <h1 class="title-primary">Enter the Wasted</h1>
-                <p class="information-primary">Insert here the wasted articles and its amount</p>
-            </div>
-
-            <form action="/waste/{{date_for}}/{{store_to_show}}" method="POST" class="flex flex-col m-4">
-
-                <label for="big_ball" class="text-lg text-white font-semibold">Big Ball</label>
-                <input type="number" name="big_ball" class="form-control-1">
-
-                <label for="big_ball" class="text-lg text-white font-semibold">Small Balls</label>
-                <input type="number" name="small_ball" class="form-control-1">
-
-                <label for="big_ball" class="text-lg text-white font-semibold">Garlic Bread</label>
-                <input type="number" name="garlic_bread" class="form-control-1">
-
-                <label for="big_ball" class="text-lg text-white font-semibold">Slices</label>
-                <input type="number" name="slices" class="form-control-1">
-
-                <select name="who_consume" id="" class="select-primary mt-4" >
-                    {% for user in context['workers'] %}
-                    <option value="{{user['username']}}">{{user['username']}}</option>
-                    {% endfor %}
-                </select>
-
-                </select>
-                <button type="submit" class="btn-primary">Enter</button>
-            </form>
-
-        </div>
-    </div>
-    
-    <h1>
-        {{ context.chart_data, store_to_show }}
-    </h1>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>   
 {% endblock %}

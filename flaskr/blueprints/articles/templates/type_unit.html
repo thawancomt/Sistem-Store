@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-primary *:m-4">
+    <h1 class="title-primary">Create a unit type</h1>
+    <h1 class="sub-title-primary"> Create here a type for the articles</h1>
+    <form action="{{url_for('articles.type_unit.create')}}" class="m-4 space-y-4 *:w-64" method="POST">
+        <label for="name" class="sub-title-primary">Type name</label>
+        <input type="text" name="name" class="form-control-1">
+        <label for="alias" class="sub-title-primary">Type alias</label>
+        <input type="text" name="alias" class="form-control-1">
+        <label for="description" class="sub-title-primary">Type description</label>
+        <input type="text" name="description" class="form-control-1">
+        <button type="submit" class="btn-primary">Create</button>
+    </form>
+</div>
+
+<span>
+    {{context.type_units}}
+</span>
+<a href="{{url_for('articles.view')}}" class="btn-primary">Create articles</a>
+{% endblock %}} 

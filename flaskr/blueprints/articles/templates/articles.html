@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>
+    OBS: Before you create articles, be sure that you have the type of article you want to create.
+</h1>
+
+<div class="w-full flex items-center justify-center">
+    
+    <div class="container-primary">
+        <h1 class="title-primary">Edit articles here</h1>
+    </div>
+
+    <table>
+        <thead>
+            <th>Article ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Type</th>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.name }}</td>
+                <td>{{ article.description }}</td>
+                <td>{{ article.type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
+</div>
+
+<form action="{{url_for('articles.create')}}" method="post">
+    <input type="text" name="name">
+    <input type="text" name="description">
+
+    <select name="type_unit" id="">
+        {% for type_unit in context.type_units %}
+            <option value=" {{ type_unit.id }}">{{ type_unit.name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Create">
+
+</form>
+
+
+<a href="{{url_for('articles.type_unit.view')}}" class="btn-primary">Units</a>
+
+{% endblock %}

@@ -1,8 +1,8 @@
 
-from flaskr.blueprints.users.services.UserService import UserService, check_password_hash, generate_password_hash
+from flaskr.blueprints.users.services.UserService import UserService, check_password_hash
 from flaskr.blueprints.users.models.UserModel import User, db
 
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user
 from flaskr.extensions import login_manager
 
 from flask import  redirect, flash, url_for

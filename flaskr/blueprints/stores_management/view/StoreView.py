@@ -23,10 +23,7 @@ def create():
         StoreService(name, store_id, place).create()
     except IntegrityError as e:
         flash(f'{e.orig}')
-        return render_template('create_store.html', error=str(e))
-    
-    
-    
-    return render_template('create_store.html', name=name, id=id, )
+    return redirect(url_for('store.home'))
+
 
 
