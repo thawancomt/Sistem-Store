@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 
 from ..services.ProductionService import ProductionService
-from ...articles.services.ArticlesService import ArticlesService
+from ..services.ProductionChartService import ChartService
+
 
 production = Blueprint('production', __name__, url_prefix='/production',
                        template_folder='../templates')
@@ -10,9 +11,11 @@ production = Blueprint('production', __name__, url_prefix='/production',
 def home():
     context = {
         'productions' : ProductionService.get_all(),
-        'articles' : ArticlesService.get_all(),
+        'articles' : ProductionService.get_articles(),
         'produced' : ProductionService().get_data_for_total_production(),
-        'history' : ProductionService().get_production_history()
+        'history' : ProductionService().get_production_history(),
+        'chartdata' : ChartService().create_chart_data(),
+        'chartlabels' : ChartService().create_labels()
     }
     return render_template('production.html', context=context)
 
@@ -20,11 +23,22 @@ def home():
 def create():
     data = request.form.to_dict()
     ProductionService().create(data)
-    
-    
-    
-    
+
     return redirect(url_for('production.home'))
+
+@production.route('/o', methods=['get'])
+def o():
+    from datetime import datetime
+    chartdata = ChartService()
+    return f'{chartdata.create_chart_data()}'
+
+
+
+
+
+
+
+
 
 
 
