@@ -51,5 +51,8 @@ def create_app():
     def page_not_found(error):
         return render_template('/error/404.html'), 404
 
+    @app.context_processor
+    def inject_today_date():
+        return {'date': datetime.now().strftime("%Y-%m-%d")}
 
     return app

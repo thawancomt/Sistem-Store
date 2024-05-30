@@ -10,20 +10,22 @@ production = Blueprint('production', __name__, url_prefix='/production',
 def home():
     context = {
         'productions' : ProductionService.get_all(),
-        'articles' : ArticlesService.get_all()
+        'articles' : ArticlesService.get_all(),
+        'produced' : ProductionService().get_data_for_total_production(),
+        'history' : ProductionService().get_production_history()
     }
     return render_template('production.html', context=context)
 
 @production.route('/create', methods=['POST'])
 def create():
-    article_id = request.form.get('article_id')
-    quantity = request.form.get('quantity')
-    date = request.form.get('date')
+    data = request.form.to_dict()
+    ProductionService().create(data)
     
-    production = ProductionService(article_id, quantity, date)
-    production.create()
+    
+    
     
     return redirect(url_for('production.home'))
+
 
 
 

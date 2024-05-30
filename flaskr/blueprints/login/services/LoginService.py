@@ -17,7 +17,7 @@ class LoginService:
         
         self.email = email
         self.password = password
-        self.user = UserService().get_user_by(email = self.email)
+        self.user = UserService(email=self.email).get_user_by_email()
         
     @login_manager.user_loader
     def load_user(user_id):
@@ -42,5 +42,5 @@ class LoginService:
 
     def logout(self):
         logout_user()
-
-        
+    def exits1(self, email):
+        return User.query.filter(User.email == email).first()

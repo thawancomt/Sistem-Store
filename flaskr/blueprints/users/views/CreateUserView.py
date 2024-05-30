@@ -26,12 +26,18 @@ def create():
     password = request.form.get('password')
     store = request.form.get('store')
     created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    updated_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    
-    newUser = UserService()
+    last_login = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     try:
-        newUser.create(username, email, password, store)
+        newUser = UserService(
+            username=username,
+            email=email, 
+            password=password,
+            store_id=store,
+            created_at=created_at,
+            last_login=last_login
+        )
+        newUser.create()
         flash('User created successfully')
     except IntegrityError as e:
         flash(f'{e.orig}')

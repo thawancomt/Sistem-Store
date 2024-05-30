@@ -2,24 +2,47 @@
 ~
 {% block content %}
 
-<form action="{{
-    url_for('production.create')
-}}" method="post">
-    <select name="article_id" id="">
-        {% for article in context.articles %}
-            <option value="{{ article.id }}">{{ article.name }}</option>
-        {% endfor %}
-    </select>
-    <input type="number" name="quantity" id="">
-    <input type="datetime-local" name="date" id="">
 
-    <button type="submit">Create</button>
-</form>
- 
 
-{% for production in context.productions %}
-    <h1>{{ production.creator.username }}</h1>
- 
-{% endfor %}
 
+<h1 class="title-primary m-4">Productions for {{date}}</h1>
+
+<div class="flex-col container-primary">
+    <form action="{{url_for('production.create')}}" method="post">
+
+        {% for product in context.articles  %}
+            <label for="{{product.id}}" class="sub-title-primary">{{product.name | title}}</label>
+            <div class="flex">
+                <input type="number" name="{{product.id}}" value="0" class="form-control-1">
+                {% if product.id in context.produced %}
+                <input type="number" name="{{product.id}}" value="{{context.produced[product.id]}}" class="form-control-1" disabled>
+                {% else %}
+                <input type="number" name="{{product.id}}" value="0" class="form-control-1" disabled>
+                {% endif %}
+                
+            </div>
+            {% endfor %}
+        <input type="datetime-local" name="date" required class="form-control-1">
+        <button class="btn-primary">Send</button>
+
+    </form>
+    
+</div>
+
+<table>
+    <tr>
+        <th>article</th>
+        <th>Quantity</th>
+        <th>Store</th>
+        <th>Who realease</th>
+    </tr>
+    {% for production in context.history %}
+        <tr>
+            <td>{{production.article.name}}</td>
+            <td>{{production.quantity}}</td>
+            <td>{{production.store.name}}</td>
+            <td>{{production.creator.username}}</td>
+        </tr>
+    {% endfor %}
+</table>
 {% endblock content %}

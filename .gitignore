@@ -69,3 +69,5 @@ flaskr/blueprints/articles/views/__pycache__/ArticlesView.cpython-312.pyc
 flaskr/blueprints/articles/services/__pycache__/ArticlesService.cpython-312.pyc
 flaskr/blueprints/articles/models/__pycache__/ArticleModel.cpython-312.pyc
 /flaskr/migrations
+/.venv
+/venvdesk

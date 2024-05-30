@@ -18,9 +18,8 @@ def create():
     store_id = request.form['id']
     place = request.form['place']
     
-    
     try:
-        StoreService(name, store_id, place).create()
+        StoreService(store_id=store_id, store_name=name, store_place=place).create()
     except IntegrityError as e:
         flash(f'{e.orig}')
     return redirect(url_for('store.home'))
