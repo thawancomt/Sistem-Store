@@ -7,42 +7,65 @@
 
 <h1 class="title-primary m-4">Productions for {{date}}</h1>
 
-<div class="flex-col container-primary">
-    <form action="{{url_for('production.create')}}" method="post">
 
-        {% for product in context.articles  %}
-            <label for="{{product.id}}" class="sub-title-primary">{{product.name | title}}</label>
-            <div class="flex">
-                <input type="number" name="{{product.id}}" value="0" class="form-control-1">
-                {% if product.id in context.produced %}
-                <input type="number" name="{{product.id}}" value="{{context.produced[product.id]}}" class="form-control-1" disabled>
-                {% else %}
-                <input type="number" name="{{product.id}}" value="0" class="form-control-1" disabled>
-                {% endif %}
-                
-            </div>
-            {% endfor %}
-        <input type="datetime-local" name="date" required class="form-control-1" value="{{date}}">
-        <button class="btn-primary">Send</button>
 
-    </form>
+<div class="w-full h-fit">
+    <div class="border m-4">
+
+        <form action="{{url_for('production.create')}}" method="post">
+    
+            <table class="bg-slate-500  w-full ">
+                <tr class="grid grid-cols-12  border border-slate-900">
+                    <th class="col-span-5">Article</th>
+                    <th class="col-span-4">Produced quantity</th>
+                    <th class="col-span-3">total</th>
+                </tr>
+                {% for article in context.articles %}
+                    <tr class="grid grid-cols-12 *:border-separate">
+                        <td class="text-left col-span-5 flex justify-start items-center font-bold border border-slate-900">{{article.name}}</td>
+                        <td class="col-span-4 flex justify-start items-center border border-slate-900">
+                            <input type="number" name="{{article.id}}" value="0" class="form-control-1 w-[60%]">
+                            <span class="text-sm">{{article.type.name}}</span>
+                        </td>
+                        <td class="col-span-3 flex justify-start items-center border border-slate-900 *:border-separate">
+                            {% if article.id in context.produced %}
+                                <input type="number" value="{{context.produced[article.id]}}" class="form-control-1 w-16" disabled>
+                            {% else %}
+                                <input type="number" value="0" class="form-control-1 w-16" disabled>
+                            {% endif %}
+                            <span class="text-sm">{{article.type.name}}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <input type="datetime-local" name="date" required class="form-control-1" value="{{date}}">
+            <button class="btn-primary" type="submit">Submit</button>
+        </form>
+
+        
+
+    </div>
     
 </div>
 
-<table>
-    <tr>
-        <th>article</th>
-        <th>Quantity</th>
-        <th>Store</th>
-        <th>Who realease</th>
-    </tr>
-    {% for production in context.history %}
-        <tr>
-            <td>{{production.article.name}}</td>
-            <td>{{production.quantity}}</td>
-            <td>{{production.store.name}}</td>
-            <td>{{production.creator.username}}</td>
+<div class="w-full flex">
+    <table class="border-collapse bg-slate-500 w-full container-primary border rounded-sm">
+        <tr class="*:border *:p-4">
+            <th>article</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Store</th>
+            <th>Who realease</th>
         </tr>
-    {% endfor %}
-</table>
+        {% for production in context.history %}
+            <tr class="*:border *:text-white *:odd:bg-slate-700 *:p-2">
+                <td class="text-center">{{production.article.name}}</td>
+                <td class="text-center">{{production.quantity}}</td>
+                <td class="">{{production.date.strftime('%Y-%m-%d at %H:%M') }}</td></td>
+                <td class="">{{production.store.name}}</td>
+                <td class="">{{production.creator.username}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock content %}
