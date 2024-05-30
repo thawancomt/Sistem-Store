@@ -71,3 +71,6 @@ flaskr/blueprints/articles/models/__pycache__/ArticleModel.cpython-312.pyc
 /flaskr/migrations
 /.venv
 /venvdesk
+/extensions/node_modules
+/extensions/package-lock.json
+/extensions/package.json

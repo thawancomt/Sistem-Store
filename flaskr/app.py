@@ -53,6 +53,6 @@ def create_app():
 
     @app.context_processor
     def inject_today_date():
-        return {'date': datetime.now().strftime("%Y-%m-%d")}
+        return {'date': datetime.now().strftime("%Y-%m-%d %H:%M")}
 
     return app
