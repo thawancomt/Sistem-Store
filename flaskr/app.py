@@ -10,7 +10,7 @@ from flaskr.extensions import db, login_manager
 
 from flaskr.blueprints.login.views.LoginView import authentication
 from flaskr.blueprints.homepage.views.Homepage import  homepage
-from flaskr.blueprints.users.views.UsersPageView import users_page
+from flaskr.blueprints.users.views.UsersView import users
 from flaskr.blueprints.tasks.views.TaskView import tasks
 from flaskr.blueprints.stores_management.view.StoreView import store
 from flaskr.blueprints.articles.views.ArticlesView import articles
@@ -31,7 +31,7 @@ def create_app():
     app.register_blueprint(homepage)
     app.register_blueprint(tasks)
     app.register_blueprint(store)
-    app.register_blueprint(users_page)
+    app.register_blueprint(users)
     app.register_blueprint(articles)
     app.register_blueprint(production)
 

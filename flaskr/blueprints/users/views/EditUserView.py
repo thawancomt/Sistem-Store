@@ -5,12 +5,12 @@ from flaskr.blueprints.users.models.UserModel import User
 from flaskr.blueprints.stores_management.services.StoreService import StoreService
 
 
-edit_user = Blueprint('edit_user', __name__, url_prefix='/edit')
+edit_user = Blueprint('edit_user', __name__)
 
 
 
 @edit_user.route('/<username>', methods=['GET'])
-def edit(username ):
+def edit_view(username ):
     
     user_data = UserService().get_user_by(username=username)
     

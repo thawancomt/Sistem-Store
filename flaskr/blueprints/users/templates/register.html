@@ -17,7 +17,7 @@
         </div>
 
         <div class="">
-            <form action="{{ url_for('users_page.create_user.create')}}" method="POST" class="flex flex-col justify-evenly h-5/6 w-full ">
+            <form action="{{ url_for('users.create_user.create')}}" method="POST" class="flex flex-col justify-evenly h-5/6 w-full ">
             
                 <div>
                     <label for="username"  class="text-lg text-white font-semibold" > Username </label>
@@ -80,7 +80,7 @@
 
             </form>
             <div class="w-full flex justify-center">
-                <a href="/homepage" class="btn-primary w-3/6 flex items-center justify-center"> Homepage </a>
+                <a href="{{url_for('homepage.home')}}" class="btn-primary w-3/6 flex items-center justify-center"> Homepage </a>
             </div>
             
             

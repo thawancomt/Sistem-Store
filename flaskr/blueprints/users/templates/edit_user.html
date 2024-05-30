@@ -6,7 +6,7 @@
 
     <section>
         <div class="m-4">
-            <form action="{{ url_for('users_page.edit_user.update', username=context.user.username) }}" method="POST">
+            <form action="{{ url_for('users.edit_user.update', username=context.user.username) }}" method="POST">
                 <input type="text" name="username" value="{{context.user.username}}" hidden>
                 <input type="text" name="new_username" value="{{context.user.username}}">
                 <input type="text" name="email"  value="{{context.user.email}}">
@@ -25,7 +25,7 @@
     
     
     <div class="border m-4 h-56">
-        <form action="{{url_for('users_page.edit_user.edit', username=context['username'])}}" method="POST">
+        <form action="{{url_for('users.edit_user.delete', username=context['username'])}}" method="POST">
             <input type="hidden" name="old_username" value="{{context.username}}">
             <button type="submit" class="btn-primary w-3/12">Delete</button>
         </form>
