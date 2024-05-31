@@ -10,9 +10,9 @@ edit_user = Blueprint('edit_user', __name__)
 
 
 @edit_user.route('/<username>', methods=['GET'])
-def edit_view(username ):
+def edit_view(username):
     
-    user_data = UserService().get_user_by(username=username)
+    user_data = UserService(username = username).get_user_by_username()
     
     
     context = {

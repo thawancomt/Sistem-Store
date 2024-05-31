@@ -7,18 +7,18 @@ from flask_login import current_user
 
 # Project specific imports
 from flaskr.extensions import db
-from ..models.ProductionModel import Production
+
 from flaskr.blueprints.articles.services.ArticlesService import ArticlesService
 from .ProductionService import ProductionService
 
 
 
 class ChartService():
-    def __init__(self, store_id = None, num_days=20):
-        self.num_days = num_days
+    def __init__(self, store_id = None, num_days= None):
+        self.num_days = num_days or 7
         self.store_id = store_id or current_user.store_id
         self.date_labels = self.create_labels_for_chart()
-        self.articles = ArticlesService.get_all()
+        self.articles = ArticlesService.get_all_producibles()
         
         self.all_days_productions = self.get_production_for_all_days() # Num of days
 
@@ -30,16 +30,17 @@ class ChartService():
             in this context these labels are used to set the columns in the chart
         """
         
-        
         label = [datetime.now().strftime('%Y-%m-%d')]
         
         label += [
             (datetime.now() - timedelta(days=x)).strftime('%Y-%m-%d')
             for x in range(1, self.num_days + 1)
             ]
-        
+        label.reverse()
+
         return label
-    
+        
+        
     def convert_production_object_to_dict(self, day=None):
         """This method use the ProductionService to get the production object (from the database) for a given day.
         then convert it to a dictionary.

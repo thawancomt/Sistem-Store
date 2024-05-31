@@ -7,6 +7,28 @@
 
 <h1 class="title-primary m-4">Productions for {{date}}</h1>
 
+<form action="{{url_for('production.home')}}" class="m-4">
+    <label for="lenght" class="sub-title-primary"> Set how many days to show on chart</label>
+    <select name="lenght" id="">
+        <option value="7">Last Week</option>
+        <option value="14">Last 2 Week</option>
+        <option value="21">Last 3 Week</option>
+        <option value="30">Last Month</option>
+    </select>
+    <select name="chart_type" id="">
+        <option value="bar">Bar</option>
+        <option value="line">Line</option>
+        <option value="pie">Pie</option>
+    </select>
+    <button type="submit" class="btn-primary">Limit</button>
+</form>
+
+<form action="{{url_for('production.home')}}" class="m-4">
+    <label for="lenght" class="sub-title-primary"> Set how many days to show on chart</label>
+    
+    <button type="submit" class="btn-primary">Limit</button>
+</form>
+
 
 
 <div class="w-full h-fit">
@@ -51,7 +73,7 @@
             const ctx = document.getElementById('myChart');
           
             new Chart(ctx, {
-              type: 'bar',
+              type: '{{context.type}}',
               data: {
                 labels: {{context.chartlabels | tojson}},
                 datasets: {{context.chartdata | tojson}}

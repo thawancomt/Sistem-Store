@@ -73,6 +73,9 @@ class UserService:
     def get_user_by_email(self):
         return db.session.query(User).filter(User.email == self.email).first()
     
+    def get_user_by_username(self):
+        return db.session.query(User).filter(User.username ==  self.username).first()
+    
 
 
         

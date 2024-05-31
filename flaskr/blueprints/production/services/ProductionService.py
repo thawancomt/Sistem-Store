@@ -81,4 +81,25 @@ class ProductionService:
         )
     @staticmethod
     def get_articles():
-        return ArticlesService.get_all()
+        return ArticlesService.get_all_producibles()
+    
+    def create_random_production(self, forward = False, days = 30):
+        import random
+        days = [datetime.now() + timedelta(days=x) for x in range(days)] if forward else [datetime.now() - timedelta(days=x) for x in range(days)]
+
+
+        articles = {article.id : article.name for article in ArticlesService.get_all_producibles()}
+
+        for day in days:
+            for article_id in articles:
+                new_production =  Production(
+                    store_id = self.store_id,
+                    creator_id = self.creator_id,
+                    article_id = article_id,
+                    quantity = random.randint(3, 44),
+                    date = day
+
+                )
+                db.session.add(new_production)
+        
+        db.session.commit()

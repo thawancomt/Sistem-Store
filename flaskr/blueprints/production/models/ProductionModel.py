@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, declarative_base
 
 from flaskr.extensions import db
 
 
+base = declarative_base()
 class Production(db.Model):
     __tablename__ = 'production'
 

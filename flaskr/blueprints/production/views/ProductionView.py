@@ -9,6 +9,9 @@ production = Blueprint('production', __name__, url_prefix='/production',
 
 @production.route('/')
 def home():
+    past_days = int(request.args.get('lenght', '0')) or 0
+    chart_type = request.args.get('chart_type', 'bar')
+
     context = {
         'productions' : ProductionService.get_all(),
         'articles' : ProductionService.get_articles(),
@@ -16,8 +19,9 @@ def home():
         'history' : ProductionService().get_production_history(),
         
         # Chart context
-        'chartdata' : ChartService().create_chart_datasets(),
-        'chartlabels' : ChartService().create_labels_for_chart()
+        'chartdata' : ChartService(num_days=past_days).create_chart_datasets(),
+        'chartlabels' : ChartService(num_days=past_days).create_labels_for_chart(),
+        'type' : str(chart_type)
     }
     return render_template('production.html', context=context)
 
@@ -32,6 +36,15 @@ def create():
 def o():
     from datetime import datetime
     return f'{ChartService().create_article_data_of_each_day(3)}'
+
+@production.route('/fake/<int:d>', methods=['get'])
+def fake(d):
+    if d == 1:
+        ProductionService().create_random_production(forward=True)
+    else:
+        ProductionService().create_random_production(days=d)
+    
+    return 'ok'
 
 
 

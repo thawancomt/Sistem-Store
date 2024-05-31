@@ -18,6 +18,7 @@ def create():
     name = request.form.get('name')
     description = request.form.get('description')
     alias = request.form.get('alias')
+    
 
     type_unit = TypeUnitsService(name=name, description=description, alias=alias)
     type_unit.create()
@@ -44,9 +45,10 @@ def create():
     name = request.form.get('name')
     description = request.form.get('description')
     type_unit = request.form.get('type_unit')
+    is_producible = bool(request.form.get('is_producible'))
 
     
-    article = ArticlesService(name=name, description=description, type_unit=type_unit)
+    article = ArticlesService(name=name, description=description, type_unit=type_unit, is_producible = is_producible)
     
     article.create()
     return redirect(url_for('articles.view'))
