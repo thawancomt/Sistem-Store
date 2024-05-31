@@ -14,8 +14,10 @@ def home():
         'articles' : ProductionService.get_articles(),
         'produced' : ProductionService().get_data_for_total_production(),
         'history' : ProductionService().get_production_history(),
-        'chartdata' : ChartService().create_chart_data(),
-        'chartlabels' : ChartService().create_labels()
+        
+        # Chart context
+        'chartdata' : ChartService().create_chart_datasets(),
+        'chartlabels' : ChartService().create_labels_for_chart()
     }
     return render_template('production.html', context=context)
 
@@ -29,8 +31,7 @@ def create():
 @production.route('/o', methods=['get'])
 def o():
     from datetime import datetime
-    chartdata = ChartService()
-    return f'{chartdata.create_chart_data()}'
+    return f'{ChartService().create_article_data_of_each_day(3)}'
 
 
 

@@ -40,7 +40,7 @@ class ProductionService:
         db.session.commit()
         
         
-    def get_already_prodeced(self, day : datetime = None) -> dict:
+    def get_already_prodeced(self, day : datetime = None) -> Production:
         day = day or datetime.now()
 
         next_day = (day + timedelta(days=1))

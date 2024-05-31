@@ -51,7 +51,7 @@
             const ctx = document.getElementById('myChart');
           
             new Chart(ctx, {
-              type: 'line',
+              type: 'bar',
               data: {
                 labels: {{context.chartlabels | tojson}},
                 datasets: {{context.chartdata | tojson}}
