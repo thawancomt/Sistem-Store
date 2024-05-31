@@ -20,7 +20,7 @@ class ChartService():
         self.date_labels = self.create_labels_for_chart()
         self.articles = ArticlesService.get_all()
         
-        self.all_days_productions = self.create_data_for_all_days() # Num of days
+        self.all_days_productions = self.get_production_for_all_days() # Num of days
 
     def create_labels_for_chart(self) -> list:
         """ This function creates a list of dates that will be used for the chart.
@@ -65,7 +65,7 @@ class ChartService():
             for article in self.articles
         }
         
-    def create_data_for_all_days(self):
+    def get_production_for_all_days(self):
         dataset = {}
         
         for day in self.date_labels:
@@ -76,7 +76,7 @@ class ChartService():
 
         return dataset
     
-    def create_article_data_of_each_day(self, article_id : str | int) -> list:
+    def get_article_data_of_each_day(self, article_id : str | int) -> list:
         """ This method give us a list with amount of article in all the previous days
         we use this list to pass into our chart"""
         return [article_quantity[article_id] for day, article_quantity in self.all_days_productions.items()]
@@ -86,7 +86,7 @@ class ChartService():
         return [
             {
                 'label': article.name,
-                'data': self.create_article_data_of_each_day(article.id)
+                'data': self.get_article_data_of_each_day(article.id)
             }
             for article in self.articles
         ]
