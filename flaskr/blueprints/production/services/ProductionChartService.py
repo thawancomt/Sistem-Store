@@ -14,15 +14,17 @@ from .ProductionService import ProductionService
 
 
 class ChartService():
-    def __init__(self, store_id = None, num_days= None):
-        self.num_days = num_days or 7
+    def __init__(self, store_id = None, how_many_days = None, date = None):
+        self.how_many_dyas = how_many_days  or 7
         self.store_id = store_id or current_user.store_id
-        self.date_labels = self.create_labels_for_chart()
+        self.date = date or datetime.now().strftime('%Y-%m-%d')
+        
+        self.date_labels = self.create_date_labels_for_chart()
         self.articles = ArticlesService.get_all_producibles()
         
         self.all_days_productions = self.get_production_for_all_days() # Num of days
 
-    def create_labels_for_chart(self) -> list:
+    def create_date_labels_for_chart(self) -> list:
         """ This function creates a list of dates that will be used for the chart.
         exe: if num_days = 6
             [2020-01-06, 2020-01-05, 2020-01-04, 2020-01-03, 2020-01-02, 2020-01-01]
@@ -30,11 +32,11 @@ class ChartService():
             in this context these labels are used to set the columns in the chart
         """
         
-        label = [datetime.now().strftime('%Y-%m-%d')]
+        label = [self.date]
         
         label += [
-            (datetime.now() - timedelta(days=x)).strftime('%Y-%m-%d')
-            for x in range(1, self.num_days + 1)
+            (datetime.strptime(self.date, '%Y-%m-%d') - timedelta(days=x)).strftime('%Y-%m-%d')
+            for x in range(1, self.how_many_dyas + 1)
             ]
         label.reverse()
 
@@ -57,7 +59,7 @@ class ChartService():
         articles avalible in our database
         """
         
-        day_production = ProductionService().get_already_prodeced(day=day)
+        day_production = ProductionService(date=day).get_already_prodeced()
 
         production_dict = { p.article_id: int(p.quantity) for p in day_production }
 

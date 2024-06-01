@@ -15,7 +15,8 @@ class ProductionService:
         self.creator_id = current_user.id
         self.article_id = article_id
         self.quantity = quantity
-        self.date = date
+        self.date = datetime.strptime(date, '%Y-%m-%d') if isinstance(date, str) else date
+        
     
     @staticmethod
     def get_all():
@@ -40,10 +41,11 @@ class ProductionService:
         db.session.commit()
         
         
-    def get_already_prodeced(self, day : datetime = None) -> Production:
-        day = day or datetime.now()
+    def get_already_prodeced(self) -> Production:
+        day = self.date
+        
 
-        next_day = (day + timedelta(days=1))
+        next_day = (self.date + timedelta(days=1))
         
         next_day = next_day.strftime('%Y-%m-%d')
         day = day.strftime('%Y-%m-%d')
@@ -55,9 +57,6 @@ class ProductionService:
             .filter(and_(Production.store_id == self.store_id, Production.date >= day, Production.date <= next_day)) \
             .group_by(Production.article_id).all()
         
-    def get_article_by_date(self, date : datetime = None) -> dict:
-        self.get_already_prodeced(day = date)
-        
         
     def get_data_for_total_production(self) -> dict:
         production = self.get_already_prodeced()
@@ -65,8 +64,8 @@ class ProductionService:
         return dict(production)
     
     def get_production_history(self):
-        today = datetime.now().strftime('%Y-%m-%d')
-        tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+        today = self.date
+        tomorrow = (today + timedelta(days=1)).strftime('%Y-%m-%d')
         
         return (
             db.session.query(Production)

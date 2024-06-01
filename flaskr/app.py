@@ -15,6 +15,7 @@ from flaskr.blueprints.tasks.views.TaskView import tasks
 from flaskr.blueprints.stores_management.view.StoreView import store
 from flaskr.blueprints.articles.views.ArticlesView import articles
 from flaskr.blueprints.production.views.ProductionView import production
+from flaskr.blueprints.stock.views.StockView import stock
 
 from datetime import datetime
 
@@ -34,6 +35,7 @@ def create_app():
     app.register_blueprint(users)
     app.register_blueprint(articles)
     app.register_blueprint(production)
+    app.register_blueprint(stock)
 
 
     migrate = Migrate(app, db)
@@ -53,6 +55,6 @@ def create_app():
 
     @app.context_processor
     def inject_today_date():
-        return {'date': datetime.now().strftime("%Y-%m-%d %H:%M")}
+        return {'today_date': datetime.now().strftime("%Y-%m-%d")}
 
     return app

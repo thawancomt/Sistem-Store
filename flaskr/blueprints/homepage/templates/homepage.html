@@ -61,7 +61,7 @@
                     <a href="{{url_for('articles.view')}}" class="btn-primary hover:bg-red-700 hover:border-none w-3 h-8">
                         Articles
                     </a>
-                    <a href="{{url_for('production.home')}}" class="btn-primary hover:bg-red-700 hover:border-none w-3 h-8">
+                    <a href="{{url_for('production.home', store_id=current_user.store_id, date=today_date)}}" class="btn-primary hover:bg-red-700 hover:border-none w-3 h-8">
                         Production
                     </a>
                     <a href="{{url_for('store.home')}}" class="btn-primary hover:bg-red-700 hover:border-none w-3 h-8">Stores</a>
