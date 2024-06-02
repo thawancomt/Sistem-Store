@@ -53,10 +53,13 @@ class UserService:
             return True
 
         return False
-    
-    def delete_user_by(self, id):
-        user = User.query.filter_by(id=id).delete()
-        db.session.commit()
+    @staticmethod
+    def delete_user_by_id(id):
+        if user := User.query.filter_by(id=id).one_or_none():
+            user.active = False
+            db.session.commit()
+            return True
+        return False
     
     def update(self, username, data):
         if user := db.session.query(User).filter(User.username == username).first():
@@ -68,7 +71,10 @@ class UserService:
         return user
     
     def get_all(self):
-        return User.query.all()
+        return db.session.query(User).all()
+    
+    def get_all_active_users(self):
+        return db.session.query(User).filter(User.active == True).all()
     
     def get_user_by_email(self):
         return db.session.query(User).filter(User.email == self.email).first()

@@ -27,6 +27,7 @@
     <div class="border m-4 h-56">
         <form action="{{url_for('users.edit_user.delete', username=context['username'])}}" method="POST">
             <input type="hidden" name="old_username" value="{{context.username}}">
+            <input type="number" name="user_id" value="{{ context.user.id}}">
             <button type="submit" class="btn-primary w-3/12">Delete</button>
         </form>
     </div>
