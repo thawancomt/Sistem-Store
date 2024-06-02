@@ -20,16 +20,11 @@ def index():
     }
     return render_template('stock.html', context=context)
 
-@stock.route('/create', methods=['POST', 'GET'])
+@stock.route('/create', methods=['POST'])
 def create():
-    article_id = request.form.get('article_id')
-    quantity = request.form.get('quantity')
-    date = request.form.get('date') or None
+    data = request.form.to_dict()
     
-    stock = StockServices(
-        article_id=article_id,
-        quantity=quantity,
-        date=date
-    )
-    stock.create(article_id, quantity, date)
+    stock = StockServices().create_stock(data=data)
+    
+    
     return redirect(url_for('stock.index'))

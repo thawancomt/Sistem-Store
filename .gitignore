@@ -74,3 +74,6 @@ flaskr/blueprints/articles/models/__pycache__/ArticleModel.cpython-312.pyc
 /extensions/node_modules
 /extensions/package-lock.json
 /extensions/package.json
+/flaskr/blueprints/stock/models/__pycache__
+/flaskr/blueprints/stock/services/__pycache__
+/flaskr/blueprints/stock/views/__pycache__

@@ -16,6 +16,9 @@ def home():
 @production.route('/<store_id>/<date>')
 def homepage(store_id, date):
 
+
+    
+    
     
     past_days = int(request.args.get('lenght', '0')) or 0
     chart_type = request.args.get('chart_type', 'bar')
@@ -36,25 +39,25 @@ def homepage(store_id, date):
 @production.route('/create', methods=['POST'])
 def create():
     data = request.form.to_dict()
-
-    ProductionService(date=data['date']).create(data)
     
+    ProductionService().create(data)
+    
+
     return redirect(url_for('production.home'))
 
-#@production.route('/o', methods=['get'])
-#def o():
-#    from datetime import datetime
-#    return f'{ChartService().create_article_data_of_each_day(3)}'
-#
-#@production.route('/fake/<int:d>', methods=['get'])
-#def fake(d):
-#    if d == 1:
-#        ProductionService().create_random_production(forward=True)
-#    else:
-#        ProductionService().create_random_production(days=d)
-#    
-#    return 'ok'
+@production.route('/o', methods=['get'])
+def o():
+    from datetime import datetime
+    return f'{ChartService().create_article_data_of_each_day(3)}'
 
+@production.route('/fake/<int:d>', methods=['get'])
+def fake(d):
+    if d == 1:
+        ProductionService().create_random_production(forward=True)
+    else:
+        ProductionService().create_random_production(days=d)
+    
+    return 'ok'
 
 
 

@@ -19,27 +19,27 @@ class StockServices:
         self.store_id = store_id or current_user.store_id
         self.article_id = article_id
         self.quantity = quantity
-        self.date = date or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.date = date
     
     def get_stock(self):
         return db.session.query(Stock).filter_by(store_id = self.store_id).all()
 
     
     def create_stock(self, data):
-        
-        
-        date = data.get('date')
-        
-        if date:
-            self.date = date or self.date
-            
+        self.date = data.get('date')
+    
         del data['date']
         
-        for article_id, quantity in data.items():    
-            stock = Stock(store_id = self.store_id,
-                          article_id = article_id,
-                          quantity = quantity,
-                          date=self.date)
-            db.session.add(stock)
+        for article_id, quantity in data.items():
+            if int(quantity) != 0:
+                stock = Stock(
+                    date = self.date,
+                    article_id=article_id,
+                    quantity=quantity,
+                    store_id = self.store_id,
+                    
+                    
+                )
+                db.session.add(stock)
+            
         db.session.commit()
-        return stock

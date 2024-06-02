@@ -11,37 +11,26 @@
 {% endblock title %}
     
 
-{% for i in context.stock.article %}
-    <h1>
-        {{ i.name }}
-    </h1>
-{% endfor %}
 
-<h1>
-    {{ context.stock}}
-</h1>
     
 
 
 <form action="{{url_for('stock.create')}}" method="post">
     
     {% for article in context.articles %}
-        <label for="{{article.id}}" class="text-lg sub-title-primary">
+        <label for="{{article.id}}" class="sub-title-primary">
             {{
                 article.name
             }}
         </label>
         <div class="grid grid-cols-3">
-            <input type="text" name="{{article.id}}" id="" class="form-control-1 col-span-2 bg-red-500">
-            <input type="number" name="quantity" id="" max="20" class="form-control-1 col-span-1 bg">
+            <input type="number" name="{{article.id}}" id="" value="0" max="20" class="form-control-1 col-span-1">
         </div>
     {% endfor %}
+    <input type="datetime-local" name="date" id="" class="form-control-1">
     <input type="submit" value="submit" class="btn-primary">
         
 
 </form>
-<form action="{{ url_for('stock.create')}}" method="post">
-    <input type="datetime-local" name="date" id="">
-    <button type="submit">SEnd</button>
-</form>
+
 {% endblock %}
