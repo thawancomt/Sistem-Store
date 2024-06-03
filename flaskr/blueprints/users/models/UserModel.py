@@ -1,6 +1,6 @@
 from flaskr.extensions import db, login_manager
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, BOOLEAN
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, declarative_base
 
 base = declarative_base()
@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     last_login = Column(DateTime, nullable=False)
     created_at = Column(DateTime, nullable=False)
     
-    active = Column(BOOLEAN, nullable=False)
+    
+    active = Column(Boolean, server_default='1', nullable=False)
     
     store_name = relationship("Store", foreign_keys=[store_id])

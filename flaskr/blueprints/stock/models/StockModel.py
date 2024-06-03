@@ -20,6 +20,3 @@ class Stock(db.Model):
     article = relationship('ArticleModel',foreign_keys=[article_id])
     
     quantity = Column(Integer, nullable=False)
-    
-    def __repr__(self) -> str:
-        return db.session.query(Stock).all()

@@ -15,10 +15,6 @@ def home():
 
 @production.route('/<store_id>/<date>')
 def homepage(store_id, date):
-
-
-    
-    
     
     past_days = int(request.args.get('lenght', '0')) or 0
     chart_type = request.args.get('chart_type', 'bar')

@@ -9,11 +9,22 @@
         {{context.title}}
     </title>
 {% endblock title %}
-    
+<h1>
+  {{context.date_labels}}
+</h1>
+<h1>
+  {{context.t}}
+</h1>
 
 
-    
-
+<form action="">
+  <select name="date" id="">
+    {% for date in context.dates %}
+        <option value="{{date.date}}"> {{date.date}}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">View</button>
+</form>
 
 <form action="{{url_for('stock.create')}}" method="post">
     
@@ -24,39 +35,38 @@
             }}
         </label>
         <div class="grid grid-cols-3">
-            <input type="number" name="{{article.id}}" id="" value="0" max="20" class="form-control-1 col-span-1">
+          <input type="number" name="{{article.id}}" id="" value="0" max="20" class="form-control-1 col-span-2">
+          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 col-span-1" disabled>
         </div>
     {% endfor %}
-    <input type="datetime-local" name="date" id="" class="form-control-1">
+    <input type="datetime-local" name="date" id="" class="form-control-1" required>
     <input type="submit" value="submit" class="btn-primary">
         
 
 </form>
 
-<div class="col-span-6">
-    <canvas id="myChart" ></canvas>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <script>
-    const ctx = document.getElementById('myChart');
-  
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['thawancom', 'henrique']
-        datasets: {{context.chartdata | tojson}}
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{context.date_labels | safe}},
+      datasets: {{context.data_for_chart | safe}}},
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
         }
       }
-    });
-  </script>
-</div>
+    }
+  });
+</script>
 
 {% endblock %}

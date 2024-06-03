@@ -18,7 +18,7 @@ users.register_blueprint(create_user)
     
 @users.route('/')
 def home():
-    users = UserService().get_all()
+    users = UserService().get_all_active_users()
     
     context = {
         'all_users': users
