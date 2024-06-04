@@ -19,12 +19,31 @@ class ArticlesService:
     
     @staticmethod
     def get_all():
-        return db.session.query(ArticleModel).filter(ArticleModel.is_stock  == True).all()
+        return db.session.query(ArticleModel).all()
     
     @staticmethod
     def get_all_producibles():
         return db.session.query(ArticleModel).filter(ArticleModel.is_producible == True).all()
-    
+
+    @staticmethod
+    def get_all_stockable():
+        return db.session.query(ArticleModel).filter(ArticleModel.stockable == True).all()
+
+
+    def edit_article(self, data):
+        if article := db.session.query(ArticleModel).filter(ArticleModel.id == data['article_id']).first():
+            article.name = data['name']
+            article.description = data['description']
+            article.type_unit = data['type_unit']
+            article.is_producible = bool(data.get('is_producible', 0))
+            article.stockable = bool(data.get('stockable', 0))
+            db.session.commit()
+            return True
+        return False
+
+    def get_by_id(self, id):
+        return db.session.query(ArticleModel).filter(ArticleModel.id == id).first()
+
     
 class TypeUnitsService:
     def __init__(self, name = None, alias = None, description = None) -> None:
@@ -40,3 +59,5 @@ class TypeUnitsService:
     @staticmethod
     def get_all():
         return db.session.query(TypeUnitModel).all()
+    
+    

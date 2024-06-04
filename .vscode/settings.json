@@ -8,5 +8,9 @@
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true,
-    "CodeGPT.apiKey": "Ollama"
+    "CodeGPT.apiKey": "Ollama",
+    "CodeGPT.Autocomplete.enabled": true,
+    "CodeGPT.Autocomplete.maxTokens": 544,
+    "CodeGPT.Autocomplete.suggestionDelay": 1900,
+    "CodeGPT.Autocomplete.provider": "Ollama - starcoder2"
 }

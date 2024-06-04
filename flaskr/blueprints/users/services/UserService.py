@@ -56,6 +56,12 @@ class UserService:
     @staticmethod
     def delete_user_by_id(id):
         if user := User.query.filter_by(id=id).one_or_none():
+            UserService.update_user_status_to_inactive(id)
+            return True
+        return False
+    @staticmethod
+    def update_user_status_to_inactive(user_id: int) -> bool:
+        if user := User.query.filter_by(id=user_id).one_or_none():
             user.active = False
             db.session.commit()
             return True

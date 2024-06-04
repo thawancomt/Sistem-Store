@@ -37,12 +37,9 @@ def update():  # sourcery skip: avoid-builtin-shadow
 
 @edit_user.route('/delete', methods=['POST'])
 def delete():
-    """
-    Due to the history of production, the delete approach is not possible
-    then user will update as an inactive user on database"""
+    """Update user status to inactive instead of deleting"""
     
     user_id = request.form.get('user_id')
+    UserService.update_user_status_to_inactive(user_id)
     
-    UserService.delete_user_by_id(id=user_id)
-
     return redirect(url_for('homepage.home'))

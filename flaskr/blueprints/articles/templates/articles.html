@@ -31,27 +31,43 @@
 
 
 <div class="w-full flex">
-
-    <table>
-        <thead>
-            <th class="border border-slate-600 text-red-400 w-1/5">Article ID</th>
-            <th class="border border-slate-600 text-red-400 w-1/5">Name</th>
-            <th class="border border-slate-600 text-red-400 w-1/5">Description</th>
-            <th class="border border-slate-600 text-red-400 w-1/5">Type</th>
-            <th class="border border-slate-600 text-red-400 w-1/5">is producible</th>
-        </thead>
-        <tbody>
-            {% for article in context.articles %}
-            <tr>
-                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.id }}</td>
-                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.name }}</td>
-                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.description }}</td>
-                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.type.name }}</td>
-                <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">{{ article.is_producible }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <table class="w-full">
+            <thead class="bg-red-600">
+                <th class="border border-slate-600 text-red-400 w-1/5">Article ID</th>
+                <th class="border border-slate-600 text-red-400 w-1/5">Name</th>
+                <th class="border border-slate-600 text-red-400 w-1/5">Description</th>
+                <th class="border border-slate-600 text-red-400 w-1/5">Type</th>
+                <th class="border border-slate-600 text-red-400 w-1/5">is producible</th>
+                <th class="border border-slate-600 text-red-400 w-1/5">is stockable</th>
+                <th class="border border-slate-600 text-red-400 w-1/5">Edit</th>
+            </thead>
+            <tbody>
+                {% for article in context.articles %}
+                <tr class="*:text-center *:font-bold *:text-white">
+                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 texc">{{article.id}}</td>
+                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        {{article.name}}
+                    </td>
+                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        {{article.description}}
+                    </td>
+                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        {{article.type.name}}
+                    </td>
+                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        {{article.is_producible}}
+                    </td>
+                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        {{article.stockable}}
+                    </td>
+                    <td>
+                        <a href="{{url_for('articles.edit_view', article_id=article.id)}}" class="btn-primary">EDIT</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
         
 </div>
 

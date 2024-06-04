@@ -53,3 +53,24 @@ def create():
     article.create()
     return redirect(url_for('articles.view'))
 
+@articles.route('/update', methods=['POST'])
+def update_articles():
+    data = request.form
+
+    return f'{data}'
+
+@articles.route('/edit/<int:article_id>')
+def edit_view(article_id):
+    article = ArticlesService().get_by_id(article_id)
+    types = TypeUnitsService.get_all()
+
+    return render_template('edit_article.html', article_id=article_id, article=article, types=types)
+
+@articles.route('/edit/<int:article_id>', methods=['POST'])
+def edit(article_id):
+    data = request.form.to_dict()
+
+    article = ArticlesService().edit_article(data)
+
+    return redirect(url_for('articles.view'))
+

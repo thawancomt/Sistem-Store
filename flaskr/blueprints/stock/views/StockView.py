@@ -22,7 +22,7 @@ def index():
     context = {
         'title': 'Stock',
         'stock' : StockServices(date=date).get_data_for_stock_total(), 
-        'articles' : ArticlesService.get_all(),
+        'articles' : ArticlesService.get_all_stockable(),
         'dates' : StockServices().get_stocks_dates(),
         
         'date_labels' : StockChart().create_date_labels(),

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{{url_for('articles.edit', article_id=article.id)}}" class="*:form-control-1" method="post">
+    
+    <input type="text" name="article_id" value="{{article.id}}">
+    <input type="text" name="name" value="{{article.name}}">
+    <input type="text" name="description" value="{{article.description}}">
+    <select name="type_unit" id="">
+        {% for type_unit in types %}
+        <option value="{{type_unit.id}}">{{type_unit.name}}</option>
+        {% endfor %}
+    </select>
+    <input type="checkbox" name="is_producible" value="{{article.is_producible}}" {% if article.stockable %} checked {% endif %}>
+    <input type="checkbox" name="stockable"  {% if article.stockable %} checked {% endif %}>
+
+    <input type="submit" value="Edit {{article.name}}" class="btn-primary">
+
+</form>
+<h1>
+    {{article.stockable }}
+</h1>
+<h1>
+    {{article.is_producible }}
+</h1>
+{% endblock content %}
