@@ -8,10 +8,12 @@ from flask_login import current_user
 # Project specific imports
 from flaskr.extensions import db
 from flaskr.blueprints.articles.services.ArticlesService import ArticlesService
-from .ProductionService import ProductionService
+from ..services.ProductionService import ProductionService
 
-class ChartService():
+
+class ChartService(ProductionService):
     def __init__(self, store_id=None, how_many_days=None, date=None):
+        super().__init__(store_id=store_id)
         self.how_many_days = how_many_days or 7
         self.store_id = store_id or current_user.store_id
         self.date = date
@@ -52,7 +54,7 @@ class ChartService():
         
         self.date = date
         
-        day_production = ProductionService(date=self.date).get_already_prodeced()
+        day_production = self.get_already_prodeced()
         production_dict = {p.article_id: int(p.quantity) for p in day_production}
 
         return {

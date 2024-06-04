@@ -9,7 +9,8 @@
 </h1>
 
 
-<form action="{{url_for('production.home')}}" class="m-4">
+<form action="{{url_for('production.homepage', date=today_date, store_id =current_user.store_id )}} " class="m-4" method="get">
+    <input type="text" name="t" value="21">
     <label for="lenght" class="sub-title-primary"> Set how many days to show on chart</label>
     <select name="lenght" id="">
         <option value="7">Last Week</option>

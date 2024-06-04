@@ -8,9 +8,9 @@ class StockChart(StockServices):
         
         self.labels = self.get_stocks_dates()
         
-    def create_date_labels(self):
+    def create_date_labels(self, days = 7):
 
-        return [datetime.strftime(date.date, '%Y-%m-%d') for date in self.labels]
+        return [datetime.strftime(date.date, '%Y-%m-%d %H:%M:%S') for date in self.labels][:days]
     
     def create_all_stock_list(self):
         stocks = []
@@ -21,9 +21,8 @@ class StockChart(StockServices):
         return stocks
     
     def create_datasets(self):
-        articles = ArticlesService().get_all()
         
         return [{
             'label': article.name,
-            'data': [i[article.id] for i in self.create_all_stock_list()]
-        } for article in articles]
+            'data': [i.get(article.id, 0) for i in self.create_all_stock_list()]
+        } for article in self.articles]

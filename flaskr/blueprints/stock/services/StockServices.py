@@ -10,7 +10,7 @@ from flaskr.blueprints.articles.services.ArticlesService import ArticlesService
 
 from datetime import datetime, timedelta
 
-from sqlalchemy import func, and_
+from sqlalchemy import func, and_, select
 
 class StockServices:
     def __init__(self, store_id = None,
@@ -22,6 +22,8 @@ class StockServices:
         self.article_id = article_id
         self.quantity = quantity
         self.date = date or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.articles = ArticlesService.get_all()
+        
     
     def get_stock(self):
         return db.session.query(
@@ -40,8 +42,11 @@ class StockServices:
         ).group_by(Stock.date).all()
         
     def convert_stock_object_to_dict(self):
-        stock = self.get_stock()
-        return dict(stock)
+        stock = dict(self.get_stock())
+        
+        return {
+            article.id: stock.get(article.id, 0) for article in self.articles
+        } 
     
     def get_data_for_stock_total(self):
         return self.convert_stock_object_to_dict()
@@ -50,6 +55,11 @@ class StockServices:
         self.date = data.get('date')
     
         del data['date']
+        
+        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all():
+            self.update_stock(stock=stock, data=data)
+            return True
+                
         
         for article_id, quantity in data.items():
             stock = Stock(
@@ -63,3 +73,12 @@ class StockServices:
             db.session.add(stock)
             
         db.session.commit()
+        
+    
+    def update_stock(self, stock = None, data = None):
+        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all():
+            for row in stock:
+                    if int(data.get(f'{row.article_id}')) > 0:
+                        row.quantity = data.get(f'{row.article_id}', row.quantity)
+                    
+                        db.session.commit()

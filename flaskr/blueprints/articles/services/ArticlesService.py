@@ -19,7 +19,7 @@ class ArticlesService:
     
     @staticmethod
     def get_all():
-        return db.session.query(ArticleModel).all()
+        return db.session.query(ArticleModel).filter(ArticleModel.is_stock  == True).all()
     
     @staticmethod
     def get_all_producibles():

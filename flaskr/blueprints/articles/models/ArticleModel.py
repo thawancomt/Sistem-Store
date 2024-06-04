@@ -10,7 +10,7 @@ class ArticleModel(db.Model):
     description = Column(String(100), nullable=False)
     is_producible = Column(BOOLEAN, default=True, nullable=False)
     type_unit = Column(Integer, ForeignKey('type_units.id', ondelete='CASCADE'), nullable=False)
-    
+    is_stock = Column(BOOLEAN, default=True, nullable=False)
     type = relationship('TypeUnitModel', foreign_keys=[type_unit])
     
 class TypeUnitModel(db.Model):

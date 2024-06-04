@@ -9,24 +9,33 @@
         {{context.title}}
     </title>
 {% endblock title %}
-<h1>
-  {{context.date_labels}}
-</h1>
-<h1>
-  {{context.t}}
-</h1>
+
+<h1 class="m-4 title-primary">Stock reference: {{date}}</h1>
+<span class="m-4 sub-title-primary">You can change bellow the refereced stock</span>
 
 
-<form action="">
-  <select name="date" id="">
-    {% for date in context.dates %}
-        <option value="{{date.date}}"> {{date.date}}</option>
+<form action="{{url_for('stock.index')}}" >
+  <select name="date" id="" class=" form-control-1">
+    {% for date_ in context.dates %}
+
+      {% if date_.date | string == date | string  %}
+          <option value="{{date_.date}}" selected>{{date_.date}}</option>
+      {% else %}
+          <option value="{{date_.date}}">{{date_.date}}</option>
+      {% endif %}
+
     {% endfor %}
-  </select>
-  <button type="submit">View</button>
+
+    </select>
+    <button type="submit" class="btn-primary">Change stock reference</button>
 </form>
 
-<form action="{{url_for('stock.create')}}" method="post">
+
+  
+
+  
+
+<form action="{{url_for('stock.create')}}" method="post" id="update">
     
     {% for article in context.articles %}
         <label for="{{article.id}}" class="sub-title-primary">
@@ -40,7 +49,7 @@
         </div>
     {% endfor %}
     <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" required>
-    <input type="submit" value="submit" class="btn-primary">
+    <input type="submit" value="submit" class="btn-primary" >
         
 
 </form>
@@ -67,6 +76,24 @@
       }
     }
   });
+</script>
+<script>
+    let form = document.querySelector('#update');
+    form.addEventListener('submit', function (eventw) {
+        var t = confirm('Are you sure?');
+
+        if (!t) {
+          eventw.preventDefault()
+        }
+    }
+    )
+
+    /* Add a cancel if update_confirm was clicked cancel
+
+    
+
+    
+
 </script>
 
 {% endblock %}
