@@ -35,7 +35,7 @@
 
 
 <div class="w-full h-fit">
-    <div class="border m-4 grid grid-cols-12">
+    <div class="border m-4 sm:grid sm:grid-cols-12 flex flex-col">
 
         <form action="{{url_for('production.create')}}" method="post" class="col-span-6">
     
@@ -58,7 +58,7 @@
                             {% else %}
                                 <input type="number" value="0" class="form-control-1 w-16" disabled>
                             {% endif %}
-                            <span class="text-sm">{{article.type.name}}</span>
+                            <span class="text-sm"></span>
                         </td>
                     </tr>
                 {% endfor %}
@@ -95,24 +95,5 @@
     
 </div>
 
-<div class="w-full flex">
-    <table class="border-collapse bg-slate-500 w-full container-primary border rounded-sm">
-        <tr class="*:border *:p-4">
-            <th>article</th>
-            <th>Quantity</th>
-            <th>Date</th>
-            <th>Store</th>
-            <th>Who realease</th>
-        </tr>
-        {% for production in context.history %}
-            <tr class="*:border *:text-white *:odd:bg-slate-700 *:p-2">
-                <td class="text-center">{{production.article.name}}</td>
-                <td class="text-center">{{production.quantity}}</td>
-                <td class="">{{production.date.strftime('%Y-%m-%d at %H:%M') }}</td></td>
-                <td class="">{{production.store.name}}</td>
-                <td class="">{{production.creator.username}}</td>
-            </tr>
-        {% endfor %}
-    </table>
-</div>
+
 {% endblock content %}

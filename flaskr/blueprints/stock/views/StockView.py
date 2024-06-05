@@ -17,7 +17,7 @@ def index():
     
     
     stocks = StockServices().get_stocks_dates()
-    date = request.args.get('date') or stocks[-1].date.strftime('%Y-%m-%d %H:%M:%S') if stocks else datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    date = request.args.get('date') or stocks[0].date.strftime('%Y-%m-%d %H:%M:%S') if stocks else datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     
     context = {

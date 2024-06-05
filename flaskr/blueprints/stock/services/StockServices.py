@@ -34,12 +34,12 @@ class StockServices:
                 Stock.store_id == self.store_id,
                 Stock.date == self.date
                 )) \
-        .all()
+        .order_by(Stock.date.desc()).all()
         
     def get_stocks_dates(self):
         return db.session.query(
             Stock.date
-        ).group_by(Stock.date).all()
+        ).group_by(Stock.date).order_by(Stock.date.desc()).all()
         
     def convert_stock_object_to_dict(self):
         stock = dict(self.get_stock())

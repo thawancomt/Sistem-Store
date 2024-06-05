@@ -10,32 +10,38 @@
     </title>
 {% endblock title %}
 
-<h1 class="m-4 title-primary"> Stock reference: {{date}}
+<h1 class="m-4 title-primary first-letter:text-4xl first-letter:text-emerald-300"> Stock reference: {{date}}
   {% if context.stocks_data_for_info_table[-1].date | string == date | string %}
   (Latest)
   {%endif%}
 </h1>
 
 
-
-<table class="table-auto border-collapse border border-slate-500">
-  <thead class="">
-    <td>Date</td>
-    <td>Articles counted</td>
-  </thead>
-  <tbody class="">
-    {% for row in context.stocks_data_for_info_table %}
-        <tr class="">
-          <td>
-            <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
-          </td>
-          <td>
-            {{row.count}}
-          </td>
-        </tr>      
-    {% endfor %}
-  </tbody>
-</table>
+<div class="m-4">
+  <h1 class="title-primary">
+    All stock counts
+  </h1>
+  <table class="table-auto border-collapse  border border-slate-500 dark:bg-slate-600 w-full">
+    <thead >
+      <tr class="*:border *:font-bold *:text-center">
+        <td >Stock Date (Link)</td>
+        <td>Articles counted</td>
+      </tr>
+    </thead>
+    <tbody class="*:border ">
+      {% for row in context.stocks_data_for_info_table %}
+          <tr class="dark:*:odd:bg-slate-900  *:text-center *:text-lg  *:border ">
+            <td class="*:text-blue-400 font-black">
+              <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
+            </td>
+            <td class="text-white">
+              {{row.count}}
+            </td>
+          </tr>      
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 
 
@@ -76,8 +82,8 @@
           <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 col-span-1" disabled>
         </div>
     {% endfor %}
-    <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" required>
-    <input type="submit" value="submit" class="btn-primary" >
+    <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" step="any" required>
+    <input type="submit" value="submit" class="btn-primary dark" >
         
 
 </form>
@@ -116,7 +122,7 @@
     }
     )
 
-    /* Add a cancel if update_confirm was clicked cancel
+    /* Add a cancel if update_confirm was clicked cancel */
 
     
 
