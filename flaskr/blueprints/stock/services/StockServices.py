@@ -51,7 +51,7 @@ class StockServices:
     def get_data_for_stock_total(self):
         return self.convert_stock_object_to_dict()
     
-    def create_stock(self, data):
+    def create_stock(self, data : dict):
         self.date = data.get('date')
     
         del data['date']
@@ -62,15 +62,16 @@ class StockServices:
                 
         
         for article_id, quantity in data.items():
-            stock = Stock(
-                date = self.date,
-                article_id=article_id,
-                quantity=quantity,
-                store_id = self.store_id,
-                
-                
-            )
-            db.session.add(stock)
+            if int(quantity) > 0:
+                stock = Stock(
+                    date = self.date,
+                    article_id=article_id,
+                    quantity=quantity,
+                    store_id = self.store_id,
+                    
+                    
+                )
+                db.session.add(stock)
             
         db.session.commit()
         
@@ -78,7 +79,35 @@ class StockServices:
     def update_stock(self, stock = None, data = None):
         if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all():
             for row in stock:
-                    if int(data.get(f'{row.article_id}')) > 0:
-                        row.quantity = data.get(f'{row.article_id}', row.quantity)
-                    
-                        db.session.commit()
+                row.quantity = int(data.get(f'{row.article_id}', 0)) or row.quantity
+
+                
+                
+            db.session.commit()
+            
+        return True
+    
+    # Create a delete  method
+    def delete_stock(self, data):
+        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all():
+            for row in stock:
+                db.session.delete(row)
+            db.session.commit()
+            
+        return True
+
+    def create_data_for_stock_table(self):
+        today = datetime.strptime(self.date, '%Y-%m-%d %H:%M:%S')
+        limit = (today + timedelta(days=1))
+        
+        today = datetime.strftime(today, '%Y-%m-%d')
+        limit = datetime.strftime(limit, '%Y-%m-%d')
+        
+        stocks = db.session.query(
+            Stock.date,
+            func.count(Stock.article_id.distinct()).label('count'),
+        ).filter(
+            and_(Stock.store_id == self.store_id, Stock.date < limit, Stock.date > today)
+            ).group_by(Stock.date).all()
+        
+        return stocks

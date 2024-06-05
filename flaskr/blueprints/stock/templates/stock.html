@@ -10,11 +10,39 @@
     </title>
 {% endblock title %}
 
-<h1 class="m-4 title-primary">Stock reference: {{date}}</h1>
+<h1 class="m-4 title-primary"> Stock reference: {{date}}
+  {% if context.stocks_data_for_info_table[-1].date | string == date | string %}
+  (Latest)
+  {%endif%}
+</h1>
+
+
+
+<table class="table-auto border-collapse border border-slate-500">
+  <thead class="">
+    <td>Date</td>
+    <td>Articles counted</td>
+  </thead>
+  <tbody class="">
+    {% for row in context.stocks_data_for_info_table %}
+        <tr class="">
+          <td>
+            <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
+          </td>
+          <td>
+            {{row.count}}
+          </td>
+        </tr>      
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
 <span class="m-4 sub-title-primary">You can change bellow the refereced stock</span>
 
 
-<form action="{{url_for('stock.index')}}" >
+<form action="{{url_for('stock.index')}}" class="m-4">
   <select name="date" id="" class=" form-control-1">
     {% for date_ in context.dates %}
 
@@ -35,7 +63,7 @@
 
   
 
-<form action="{{url_for('stock.create')}}" method="post" id="update">
+<form action="{{url_for('stock.create')}}" method="post" id="update" class="m-4">
     
     {% for article in context.articles %}
         <label for="{{article.id}}" class="sub-title-primary">
