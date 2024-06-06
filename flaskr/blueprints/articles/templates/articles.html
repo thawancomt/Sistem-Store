@@ -2,73 +2,98 @@
 
 {% block content %}
 
-<h1 class="text-center text-3xl font-bold text-white mb-4">
-    OBS: Before you create articles, be sure that you have the type of article you want to create.
+<h1 class="text-center text-3xl font-bold dark:text-white text-emerald-600 mb-4">
+    Article creator
 </h1>
-<div class="flex flex-col w-full">
+<p class="m-4 text-center dark:text-white">Here you can set a new article to use in your store!
+    You also are able to set it as a producible article for example or as a stockable article.
+</p>
+<div class="grid grid-cols-12 m-4 ">
 
-    
-    
-    <form action="{{url_for('articles.create')}}" method="post">
-        <input type="text" name="name" class="form-control-1">
-        <input type="text" name="description" class="form-control-1">
-        <label for="is_producible">Is it producible</label>
-        <input type="checkbox" name="is_producible" id="" class="relative w-8 h-8 aspect-square !appearance-none !bg-none checked:!bg-gradient-to-tr checked:!from-sky-400 checked:!to-white bg-white border border-gray-300 shadow-sm rounded !outline-none !ring-0 !text-transparent !ring-offset-0 checked:!border-sky-400 hover:!border-sky-400 cursor-pointer transition-all duration-300 ease-in-out focus-visible:!outline-offset-2 focus-visible:!outline-2 focus-visible:!outline-sky-400/30 focus-visible:border-sky-400 after:w-[35%] after:h-[53%] after:absolute after:opacity-0 after:top-[40%] after:left-[50%] after:-translate-x-2/4 after:-translate-y-2/4 after:rotate-[25deg] after:drop-shadow-[1px_0.5px_1px_rgba(56,149,248,0.5)] after:border-r-[0.30em] after:border-r-white after:border-b-[0.30em] after:border-b-white after:transition-all after:duration-200 after:ease-linear checked:after:opacity-100 checked:after:rotate-45">
-        <input type="checkbox" name="stockable" id="">
-        <select name="type_unit" id="">
+    <form action="{{url_for('articles.create')}}" method="post" class="col-span-12 lg:col-span-6 *:font-bold">
+        <label for="name" class="font-bold">Article Name</label>
+        <input type="text" name="name" class="form-control-2  ">
+
+        <label for="description">Description</label>
+        <input type="text" name="description" class=" form-control-1  focus:bg-emerald-100 focus:outline-none focus:border-0 focus:h-[20%] focus:text-3xl focus:text-center transition-all">
+
+        <label for="type_unit" class="">Unit</label>
+        <select name="type_unit" id="" class="form-control-1 ">
             {% for type_unit in context.type_units %}
-                <option value=" {{ type_unit.id }}">{{ type_unit.name }}</option>
+            <option value=" {{ type_unit.id }}">{{ type_unit.name }}</option>
             {% endfor %}
         </select>
-        <input type="submit" value="Create" class="btn-primary">
-    
-    </form>
-    
-    
-    
-    <a href="{{url_for('articles.type_unit.view')}}" class="btn-primary-rounded w-3/12">Units</a>
-</div>
-
-
-<div class="w-full flex">
-        <table class="w-full">
-            <thead class="bg-red-600">
-                <th class="border border-slate-600 text-red-400 w-1/5">Article ID</th>
-                <th class="border border-slate-600 text-red-400 w-1/5">Name</th>
-                <th class="border border-slate-600 text-red-400 w-1/5">Description</th>
-                <th class="border border-slate-600 text-red-400 w-1/5">Type</th>
-                <th class="border border-slate-600 text-red-400 w-1/5">is producible</th>
-                <th class="border border-slate-600 text-red-400 w-1/5">is stockable</th>
-                <th class="border border-slate-600 text-red-400 w-1/5">Edit</th>
-            </thead>
-            <tbody>
-                {% for article in context.articles %}
-                <tr class="*:text-center *:font-bold *:text-white">
-                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 texc">{{article.id}}</td>
-                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        {{article.name}}
-                    </td>
-                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        {{article.description}}
-                    </td>
-                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        {{article.type.name}}
-                    </td>
-                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        {{article.is_producible}}
-                    </td>
-                    <td class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        {{article.stockable}}
-                    </td>
-                    <td>
-                        <a href="{{url_for('articles.edit_view', article_id=article.id)}}" class="btn-primary">EDIT</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    
         
+        <div class="flex items-center ps-4 border border-emerald-400 mt-4 p-1  space-x-4 md:w-full">
+            <label for="is_producible" class="text-xl font-bold">Is it producible?</label>
+            <input type="checkbox" name="is_producible" id="" class="w-7 h-7 " checked>
+        </div>
+        <div class="flex items-center ps-4 border border-emerald-400 mt-4 p-1  space-x-4 md:w-full">
+            <label for="stockable" class="text-xl font-bold">Can this article be stocked</label>
+            <input type="checkbox" name="stockable" id="" class="w-7 h-7" checked>
+
+        </div>
+
+        <input type="submit" value="Create" class="btn-primary">
+    </form>
+
+    
+    
+    
+    <div class="md:col-span-6 col-span-12 border overflow-x-scroll">
+            <table class="table-auto w-full h-full ">
+                <thead class="bg-red-600">
+                    <th >ID</th>
+                    <th >Name</th>
+                    <!-- <th >Description</th> -->
+                    <th >Type</th>
+                    <th >Producible</th>
+                    <th >Stockable</th>
+                    <th >Edit</th>
+                </thead>
+                <tbody>
+                    {% for article in context.articles %}
+                    <tr class="">
+                        <td class="">{{article.id}}</td>
+                        <td class="">
+                            {{article.name}}
+                        </td>
+                        <!--
+                            <td class="text-nowrap text-pretty">
+                                {{article.description}}
+                            </td>
+                        -->
+                        <td class="">
+                            {{article.type.alias}}
+                        </td>
+                        <td class="">
+                            <input type="checkbox" name="" id="" {% if  article.is_producible %}
+                            checked
+                             
+                            {% endif %} disabled>
+                            
+                        </td>
+                        <td class="">
+                            <input type="checkbox" name="" id="" {% if  article.stockable %}
+                            checked
+                             
+                            {% endif %}  disabled class="disabled:bg-slate-600">
+                        </td>
+                        <td>
+                            <a href="{{url_for('articles.edit_view', article_id=article.id)}}" class="btn-primary">EDIT</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+            
+    </div>
+    <br>
+    <h1 class="col-span-12 text-center">Go to the articles Units</h1>
+    <a href="{{url_for('articles.type_unit.view')}}" class="btn-primary-rounded col-span-12 text-center flex items-center justify-center">Units Creator</a>
 </div>
+
+
 
 {% endblock %}
