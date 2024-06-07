@@ -42,6 +42,9 @@ def create():
     except IntegrityError as e:
         flash(f'{e.orig}')
         return redirect('/')
+    except ValueError:
+        flash('You forget na username')
+        return redirect(url_for('auth.login_page'))
         
     return redirect('/')
 

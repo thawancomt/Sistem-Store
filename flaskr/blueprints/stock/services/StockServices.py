@@ -23,6 +23,7 @@ class StockServices:
         self.quantity = quantity
         self.date = date or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.articles = ArticlesService.get_all()
+        self.per_page = 3
         
     
     def get_stock(self):
@@ -97,17 +98,13 @@ class StockServices:
         return True
 
     def create_data_for_stock_table(self):
-        today = datetime.strptime(self.date, '%Y-%m-%d %H:%M:%S')
-        limit = (today + timedelta(days=1))
-        
-        today = datetime.strftime(today, '%Y-%m-%d')
-        limit = datetime.strftime(limit, '%Y-%m-%d')
-        
         stocks = db.session.query(
             Stock.date,
             func.count(Stock.article_id.distinct()).label('count'),
         ).filter(
-            and_(Stock.store_id == self.store_id, Stock.date < limit, Stock.date > today)
-            ).group_by(Stock.date).all()
+            and_(Stock.store_id == self.store_id, Stock.date < self.date)
+            ).group_by(Stock.date).order_by(Stock.date.desc())
         
-        return stocks
+        stocks_paged = stocks.paginate(per_page = 3)
+        
+        return stocks_paged

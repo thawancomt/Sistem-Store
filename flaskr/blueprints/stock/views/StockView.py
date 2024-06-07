@@ -14,15 +14,14 @@ stock = Blueprint('stock', __name__,
 
 @stock.route('/')
 def index():
-    
-    
-    stocks = StockServices().get_stocks_dates()
-    date = request.args.get('date') or stocks[0].date.strftime('%Y-%m-%d %H:%M:%S') if stocks else datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    stock_page = request.args.get('page', 1, type=int)
+    date = request.args.get('date') or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     
     context = {
         'title': 'Stock',
         'stock' : StockServices(date=date).get_data_for_stock_total(),
+    
         'stocks_data_for_info_table' : StockServices(date=date).create_data_for_stock_table(),
         'articles' : ArticlesService.get_all_stockable(),
         'dates' : StockServices().get_stocks_dates(),
@@ -39,8 +38,16 @@ def index():
 @stock.route('/create', methods=['POST'])
 def create():
     data = request.form.to_dict()
+    
+    load_date = data.get('date')
+    
+    if load_date:
+        fixed_date = datetime.strptime(load_date, '%Y-%m-%dT%H:%M:%S')
+    
+    
+    
     StockServices().create_stock(data=data)
     
-    return redirect(url_for('stock.index', date = data.get('date')))
+    return redirect(url_for('stock.index', date=fixed_date))
     
     

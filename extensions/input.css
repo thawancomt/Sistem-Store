@@ -4,12 +4,19 @@
 
 @layer components {
     .form-control-1 {
-        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full h-12 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full h-12 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
     }
     .form-control-2 {
-        @apply w-full bg-slate-200 outline-emerald-400 border border-emerald-400 h-12 rounded-xl focus:bg-emerald-100 focus:border-0 focus:h-[20%] focus:text-3xl focus:p-2  transition-all duration-500
+        @apply w-full bg-slate-200 outline-emerald-400 border border-emerald-400 h-12 rounded-xl focus:bg-emerald-100 focus:border-0 focus:h-20 focus:text-3xl focus:p-2  transition-all duration-500
+
         hover:bg-emerald-200 hover:text-gray-800
         p-2
+    }
+    .btn-primary {
+        @apply border border-emerald-500
+        text-sm font-semibold dark:text-indigo-100
+        w-full h-9 my-4 dark:bg-green-500
+        hover:bg-emerald-500 hover:text-gray-800
     }
 
     .btn-primary-rounded {
@@ -49,5 +56,10 @@
     .information-primary {
         @apply text-gray-500 font-medium
     }
-    
+    .checkbox-primary {
+        @apply w-7 h-7 accent-emerald-400 bg-red-600
+    }
+    .thead-primary {
+        @apply *:border-2 *:border-emerald-400
+    }
 }

@@ -43,3 +43,4 @@ def delete():
     UserService.update_user_status_to_inactive(user_id)
     
     return redirect(url_for('homepage.home'))
+

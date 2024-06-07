@@ -5,32 +5,32 @@
 <h1 class="text-center text-3xl font-bold dark:text-white text-emerald-600 mb-4">
     Article creator
 </h1>
-<p class="m-4 text-center dark:text-white">Here you can set a new article to use in your store!
+<p class="m-4 text-center dark:text-white" translate="no">Here you can set a new article to use in your store!
     You also are able to set it as a producible article for example or as a stockable article.
 </p>
-<div class="grid grid-cols-12 m-4 ">
+<div class="grid grid-cols-12 m-4 md:space-x-2 ">
 
     <form action="{{url_for('articles.create')}}" method="post" class="col-span-12 lg:col-span-6 *:font-bold">
         <label for="name" class="font-bold">Article Name</label>
-        <input type="text" name="name" class="form-control-2  ">
+        <input type="text" name="name" class="form-control-2" required>
 
         <label for="description">Description</label>
-        <input type="text" name="description" class=" form-control-1  focus:bg-emerald-100 focus:outline-none focus:border-0 focus:h-[20%] focus:text-3xl focus:text-center transition-all">
+        <textarea name="description" id="" class="form-control-2 auto-rows-auto" required></textarea>
 
         <label for="type_unit" class="">Unit</label>
-        <select name="type_unit" id="" class="form-control-1 ">
+        <select name="type_unit" id="" class="select-primary ">
             {% for type_unit in context.type_units %}
             <option value=" {{ type_unit.id }}">{{ type_unit.name }}</option>
             {% endfor %}
         </select>
         
-        <div class="flex items-center ps-4 border border-emerald-400 mt-4 p-1  space-x-4 md:w-full">
+        <div class="flex items-center ps-4 border border-emerald-400 mt-4 p-1  space-x-4 md:w-full md:justify-between">
             <label for="is_producible" class="text-xl font-bold">Is it producible?</label>
-            <input type="checkbox" name="is_producible" id="" class="w-7 h-7 " checked>
+            <input type="checkbox" name="is_producible" id="" class="checkbox-primary" checked>
         </div>
-        <div class="flex items-center ps-4 border border-emerald-400 mt-4 p-1  space-x-4 md:w-full">
+        <div class="flex items-center ps-4 border border-emerald-400 mt-4 p-1  space-x-4 md:w-full md:justify-between">
             <label for="stockable" class="text-xl font-bold">Can this article be stocked</label>
-            <input type="checkbox" name="stockable" id="" class="w-7 h-7" checked>
+            <input type="checkbox" name="stockable" id="" class="checkbox-primary" checked>
 
         </div>
 
@@ -40,9 +40,10 @@
     
     
     
-    <div class="md:col-span-6 col-span-12 border overflow-x-scroll">
+    <div class="md:col-span-6 col-span-12 border border-gray-700 rounded-xl overflow-y-scroll">
+        <h1 class="font-bold">Articles existents</h1>
             <table class="table-auto w-full h-full ">
-                <thead class="bg-red-600">
+                <thead class="bg-emerald-400 ">
                     <th >ID</th>
                     <th >Name</th>
                     <!-- <th >Description</th> -->
@@ -53,7 +54,7 @@
                 </thead>
                 <tbody>
                     {% for article in context.articles %}
-                    <tr class="">
+                    <tr class="*:odd:bg-emerald-200 *:even:bg-emerald-400 *:text-center">
                         <td class="">{{article.id}}</td>
                         <td class="">
                             {{article.name}}
@@ -70,14 +71,14 @@
                             <input type="checkbox" name="" id="" {% if  article.is_producible %}
                             checked
                              
-                            {% endif %} disabled>
+                            {% endif %} disabled class="checkbox-primary">
                             
                         </td>
                         <td class="">
                             <input type="checkbox" name="" id="" {% if  article.stockable %}
                             checked
                              
-                            {% endif %}  disabled class="disabled:bg-slate-600">
+                            {% endif %}  disabled class="checkbox-primary">
                         </td>
                         <td>
                             <a href="{{url_for('articles.edit_view', article_id=article.id)}}" class="btn-primary">EDIT</a>

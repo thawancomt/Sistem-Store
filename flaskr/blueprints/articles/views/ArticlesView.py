@@ -42,7 +42,7 @@ def view():
 
 @articles.route('/create', methods=['POST'])
 def create():
-    name = request.form.get('name')
+    name = request.form.get('name', 'PEdro')
     description = request.form.get('description')
     type_unit = request.form.get('type_unit')
     is_producible = bool(request.form.get('is_producible'))

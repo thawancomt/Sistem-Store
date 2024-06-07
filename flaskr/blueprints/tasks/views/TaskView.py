@@ -1,11 +1,14 @@
 from flaskr.blueprints import *
 from flaskr.blueprints.tasks.services.TaskService import TaskService
+from flaskr.blueprints.tasks.services.DailyTaskService import DailyTaskService
+
+from .DailyTaskView import daily_task
 
 
 tasks = Blueprint('tasks', __name__,
                      url_prefix='/tasks')
 
-
+tasks.register_blueprint(daily_task)
 
 
 @tasks.route('/create', methods=['POST'])
@@ -39,3 +42,6 @@ def finish():
         flash('Task finished')
         
     return redirect(url_for('homepage.home'))
+
+
+

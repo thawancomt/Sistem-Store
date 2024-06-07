@@ -1,9 +1,7 @@
 from flaskr.extensions import db, login_manager
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
-from sqlalchemy.orm import relationship, declarative_base
-
-base = declarative_base()
+from sqlalchemy.orm import relationship, validates
 
 
 
@@ -16,6 +14,12 @@ class User(db.Model, UserMixin):
     store_id = Column(Integer, ForeignKey('stores.id'), nullable=False)
     last_login = Column(DateTime, nullable=False)
     created_at = Column(DateTime, nullable=False)
+    
+    @validates('username')
+    def validate_username(self, key, value):
+        if not value.strip():
+            raise ValueError('The username can not be empty')
+        return value
     
     
     active = Column(Boolean, server_default='1', nullable=False)

@@ -20,8 +20,10 @@ def create():
     
     try:
         StoreService(store_id=store_id, store_name=name, store_place=place).create()
-    except IntegrityError as e:
-        flash(f'{e.orig}')
+
+    except ValueError as e:
+        flash(f'{e}')
+    
     return redirect(url_for('store.home'))
 
 

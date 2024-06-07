@@ -11,44 +11,81 @@
 {% endblock title %}
 
 <h1 class="m-4 title-primary first-letter:text-4xl first-letter:text-emerald-300"> Stock reference: {{date}}
-  {% if context.stocks_data_for_info_table[-1].date | string == date | string %}
+  {% if context.stocks_data_for_info_table.date | string == date | string %}
   (Latest)
   {%endif%}
 </h1>
+
+
 
 
 <div class="m-4">
   <h1 class="title-primary">
     All stock counts
   </h1>
-  <table class="table-auto border-collapse  border border-slate-500 dark:bg-slate-600 w-full">
+  <table class="table-auto border-collapse  border-4 border-emerald-400 dark:bg-slate-600 w-full ">
     <thead >
-      <tr class="*:border *:font-bold *:text-center">
+      <tr class="*:border *:font-bold *:text-center bg-slate-500 *:text-white">
         <td >Stock Date (Link)</td>
         <td>Articles counted</td>
       </tr>
     </thead>
     <tbody class="*:border ">
+      {% if  context.stocks_data_for_info_table.total == 0%}
+      <tr class="*:text-center font-bold">
+        <td>
+          Empty
+        </td>
+        <td>
+          Empty
+        </td>
+      </tr>
+       
+      {% endif %}
       {% for row in context.stocks_data_for_info_table %}
-          <tr class="dark:*:odd:bg-slate-900  *:text-center *:text-lg  *:border ">
-            <td class="*:text-blue-400 font-black">
+          <tr class="dark:*:odd:bg-slate-900  *:text-center *:text-lg  *:border *:odd:bg-emerald-200 *:even:bg-emerald-500 *:p-2">
+            <td class="*:text-blue-900 font-black">
               <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
             </td>
-            <td class="text-white">
+            <td class="dark:text-white">
               {{row.count}}
             </td>
           </tr>      
       {% endfor %}
     </tbody>
   </table>
-</div>
+  <div class="border-2 border-emerald-400 mt-4 flex justify-evenly">
+    {% set indexes = context.stocks_data_for_info_table %}
+    <div class="p-4 flex space-x-2 md:space-x-6 items-center">
+      {% if indexes.has_prev %}
+        <a href="{{url_for('stock.index', page=indexes.prev_num, date=date)}}" class="text-emerald-800 font-bold">Prev</a>
+      {% endif %}
+        {% for page in indexes.iter_pages(left_edge=1, left_current=2, right_edge=1, right_current=2) %}
+          {% if page %}
+            <div class="{% if indexes.page == page %} text-lg p-1 text-white bg-slate-500 rounded-xl{%endif%}">
+              <a href="{{url_for('stock.index', page=page, date=date)}}"
+              class="font-bold p-2">{{page}}</a>
+            </div>
+          {% else %}
+            <h1 class="font-bold">...</h1>
+        {% endif %}
+      {% endfor %}
+      {% if indexes.has_next %}
+        <a href="{{url_for('stock.index', page=indexes.next_num, date=date)}}" class="text-emerald-800 font-bold">Next</a>
+      {% endif %}
+      
+    </div>
+    
+  </div>
+
+  
 
 
 
 <span class="m-4 sub-title-primary">You can change bellow the refereced stock</span>
 
 
-<form action="{{url_for('stock.index')}}" class="m-4">
+<form action="{{url_for('stock.index')}}" class="m-4 ">
   <select name="date" id="" class=" form-control-1">
     {% for date_ in context.dates %}
 
@@ -78,10 +115,11 @@
             }}
         </label>
         <div class="grid grid-cols-3">
-          <input type="number" name="{{article.id}}" id="" value="0" max="20" class="form-control-1 col-span-2">
-          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 col-span-1" disabled>
+          <input type="number" name="{{article.id}}" id="" value="0"  class="form-control-1 col-span-2">
+          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 col-span-1 text-center" disabled>
         </div>
     {% endfor %}
+    <br>
     <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" step="any" required>
     <input type="submit" value="submit" class="btn-primary dark" >
         

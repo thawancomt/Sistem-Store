@@ -5,6 +5,16 @@
 {% endblock title %}
 
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% for message in messages%}
+    {{ message }}
+    <br><br>
+{% endfor %}
+{% endwith %}
+
+
+
 <div class="m-4 h-full w-full flex flex-col items-center justify-center ">
     <form action="{{ url_for('store.create') }}" method="POST">
         <label for="name" class="text-lg text-white font-semibold">Store Name</label>
