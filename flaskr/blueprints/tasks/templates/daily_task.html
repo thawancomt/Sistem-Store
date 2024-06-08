@@ -7,6 +7,55 @@
 {% block content %}
 
 {% set tasks = context.all_tasks %}
+{% set tasks_to_do = context.to_do %}
+
+<h1>
+    {{
+        tasks_to_do.id
+    }}
+</h1>
+
+<div>
+    <form action="{{url_for('tasks.daily_task.set_task_as_done', date=request.args.get('date'))}}" method="post" class="flex}}">
+    <table class="bg-slate-300 w-full">
+        <thead class="border-b-2 border-gray-800 *:font-bold">
+            <tr>
+                <td>
+                    Task
+                </td>
+                <td>
+                    Description
+                </td>
+                <td>
+                    Action
+                </td>
+            </tr>
+        </thead>
+        <tbody class=".table-hover">
+            {% for task in tasks_to_do %}
+            <tr>
+                <td class="{% if task.status %} bg-green-300 {%endif%}">
+                    {{task.task.name}}
+                </td>
+                <td>
+                    {{task.task.description}}
+                </td>
+                <td class="flex space-x-2 justify-end">
+                    <h4>
+                        mark as done
+                    </h4>
+                    <input type="checkbox" name="{{task.id}}" id="" class="checkbox-primary" 
+                    {% if task.status %} checked {%endif%}>
+                </td>
+            </tr>
+             
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit">Confirmar</button>
+    </form>
+</div>
+
 
 <div class="container-primary">
     <table class="bg-slate-300 w-full">
@@ -32,7 +81,7 @@
                     </textarea>
                 </td>
                 <td>
-                    <input type="checkbox" name="" id="" {% if task %} checked {%endif%}
+                    <input type="checkbox" name="" id="" {% if task.active %} checked {%endif%}
                     class="checkbox-primary">
                 </td>
             </tr>
@@ -51,5 +100,4 @@
         <button type="submit" class="btn-primary col-span-2 col-start-2">Create</button>
     </div>
 </form>
- 
 {% endblock content %}

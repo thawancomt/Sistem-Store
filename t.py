@@ -1,15 +1,3 @@
-from datetime import datetime
+a = [(5,), (6,), (7,)]
 
-a = \
-    datetime(
-        year=2000,
-        month=1,
-        day=1
-        )
-
-b = datetime(
-    year=2000,
-    month=1,
-    day=1
-)
-
+print((5,) in a)

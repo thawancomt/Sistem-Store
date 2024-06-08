@@ -3,6 +3,8 @@ from flaskr.blueprints.stores_management.services.StoreService import StoreServi
 
 from ..services.UserService import UserService
 
+from datetime import datetime
+
 
 create_user = Blueprint('create_user', __name__, url_prefix='/create',
                         template_folder='../templates')
