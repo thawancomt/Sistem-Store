@@ -1,4 +1,4 @@
-from flaskr.extensions import db
+from flaskr.extensions import db, Service
 from ..models.ProductionModel import Production
 from flask_login import current_user
 
@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 
 
-class ProductionService:
+class ProductionService(Service):
     def __init__(self, article_id = None, quantity = None, date = None, store_id = None) -> None:
         self.store_id = current_user.store_id or store_id
         self.creator_id = current_user.id
@@ -37,6 +37,11 @@ class ProductionService:
                 )
                 db.session.add(production)
         
+        db.session.commit()
+    
+    def delete(self, id):
+        production = db.session.query(Production).get(id)
+        db.session.delete(production)
         db.session.commit()
         
         

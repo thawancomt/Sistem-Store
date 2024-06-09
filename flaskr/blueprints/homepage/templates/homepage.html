@@ -2,13 +2,15 @@
 
 {% block script %}
 
-<script src="/static/script.js"></script>
+
  
 {% endblock script %}
 
 {% block title %}
     <title>Homepage</title>
 {% endblock %}
+
+
 
 {% block store_title %}
     <div>
@@ -24,8 +26,7 @@
 {% endblock %}
 
 {% block content  %}
-
-<script src="../static/script.js"></script>
+    
 
     {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -67,22 +68,24 @@
     {% if current_user.level <= 1 %}
      
     <div class="w-full flex justify-center">
-        {% if not context['level'] == 'admin' %}
+        {% if current_user.level < 2 %}
             <div class="container-primary">
                 <div class="m-4">
-                    <h1 class="title-primary text-yellow-400"> Adiministrator Section*</h1>
+                    <h1 class="title-primary "> Adiministrator Section*</h1>
                     <p class="information-primary">This section is desnatited to the store managers, here you can acess users, stock and more</p>
                 </div>
-                <div class="ml-4 space-x-4  ">
+                <div class="m-4">
                     
-                    <a href="{{ url_for('users.home')}}" class="btn-primary">
-                        Access Users
-                    </a>
+                    <form action="{{url_for('users.home')}}">
+                        <button type="submit" class="btn-primary">Acess users</button>
+                    </form>
 
-                    <a href="{{url_for('articles.view')}}" class="btn-primary">
-                        Articles
-                    </a>
-                    <a href="{{url_for('store.home')}}" class="btn-primary">Stores</a>
+                    <form action="{{url_for('articles.view')}}">
+                        <button type="submit" class="btn-primary">Articles</button>
+                    </form>
+                    <form action="{{url_for('store.home')}}">
+                        <button type="submit" class="btn-primary">Stores</button>
+                    </form>
 
                     
                 </div>
@@ -114,15 +117,15 @@
                                         
                                     </div>
                                     {% if not task.status %}
-                                        <form action="{{ url_for('tasks.finish') }}" method="POST" class=" md:col-span-1 md:mr-2">
+                                        <form action="{{ url_for('tasks.finish') }}" method="POST"  class=" md:col-span-1 md:mr-2">
                                             <input type="text" name="task_id" value="{{task.id}}" hidden>
-                                            <button type="submit" class="btn-primary ">Finish</button>
+                                            <button type="button" class="btn-primary" id="finish_btn">Finish</button>
                                         </form>
                                     {% endif %}
 
-                                    <form action="{{ url_for('tasks.delete') }}" method="POST"  class="md:col-span-1 {% if task.status %} md:col-span-2 {% endif %}">
+                                    <form action="{{ url_for('tasks.delete') }}" method="POST"  class="md:col-span-1 {% if task.status %} md:col-span-2 {% endif %}" id="taskForm">
                                         <input type="text" name="task_id" value="{{task.id}}" hidden>
-                                        <button type="submit" class="btn-primary" id="delete_task{{task.id}}">Delete</button>
+                                        <button type="button" class="btn-primary" id="delete_btn">Delete</button>
                                     </form>
                             </div>
                         {% endfor %}
@@ -149,5 +152,6 @@
         </div>
     </div>  
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/script.js"></script>   
 {% endblock %}
