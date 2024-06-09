@@ -94,7 +94,7 @@
                             hover:border-emerald-800">
                                     <div class="w-8/12 p-2">
                                         
-                                        {% if task.status  %}
+                                        {% if task.status | lower  == 'finished' %}
                                             <h4 class="title-primary text-red-500 mt-0 "> {{ task.name }}</h4>
                                         {% else %}
                                             <h4 class="title-primary text-white mt-0"> {{ task.name }}</h4>
@@ -103,12 +103,11 @@
                                         
                                         <h4 class="information-primary ml-4">{{task.description}}</h4>
                                     </div>
-                                    {% if not task.status %}
-                                        <form action="{{ url_for('tasks.finish') }}" method="POST" class="w-2/12">
-                                            <input type="text" name="task_id" value="{{task.id}}" hidden>
-                                            <button type="submit" class="btn-primary m-0 w-[90%]">Finish</button>
-                                        </form>
-                                    {% endif %}
+
+                                    <form action="{{ url_for('tasks.finish') }}" method="POST" class="w-2/12">
+                                        <input type="text" name="task_id" value="{{task.id}}" hidden>
+                                        <button type="submit" class="btn-primary m-0 w-[90%]">Finish</button>
+                                    </form>
 
                                     <form action="{{ url_for('tasks.delete') }}" method="POST" class="w-2/12">
                                         <input type="text" name="task_id" value="{{task.id}}" hidden>

@@ -46,3 +46,12 @@ def delete():
     
     return redirect(url_for('homepage.home'))
 
+@edit_user.route('/active', methods=['POST'])
+def reactive():
+    """Update user status to active """
+    user_id = request.form.get('user_id')
+    UserService.active_an_inactive_user(user_id)
+    
+    return redirect(url_for('homepage.home'))
+
+

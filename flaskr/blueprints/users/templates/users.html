@@ -8,9 +8,8 @@
 
 <!-- Search Bar -->
 <div class="flex justify-center">
-    <form action="/users/search/" class="w-11/12" method="POST">
-        <input type="text" class="form-control-1 text-center" placeholder="Search user" name="filter">
-        
+    <form action="{{url_for('users.home')}}" class="w-11/12 flex justify-center  transition-all duration-700 " method="POST">
+        <input type="text" class="form-control-1 text-center outline-emerald-400 " placeholder="Search user" name="user_query">
     </form>
 </div>
 
@@ -33,19 +32,13 @@
 </div>
 
 <div class="max-h-fit min-h-full">
-    
-    
-
-
     <!-- Container -->
     <div class="w-full h-full flex flex-wrap justify-around ">
         
         <div class=" w-full flex items-center justify-center ">
             <a href="/users/table" class="text-xl text-blue-500 btn-primary-rounded w-fit">View as tables</a>
         </div>
-        {% for user in context['all_users'] %}
-
-        
+        {% for user in context.all_users %}
             <div class="w-96 h-80 border border-emerald-500 rounded-lg flex flex-col justify-evenly mx-2 mt-6 p-2
             hover:border-[10px] transition-all ease-in-out duration-200">
                 <!-- User Name -->
@@ -85,6 +78,56 @@
 
             </div>
         {% endfor %}
+        
+    </div>
+    <div>
+        <div class="container-primary">
+            <h1>Inactive Users</h1>
+
+            {% if not current_user.level %}
+            {% for user in context.inactive_users %}
+                <div class="w-96 h-80 border border-red-500 rounded-lg flex flex-col justify-evenly mx-2 mt-6 p-2
+                hover:border-[10px] transition-all ease-in-out duration-200">
+                    <!-- User Name -->
+                    {% if 2 == user.username %}
+                    <div class="w-full h-12 flex items-center justify-center">
+                        <h1 class="title-primary text-white">You</h1>
+                    </div>
+                    {% else %}
+                    <div class="w-full h-12 flex items-center justify-center">
+                        <h1 class="title-primary">{{user.username}}</h1>
+                    </div>
+                    {% endif %}
+                    <!-- User Info -->
+                    <div class="px-4">
+                        <div class="w-full flex ">   
+                            <h2 class="sub-title-primary">Email : {{user.email}}</h2>
+                        </div>
+                        
+                        <div class="w-full hidden">
+                            <h2 class="sub-title-primary">Level: {{user.created_at}}</h2>
+                        </div>
+                    
+                        <div class="w-full flex  ">
+                            {% if not user['last_login'] %}
+                            <h2 class="sub-title-primary"> Last login: Never</h2>
+                            {% else %}
+                            <h2 class="sub-title-primary"> Last login: {{user.last_login}}</h2>
+                            {% endif %}
+                        </div>
+                        <div class="w-full flex ">
+                            <h2 class="sub-title-primary">Store: {{ user.store  }}</h2>
+                        </div>
+                    </div>
+                    <form action="{{ url_for('users.edit_user.edit_view', username = user.username) }}">
+                        <button class="btn-primary">Edit</button>
+                    </form>
+    
+                </div>
+            {% endfor %}
+             
+            {% endif %}
+        </div>
     </div>
 </div>
 

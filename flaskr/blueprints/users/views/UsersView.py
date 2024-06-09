@@ -16,12 +16,13 @@ users = Blueprint('users', __name__, url_prefix='/users',
 users.register_blueprint(edit_user)
 users.register_blueprint(create_user)
     
-@users.route('/')
+@users.route('/', methods=['GET', 'POST'])
 def home():
-    users = UserService().get_all_active_users()
+    user_query = request.form.get('user_query', None)
     
     context = {
-        'all_users': users
+        'all_users': UserService.get_all_active_users(query=user_query),
+        'inactive_users': UserService.get_all_inactive_users(query=user_query)
     }
 
     return render_template('users.html', context=context)

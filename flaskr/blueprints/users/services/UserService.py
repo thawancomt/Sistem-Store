@@ -69,7 +69,7 @@ class UserService:
             return True
         return False
     
-    def active_an_inactive_user(self, id) -> bool:
+    def active_an_inactive_user(id) -> bool:
         if user := db.session.query(User).filter(
             User.id == id
         ).first():
@@ -91,8 +91,18 @@ class UserService:
     def get_all(self):
         return db.session.query(User).all()
     
-    def get_all_active_users(self):
+    @staticmethod
+    def get_all_active_users(query = None):
+        if query:
+            return db.session.query(User).filter(User.active == True,
+                                                 User.username.like(f'%{query}%')).all()
         return db.session.query(User).filter(User.active == True).all()
+    @staticmethod
+    def get_all_inactive_users(query = None):
+        if query:
+            return db.session.query(User).where(User.active == False,
+                                                 User.username.like(f'%{query}%')).all()
+        return db.session.query(User).where(User.active == False).all()
     
     def get_user_by_email(self):
         return db.session.query(User).filter(User.email == self.email).first()
