@@ -72,6 +72,7 @@ class UserService:
             user.username = data.get('new_username')
             user.email = data.get('email')
             user.store_id = data.get('store')
+            user.level = data.get('level')
             
         db.session.commit()
         return user

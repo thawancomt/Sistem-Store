@@ -77,3 +77,7 @@ flaskr/blueprints/articles/models/__pycache__/ArticleModel.cpython-312.pyc
 /flaskr/blueprints/stock/models/__pycache__
 /flaskr/blueprints/stock/services/__pycache__
 /flaskr/blueprints/stock/views/__pycache__
+/flaskr/blueprints/daily_tasks/models/__pycache__
+/flaskr/blueprints/daily_tasks/services/__pycache__
+/flaskr/blueprints/daily_tasks/views/__pycache__
+__pycache__/t.cpython-312.pyc

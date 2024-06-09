@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, Integer, String, ForeignKey, DATETIME, func, and_
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func, and_
 from sqlalchemy.orm import relationship
 
 
@@ -11,7 +11,7 @@ class Stock(db.Model):
 
     id = Column(Integer, primary_key=True)
     
-    date = Column(DATETIME, default=db.func.now(), nullable=False)
+    date = Column(DateTime, default=db.func.now(), nullable=False)
     
     store_id = Column(Integer, ForeignKey('stores.id'), nullable=False)
     store = relationship('Store', foreign_keys=[store_id])

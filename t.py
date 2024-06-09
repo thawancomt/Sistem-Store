@@ -1,3 +1,6 @@
-a = [(5,), (6,), (7,)]
+a = {
+    "name": "John",
+    "age": 30
+}
 
-print((5,) in a)
+print(a.values()) # prints [‘John’, 30]

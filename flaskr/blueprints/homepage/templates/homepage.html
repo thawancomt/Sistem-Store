@@ -49,13 +49,12 @@
                     <form action="{{url_for('production.home')}}">
                         <button type="submit" class="btn-primary">Daily Production</button>
                     </form>
-                    <form action="{{url_for('tasks.daily_task.view_daily_tasks')}}">
-                        <button type="submit" class="btn-primary">Daily Tasks</button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+    {% if current_user.level <= 1 %}
+     
     <div class="w-full flex justify-center">
         {% if not context['level'] == 'admin' %}
             <div class="container-primary">
@@ -79,6 +78,7 @@
             </div>
         {% endif %}
     </div>
+    {% endif %}
     
     <!-- Tasks Card -->
     <div class="w-full flex justify-center">

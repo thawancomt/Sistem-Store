@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="title-primary"> Hello World</h1>
+
+<h1>
+    {{g.date}}
+</h1>
+
+<form action="{{url_for('daily_tasks.set_as_done', date=g.date)}}" method="post">
+
+    <table>
+        <thead class="w-full">
+            <tr class="w-full">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in context.to_do %}
+            <tr>
+                <td>
+                    {{task.task.id}}
+                </td>
+                <td>
+                    {{task.task.name}}
+                </td>
+                <td>
+                    {{task.task.description}}
+                </td>
+                <td>
+                    <input type="checkbox" name="{{task.task.id}}" id="" {% if task.status %} checked {% endif %}>
+                </td>
+            </tr>
+             
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit">Finish</button>n
+</form>
+
+{% for a in [1, 2,3 ] %}
+
+<form action="{{url_for('daily_tasks.set_as_done')}}"></form>
+ 
+{% endfor %}
+
+<div>
+    <div class="container-primary">
+        <table class="table w-full">
+            <thead class="table">
+                <tr class="">
+                    <td>#</td>
+                    <td>Name</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in context.active_daily_tasks %}
+                <tr>
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% if current_user.level <= 0 %}
+ 
+<form action="{{url_for('daily_tasks.create')}}" class="bg-slate-500 p-2" method="post">
+    <label for="name">Task name</label>
+    <input type="text" name="name">
+    <label for="description">Task description</label>
+    <input type="text" name="description">
+    <button type="submit">Create</button>
+</form>
+ 
+{% endif %}
+{% endblock content %}

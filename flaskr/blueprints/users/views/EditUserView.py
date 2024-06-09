@@ -29,7 +29,9 @@ def edit_view(username):
 def update():  # sourcery skip: avoid-builtin-shadow
     data = request.form.to_dict()
     
-    username = data['username']
+    username = data.get('username')
+    
+    
     
     UserService().update(username=username, data=data)
     

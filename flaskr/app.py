@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, flash, url_for
+from flask import Flask, redirect, render_template, request, flash, url_for, g
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from flask_sqlalchemy import SQLAlchemy
@@ -16,6 +16,8 @@ from flaskr.blueprints.stores_management.view.StoreView import store
 from flaskr.blueprints.articles.views.ArticlesView import articles
 from flaskr.blueprints.production.views.ProductionView import production
 from flaskr.blueprints.stock.views.StockView import stock
+from flaskr.blueprints.daily_tasks.views.DailyView import daily_tasks
+
 
 from datetime import datetime
 
@@ -36,6 +38,8 @@ def create_app():
     app.register_blueprint(articles)
     app.register_blueprint(production)
     app.register_blueprint(stock)
+    app.register_blueprint(daily_tasks)
+
 
 
     migrate = Migrate(app, db)
@@ -56,5 +60,9 @@ def create_app():
     @app.context_processor
     def inject_today_date():
         return {'today_date': datetime.now().strftime("%Y-%m-%d")}
+    
+    @app.before_request
+    def set_date():
+        g.date = request.args.get('date')
 
     return app

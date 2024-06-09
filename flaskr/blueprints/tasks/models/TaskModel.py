@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 
 
 class Task(db.Model):
-    __tablename__ = 'store_tasks'
+    __tablename__ = 'users_tasks'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(200), nullable=False)

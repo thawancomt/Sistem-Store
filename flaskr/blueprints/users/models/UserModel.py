@@ -15,6 +15,8 @@ class User(db.Model, UserMixin):
     last_login = Column(DateTime, nullable=False)
     created_at = Column(DateTime, nullable=False)
     
+    level = Column(Integer, server_default='2', nullable=False)
+    
     @validates('username')
     def validate_username(self, key, value):
         if not value.strip():
@@ -25,3 +27,12 @@ class User(db.Model, UserMixin):
     active = Column(Boolean, server_default='1', nullable=False)
     
     store_name = relationship("Store", foreign_keys=[store_id])
+    
+
+"""
+    levels:
+    0 - Admin
+    1 - Manager
+    2 - Employee
+
+"""
