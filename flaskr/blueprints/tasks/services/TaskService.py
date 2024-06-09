@@ -19,10 +19,10 @@ class TaskService:
         new_task = Task()  
         new_task.name = self.task_name # 
         new_task.description = self.task_description #
-        new_task.created_by = current_user.id or self.user_id
+        new_task.created_by = current_user.id or self.user_id #
         
         new_task.created_at = datetime.now()
-        new_task.store_id = self.store_id or current_user.store_id
+        new_task.store_id = self.store_id or current_user.store_id 
         
         db.session.add(new_task)
         db.session.commit()
@@ -30,7 +30,8 @@ class TaskService:
     def finish(self):
         if task := db.session.query(Task).filter(Task.id == self.taskId).one_or_none():
             task.finished_by = current_user.id
-            task.status = 'finished'
+            task.status = True
+            task.finished_at = datetime.now()
             db.session.commit()
             
         else:
@@ -41,4 +42,8 @@ class TaskService:
         db.session.commit()
     
     def get_tasks(self):
-        return db.session.query(Task).all()
+        return db.session.query(
+            Task
+        ).filter(
+            Task.store_id == current_user.store_id
+        ).all()

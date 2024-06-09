@@ -16,7 +16,7 @@ class Task(db.Model):
     status = Column(Boolean, server_default='0', nullable=False)
 
     created_by = Column(Integer, ForeignKey('users.id'), nullable=False)
-    finished_by = Column(Integer, ForeignKey('users.id'))
+    finished_by = Column(Integer,ForeignKey('users.id'), server_default=None )
     
     store_id = Column(Integer, ForeignKey('stores.id'), nullable=False)
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
