@@ -65,6 +65,7 @@ def create_app():
     
     @app.before_request
     def set_date():
-        g.date = request.args.get('date')
+        g.date = request.args.get('date') or datetime.now().strftime("%Y-%m-%d")
+
 
     return app

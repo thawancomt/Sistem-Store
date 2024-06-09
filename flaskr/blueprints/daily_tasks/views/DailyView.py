@@ -1,4 +1,4 @@
-from  flask import Blueprint, render_template, request, redirect, g
+from  flask import Blueprint, render_template, request, redirect, g, url_for
 
 
 from ..services.DailyTasksService import DailyTasksService
@@ -10,7 +10,6 @@ daily_tasks = Blueprint('daily_tasks', __name__,
 
 @daily_tasks.route('/')
 def index():
-    
     context = {
         'active_daily_tasks' : DailyTasksService().get_all_active_tasks(),
         'to_do' : DailyStatusSevice(date=g.date).get_all_tasks(),
@@ -33,4 +32,4 @@ def set_as_done():
     day_status = DailyStatusSevice(date=g.date)
     day_status.update_day_status(data)
     
-    return redirect('/daily_tasks')
+    return redirect(url_for('daily_tasks.index', date=g.date))
