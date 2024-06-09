@@ -6,10 +6,10 @@ from hashlib import sha256
 from flaskr.blueprints.users.models.UserModel import User
 
 from werkzeug.security import generate_password_hash, check_password_hash
+
+
 def hash_password(password):
     return sha256(password.encode()).hexdigest()
-
-
 
 class UserService:
     
@@ -19,7 +19,8 @@ class UserService:
                  password : str = None, 
                  store_id : str = None, 
                  created_at : datetime= None,
-                 last_login : datetime = None) -> None:
+                 last_login : datetime = None
+                ):
         
         self.db = db
         
@@ -59,10 +60,20 @@ class UserService:
             UserService.update_user_status_to_inactive(id)
             return True
         return False
+    
     @staticmethod
     def update_user_status_to_inactive(user_id: int) -> bool:
         if user := User.query.filter_by(id=user_id).one_or_none():
             user.active = False
+            db.session.commit()
+            return True
+        return False
+    
+    def active_an_inactive_user(self, id) -> bool:
+        if user := db.session.query(User).filter(
+            User.id == id
+        ).first():
+            user.active = True
             db.session.commit()
             return True
         return False

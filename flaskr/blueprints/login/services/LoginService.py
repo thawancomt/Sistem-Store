@@ -21,12 +21,18 @@ class LoginService:
         
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.filter_by(id=user_id).first()
+        return db.session.query(
+            User
+        ).filter(
+            User.id == user_id
+        ).first()
         
     @login_manager.unauthorized_handler
     def unauthorized_callback():
-        flash('You must be logged to see that page')
+        flash("You don't have appropriate access to view this page")
         return redirect(url_for('auth.login'))
+    
+    
     
     def login(self):
         if self.user and self.verify_password(self.user.password):

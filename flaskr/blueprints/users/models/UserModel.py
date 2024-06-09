@@ -12,10 +12,13 @@ class User(db.Model, UserMixin):
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(256), nullable=False)
     store_id = Column(Integer, ForeignKey('stores.id'), nullable=False)
+    store_name = relationship("Store", foreign_keys=[store_id])
+    
     last_login = Column(DateTime, nullable=False)
     created_at = Column(DateTime, nullable=False)
-    
     level = Column(Integer, server_default='2', nullable=False)
+    """ levels: 0 - Admin 1 - Manager 2 - Employee """
+    active = Column(Boolean, server_default='1', nullable=False)
     
     @validates('username')
     def validate_username(self, key, value):
@@ -23,16 +26,19 @@ class User(db.Model, UserMixin):
             raise ValueError('The username can not be empty')
         return value
     
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_authenticated(self):
+        return self.is_active
+
+    @property
+    def is_anonymous(self):
+        return False
     
-    active = Column(Boolean, server_default='1', nullable=False)
-    
-    store_name = relationship("Store", foreign_keys=[store_id])
+    def get_id(self):
+        return str(self.id)
     
 
-"""
-    levels:
-    0 - Admin
-    1 - Manager
-    2 - Employee
-
-"""
