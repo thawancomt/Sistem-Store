@@ -11,7 +11,7 @@ from ..models.DailyStatusModel import DailyStatusModel
 from datetime import datetime
 import json
 
-class DailyStatusSevice:
+class DailyStatusService:
     def __init__(self, date = None):
         self.date = datetime.strptime(date, '%Y-%m-%d')
         self.active_tasks = DailyTasksService().get_all_active_tasks()
@@ -29,11 +29,13 @@ class DailyStatusSevice:
         
     def insert_active_task(self):
         for task in self.active_tasks:
+              print('testando ')
               if self.verify_if_task_exist_on_day(task.id):
                   pass
               else:
                   daily_task = DailyStatusModel(
-                      date = self.date, task_id = task.id
+                      date = self.date,
+                      task_id = task.id
                   )
                   db.session.add(daily_task)
         db.session.commit()

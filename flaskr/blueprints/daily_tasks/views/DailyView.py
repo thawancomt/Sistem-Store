@@ -2,7 +2,7 @@ from  flask import Blueprint, render_template, request, redirect, g, url_for
 
 
 from ..services.DailyTasksService import DailyTasksService
-from ..services.DailyTasksStatusService import DailyStatusSevice, datetime
+from ..services.DailyTasksStatusService import DailyStatusService, datetime
 
 daily_tasks = Blueprint('daily_tasks', __name__,
                         template_folder='../templates',
@@ -10,9 +10,12 @@ daily_tasks = Blueprint('daily_tasks', __name__,
 
 @daily_tasks.route('/')
 def index():
+
+    return f'{DailyTasksService().get_all_active_tasks()}'
+
     context = {
         'active_daily_tasks' : DailyTasksService().get_all_active_tasks(),
-        'to_do' : DailyStatusSevice(date=g.date).get_all_tasks(),
+        'to_do' : DailyStatusService(date=g.date).get_all_tasks(),
     }
     
     return render_template('daily_tasks.html', context = context)

@@ -126,11 +126,12 @@
 
 </form>
 
-<div class="border border-emerald-400 rounded-lg bg-slate-200 ">
+<div class="border border-emerald-400 rounded-lg bg-slate-200 h-96 md:h-fit ">
   <canvas id="myChart" class="text-red-600"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
   const labels = {{context.date_labels | safe}};

@@ -1,18 +1,14 @@
-// Seleciona os botões pelo ID
+
 const delete_btn = document.getElementById('delete_btn');
 const finish_btn = document.getElementById('finish_btn');
 
-// Função que retorna outra função para exibir o alerta
-function confirmAction(msg) {
+function confirmAction(msg, form) {
     return function() {
         let confirmIt = confirm(msg);
         if (confirmIt) {
-            FormData.submit();
-            // Aqui você pode adicionar a lógica para realizar a ação, como enviar o formulário
+            form.submit();
         }
     };
 }
-
-// Adiciona um evento de clique a cada botão
-delete_btn.addEventListener('click', confirmAction('Confirmathe deletion of task?'));
-finish_btn.addEventListener('click', confirmAction('Confirm the finish of task?'));
+delete_btn.addEventListener('click', confirmAction('Confirmathe deletion of task?', delete_btn.form));
+finish_btn.addEventListener('click', confirmAction('Confirm the finish of task?', finish_btn.form));

@@ -1,22 +1,50 @@
 
+
 var ctx = document.getElementById('myChart');
 var type = document.getElementById('changeChartType');
+
+var options = {
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+          },
+          title:{
+            display: true,
+            text: 'Stock Chart'
+          },
+          datalabels: {
+            display : false
+          }
+
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            
+            
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        onResize : function(chart) {
+          chart.update();
+        },
+        
+
+}
+
+
+
 var StockChart = new Chart(ctx, {
   type: type.value,
   data: {
     labels: labels,
     datasets: data,
   },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-  }
+  options: options
 });
+
 
 function updateChartType(newType) {
   StockChart.destroy(); // Destroi o gráfico atual
@@ -26,20 +54,13 @@ function updateChartType(newType) {
       labels: labels,
       datasets: data,
     },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      },
-      responsive: true,
-      maintainAspectRatio: false,
-    }
+    options: options
   });
 }
 
-document.getElementById('changeChartType').addEventListener('change', function() {
-  const selectedType = this.value;
-  updateChartType(selectedType);
+document.getElementById('changeChartType').addEventListener('change', function(chart) {
+  const newType = this.value;
+  updateChartType(newType);
+  
 });
 

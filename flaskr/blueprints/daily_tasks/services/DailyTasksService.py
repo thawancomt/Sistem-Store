@@ -7,7 +7,7 @@ class DailyTasksService:
         
     def get_all_active_tasks(self):
         return db.session.query(DailyTaskModel).filter(
-            DailyTaskModel.status == False).all()
+            DailyTaskModel.status == True).all()
     
     def create_task(self, data):
         task = DailyTaskModel(**data)
