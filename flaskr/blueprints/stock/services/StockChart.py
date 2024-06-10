@@ -3,14 +3,15 @@ from .StockServices import StockServices, datetime
 from flaskr.blueprints.articles.services.ArticlesService import ArticlesService
 
 class StockChart(StockServices):
-    def __init__(self, store_id=None, article_id=None, quantity=None, date=None):
+    def __init__(self, store_id=None, article_id=None, quantity=None, date=None, days = None):
         super().__init__(store_id, article_id, quantity, date)
-        
+        self.days = days or 7
         self.labels = self.get_stocks_dates()
         
-    def create_date_labels(self, days = 7):
+    def create_date_labels(self):
+        date_labels = [datetime.strftime(date.date, '%Y-%m-%d %H:%M:%S') for date in self.labels][:self.days]
 
-        return [datetime.strftime(date.date, '%Y-%m-%d %H:%M:%S') for date in self.labels][:days]
+        return date_labels
     
     def create_all_stock_list(self):
         stocks = []

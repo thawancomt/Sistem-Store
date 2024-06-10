@@ -126,46 +126,24 @@
 
 </form>
 
-<div>
-  <canvas id="myChart"></canvas>
+<div class="border border-emerald-400 rounded-lg bg-slate-200 ">
+  <canvas id="myChart" class="text-red-600"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: {{context.date_labels | safe}},
-      datasets: {{context.data_for_chart | safe}}},
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
+  const labels = {{context.date_labels | safe}};
+  const data = {{context.data_for_chart | safe}};
 </script>
-<script>
-    let form = document.querySelector('#update');
-    form.addEventListener('submit', function (eventw) {
-        var t = confirm('Are you sure?');
 
-        if (!t) {
-          eventw.preventDefault()
-        }
-    }
-    )
+<label for="changeChartType" class="sub-title-primary">Change the chart type</label>
+<select name="" id="changeChartType" class="form-control-1">
+  <option value="line">Line</option>
+  <option value="bar">Bar</option>
+  <option value="pie">Pie</option>
+</select>
 
-    /* Add a cancel if update_confirm was clicked cancel */
-
-    
-
-    
-
-</script>
+<script src="static/StockChart.js"></script>
 
 {% endblock %}

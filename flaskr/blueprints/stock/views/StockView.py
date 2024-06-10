@@ -10,13 +10,18 @@ from ..services.StockChart import StockChart
 
 stock = Blueprint('stock', __name__,
                   template_folder='../templates',
-                  url_prefix='/stock')
+                  url_prefix='/stock',
+                  static_folder='../static')
 
 @stock.route('/')
 def index():
     stock_page = request.args.get('page', 1, type=int)
+    
+    how_many_days_for_chart = request.args.get('days', 7, type=int)
+    
     date = request.args.get('date') or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
+    chart = StockChart(days=how_many_days_for_chart)
     
     context = {
         'title': 'Stock',
@@ -26,8 +31,8 @@ def index():
         'articles' : ArticlesService.get_all_stockable(),
         'dates' : StockServices().get_stocks_dates(),
         
-        'date_labels' : StockChart().create_date_labels(),
-        'data_for_chart' : StockChart().create_datasets(),
+        'date_labels' : chart.create_date_labels(),
+        'data_for_chart' : chart.create_datasets(),
         
 
     }
