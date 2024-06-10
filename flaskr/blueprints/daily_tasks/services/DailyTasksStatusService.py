@@ -14,8 +14,12 @@ import json
 class DailyStatusService:
     def __init__(self, date = None):
         self.date = datetime.strptime(date, '%Y-%m-%d')
+        self.all_daily_tasks = DailyTasksService().get_all_tasks()
         self.active_tasks = DailyTasksService().get_all_active_tasks()
         self.insert_active_task()
+        self.all_tasks = self.get_all_tasks()
+        self.all_inative_tasks = DailyTasksService().get_all_inactive_tasks()
+        self.verify_if_exist_inative_tasks()
         
     def verify_if_task_exist_on_day(self, task_id):
         return db.session.query(
@@ -26,13 +30,27 @@ class DailyStatusService:
                 DailyStatusModel.task_id == task_id,
             )
         ).first() is not None
+    
+    def verify_if_exist_inative_tasks(self) -> None:
+        for task in self.all_inative_tasks:
+            if task_ := db.session.query(DailyStatusModel).filter(
+                and_(
+                    DailyStatusModel.task_id == task.id,
+                    DailyStatusModel.date > task.end_at 
+                )
+                
+            ).first():
+                print(task_.id)
+                db.session.delete(task_)
+        
+        db.session.commit()
+        
         
     def insert_active_task(self):
-        for task in self.active_tasks:
-              print('testando ')
+        for task in self.all_daily_tasks:
               if self.verify_if_task_exist_on_day(task.id):
                   pass
-              else:
+              elif self.date >= task.start_at and self.date <= task.end_at:
                   daily_task = DailyStatusModel(
                       date = self.date,
                       task_id = task.id
@@ -48,6 +66,7 @@ class DailyStatusService:
         ).all()
         
         return all_tasks
+
     
     def set_as_done(self, task_id, undone = False):
         task = db.session.query(

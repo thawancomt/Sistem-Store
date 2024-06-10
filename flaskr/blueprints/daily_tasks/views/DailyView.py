@@ -11,7 +11,6 @@ daily_tasks = Blueprint('daily_tasks', __name__,
 @daily_tasks.route('/')
 def index():
 
-    return f'{DailyTasksService().get_all_active_tasks()}'
 
     context = {
         'active_daily_tasks' : DailyTasksService().get_all_active_tasks(),
@@ -32,7 +31,15 @@ def create():
 def set_as_done():
     data = request.form.to_dict()
     
-    day_status = DailyStatusSevice(date=g.date)
+    day_status = DailyStatusService(date=g.date)
     day_status.update_day_status(data)
     
     return redirect(url_for('daily_tasks.index', date=g.date))
+
+@daily_tasks.route('/', methods=['POST'])
+def deactive_task():
+    task_id = request.form.get('task_id')
+    date = request.args.get('date', g.date)
+    
+    DailyTasksService(date=date).deactive_task(task_id)
+    return redirect('/daily_tasks')
