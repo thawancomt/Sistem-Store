@@ -16,6 +16,19 @@
   {%endif%}
 </h1>
 
+<div class="overflow-x-scroll m-4">
+
+  <div class="border border-emerald-400 rounded-lg bg-slate-200  md:w-full md:h-[40vh]">
+    <canvas id="myChart" class="text-red-600 overflow-x-scroll"></canvas>
+  </div>
+</div>
+
+<label for="changeChartType" class="sub-title-primary ml-4">Change the chart type</label>
+<select name="" id="changeChartType" class="form-control-1 m-4 w-[50%] md:w-[20%]">
+  <option value="line">Line</option>
+  <option value="bar">Bar</option>
+  <option value="pie">Pie</option>
+</select>
 
 
 
@@ -82,10 +95,8 @@
 
 
 
-<span class="m-4 sub-title-primary">You can change bellow the refereced stock</span>
-
-
-<form action="{{url_for('stock.index')}}" class="m-4 ">
+  <form action="{{url_for('stock.index')}}" class="m-4 border-2 border-emerald-400 p-4">
+  <span class="m-4 sub-title-primary">You can change bellow the refereced stock</span>
   <select name="date" id="" class=" form-control-1">
     {% for date_ in context.dates %}
 
@@ -103,10 +114,13 @@
 
 
   
+<div class="m-4">
+  <h1 class="title-primary">Create a new stock count</h1>
 
+</div>
   
 
-<form action="{{url_for('stock.create')}}" method="post" id="update" class="m-4">
+<form action="{{url_for('stock.create', date=g.date)}}" method="post" id="update" class="m-4">
     
     {% for article in context.articles %}
         <label for="{{article.id}}" class="sub-title-primary">
@@ -126,9 +140,7 @@
 
 </form>
 
-<div class="border border-emerald-400 rounded-lg bg-slate-200 h-96 md:h-fit ">
-  <canvas id="myChart" class="text-red-600"></canvas>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
@@ -138,12 +150,6 @@
   const data = {{context.data_for_chart | safe}};
 </script>
 
-<label for="changeChartType" class="sub-title-primary">Change the chart type</label>
-<select name="" id="changeChartType" class="form-control-1">
-  <option value="line">Line</option>
-  <option value="bar">Bar</option>
-  <option value="pie">Pie</option>
-</select>
 
 <script src="static/StockChart.js"></script>
 

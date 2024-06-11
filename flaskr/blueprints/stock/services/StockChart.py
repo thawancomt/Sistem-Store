@@ -11,7 +11,7 @@ class StockChart(StockServices):
     def create_date_labels(self):
         date_labels = [datetime.strftime(date.date, '%Y-%m-%d %H:%M:%S') for date in self.labels][:self.days]
 
-        return date_labels[::-1]
+        return date_labels
     
     def create_all_stock_list(self):
         stocks = []

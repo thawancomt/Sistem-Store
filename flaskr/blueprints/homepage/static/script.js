@@ -2,7 +2,7 @@
 const delete_btn = document.getElementById('delete_btn');
 const finish_btn = document.getElementById('finish_btn');
 
-function confirmAction(msg, form) {
+function confirmAction(msg, form = NaN) {
     return function() {
         let confirmIt = confirm(msg);
         if (confirmIt) {

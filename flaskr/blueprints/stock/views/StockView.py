@@ -1,4 +1,4 @@
-from flask import  Blueprint, render_template, request, redirect, url_for, flash
+from flask import  Blueprint, render_template, request, redirect, url_for, flash, g
 
 from flask_login import current_user
 
@@ -44,15 +44,9 @@ def index():
 def create():
     data = request.form.to_dict()
     
-    load_date = data.get('date')
-    
-    if load_date:
-        fixed_date = datetime.strptime(load_date, '%Y-%m-%dT%H:%M:%S')
-    
-    
-    
+   
     StockServices().create_stock(data=data)
     
-    return redirect(url_for('stock.index', date=fixed_date))
+    return redirect(url_for('stock.index', date=g.date))
     
     

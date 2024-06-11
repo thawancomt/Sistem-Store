@@ -13,28 +13,21 @@ var options = {
             display: true,
             text: 'Stock Chart'
           },
-          datalabels: {
-            display : false
-          }
-
+        scaleShowLabels : false
         },
         scales: {
           y: {
             beginAtZero: true,
-            
-            
-          }
+          },
+          x: {
+          },
         },
         responsive: true,
         maintainAspectRatio: false,
         onResize : function(chart) {
           chart.update();
         },
-        
-
 }
-
-
 
 var StockChart = new Chart(ctx, {
   type: type.value,
@@ -46,16 +39,11 @@ var StockChart = new Chart(ctx, {
 });
 
 
+
 function updateChartType(newType) {
-  StockChart.destroy(); // Destroi o gráfico atual
-  StockChart = new Chart(ctx, { // Cria um novo gráfico com o novo tipo
-    type: newType,
-    data: {
-      labels: labels,
-      datasets: data,
-    },
-    options: options
-  });
+  
+  StockChart.config.type = newType;
+  StockChart.update();
 }
 
 document.getElementById('changeChartType').addEventListener('change', function(chart) {
