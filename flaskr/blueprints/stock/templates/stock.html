@@ -153,4 +153,54 @@
 
 <script src="static/StockChart.js"></script>
 
+<form action="{{url_for('stock.index')}}" method="get" id="update" class="m-4}}">
+  <table class="w-full bg-emerald-100">
+    <input type="text" name="date" value="{{context.default_last_date}}">
+    <thead>
+      <tr>
+        <td>
+          Article
+        </td>
+        <td>
+          <select name="reference_stock" id="">
+            <option value="{{context.dates[-1].date}}">{{context.dates[-1].date}}</option>
+            {% for date in context.dates %}
+            <option value="{{date.date}}">{{date.date}}</option>
+            {% endfor %}
+          </select>
+        </td>
+        <td>
+          Last Count
+        </td>
+        <td>
+          Difference
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for article in  context.articles %}
+      <tr>
+        <td>
+          {{article.id}}
+        </td>
+        <td>
+          {{context.reference_stock[article.id]}}
+          
+        </td>
+        <td>
+          {{context.default_last_stock[article.id]}}
+        </td>
+        <td>
+          {{
+            context.default_last_stock[article.id] - context.reference_stock[article.id]
+          }}
+        </td>
+      </tr>
+       
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit" class="btn-primary">Submit</button>
+</form>
+
 {% endblock %}

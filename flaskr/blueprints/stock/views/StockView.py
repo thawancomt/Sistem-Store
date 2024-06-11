@@ -16,12 +16,16 @@ stock = Blueprint('stock', __name__,
 @stock.route('/')
 def index():
     stock_page = request.args.get('page', 1, type=int)
+    reference_stock = request.args.get('reference_stock', 0)
+    
     
     how_many_days_for_chart = request.args.get('days', 7, type=int)
     
-    date = request.args.get('date') or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    date =  request.args.get('date') or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     chart = StockChart(days=how_many_days_for_chart)
+    
+    default_last_stock_date = request.args.get('date') or StockServices().get_stocks_dates()[-1].date
     
     context = {
         'title': 'Stock',
@@ -30,10 +34,12 @@ def index():
         'stocks_data_for_info_table' : StockServices(date=date).create_data_for_stock_table(),
         'articles' : ArticlesService.get_all_stockable(),
         'dates' : StockServices().get_stocks_dates(),
+        'reference_stock' : StockServices(date=reference_stock).get_data_for_stock_total(),
+        'default_last_date' : default_last_stock_date,
+        'default_last_stock' : StockServices(date=default_last_stock_date).get_data_for_stock_total(),
         
         'date_labels' : chart.create_date_labels(),
         'data_for_chart' : chart.create_datasets(),
-        
 
     }
     #return f'{context['stocks_data_for_info_table']}'
