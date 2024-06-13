@@ -100,10 +100,13 @@
             <div class="m-4">
                 <h1 class="title-primary">Tasks to do</h1>
                 <p class="information-primary">You can add some task to the store</p>
-
-                <div class="space-y-4 mt-4">
+                
+                <h1 class="sub-title-primary">Active tasks : {{ context.tasks.active_tasks | length}}</h1>
+                <h1 class="sub-title-primary">Done tasks : {{ context.tasks.done_tasks | length}}</h1>
+                <button class="btn-primary md:w-[20%]" id="show_tasks_btn">Show all tasks</button>
+                <div class="space-y-4 mt-4" id="task_panel" hidden>
                     {% if context.tasks %}
-                        {% for task in context.tasks %}
+                        {% for task in context.tasks.all_tasks %}
                             <div class="md:grid md:grid-cols-5 md:w-full md:justify-between md:text-left md:p-2 border p-1 text-center ">
                                     <div class="md:col-span-3 md:spa">
                                         
@@ -117,13 +120,13 @@
                                         
                                     </div>
                                     {% if not task.status %}
-                                        <form action="{{ url_for('tasks.finish') }}" method="POST"  class=" md:col-span-1 md:mr-2">
+                                        <form action="{{ url_for('tasks.finish', date=g.date) }}" method="POST"  class=" md:col-span-1 md:mr-2">
                                             <input type="text" name="task_id" value="{{task.id}}" hidden>
                                             <button type="button" class="btn-primary" id="finish_btn">Finish</button>
                                         </form>
                                     {% endif %}
 
-                                    <form action="{{ url_for('tasks.delete') }}" method="POST"  class="md:col-span-1 {% if task.status %} md:col-span-2 {% endif %}" id="taskForm">
+                                    <form action="{{ url_for('tasks.delete', date=g.date) }}" method="POST"  class="md:col-span-1 {% if task.status %} md:col-span-2 {% endif %}" id="taskForm">
                                         <input type="text" name="task_id" value="{{task.id}}" hidden>
                                         <button type="button" class="btn-primary" id="delete_btn">Delete</button>
                                     </form>
@@ -132,8 +135,6 @@
                     {% else  %}
                         <h1 class="sub-title-primary line-through">Empty to do list</h1>
                     {% endif %}
-                    
-                    <h1 class="title-primary text-xl">Concluded tasks</h1>
                     
                 </div>
                 
@@ -154,4 +155,5 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="static/script.js"></script>   
-{% endblock %}
+    <script src="static/tasks.js"></script>   
+    {% endblock %}

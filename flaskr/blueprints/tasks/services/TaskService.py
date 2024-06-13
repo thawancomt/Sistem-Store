@@ -63,3 +63,13 @@ class TaskService:
                 Task.created_at < (limit + timedelta(days=1)).strftime('%Y-%m-%d')
             )
         ).all()
+        
+    @staticmethod
+    def get_active_tasks_of_day():
+        tasks = TaskService.get_tasks_of_day()
+        return [task for task in tasks if task.status == False]
+
+    @staticmethod
+    def get_done_tasks_of_day():
+        tasks = TaskService.get_tasks_of_day()
+        return [task for task in tasks if task.status == True]

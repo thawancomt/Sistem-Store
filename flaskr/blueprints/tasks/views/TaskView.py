@@ -1,6 +1,8 @@
 from flaskr.blueprints import *
 from flaskr.blueprints.tasks.services.TaskService import TaskService
 
+from flask import g
+
 
 
 tasks = Blueprint('tasks', __name__,
@@ -27,7 +29,7 @@ def delete():
     task_ = TaskService()
     task_.delete(task_id)
     
-    return redirect(url_for('homepage.home'))
+    return redirect(url_for('homepage.home', date=g.date))
 
 
 @tasks.route('/finish', methods=['POST'])
@@ -38,7 +40,7 @@ def finish():
     if task.finish():
         flash('Task finished')
         
-    return redirect(url_for('homepage.home'))
+    return redirect(url_for('homepage.home', date=g.date))
 
 
 
