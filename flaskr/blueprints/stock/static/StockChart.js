@@ -12,8 +12,7 @@ var options = {
           title:{
             display: true,
             text: 'Stock Chart'
-          },
-        scaleShowLabels : false
+          }
         },
         scales: {
           y: {
@@ -23,7 +22,7 @@ var options = {
           },
         },
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         onResize : function(chart) {
           chart.update();
         },
@@ -41,9 +40,17 @@ var StockChart = new Chart(ctx, {
 
 
 function updateChartType(newType) {
+  // Destroy the existing chart instance
+  StockChart.destroy();
   
-  StockChart.config.type = newType;
-  StockChart.update();
+  StockChart = new Chart(ctx, {
+      type: newType,
+      data: {
+          labels: labels,
+          datasets: data,
+      },
+      options: options
+  });
 }
 
 document.getElementById('changeChartType').addEventListener('change', function(chart) {

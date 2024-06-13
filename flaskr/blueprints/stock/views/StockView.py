@@ -25,7 +25,8 @@ def index():
     
     chart = StockChart(days=how_many_days_for_chart)
     
-    default_last_stock_date = request.args.get('date') or StockServices().get_stocks_dates()[-1].date
+    default_last_stock_date = request.args.get('date') or (StockServices().get_stocks_dates()[-1].date if StockServices().get_stocks_dates() else None) or g.date
+   
     
     context = {
         'title': 'Stock',
@@ -49,10 +50,11 @@ def index():
 @stock.route('/create', methods=['POST'])
 def create():
     data = request.form.to_dict()
+    date = request.args.get('date')
     
    
     StockServices().create_stock(data=data)
     
-    return redirect(url_for('stock.index', date=g.date))
+    return redirect(url_for('stock.index', date=date))
     
     

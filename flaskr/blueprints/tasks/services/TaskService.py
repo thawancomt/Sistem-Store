@@ -1,10 +1,14 @@
 from flaskr.blueprints.tasks.models.TaskModel import Task
+
+from flask import g
 from flaskr.extensions import db
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 from flask_login import current_user
+
+from sqlalchemy import and_
 
 class TaskService:
     
@@ -46,4 +50,16 @@ class TaskService:
             Task
         ).filter(
             Task.store_id == current_user.store_id
+        ).all()
+    
+    @staticmethod
+    def get_tasks_of_day():
+        limit = datetime.strptime(g.date, '%Y-%m-%d')
+        return db.session.query(
+            Task
+        ).filter(
+            and_(
+                Task.created_at >= limit,
+                Task.created_at < (limit + timedelta(days=1)).strftime('%Y-%m-%d')
+            )
         ).all()

@@ -22,8 +22,10 @@ import os
 def home():
     
     
-    context = {'tasks': TaskService().get_tasks()}
-    context['store_name'] = StoreService().get_by_id(current_user.store_id).name
+    context = {
+        'tasks' : TaskService.get_tasks_of_day(),
+        'store_name' : StoreService().get_by_id(current_user.store_id).name
+    }
     
     
     return render_template('homepage.html', context=context, os=os)

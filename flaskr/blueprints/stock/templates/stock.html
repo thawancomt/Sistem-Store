@@ -16,10 +16,10 @@
   {%endif%}
 </h1>
 
-<div class="overflow-x-scroll m-4">
+<div class="overflow-x-scroll w-full ">
 
-  <div class="border border-emerald-400 rounded-lg bg-slate-200  md:w-full md:h-[40vh]">
-    <canvas id="myChart" class="text-red-600 overflow-x-scroll"></canvas>
+  <div class="">
+    <canvas id="myChart" class="text-red-600"></canvas>
   </div>
 </div>
 
@@ -120,23 +120,22 @@
 </div>
   
 
-<form action="{{url_for('stock.create', date=g.date)}}" method="post" id="update" class="m-4">
+<form action="{{url_for('stock.create')}}" method="post" id="update" class="m-4">
     
     {% for article in context.articles %}
-        <label for="{{article.id}}" class="sub-title-primary">
+        <label for="{{article.id}}" class="sub-title-primary" id="{{article.id}}Label">
             {{
                 article.name
             }}
         </label>
         <div class="grid grid-cols-3">
-          <input type="number" name="{{article.id}}" id="" value="0"  class="form-control-1 col-span-2">
+          <input type="number" name="{{article.id}}" id="stock_input" value="0"  class="form-control-1 col-span-2">
           <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 col-span-1 text-center" disabled>
         </div>
     {% endfor %}
     <br>
     <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" step="any" required>
     <input type="submit" value="submit" class="btn-primary dark" >
-        
 
 </form>
 
@@ -152,6 +151,7 @@
 
 
 <script src="static/StockChart.js"></script>
+<script src="static/AlertHighStock.js"></script>
 
 <form action="{{url_for('stock.index')}}" method="get" id="update" class="m-4}}">
   <table class="w-full bg-emerald-100">
@@ -163,14 +163,13 @@
         </td>
         <td>
           <select name="reference_stock" id="">
-            <option value="{{context.dates[-1].date}}">{{context.dates[-1].date}}</option>
             {% for date in context.dates %}
             <option value="{{date.date}}">{{date.date}}</option>
             {% endfor %}
           </select>
         </td>
         <td>
-          Last Count
+          Last Count - {{context.default_last_date}}
         </td>
         <td>
           Difference
