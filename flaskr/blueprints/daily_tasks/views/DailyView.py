@@ -40,6 +40,5 @@ def set_as_done():
 def deactive_task():
     task_id = request.form.get('task_id')
     date = request.args.get('date', g.date)
-    
     DailyTasksService(date=date).deactive_task(task_id)
     return redirect('/daily_tasks')

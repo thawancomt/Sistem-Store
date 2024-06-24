@@ -36,11 +36,10 @@ class DailyStatusService:
             if task_ := db.session.query(DailyStatusModel).filter(
                 and_(
                     DailyStatusModel.task_id == task.id,
-                    DailyStatusModel.date > task.end_at 
+                    DailyStatusModel.date == task.end_at
                 )
                 
             ).first():
-                print(task_.id)
                 db.session.delete(task_)
         
         db.session.commit()
@@ -77,8 +76,8 @@ class DailyStatusService:
                 DailyStatusModel.task_id == task_id
             )
         ).first()
-        
-        task.status = False if undone else True
+
+        task.status = not undone
         db.session.commit()
         
     def update_day_status(self, data):
