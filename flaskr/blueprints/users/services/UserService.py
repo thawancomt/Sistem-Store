@@ -84,8 +84,9 @@ class UserService:
             user.email = data.get('email')
             user.store_id = data.get('store')
             user.level = data.get('level')
-            
-        db.session.commit()
+            user.password = generate_password_hash(data.get('passwod')) if data.get('password') else user.password
+        
+            db.session.commit()
         return user
     
     def get_all(self):
