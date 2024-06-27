@@ -2,15 +2,19 @@
 
 {% block content %}
 
-<div class="m-4 border min-h-full max-h-fit">
-
+<div class="md:m-12 m-4 border min-h-full max-h-fit">
     <section>
         <div class="m-4">
             <form action="{{ url_for('users.edit_user.update', username=context.user.username) }}" method="POST">
                 <input type="text" name="username" value="{{context.user.username}}" hidden>
-                <input type="text" name="new_username" value="{{context.user.username}}">
-                <input type="text" name="email"  value="{{context.user.email}}">
-                <select name="store" id="" class="select-primary ">
+
+                <label for="new_username" class="sub-title-primary">New username</label>
+                <input type="text" name="new_username" value="{{context.user.username}}" class="form-control-1">
+                <label for="email" class="sub-title-primary">Email</label>
+                <input type="text" name="email"  value="{{context.user.email}}" class="form-control-1">
+
+                <label for="store" class="sub-title-primary">Store</label>
+                <select name="store" id="" class="select-primary" >
                     {% for store in context.stores %}
                         {% if store.id == context.user.store %}
                             <option value="{{store.id}}" selected> {{store.name}}</option>
@@ -18,32 +22,27 @@
                         <option value="{{store.id}}"> {{store.name}} </option>
                     {% endfor %}
                 </select>
-                <select name="level" id="">
+
+                <label for="level" class="sub-title-primary">Level</label>
+                <select name="level" id="" class="form-control-1">
                     <option value="0">Admin</option>
                     <option value="1">Manager</option>
                     <option value="2">Employee</option>
                 </select>
-                <button type="submit">Edit</button>
+                <button type="submit" class="btn-primary">Edit</button>
             </form>
+            {% if context.user.active %}
+                <form action="{{url_for('users.edit_user.delete', username=context['username'])}}" method="POST">
+                    <button type="submit" class="btn-primary">Deactive this User</button>
+                </form>
+            {% else %}
+                <form action="{{url_for('users.edit_user.reactive', user_id=context.user.id)}}" method="POST">
+                    <input type="number" name="user_id" value="{{ context.user.id}}">
+                    <button type="submit" class="btn-primary ">Active</button>
+                </form>
+            {% endif %}
         </div>
     </section>
-    
-    
-    <div class="border m-4 h-56">
-        {% if context.user.active %}
-            <form action="{{url_for('users.edit_user.delete', username=context['username'])}}" method="POST">
-                <input type="hidden" name="old_username" value="{{context.username}}">
-                <input type="number" name="user_id" value="{{ context.user.id}}">
-                <button type="submit" class="btn-primary w-3/12">Delete</button>
-            </form>
-        {% else %}
-
-            <form action="{{url_for('users.edit_user.reactive', user_id=context.user.id)}}" method="POST">
-                <input type="number" name="user_id" value="{{ context.user.id}}">
-                <button type="submit" class="btn-primary w-3/12">Active</button>
-            </form>
-        {% endif %}
-    </div>
 
     
 

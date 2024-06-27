@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -962,10 +962,6 @@ video {
   height: 83.333333%;
 }
 
-.h-56 {
-  height: 14rem;
-}
-
 .h-80 {
   height: 20rem;
 }
@@ -1014,10 +1010,6 @@ video {
 
 .w-24 {
   width: 6rem;
-}
-
-.w-3\/12 {
-  width: 25%;
 }
 
 .w-3\/6 {
@@ -1678,6 +1670,14 @@ video {
 
   .md\:col-span-6 {
     grid-column: span 6 / span 6;
+  }
+
+  .md\:m-4 {
+    margin: 1rem;
+  }
+
+  .md\:m-12 {
+    margin: 3rem;
   }
 
   .md\:mr-2 {
