@@ -7,7 +7,8 @@ from datetime import datetime
 
 
 create_user = Blueprint('create_user', __name__, url_prefix='/create',
-                        template_folder='../templates')
+                        template_folder='../templates',
+                        static_folder='../static')
 
 import json
 

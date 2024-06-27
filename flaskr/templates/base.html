@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="/static/output.css">
     
 </head>
-<h1></h1>
 <body class="w-full h-full">
+    {% if current_user.is_authenticated %}
     <nav class="dark:bg-slate-800 w-full h-fit flex flex-wrap mb-4">
 
         <div class="flex justify-center items-center w-4/12">
@@ -42,6 +42,9 @@
         </div>
         
     </nav>
+     
+    {% endif %}
+    
     
     <div class="h-fit min-h-[100vh]">
         {% block content %}

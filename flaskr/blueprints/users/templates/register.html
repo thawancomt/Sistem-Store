@@ -1,82 +1,82 @@
-<!DOCTYPE html>
-<html lang="en" class="w-full h-full bg-slate-900 dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
 
-    <link rel="stylesheet" href="/static/output.css">
-    <title>Register</title>
-</head>
-<body class="w-full h-full flex justify-center items-center">
-    <!-- Regiter container -->
-    <div class="border border-emerald-500 w-4/6 h-5/6 p-4">
-        <div>
-            <h1 class="title-primary my-4"> Make your register</h1>
-            <h4 class="dark:text-indigo-100  text-gray-800 mt-4
-                            font-semibold text-lg">Insert your data to register</h4>
-        </div>
-
-        <div class="">
-            <form action="{{ url_for('users.create_user.create')}}" method="POST" class="flex flex-col justify-evenly h-5/6 w-full ">
-            
-                <div>
-                    <label for="username"  class="text-lg text-white font-semibold" > Username </label>
-                    <input type="text" name="username" class="form-control-1" required placeholder="Your Username">
-                </div>
-            
-                <div>
-                    <label for="email"   class="text-lg text-white font-semibold"> Email </label>
-                    <input type="email" name="email" class="form-control-1" required placeholder="Your Email">
-                </div>
-           
-                <div>
-                    <label for="password" class="text-lg text-white font-semibold text-center"> New Password </label>
-                    <div class="w-full flex">
-                        <input type="password" name="password" id="password" class="form-control-1 w-3/6 mx-2" required placeholder="Password">
-                        <input type="password" name="password" id="password" class="form-control-1 w-3/6 mx-2" required placeholder="Confirm password">
-                    </div>
-                    
-                </div>
-                <div>
-                    <h4 class="sub-title-primary">Store</h4>
-                    <select name="store" id="" class="select-primary ">
-                        {% for store in context.stores %}
-                            <option value="{{store.id}}"> {{store.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            <!-- <input type="checkbox" name="admin" id=""> -->
-            
-            <button type="submit" class="btn-primary">Enter</button>
-
-            {# Section to show result of creation of user #}
-            <div class="h-5">
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-
-                        {% if message %}
-                            <div>
-                                <p class="text-emerald-400"> User Created </p>
-                            </div>
-                        {% else %}
-                            <div>
-                                <p class="text-red-500"> User not created </p>
-                            </div>
-                        {% endif %}
-                        
-                        {% endfor %}
-            {% endif  %}
-    {% endwith %}
-            </div>
-
-            </form>
-            <div class="w-full flex justify-center">
-                <a href="{{url_for('homepage.home')}}" class="btn-primary w-3/6 flex items-center justify-center"> Homepage </a>
-            </div>
-            
-            
-        </div>
+{% block content %}
+ 
+<div class="border border-emerald-500 md:m-12 md:p-4 m-4 p-4">
+    <div>
+        <h1 class="title-primary my-4"> Make your register</h1>
+        <h4 class="dark:text-indigo-100  text-gray-800 mt-4
+                        font-semibold text-lg">Insert your data to register</h4>
     </div>
-</body>
-</html>
+
+    <div class="">
+        <form action="{{ url_for('users.create_user.create')}}" method="POST" class="flex flex-col justify-evenly h-5/6 w-full" id="register_form">
+        
+            <div>
+                <label for="username"  class="text-lg  font-semibold" > Username </label>
+                <input type="text" name="username" class="form-control-1" required placeholder="Your Username">
+            </div>
+        
+            <div>
+                <label for="email"   class="text-lg  font-semibold"> Email </label>
+                <input type="email" name="email" class="form-control-1" required placeholder="Your Email">
+            </div>
+       
+            <div>
+                
+                <div class="w-full md:grid md:grid-cols-5 md:space-x-2 space-y-2 md:space-y-0">
+                    <div>
+                        <label for="password" class="text-lg  font-semibold text-center"> New Password </label>
+                        <input type="password" name="password" id="password" class="form-control-1  col-span-2" required placeholder="Password" title="Teste">
+                    </div>
+                    <div>
+                        <label for="password" class="text-lg  font-semibold text-center"> Confirm password </label>
+                        <input type="password" name="password" id="confirm_password" class="form-control-1  col-span-2 col-start-4" required placeholder="Confirm password">
+                    </div>
+                </div>
+                
+            </div>
+            <div>
+                <h4 class="sub-title-primary">Store</h4>
+                <select name="store" id="" class="select-primary ">
+                    {% for store in context.stores %}
+                        <option value="{{store.id}}"> {{store.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        <!-- <input type="checkbox" name="admin" id=""> -->
+        
+        <button type="button" class="btn-primary" id="create_user_btn">Enter</button>
+
+        {# Section to show result of creation of user #}
+        <div class="h-5">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+
+                    {% if message %}
+                        <div>
+                            <p class="text-emerald-400"> User Created </p>
+                        </div>
+                    {% else %}
+                        <div>
+                            <p class="text-red-500"> User not created </p>
+                        </div>
+                    {% endif %}
+                    
+                    {% endfor %}
+            {% endif  %}
+            {% endwith %}
+        </div>
+
+        </form>
+        <div class="w-full flex justify-center">
+            <a href="{{url_for('auth.login')}}" class="btn-primary w-3/6 flex items-center justify-center"> I already have an account </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+<script src="static/create_user.js"></script>
+{% endblock content %}
