@@ -84,7 +84,7 @@ class UserService:
             user.email = data.get('email')
             user.store_id = data.get('store')
             user.level = data.get('level')
-            user.password = generate_password_hash(data.get('passwod')) if data.get('password') else user.password
+            user.password = generate_password_hash(data.get('password')) if data.get('password') else user.password
         
             db.session.commit()
         return user
