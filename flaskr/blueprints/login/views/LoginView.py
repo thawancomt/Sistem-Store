@@ -3,6 +3,8 @@ from flaskr.blueprints import *
 
 from ..services.LoginService import LoginService
 
+from flask_login import current_user
+
 authentication = Blueprint('auth', __name__,
                      url_prefix='/auth',
                      template_folder='../templates',
@@ -11,6 +13,8 @@ authentication = Blueprint('auth', __name__,
 
 @authentication.route('/', methods=['GET'])
 def login_page():
+    if current_user.is_authenticated:
+        return redirect(url_for('homepage.home'))
     return render_template('login.html')
 
 @authentication.route('/', methods=['POST'])

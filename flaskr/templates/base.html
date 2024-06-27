@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/static/output.css">
     
 </head>
-<body class="w-full h-full">
+<body class="h-full">
     {% if current_user.is_authenticated %}
     <nav class="dark:bg-slate-800 w-full h-fit flex flex-wrap mb-4">
 
@@ -46,33 +46,12 @@
     {% endif %}
     
     
-    <div class="h-fit min-h-[100vh]">
-        {% block content %}
+    {% block content %}
+     
+    {% endblock content %}
 
-        {% endblock %}
     </div>
      
-    
-    <footer class="dark:bg-gray-800 w-full h-fit pb-4  bg-slate-500 bottom-0 space-y-3">
-        <div class="flex justify-center
-        md:flex md:justify-center md:w-full md:items-center">
-            <h1 class="text-emerald-500 font-semibold text-lg ">Created By Thawan Henrique</h1>
-        </div>
-        <div class="grid grid-cols-6 *:font-bold *:text-center
-        md:flex md:justify-around md:items-center">
-            <a href="" class="col-span-3">Instagram</a>
-            <a href="" class="col-span-3">Youtube</a>
-            <a href="" class="col-start-2 col-span-2">Linkedin</a>
-            <a href="" class="col-start-4 col-span-2">Github</a>
-
-        </div>
-
-        
-        
-        
-    </footer>
-
-
     
 </body>
 

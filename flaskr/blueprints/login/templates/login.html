@@ -1,65 +1,86 @@
-<!DOCTYPE html>
-<html lang="en" class="bg-slate-900 h-screen w-screen>">
-<head>
-    <link rel="stylesheet" href="/static/output.css">
-</head>
-<body class="h-full">
-    <div class="
-                w-full h-full
-                flex items-center
-                justify-center">
-        
-        <!-- Login Container -->
-        <div class="flex transition-all ease-in-out duration-1000
-                    w-auto h-auto
-                    border dark:border-white border-gray-800 rounded-lg">
-            <div class="w-3/6 dark:bg-transparent bg-green-200 m-4 rounded-lg">
-                <div class="m-4">
-                    <h1 class="text-emerald-500
-                            font-bold text-2xl">Sistem Analise</h1>
-                    <h4 class="dark:text-indigo-100  text-gray-800 mt-4
-                            font-semibold text-lg">Insert your data to login</h4>
-                </div>
-                <div class="mx-4 my-10">
-                    <form action="{{ url_for('auth.login')}}" method="POST" enctype="multipart/form-data">
-                        <input type="email" name="email" id="" class="form-control-1 w-full mt-4" required>
-                        <input type="password" name="password" id="" class="form-control-1 w-full mt-4 " required>
-                        <button type="submit" class="border border-emerald-500
-                        text-sm font-semibold dark:text-indigo-100
-                        w-full h-9 mt-4 dark:bg-green-500
-                        hover:bg-emerald-500 hover:text-gray-800">Enter</button>
-                    </form>
-                </div>
-                <div>
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                <h1 class="m-4 sub-title-primary text-red-400" > {{ message }}</h1>
-                            {% endfor %}
-                        {% endif  %}
-                    {% endwith %}
-                </div>
-                <div class="m-4">
-                    <h4 class="dark:text-indigo-100 text-gray-800
-                    font-semibold text-sm">Don't have an accouunt?</h4>
-                    <a href="{{ url_for('users.create_user.create_user_page') }}" class="
-                    font-semibold text-sm text-emerald-600 hover:underline">Create Now</a>
-                </div>
-                
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="h-full w-full ">
+    <div class="flex w-full h-full justify-center  items-center ">
+        <form action="{{url_for('auth.login')}}" method="post" class=" h-4/6 w-5/6  shadow-lg md:w-2/6 md:p-4">
+            <h1 class="title-primary">Control your business</h1>
+            <p class="sub-title-primary text-wrap w-[80%]">Insert your credentials to login</p>
+            <br><br>
+            <div class="p-2">
+                <label for="email" class="sub-title-primary">Email</label>
+                <input type="email" name="email" id="" class="form-control-1">
+                <label for="password" class="sub-title-primary">Password</label>
+                <input type="password" name="password" id="" class="form-control-1">
+                <button class="btn-primary-rounded">Enter</button>
             </div>
-            
+            <div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <h1 class="m-4 sub-title-primary text-red-400" > {{ message }}</h1>
+                        {% endfor %}
+                    {% endif  %}
+                {% endwith %}
+            </div>
+        <br><br>
+        <h1 class="title-primary p-2">Don't have an account? <br>
+            <a href="{{url_for('users.create_user.create_user_page')}}" class="sub-title-primary hover:underline "> Register here</a>
+        </h1>
+        </form>
+        
+    </div>
+    
+</div>
 
-            <div class="bg-emerald-500
-                        w-3/6 h-auto m-4 rounded-lg
-                        flex flex-col justify-center items-center
-                        group group-hover:bg-emerald-900">
-                <h1 class="group text-xl font-bold ">Manage your Store</h1>
-                <h1 class="group text-2xl font-semibold text-gray-300">Get the control</h1>
 
+{% endblock content %}
+<div class="w-full flex items-center justify-center">
+    <div class="flex">
+        <div class="w-3/6 dark:bg-transparent bg-green-200 m-4 rounded-lg">
+            <div class="m-4">
+                <h1 class="text-emerald-500
+                        font-bold text-2xl">Sistem Analise</h1>
+                <h4 class="dark:text-indigo-100  text-gray-800 mt-4
+                        font-semibold text-lg">Insert your data to login</h4>
+            </div>
+            <div class="mx-4 my-10">
+                <form action="{{ url_for('auth.login')}}" method="POST" enctype="multipart/form-data">
+                    <input type="email" name="email" id="" class="form-control-1 w-full mt-4" required>
+                    <input type="password" name="password" id="" class="form-control-1 w-full mt-4 " required>
+                    <button type="submit" class="border border-emerald-500
+                    text-sm font-semibold dark:text-indigo-100
+                    w-full h-9 mt-4 dark:bg-green-500
+                    hover:bg-emerald-500 hover:text-gray-800">Enter</button>
+                </form>
+            </div>
+            <div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <h1 class="m-4 sub-title-primary text-red-400" > {{ message }}</h1>
+                        {% endfor %}
+                    {% endif  %}
+                {% endwith %}
+            </div>
+            <div class="m-4">
+                <h4 class="dark:text-indigo-100 text-gray-800
+                font-semibold text-sm">Don't have an accouunt?</h4>
+                <a href="{{ url_for('users.create_user.create_user_page') }}" class="
+                font-semibold text-sm text-emerald-600 hover:underline">Create Now</a>
             </div>
             
         </div>
         
+    
+        <div class="bg-emerald-500
+                    w-3/6 h-auto m-4 rounded-lg
+                    flex flex-col justify-center items-center">
+            <h1 class=" text-xl font-bold ">Manage your Store</h1>
+            <h1 class=" text-2xl font-semibold text-gray-300">Get the control</h1>
+    
+        </div>
+        
     </div>
-</body>
-</html>
+</div>
