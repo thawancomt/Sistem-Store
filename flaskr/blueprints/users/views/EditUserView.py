@@ -31,8 +31,6 @@ def update():  # sourcery skip: avoid-builtin-shadow
     
     username = data.get('username')
     
-    
-    
     UserService().update(username=username, data=data)
     
     return redirect(url_for('homepage.home'))

@@ -10,7 +10,8 @@ from .EditUserView import edit_user
 from .CreateUserView import create_user
 
 users = Blueprint('users', __name__, url_prefix='/users',
-                       template_folder='../templates')
+                       template_folder='../templates',
+                       static_folder='../static')
 
 # Child blueprint for edit user
 users.register_blueprint(edit_user)

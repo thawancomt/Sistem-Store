@@ -5,7 +5,7 @@
 <div class="md:m-12 m-4 border min-h-full max-h-fit">
     <section>
         <div class="m-4">
-            <form action="{{ url_for('users.edit_user.update', username=context.user.username) }}" method="POST">
+            <form action="{{ url_for('users.edit_user.update', username=context.user.username) }}" method="POST" id="edit_form">
                 <input type="text" name="username" value="{{context.user.username}}" hidden>
 
                 <label for="new_username" class="sub-title-primary">New username</label>
@@ -15,7 +15,7 @@
                 <input type="text" name="email"  value="{{context.user.email}}" class="form-control-1">
                 
                 <label for="password" class="sub-title-primary">New Password</label>
-                <input type="password" name="password" class="form-control-1">
+                <input type="password" name="password" id="password" class="form-control-1" minlength="8">
 
                 <label for="store" class="sub-title-primary">Store</label>
                 <select name="store" id="" class="select-primary" >
@@ -33,16 +33,16 @@
                     <option value="1">Manager</option>
                     <option value="2">Employee</option>
                 </select>
-                <button type="submit" class="btn-primary">Edit</button>
+                <button type="button" class="btn-primary" id="edit_btn">Edit</button>
             </form>
             {% if context.user.active %}
-                <form action="{{url_for('users.edit_user.delete', username=context['username'])}}" method="POST">
-                    <button type="submit" class="btn-primary">Deactive this User</button>
+                <form action="{{url_for('users.edit_user.delete', username=context['username'])}}" method="POST" id="active_deactive_form">
+                    <button type="button" class="btn-primary" id="active_deactive_btn">Deactive this User</button>
                 </form>
             {% else %}
-                <form action="{{url_for('users.edit_user.reactive', user_id=context.user.id)}}" method="POST">
+                <form action="{{url_for('users.edit_user.reactive', user_id=context.user.id)}}" method="POST" id="active_deactive_form">
                     <input type="number" name="user_id" value="{{ context.user.id}}">
-                    <button type="submit" class="btn-primary ">Active</button>
+                    <button type="button" class="btn-primary " id="active_deactive_btn">Active</button>
                 </form>
             {% endif %}
         </div>
@@ -52,4 +52,5 @@
 
 </div>
 
+<script src="static/edit_user.js"></script>
 {% endblock %}
