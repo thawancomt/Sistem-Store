@@ -1,8 +1,7 @@
+const delete_btns = document.querySelectorAll('#delete_btn');
+const finish_btns = document.querySelectorAll('#finish_btn');
 
-const delete_btn = document.getElementById('delete_btn');
-const finish_btn = document.getElementById('finish_btn');
-
-function confirmAction(msg, form = NaN) {
+function confirmAction(msg, form) {
     return function() {
         let confirmIt = confirm(msg);
         if (confirmIt) {
@@ -10,5 +9,11 @@ function confirmAction(msg, form = NaN) {
         }
     };
 }
-delete_btn.addEventListener('click', confirmAction('Confirmathe deletion of task?', delete_btn.form));
-finish_btn.addEventListener('click', confirmAction('Confirm the finish of task?', finish_btn.form));
+
+Array.prototype.forEach.call(delete_btns, function(btn) {
+    btn.addEventListener('click', confirmAction('Confirm the deletion of task?', btn.form));
+});
+
+Array.prototype.forEach.call(finish_btns, function(btn) {
+    btn.addEventListener('click', confirmAction('Confirm the finish of task?', btn.form));
+});
