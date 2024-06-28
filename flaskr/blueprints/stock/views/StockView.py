@@ -19,7 +19,7 @@ def index():
     reference_stock = request.args.get('reference_stock', 0)
     
     
-    how_many_days_for_chart = request.args.get('days', 4, type=int)
+    how_many_days_for_chart = request.args.get('days', 30, type=int)
     
     date =  request.args.get('date') or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     

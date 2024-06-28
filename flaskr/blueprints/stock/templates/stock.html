@@ -31,17 +31,17 @@
   <button class="btn-primary" id="hideLabels"
   title="in mobile devices is better to hide labels" hidden>Show Labels</button>
   
-  <div class="m-4 md:flex items-center">
+  <div class="m-4 md:flex md:items-center">
     <label for="changeChartType" class="sub-title-primary ml-4">Change Type</label>
     <select name="" id="changeChartType" class="form-control-1 m-4 w-[50%] md:w-[20%]">
-      <option value="100">Select</option>
+      <option value="" disabled selected>Select</option>
       <option value="line">Line</option>
       <option value="bar">Bar</option>
     </select>
   
     <label for="changeChartType" class="sub-title-primary ml-4" id="chartDaysLabel" hidden>Days to view</label>
     <select name="" id="changeHowManyDaysOnChart" class="form-control-1 m-4 w-[50%] md:w-[20%] invisible">
-      <option value="100">Select</option>
+      <option value="0" disabled selected>Select</option>
       <option value="3">3</option>
       <option value="5">5</option>
       <option value="7">7</option>
@@ -52,41 +52,45 @@
 
 
 
-<div class="m-4">
+<div class="m-4 rounded-full">
   <h1 class="title-primary">
     All stock counts
   </h1>
-  <table class="table-auto border-collapse  border-4 border-emerald-400 dark:bg-slate-600 w-full ">
-    <thead >
-      <tr class="*:border *:font-bold *:text-center bg-slate-500 *:text-white">
-        <td >Stock Date (Link)</td>
-        <td>Articles counted</td>
-      </tr>
-    </thead>
-    <tbody class="*:border ">
-      {% if  context.stocks_data_for_info_table.total == 0%}
-      <tr class="*:text-center font-bold">
-        <td>
-          Empty
-        </td>
-        <td>
-          Empty
-        </td>
-      </tr>
-       
-      {% endif %}
-      {% for row in context.stocks_data_for_info_table %}
-          <tr class="dark:*:odd:bg-slate-900  *:text-center *:text-lg  *:border *:odd:bg-emerald-200 *:even:bg-emerald-500 *:p-2">
-            <td class="*:text-blue-900 font-black">
-              <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
-            </td>
-            <td class="dark:text-white">
-              {{row.count}}
-            </td>
-          </tr>      
-      {% endfor %}
-    </tbody>
-  </table>
+  <span class="sub-title-primary">A table with all the stock conunt based on actual stock reference</span>
+  <div class="rounded-xl overflow-hidden shadow-black shadow-md">
+    <table class="  w-full ">
+      <thead>
+        <tr class="*:p-4 *:text-center bg-green-950 *:text-white font-medium">
+          <td >Stock Date (Link)</td>
+          <td>Articles counted</td>
+        </tr>
+      </thead>
+      <tbody class="dark:bg-white ">
+        {% if  context.stocks_data_for_info_table.total == 0%}
+        <tr class="*:text-center ">
+          <td>
+            Empty
+          </td>
+          <td>
+            Empty
+          </td>
+        </tr>
+         
+        {% endif %}
+        {% for row in context.stocks_data_for_info_table %}
+            <tr class=" *:text-center text-gray-600  *:p-2 odd:bg-slate-100">
+              <td class="">
+                <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
+              </td>
+              <td class="">
+                {{row.count}}
+              </td>
+            </tr>      
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
   <div class="border-2 border-emerald-400 mt-4 flex justify-evenly">
     {% set indexes = context.stocks_data_for_info_table %}
     <div class="p-4 flex space-x-2 md:space-x-6 items-center">
