@@ -51,6 +51,31 @@ Basically this project work with modularization, each route have it own blueprin
 `Flask` was choosed cause it is light and simple to use and understand, it allow us to expand easily and control what we want and what we not.
 Flask also has a lot of plugins that is easy to apply and integrate in the project, an example is the `flask-SqlALchemy` plugin, this flask plugin allow us to interact easily with `SQLALCHEMY` ORM, by the way:
 `MySQL` was choosed because its strong, it put some complexity to the project but allow us infinite possibilities.
+```python
+# Where db is an sqlalchemy model object
+
+def get_production_history(self):
+
+        # the date is get through the url if it are gaven if not by the datetime
+        today = self.date
+
+        tomorrow = (datetime.strptime(today, '%Y-%m-%d') + timedelta(days=1))
+        
+        # An example of a simple query to get the historic of production 
+        return (
+            db.session.query(Production) # SELECT
+            .filter( # WHERE
+                and_( # Condition 
+                    Production.store_id == self.store_id,
+                    Production.date >= today,
+                    Production.date <= tomorrow,
+                )
+            )
+            .all() # Return all results
+        )
+
+        # If not have any production it will return an empty list.
+```
 
 I also have implemented `sqllite3` but `sqllite3` has some limitations when we want to do relationships between the databases and some queries.
 
