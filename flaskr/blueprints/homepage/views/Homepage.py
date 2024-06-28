@@ -27,10 +27,10 @@ def home():
             'all_tasks' : TaskService.get_tasks_of_day(),
             'active_tasks' : TaskService.get_active_tasks_of_day(),
             'done_tasks' : TaskService.get_done_tasks_of_day(),
+        },
         'date' : datetime.now().strftime('%d/%m/%Y'),
-        'store_name' : StoreService().get_by_id(current_user.store_id).name
-        }
+        'store_name' : StoreService().get_name_by_id(current_user.store_id)
     }
-    
+
     
     return render_template('homepage.html', context=context, os=os)

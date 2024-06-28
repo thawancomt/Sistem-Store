@@ -15,15 +15,12 @@
 {% block store_title %}
     <div>
         <h1 class="title-primary text-center">
-            Gestão {{context.store_name | title }}
+            {{context.store_name | title}} Store
         </h1>
         
     </div>
 {% endblock %}
 
-{% block user_title %}
-    
-{% endblock %}
 
 {% block content  %}
     
@@ -51,15 +48,15 @@
                     Manager Section
                 </h1>
                 <p class="sub-title-primary">Here are the functions that just the managers can see</p>
-                <div class="grid grid-cols-4 *:col-span-1">
+                <div class="md:grid md:grid-cols-4 md:*:col-span-1 md:space-x-2">
                     <form action="{{url_for('stock.index')}}">
-                        <button type="submit" class="btn-primary">Stock</button>
+                        <button type="submit" class="btn-primary">View stock levels</button>
                     </form>
                     <form action="{{url_for('production.home')}}">
-                        <button type="submit" class="btn-primary">Daily Production</button>
+                        <button type="submit" class="btn-primary">View daily production</button>
                     </form>
                     <form action="{{url_for('daily_tasks.index')}}">
-                        <button type="submit" class="btn-primary">Daily tasks</button>
+                        <button type="submit" class="btn-primary">View daily tasks</button>
                     </form>
                 </div>
             </div>
@@ -72,19 +69,19 @@
             <div class="container-primary">
                 <div class="m-4">
                     <h1 class="title-primary "> Adiministrator Section*</h1>
-                    <p class="information-primary">This section is desnatited to the store managers, here you can acess users, stock and more</p>
+                    <p class="information-primary">This section is intended to the Admin</p>
                 </div>
                 <div class="m-4">
                     
                     <form action="{{url_for('users.home')}}">
-                        <button type="submit" class="btn-primary">Acess users</button>
+                        <button type="submit" class="btn-primary">Manager users</button>
                     </form>
 
                     <form action="{{url_for('articles.view')}}">
-                        <button type="submit" class="btn-primary">Articles</button>
+                        <button type="submit" class="btn-primary">Create or View Articles</button>
                     </form>
                     <form action="{{url_for('store.home')}}">
-                        <button type="submit" class="btn-primary">Stores</button>
+                        <button type="submit" class="btn-primary">Manager stores</button>
                     </form>
 
                     
@@ -101,8 +98,10 @@
                 <h1 class="title-primary">Tasks to do</h1>
                 <p class="information-primary">You can add some task to the store</p>
                 
-                <h1 class="sub-title-primary">Active tasks : {{ context.tasks.active_tasks | length}}</h1>
-                <h1 class="sub-title-primary">Done tasks : {{ context.tasks.done_tasks | length}}</h1>
+                <h1 class="sub-title-primary ">Tasks to complete : {{ context.tasks.active_tasks | length}}</h1>
+                <h1 class="sub-title-primary">Finished tasks : {{ context.tasks.done_tasks | length}}</h1>
+
+
                 <button class="btn-primary md:w-[20%]" id="show_tasks_btn">Show all tasks</button>
                 <div class="space-y-4 mt-4" id="task_panel" hidden>
                     {% if context.tasks %}
@@ -157,3 +156,4 @@
     <script src="static/script.js"></script>   
     <script src="static/tasks.js"></script>   
     {% endblock %}
+
