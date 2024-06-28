@@ -153,16 +153,25 @@ You can set up tasks for gonna be show as daily tasks to be done, imagine has a 
 ## Installation
 
 ```bash
+# Linux
+git clone https://github.com/thawancomt/Sistem-Store.git
+cd Sistem-Store
+python -m venv YOUR_VENV_NAME
+source YOUR_VENV_NAME/bin/activate
+flask -A run.py run
+# Windows
+git clone https://github.com/thawancomt/Sistem-Store.git
+cd Sistem-Store
+python -m venv YOUR_VENV_NAME
+YOUR_VENV_NAME/Scripts/Activate.ps1
 pip install -r requirements.txt
-python -u System/app.py
+flask -A run.py run
+echo 'Done'
+
 ```
 
 - [@thawancomt](https://www.github.com/thawancomt)
 
 ## Skills
 
-Python, Flask, MySQL, SQLAlchemy, HTML, CSS, Flask-Login, Flask-SQLAlchemy
-
----
-
-This README provides a comprehensive overview of your ERP system, detailing its features, structure, and design choices while including code examples and installation instructions.
+Python, Flask, MySQL, SQLAlchemy, HTML, CSS, Flask-Login, Flask-SQLAlchemy, TailwindCSS
