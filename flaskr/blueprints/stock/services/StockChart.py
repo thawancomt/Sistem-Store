@@ -26,5 +26,5 @@ class StockChart(StockServices):
         return [{
             'label': article.name,
             'data': [i.get(article.id, 0) for i in self.create_all_stock_list()],
-            'tension': 0.4,
+            'tension': 0.2,
         } for article in self.articles]

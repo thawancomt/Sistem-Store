@@ -9,26 +9,46 @@
         {{context.title}}
     </title>
 {% endblock title %}
-
-<h1 class="m-4 title-primary first-letter:text-4xl first-letter:text-emerald-300"> Stock reference: {{date}}
-  {% if context.stocks_data_for_info_table.date | string == date | string %}
-  (Latest)
-  {%endif%}
-</h1>
-
-<div class="overflow-x-scroll w-full ">
-
-  <div class="">
-    <canvas id="myChart" class="text-red-600"></canvas>
+<div class="m-4 border p-4">
+  <div class="flex items-center justify-between">
+    <h1 class=" title-primary text-3xl"> Stock Control </h1>
+    <h1 class="md:title-primary sub-title-primary text-sm m-0 hover:cursor-pointer" id="show_hide_stock_info">Show Info</h1>
   </div>
-</div>
+  <span class="sub-title-primary" id='stock_info' hidden>
+    This stock page provides a comprehensive and detailed view for managing your products. Here, you can visualize charts that show the variation of products over time, allowing for precise analysis of stock trends. Additionally, you can easily launch new stock counts, ensuring that your data is always up-to-date. For in-depth comparisons, there is a dedicated section where you can compare two different stocks and see the differences between them, aiding in informed decision-making.
+</span>
 
-<label for="changeChartType" class="sub-title-primary ml-4">Change the chart type</label>
-<select name="" id="changeChartType" class="form-control-1 m-4 w-[50%] md:w-[20%]">
-  <option value="line">Line</option>
-  <option value="bar">Bar</option>
-  <option value="pie">Pie</option>
-</select>
+</div>
+<div class="border m-4 p-2">
+  <h1 class="title-primary m-4">
+    Chart View
+  </h1>
+
+  <div class="w-full  flex justify-center items-center" id="chartDiv">
+    <h1 class="sub-title-primary" id="chart-info"> Choose the chart type to load !!! </h1>
+    <canvas id="myChart" hidden></canvas>
+  </div>
+  <button class="btn-primary" id="hideLabels"
+  title="in mobile devices is better to hide labels" hidden>Show Labels</button>
+  
+  <div class="m-4 md:flex items-center">
+    <label for="changeChartType" class="sub-title-primary ml-4">Change Type</label>
+    <select name="" id="changeChartType" class="form-control-1 m-4 w-[50%] md:w-[20%]">
+      <option value="100">Select</option>
+      <option value="line">Line</option>
+      <option value="bar">Bar</option>
+    </select>
+  
+    <label for="changeChartType" class="sub-title-primary ml-4" id="chartDaysLabel" hidden>Days to view</label>
+    <select name="" id="changeHowManyDaysOnChart" class="form-control-1 m-4 w-[50%] md:w-[20%] invisible">
+      <option value="100">Select</option>
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="7">7</option>
+    </select>
+  </div>
+  </div>
+  
 
 
 
@@ -152,6 +172,7 @@
 
 <script src="static/StockChart.js"></script>
 <script src="static/AlertHighStock.js"></script>
+<script src="static/show_hide_information.js"></script>
 
 <form action="{{url_for('stock.index')}}" method="get" id="update" class="m-4}}">
   <table class="w-full bg-emerald-100">
