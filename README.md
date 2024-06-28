@@ -52,7 +52,7 @@ Basically this project work with modularization, each route have it own blueprin
 Flask also has a lot of plugins that is easy to apply and integrate in the project, an example is the `flask-SqlALchemy` plugin, this flask plugin allow us to interact easily with `SQLALCHEMY` ORM, by the way:
 `MySQL` was choosed because its strong, it put some complexity to the project but allow us infinite possibilities.
 
-ProductionService.py
+`ProductionService.py`
 ```python
 # Where db is an sqlalchemy model object
 
@@ -85,7 +85,7 @@ To manage the session, in the beginning I have created my own system to manage t
 `flask-login` help us to handle the session and login in our website easily.
 example:
 
-LoginView.py
+`LoginView.py`
 ```python
     @authentication.route('/', methods=['POST'])
     def login():
@@ -100,7 +100,7 @@ LoginView.py
         return redirect(url_for('auth.login_page'))
 ```
 
-LoginService.py
+`LoginService.py`
 ```python
 # when we pass the parameters to the LoginService it, automatically get the user
 
