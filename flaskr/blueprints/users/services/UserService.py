@@ -28,8 +28,8 @@ class UserService:
         self.email = email
         self.password = generate_password_hash(password) if password else None
         self.store_id = store_id
-        self.created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.last_login = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.created_at = datetime.now()
+        self.last_login = datetime.now()
         
     def create(self):
         if new_user := self.db.session.query(User).filter(User.username == self.username).first():

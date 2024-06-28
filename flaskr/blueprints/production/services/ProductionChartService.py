@@ -81,3 +81,4 @@ class ChartService(ProductionService):
             }
             for article in self.articles
         ]
+    

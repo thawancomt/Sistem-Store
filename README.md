@@ -35,3 +35,5 @@ Python, Flask, MySQL,SqlALchemy, HTML, CSS, Flask-LOGIN, Flask-SQLALCHEMY...
 ```bash
     pip install -r requirements.txt
     python -u System/app.py
+
+

@@ -1,5 +1,6 @@
-var task_panel = document.getElementById("task_panel");
-var task_show_btn = document.getElementById("show_tasks_btn");
+
+const task_panel = document.getElementById("task_panel");
+const task_show_btn = document.getElementById("show_tasks_btn");
 
 
 function active_task_panel() {

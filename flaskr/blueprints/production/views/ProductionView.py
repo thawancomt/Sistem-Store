@@ -9,6 +9,7 @@ production = Blueprint('production', __name__, url_prefix='/production',
 
 @production.route('/')
 def home():
+    ProductionService().create_random_production()
     store_id = request.args.get('store_id') or current_user.store_id
     date = request.args.get('date') or datetime.now().strftime('%Y-%m-%d')
     return redirect(url_for('production.homepage', store_id = store_id, date = date))
