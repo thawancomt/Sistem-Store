@@ -59,7 +59,7 @@ To manage the session, in the beginning I have created my own system to manage t
 example:
 
 LoginView.py
-``` # LoginView
+```python
     @authentication.route('/', methods=['POST'])
     def login():
         email = request.form.get('email')
@@ -74,7 +74,7 @@ LoginView.py
 ```
 
 LoginService.py
-``` # LoginService
+```python
 # when we pass the parameters to the LoginService it, automatically get the user
 
 def __init__(self, email = None, password = None) -> None:
