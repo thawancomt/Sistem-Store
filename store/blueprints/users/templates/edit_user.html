@@ -37,6 +37,7 @@
             </form>
             {% if context.user.active %}
                 <form action="{{url_for('users.edit_user.delete', username=context['username'])}}" method="POST" id="active_deactive_form">
+                    <input type="text" hidden value="{{context.user.id}}" name="user_id">
                     <button type="button" class="btn-primary" id="active_deactive_btn">Deactive this User</button>
                 </form>
             {% else %}
