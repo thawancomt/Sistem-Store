@@ -14,6 +14,7 @@
     }
     .btn-primary {
         @apply border border-emerald-500
+        bg-emerald-600 text-white
         text-sm font-semibold dark:text-indigo-100
         w-full h-9 my-4 dark:bg-green-500
         hover:bg-emerald-500 hover:text-gray-800

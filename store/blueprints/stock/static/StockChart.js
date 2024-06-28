@@ -97,9 +97,9 @@ daysToChart.addEventListener('change', () => {
 
 
 canvasDiv.showChart = function() {
-  hideLabels.removeAttribute('hidden')
+  hideLabels.classList.remove('hidden')
   chartInfo.setAttribute('hidden',  true)
-  hideLabelsLabel.removeAttribute('hidden')
-  daysToChart.classList.remove('invisible')
+  hideLabelsLabel.classList.remove('hidden')
+  daysToChart.classList.remove('hidden')
   this.classList.add('h-96')
 }

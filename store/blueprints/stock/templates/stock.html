@@ -4,6 +4,7 @@
 
 
 
+
 {% block title %}
     <title>
         {{context.title}}
@@ -14,84 +15,104 @@
     <h1 class=" title-primary text-3xl"> Stock Control </h1>
     <h1 class="md:title-primary sub-title-primary text-sm m-0 hover:cursor-pointer" id="show_hide_stock_info">Show Info</h1>
   </div>
-  <span class="sub-title-primary" id='stock_info' hidden>
-    This stock page provides a comprehensive and detailed view for managing your products. Here, you can visualize charts that show the variation of products over time, allowing for precise analysis of stock trends. Additionally, you can easily launch new stock counts, ensuring that your data is always up-to-date. For in-depth comparisons, there is a dedicated section where you can compare two different stocks and see the differences between them, aiding in informed decision-making.
-</span>
+  <span class="information-primary" id='stock_info' hidden>
+    This stock management page offers a comprehensive and detailed view of your products. Visualize charts displaying product variations over time for precise stock trend analysis. Easily initiate new stock counts to keep your data current. For in-depth comparisons, a dedicated section allows you to compare two different stocks, highlighting differences to support informed decision-making.
+  </span>
 
 </div>
+
+
+
+
 <div class="border m-4 p-2">
   <h1 class="title-primary m-4">
     Chart View
   </h1>
 
   <div class="w-full  flex justify-center items-center" id="chartDiv">
-    <h1 class="sub-title-primary" id="chart-info"> Choose the chart type to load !!! </h1>
+    <h1 class="sub-title-primary text-sm" id="chart-info"> Choose the chart type to load !!! </h1>
     <canvas id="myChart" hidden></canvas>
   </div>
   <button class="btn-primary" id="hideLabels"
   title="in mobile devices is better to hide labels" hidden>Show Labels</button>
   
   <div class="m-4 md:flex md:items-center">
-    <label for="changeChartType" class="sub-title-primary ml-4">Change Type</label>
-    <select name="" id="changeChartType" class="form-control-1 m-4 w-[50%] md:w-[20%]">
-      <option value="" disabled selected>Select</option>
-      <option value="line">Line</option>
-      <option value="bar">Bar</option>
-    </select>
-  
-    <label for="changeChartType" class="sub-title-primary ml-4" id="chartDaysLabel" hidden>Days to view</label>
-    <select name="" id="changeHowManyDaysOnChart" class="form-control-1 m-4 w-[50%] md:w-[20%] invisible">
-      <option value="0" disabled selected>Select</option>
-      <option value="3">3</option>
-      <option value="5">5</option>
-      <option value="7">7</option>
-    </select>
+    <div class="w-full">
+      <label for="changeChartType" class="sub-title-primary">Change Type</label>
+      <select name="" id="changeChartType" class="form-control-1 w-[50%] md:w-[20%]">
+        <option value="" disabled selected>Select</option>
+        <option value="line">Line</option>
+        <option value="bar">Bar</option>
+      </select>
+    </div>
+    <div class="w-full ">
+      <label for="changeChartType" class="sub-title-primary hidden" id="chartDaysLabel" >Days to view</label>
+      <select name="" id="changeHowManyDaysOnChart" class="form-control-1 w-[50%] md:w-[20%] hidden">
+        <option value="0" disabled selected>Select</option>
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="7">7</option>
+      </select>
+    </div>
   </div>
-  </div>
+</div>
   
-
-
-
-<div class="m-4 rounded-full">
-  <h1 class="title-primary">
-    All stock counts
-  </h1>
-  <span class="sub-title-primary">A table with all the stock conunt based on actual stock reference</span>
-  <div class="rounded-xl overflow-hidden shadow-black shadow-md">
-    <table class="  w-full ">
-      <thead>
-        <tr class="*:p-4 *:text-center bg-green-950 *:text-white font-medium">
-          <td >Stock Date (Link)</td>
-          <td>Articles counted</td>
-        </tr>
-      </thead>
-      <tbody class="dark:bg-white ">
-        {% if  context.stocks_data_for_info_table.total == 0%}
-        <tr class="*:text-center ">
-          <td>
-            Empty
-          </td>
-          <td>
-            Empty
-          </td>
-        </tr>
-         
-        {% endif %}
-        {% for row in context.stocks_data_for_info_table %}
-            <tr class=" *:text-center text-gray-600  *:p-2 odd:bg-slate-100">
-              <td class="">
-                <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
-              </td>
-              <td class="">
-                {{row.count}}
-              </td>
-            </tr>      
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="w-full flex justify-center">
+  <div class="m-4">
+    <h1 class="title-primary text-center">Select the Tool</h1>
+    <br>
+    <a href="#all_stock" class="btn-primary p-2" >All Stocks</a>
+    <a href="#create_stock" class="btn-primary p-2" onclick="createStockDiv.show()">Create Stock</a>
+    <a href="#compare_stock" class="btn-primary p-2" >Compare stock</a>
+    <br>
+    <br>
   </div>
-  
-  <div class="border-2 border-emerald-400 mt-4 flex justify-evenly">
+</div>
+
+<div class="m-4" id="all_stock">
+    <div class="text-center">
+      <h1 class="title-primary">
+        All stock counts
+      </h1>
+    </div>
+    <div class="text-center">
+      <span class="sub-title-primary text-center">A table with all the stock conunt based on actual stock reference</span>
+    </div>
+    <div class="rounded-xl overflow-hidden shadow-black shadow-md ">
+      <table class="  w-full ">
+        <thead>
+          <tr class="*:p-4 *:text-center bg-green-950 *:text-white font-medium">
+            <td >Stock Date (Link)</td>
+            <td>Articles counted</td>
+          </tr>
+        </thead>
+        <tbody class="dark:bg-white ">
+          {% if  context.stocks_data_for_info_table.total == 0%}
+          <tr class="*:text-center ">
+            <td>
+              Empty
+            </td>
+            <td>
+              Empty
+            </td>
+          </tr>
+          
+          {% endif %}
+          {% for row in context.stocks_data_for_info_table %}
+              <tr class=" *:text-center text-gray-600  *:p-2 odd:bg-slate-100">
+                <td class="">
+                  <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
+                </td>
+                <td class="">
+                  {{row.count}}
+                </td>
+              </tr>      
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+
+  <div class=" border-emerald-400 mt-4 flex justify-evenly">
     {% set indexes = context.stocks_data_for_info_table %}
     <div class="p-4 flex space-x-2 md:space-x-6 items-center">
       {% if indexes.has_prev %}
@@ -111,57 +132,48 @@
         <a href="{{url_for('stock.index', page=indexes.next_num, date=date)}}" class="text-emerald-800 font-bold">Next</a>
       {% endif %}
       
-    </div>
-    
   </div>
+</div>
+</div>
 
-  
 
-
-
-  <form action="{{url_for('stock.index')}}" class="m-4 border-2 border-emerald-400 p-4">
-  <span class="m-4 sub-title-primary">You can change bellow the refereced stock</span>
-  <select name="date" id="" class=" form-control-1">
-    {% for date_ in context.dates %}
-
-      {% if date_.date | string == date | string  %}
-          <option value="{{date_.date}}" selected>{{date_.date}}</option>
-      {% else %}
-          <option value="{{date_.date}}">{{date_.date}}</option>
-      {% endif %}
-
-    {% endfor %}
-
-    </select>
-    <button type="submit" class="btn-primary">Change stock reference</button>
-</form>
 
 
   
-<div class="m-4">
+<div class="m-4 " id="create_stock">
   <h1 class="title-primary">Create a new stock count</h1>
 
-</div>
   
 
 <form action="{{url_for('stock.create')}}" method="post" id="update" class="m-4">
     
     {% for article in context.articles %}
-        <label for="{{article.id}}" class="sub-title-primary" id="{{article.id}}Label">
-            {{
-                article.name
-            }}
-        </label>
-        <div class="grid grid-cols-3">
-          <input type="number" name="{{article.id}}" id="stock_input" value="0"  class="form-control-1 col-span-2">
-          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 col-span-1 text-center" disabled>
+
+    <div class=" border-green-300 ">
+      
+      <div class="grid grid-cols-12">
+        <div class="col-span-9">
+          <label for="{{article.id}}" class="sub-title-primary m-0 p-0" id="{{article.id}}Label">{{article.name}}</label>
+          <input type="number" name="{{article.id}}" id="stock_input" value="0"  class="form-control-1 m-0">
         </div>
+        <div class="col-span-2 col-start-11">
+          <label for="{{article.id}}_total" class="sub-title-primary">Total</label>
+          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 text-center" disabled>
+        </div>
+      </div>
+    </div>
+        
     {% endfor %}
     <br>
+    <label for="date" class="sub-title-primary">Date for Stock</label>
+    <br>
+    <span class="information-primary">The selected date will be associated with this stock count</span>
     <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" step="any" required>
-    <input type="submit" value="submit" class="btn-primary dark" >
+    <input type="submit" value="Enter Stock" class="btn-primary dark" >
 
 </form>
+
+</div>
 
 
 
@@ -174,57 +186,68 @@
 </script>
 
 
+
+
+<div class="m-4  p-2 flex justify-center flex-wrap">
+  <h1 class="title-primary w-full text-center">Compare Stock</h1>
+  <span class="information-primary text-center">Compare two stock, the last one and you can choose the reference stock</span>
+</div>
+<div class="m-4 rounded-xl overflow-scroll shadow-black shadow-md " id="compare_stock" >
+  <h1 class="information-primary m-4 md:hidden dark:text-yellow-300 text-slate-800 text-center" > For better view, use you smartphone in landscape mode </h1>
+    <table class="w-full">
+      <thead class="bg-green-950 ">
+        <tr class="*:p-4 *:text-center bg-green-950 *:text-white font-medium">
+          <td>
+            Article
+          </td>
+          <td>
+            <h1>Reference</h1>
+            <select name="reference_stock" id="" class="select-primary">
+              {% for date in context.dates %}
+              <option value="{{date.date}}">{{date.date}}</option>
+              {% endfor %}
+            </select>
+          </td>
+          <td>
+            Last Count - <br>{{context.default_last_date}}
+          </td>
+          <td>
+            Difference
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for article in  context.articles %}
+        <tr class="*:bg-white *:odd:bg-slate-100 *:p-2 *:text-center">
+          <td>
+            {{article.name}}
+          </td>
+          <td>
+            {{context.reference_stock[article.id]}}
+            
+          </td>
+          <td>
+            {{context.default_last_stock[article.id]}}
+          </td>
+          <td>
+            {{
+              context.default_last_stock[article.id] - context.reference_stock[article.id]
+            }}
+          </td>
+        </tr>
+        
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn-primary">Change Reference</button>
+  </form>
+
+</div>
+<br>
+<br>
+
 <script src="static/StockChart.js"></script>
 <script src="static/AlertHighStock.js"></script>
 <script src="static/show_hide_information.js"></script>
-
-<form action="{{url_for('stock.index')}}" method="get" id="update" class="m-4}}">
-  <table class="w-full bg-emerald-100">
-    <input type="text" name="date" value="{{context.default_last_date}}">
-    <thead>
-      <tr>
-        <td>
-          Article
-        </td>
-        <td>
-          <select name="reference_stock" id="">
-            {% for date in context.dates %}
-            <option value="{{date.date}}">{{date.date}}</option>
-            {% endfor %}
-          </select>
-        </td>
-        <td>
-          Last Count - {{context.default_last_date}}
-        </td>
-        <td>
-          Difference
-        </td>
-      </tr>
-    </thead>
-    <tbody>
-      {% for article in  context.articles %}
-      <tr>
-        <td>
-          {{article.id}}
-        </td>
-        <td>
-          {{context.reference_stock[article.id]}}
-          
-        </td>
-        <td>
-          {{context.default_last_stock[article.id]}}
-        </td>
-        <td>
-          {{
-            context.default_last_stock[article.id] - context.reference_stock[article.id]
-          }}
-        </td>
-      </tr>
-       
-      {% endfor %}
-    </tbody>
-  </table>
-  <button type="submit" class="btn-primary">Submit</button>
-</form>
 
 {% endblock %}

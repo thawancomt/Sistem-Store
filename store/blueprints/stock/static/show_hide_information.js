@@ -10,3 +10,29 @@ showHide.addEventListener('click', () => {
     }
 })
 
+// All Stock 
+const allStockDiv = document.getElementById('all_stock');
+
+// create stock
+const createStockDiv = document.getElementById('create_stock');
+
+// compare stock
+const compareStockDiv = document.getElementById('compare_stock');
+
+const allDivs = [allStockDiv, createStockDiv, compareStockDiv]
+
+
+allDivs.forEach( (element) => {
+    element.show = function () {
+        if (element.classList.contains('hidden')) {
+            console.log('teste');
+            this.classList.remove('hidden')
+        } else {
+            this.classList.add('hidden')
+        }
+    }
+})
+
+function showTool(tool) {
+    allDivs
+}
