@@ -155,6 +155,8 @@ You can set up tasks for gonna be show as daily tasks to be done, imagine has a 
 ```bash
 # Linux
 git clone https://github.com/thawancomt/Sistem-Store.git
+cd extensions
+npm install -D tailwindcss (if you want to modify it the style)
 cd Sistem-Store
 python -m venv YOUR_VENV_NAME
 source YOUR_VENV_NAME/bin/activate
