@@ -13,9 +13,8 @@
         <table class="w-full">
             <thead class="w-full bg-emerald-400">
                 <tr class="w-full *:text-center *:font-medium">
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th>Task</th>
+                    <th>Instructions</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -23,21 +22,9 @@
                 {% for task in context.to_do %}
                 <tr class="*:text-center *:odd:bg-slate-100 *:bg-white *:p-4">
                     <td>
-                        {{task.task.id}}
-                    </td>
-                    <td>
                         <div class="flex justify-center items-center gap-2">
                             {{task.task.name}}
-                            {% if not current_user.level %}
-                             <form action="">
-                                 <input type="text" name="{{task.task.id}}" value="{{task.task.id}}" class="hidden">
-                                 <button type="button" id="confirmDeletetion" value="{{task.task.id}}">
-                                     <svg width="20px" height="20px" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7929 7.49998L1.14645 1.85353L1.85356 1.14642L7.50001 6.79287L13.1465 1.14642L13.8536 1.85353L8.20711 7.49998L13.8536 13.1464L13.1465 13.8535L7.50001 8.20708L1.85356 13.8535L1.14645 13.1464L6.7929 7.49998Z" fill="#000000"/>
-                                     </svg>
-                                 </button>
-                             </form>
-                            {% endif %}
+                            
                         </div>
                     </td>
                     <td>
@@ -65,6 +52,76 @@
 
 
 {% if not current_user.level %}
+<div class="mx-4">
+    <h1 class="title-primary">
+        Edit Daily tasks
+    </h1>
+    
+        <table class="w-full">
+            <thead class="w-full bg-emerald-400">
+                <tr class="w-full *:text-center *:font-medium">
+                    <th>ID</th>
+                    <th>Task</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Actions</th>
+                    <th>Finished by</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in context.to_do %}
+                <tr class="*:text-center *:odd:bg-slate-100 *:bg-white *:p-4">
+                    <td>
+                        {{task.task.id}}
+                    </td>
+                    <td>
+                        {{task.task.name}}
+                    </td>
+                    <td>
+                        {{task.task.start_at}}
+                    </td>
+                    <td>
+                        {{task.task.end_at}}
+                    </td>
+                    <td>
+                        <div class="flex justify-center items-center gap-2">
+                            <form action="{{url_for('daily_tasks.deactive_task')}}" method="post" class="w-full">
+                                <input type="text" name="task_id" value="{{task.task.id}}" id="" hidden>
+                                <button type="button" id="confirmDelete" value="{{task.task.id}}">
+                                    <svg width="20px" height="20px" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7929 7.49998L1.14645 1.85353L1.85356 1.14642L7.50001 6.79287L13.1465 1.14642L13.8536 1.85353L8.20711 7.49998L13.8536 13.1464L13.1465 13.8535L7.50001 8.20708L1.85356 13.8535L1.14645 13.1464L6.7929 7.49998Z" fill="#000000"/>
+                                    </svg>
+                                </button>
+                            </form>
+                            
+                            <form action="{{url_for('daily_tasks.edit_view')}}" method="get" class="w-full')}}">
+                                <input type="text" name="task_id" value="{{task.task.id}}" hidden>
+                                <button type="button" id="confirmEdit" >
+                                    <svg fill="#000000" width="20px" height="20px" viewBox="0 0 24 24" id="edit" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="secondary" d="M21,22H3a1,1,0,0,1,0-2H21a1,1,0,0,1,0,2Z" style="fill: rgb(44, 169, 188);"></path><path id="primary" d="M20.71,3.29a2.93,2.93,0,0,0-2.2-.84,3.25,3.25,0,0,0-2.17,1L7.46,12.29a1.16,1.16,0,0,0-.25.43L6,16.72A1,1,0,0,0,7,18a.9.9,0,0,0,.28,0l4-1.17a1.16,1.16,0,0,0,.43-.25l8.87-8.88a3.25,3.25,0,0,0,1-2.17A2.91,2.91,0,0,0,20.71,3.29Z" style="fill: rgb(0, 0, 0);"></path></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                    <td>
+                        {{task.task.finisher.username if task.task.finished_by else 'Not Finished'}}
+                    </td>
+                </tr>
+                 
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    
+    {% if not current_user.level %}
+        {% for task in context.to_do %}
+         
+        
+            <input type="text" name="task_id" value="{{task.task.id}}" class="hidden">
+            
+        </form>
+        {% endfor %}
+        {% endif %}
+</div>
 <div class="m-4">
     <h1 class="title-primary">Create new task</h1>
     <span class="information-primary">Here you can create a new daily task</span>
@@ -81,5 +138,5 @@
  
 {% endif %}
 
-<script src="{{url_for('daily_tasks.static', filename='delete_task.js')}}"></script>
+<script src="{{url_for('daily_tasks.static', filename='tasks.js')}}"></script>
 {% endblock content %}
