@@ -21,11 +21,12 @@ An ERP system built with Flask, Python, JavaScript, TailwindCSS, MySQL, SQLAlche
 These features demonstrate practical application of knowledge in real-world scenarios.
 
 Technical Details
+================
 
-Flask: The micro web framework used to build the system.
-MySQL: Relational database management system used to store data.
-SQLAlchemy: Object-Relational Mapping (ORM) library for Python, used to interact with the database.
-TailwindCSS: Utility-first CSS framework, used to style the application.
+* Flask: The micro web framework used to build the system.
+* MySQL: Relational database management system used to store data.
+* SQLAlchemy: Object-Relational Mapping (ORM) library for Python, used to interact with the database.
+* TailwindCSS: Utility-first CSS framework, used to style the application.
 
 ## Screenshots
 
