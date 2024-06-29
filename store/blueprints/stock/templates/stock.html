@@ -23,37 +23,40 @@
 
 
 
+<div class="h-60" id="chartDiv">
+  <h1 class="sub-title-primary text-sm hidden " id="chart-info"> Choose the chart type to load !!! </h1>
+  <canvas id="myChart" hidden></canvas>
+</div>
 
-<div class="border m-4 p-2">
-  <h1 class="title-primary m-4">
+<div class="border m-4 p-2 flex justify-between flex-wrap">
+  <h1 class="title-primary m-4 w-full text-center">
     Chart View
   </h1>
 
-  <div class="w-full  flex justify-center items-center" id="chartDiv">
-    <h1 class="sub-title-primary text-sm" id="chart-info"> Choose the chart type to load !!! </h1>
-    <canvas id="myChart" hidden></canvas>
-  </div>
-  <button class="btn-primary" id="hideLabels"
-  title="in mobile devices is better to hide labels" hidden>Show Labels</button>
+  <button class="btn-primary " id="hideLabels"
+  title="in mobile devices is better to hide labels" >Show Labels</button>
   
-  <div class="m-4 md:flex md:items-center">
+  <div class="m-4 md:flex md:items-center  w-full">
     <div class="w-full">
-      <label for="changeChartType" class="sub-title-primary">Change Type</label>
-      <select name="" id="changeChartType" class="form-control-1 w-[50%] md:w-[20%]">
-        <option value="" disabled selected>Select</option>
-        <option value="line">Line</option>
-        <option value="bar">Bar</option>
-      </select>
+      <div class="w-full">
+        <label for="changeChartType" class="sub-title-primary">Change Type</label>
+        <select name="" id="changeChartType" class="form-control-1 w-[50%] md:w-[20%]">
+          <option value="" disabled selected>Select</option>
+          <option value="line">Line</option>
+          <option value="bar">Bar</option>
+        </select>
+      </div>
+      <div class="w-full ">
+        <label for="changeChartType" class="sub-title-primary " id="chartDaysLabel" >Days to view</label>
+        <select name="" id="changeHowManyDaysOnChart" class="form-control-1 w-[50%] md:w-[20%] ">
+          <option value="0" disabled selected>Select</option>
+          <option value="3">3</option>
+          <option value="5">5</option>
+          <option value="7">7</option>
+        </select>
+      </div>
     </div>
-    <div class="w-full ">
-      <label for="changeChartType" class="sub-title-primary hidden" id="chartDaysLabel" >Days to view</label>
-      <select name="" id="changeHowManyDaysOnChart" class="form-control-1 w-[50%] md:w-[20%] hidden">
-        <option value="0" disabled selected>Select</option>
-        <option value="3">3</option>
-        <option value="5">5</option>
-        <option value="7">7</option>
-      </select>
-    </div>
+    
   </div>
 </div>
   

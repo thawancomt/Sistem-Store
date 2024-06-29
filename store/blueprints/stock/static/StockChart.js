@@ -16,36 +16,15 @@ const chartInfo = document.getElementById('chart-info')
 
 
 var options = {
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-          },
-          title:{
-            display: true,
-            text: 'Stock Chart'
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-          x: {
-            display: false
-          },
-        },
+        
         responsive: true,
         maintainAspectRatio: false,
-        onResize : function(chart) {
-          chart.update();
-        },
 };
 
 
-var StockChart = new Chart;
+var StockChart = createChart('bar');
 
 function createChart(type) {
-  canvasDiv.showChart()
   return new Chart(ctx, {
     type: type,
     data: {
@@ -82,6 +61,8 @@ function updateChartType(newType) {
   StockChart.destroy()
   StockChart = createChart(newType)
   StockChart.data.labels = Array.from(labelsfor_chart)
+  
+  canvasDiv.showChart()
 }
 
 document.getElementById('changeChartType').addEventListener('change', function(chart) {
@@ -97,9 +78,5 @@ daysToChart.addEventListener('change', () => {
 
 
 canvasDiv.showChart = function() {
-  hideLabels.classList.remove('hidden')
-  chartInfo.setAttribute('hidden',  true)
-  hideLabelsLabel.classList.remove('hidden')
-  daysToChart.classList.remove('hidden')
-  this.classList.add('h-96')
+  StockChart.update()
 }
