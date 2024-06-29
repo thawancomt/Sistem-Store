@@ -49,7 +49,7 @@ class DailyStatusService:
         for task in self.all_daily_tasks:
               if self.verify_if_task_exist_on_day(task.id):
                   pass
-              elif self.date >= task.start_at and self.date <= task.end_at if task.end_at else self.date:
+              elif self.date >= task.start_at and self.date <= task.end_at if task.end_at else self.date :
                   daily_task = DailyStatusModel(
                       date = self.date,
                       task_id = task.id

@@ -3,6 +3,7 @@
 {% block content %}
 
 <h1 class="title-primary"> Create your tasks</h1>
+{% if context.to_do %} 
 <div class="w-full">
     <form action="{{url_for('daily_tasks.set_as_done', date=g.date)}}" method="post" class="w-full">
         <table class="w-full">
@@ -37,6 +38,11 @@
         <button type="submit" class="btn-primary">Finish selected tasks</button>
     </form>
 </div>
+{% else %}
+<div class="w-full text-center">
+    <h1 class="information-primary">You have no tasks</h1>
+</div>
+{% endif %}
 
 
 {% if not current_user.level %}
