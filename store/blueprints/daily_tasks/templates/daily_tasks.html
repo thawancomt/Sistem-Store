@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1 class="title-primary"> Create your tasks</h1>
+<div class="w-full flex flex-wrap">
+    <h1 class="title-primary mx-4"> Daily tasks</h1>
+    <span class="mx-4 information-primary text-center md:text-left w-full">Select the task that have been done and click in Finish selected tasks</span>
+    <span class="mx-4 information-primary text-center md:text-left w-full text-red-500">!!! If you are admin, the X button will be displayed to you deactive a task !!! </span>
+    
+</div>
 {% if context.to_do %} 
-<div class="w-full">
+<div class="rounded-md overflow-hidden m-4">
     <form action="{{url_for('daily_tasks.set_as_done', date=g.date)}}" method="post" class="w-full">
         <table class="w-full">
             <thead class="w-full bg-emerald-400">
@@ -12,30 +16,45 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>actions</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for task in context.to_do %}
-                <tr class="*:text-center *:odd:bg-slate-100 *:p-4">
+                <tr class="*:text-center *:odd:bg-slate-100 *:bg-white *:p-4">
                     <td>
                         {{task.task.id}}
                     </td>
                     <td>
-                        {{task.task.name}}
+                        <div class="flex justify-center items-center gap-2">
+                            {{task.task.name}}
+                            {% if not current_user.level %}
+                             <form action="">
+                                 <input type="text" name="{{task.task.id}}" value="{{task.task.id}}" class="hidden">
+                                 <button type="button" id="confirmDeletetion" value="{{task.task.id}}">
+                                     <svg width="20px" height="20px" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7929 7.49998L1.14645 1.85353L1.85356 1.14642L7.50001 6.79287L13.1465 1.14642L13.8536 1.85353L8.20711 7.49998L13.8536 13.1464L13.1465 13.8535L7.50001 8.20708L1.85356 13.8535L1.14645 13.1464L6.7929 7.49998Z" fill="#000000"/>
+                                     </svg>
+                                 </button>
+                             </form>
+                            {% endif %}
+                        </div>
                     </td>
                     <td>
                         {{task.task.description}}
                     </td>
                     <td>
-                        <input type="checkbox" name="{{task.task.id}}" id="" {% if task.status %} checked {% endif %}>
+                        <div class="flex justify-center items-center gap-2">
+                            <span>Finish</span>
+                            <input type="checkbox" name="{{task.task.id}}" class="h-6 w-6" id="" {% if task.status %} checked {% endif %}>
+                        </div>
                     </td>
                 </tr>
                  
                 {% endfor %}
             </tbody>
         </table>
-        <button type="submit" class="btn-primary">Finish selected tasks</button>
+        <button type="submit" class="btn-primary m-0">Finish selected tasks</button>
     </form>
 </div>
 {% else %}
@@ -46,17 +65,21 @@
 
 
 {% if not current_user.level %}
-<h1 class="title-primary">Create new task</h1>
-<span class="information-primary">Here you can create a new daily task</span>
+<div class="m-4">
+    <h1 class="title-primary">Create new task</h1>
+    <span class="information-primary">Here you can create a new daily task</span>
+</div>
 <div class="m-4">
     <form action="{{url_for('daily_tasks.create')}}" class="bg-slate-500 p-2" method="post">
         <label for="name">Task name</label><br>
         <input type="text" name="name"><br>
         <label for="description">Task description</label>
         <input type="text" name="description">
-        <button type="submit" class="btn-primary">Create</button>
+        <button type="submit" class="btn-primary" >Create</button>
     </form>
 </div>
  
 {% endif %}
+
+<script src="{{url_for('daily_tasks.static', filename='delete_task.js')}}"></script>
 {% endblock content %}
