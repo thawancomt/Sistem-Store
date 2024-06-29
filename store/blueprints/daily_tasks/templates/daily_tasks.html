@@ -2,92 +2,55 @@
 
 {% block content %}
 
-<h1 class="title-primary"> Hello World</h1>
-
-<h1>
-    {{g.date}}
-</h1>
-
-<form action="{{url_for('daily_tasks.set_as_done', date=g.date)}}" method="post">
-
-    <table>
-        <thead class="w-full">
-            <tr class="w-full">
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for task in context.to_do %}
-            <tr>
-                <td>
-                    {{task.task.id}}
-                </td>
-                <td>
-                    {{task.task.name}}
-                </td>
-                <td>
-                    {{task.task.description}}
-                </td>
-                <td>
-                    <input type="checkbox" name="{{task.task.id}}" id="" {% if task.status %} checked {% endif %}>
-                </td>
-            </tr>
-             
-            {% endfor %}
-        </tbody>
-    </table>
-    <button type="submit">Finish</button>n
-</form>
-
-{% for a in [1, 2,3 ] %}
-
-<form action="{{url_for('daily_tasks.set_as_done')}}"></form>
- 
-{% endfor %}
-
-<div>
-    <div class="container-primary">
-        <table class="table w-full">
-            <thead class="table">
-                <tr class="">
-                    <td>#</td>
-                    <td>Name</td>
-                    <td>Description</td>
-                    <td>actions</td>
+<h1 class="title-primary"> Create your tasks</h1>
+<div class="w-full">
+    <form action="{{url_for('daily_tasks.set_as_done', date=g.date)}}" method="post" class="w-full">
+        <table class="w-full">
+            <thead class="w-full bg-emerald-400">
+                <tr class="w-full *:text-center *:font-medium">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for task in context.active_daily_tasks %}
-                <tr>
-                    <td>{{ task.id }}</td>
-                    <td>{{ task.name }}</td>
-                    <td>{{ task.description }}</td>
+                {% for task in context.to_do %}
+                <tr class="*:text-center *:odd:bg-slate-100 *:p-4">
                     <td>
-                        <form action="{{url_for('daily_tasks.deactive_task', task_id=task.id, date=g.date)}}" method="post">
-                            <input type="text" name="task_id" hidden value="{{task.id}}">
-                            <button type="submit" class="btn-primary">Delete</button>
-                        </form>
+                        {{task.task.id}}
+                    </td>
+                    <td>
+                        {{task.task.name}}
+                    </td>
+                    <td>
+                        {{task.task.description}}
+                    </td>
+                    <td>
+                        <input type="checkbox" name="{{task.task.id}}" id="" {% if task.status %} checked {% endif %}>
                     </td>
                 </tr>
+                 
                 {% endfor %}
             </tbody>
         </table>
-
-    </div>
+        <button type="submit" class="btn-primary">Finish selected tasks</button>
+    </form>
 </div>
 
-{% if current_user.level <= 0 %}
- 
-<form action="{{url_for('daily_tasks.create')}}" class="bg-slate-500 p-2" method="post">
-    <label for="name">Task name</label>
-    <input type="text" name="name">
-    <label for="description">Task description</label>
-    <input type="text" name="description">
-    <button type="submit">Create</button>
-</form>
+
+{% if not current_user.level %}
+<h1 class="title-primary">Create new task</h1>
+<span class="information-primary">Here you can create a new daily task</span>
+<div class="m-4">
+    <form action="{{url_for('daily_tasks.create')}}" class="bg-slate-500 p-2" method="post">
+        <label for="name">Task name</label><br>
+        <input type="text" name="name"><br>
+        <label for="description">Task description</label>
+        <input type="text" name="description">
+        <button type="submit" class="btn-primary">Create</button>
+    </form>
+</div>
  
 {% endif %}
 {% endblock content %}
