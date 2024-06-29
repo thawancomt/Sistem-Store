@@ -77,7 +77,8 @@ class ChartService(ProductionService):
         return [
             {
                 'label': article.name,
-                'data': self.get_article_data_of_each_day(article.id)
+                'data': self.get_article_data_of_each_day(article.id),
+                'tension' : 0.4,
             }
             for article in self.articles
         ]

@@ -139,42 +139,6 @@
 
 
 
-  
-<div class="m-4 " id="create_stock">
-  <h1 class="title-primary">Create a new stock count</h1>
-
-  
-
-<form action="{{url_for('stock.create')}}" method="post" id="update" class="m-4">
-    
-    {% for article in context.articles %}
-
-    <div class=" border-green-300 ">
-      
-      <div class="grid grid-cols-12">
-        <div class="col-span-9">
-          <label for="{{article.id}}" class="sub-title-primary m-0 p-0" id="{{article.id}}Label">{{article.name}}</label>
-          <input type="number" name="{{article.id}}" id="stock_input" value="0"  class="form-control-1 m-0">
-        </div>
-        <div class="col-span-2 col-start-11">
-          <label for="{{article.id}}_total" class="sub-title-primary">Total</label>
-          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 text-center" disabled>
-        </div>
-      </div>
-    </div>
-        
-    {% endfor %}
-    <br>
-    <label for="date" class="sub-title-primary">Date for Stock</label>
-    <br>
-    <span class="information-primary">The selected date will be associated with this stock count</span>
-    <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" step="any" required>
-    <input type="submit" value="Enter Stock" class="btn-primary dark" >
-
-</form>
-
-</div>
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -216,7 +180,7 @@
           </td>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="">
         {% for article in  context.articles %}
         <tr class="*:bg-white *:odd:bg-slate-100 *:p-2 *:text-center">
           <td>
@@ -243,8 +207,46 @@
   </form>
 
 </div>
+
+  
+<div class="m-4 " id="create_stock">
+  <h1 class="title-primary">Create a new stock count</h1>
+
+  
+
+<form action="{{url_for('stock.create')}}" method="post" id="update" class="m-4">
+    
+    {% for article in context.articles %}
+
+    <div class=" border-green-300 ">
+      
+      <div class="grid grid-cols-12">
+        <div class="col-span-9">
+          <label for="{{article.id}}" class="sub-title-primary m-0 p-0" id="{{article.id}}Label">{{article.name}}</label>
+          <input type="number" name="{{article.id}}" id="stock_input" value="0"  class="form-control-1 m-0">
+        </div>
+        <div class="col-span-2 col-start-11">
+          <label for="{{article.id}}_total" class="sub-title-primary">Total</label>
+          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 text-center" disabled>
+        </div>
+      </div>
+    </div>
+        
+    {% endfor %}
+    <br>
+    <label for="date" class="sub-title-primary">Date for Stock</label>
+    <br>
+    <span class="information-primary">The selected date will be associated with this stock count</span>
+    <input type="datetime-local" name="date" id="" class="form-control-1" value="{{date}}" step="any" required>
+    <input type="submit" value="Enter Stock" class="btn-primary dark" >
+
+</form>
+
+</div>
+
 <br>
 <br>
+
 
 <script src="static/StockChart.js"></script>
 <script src="static/AlertHighStock.js"></script>

@@ -32,7 +32,3 @@ allDivs.forEach( (element) => {
         }
     }
 })
-
-function showTool(tool) {
-    allDivs
-}

@@ -4,8 +4,10 @@ from ..services.ProductionService import ProductionService, current_user, dateti
 from ..services.ProductionChartService import ChartService
 
 
-production = Blueprint('production', __name__, url_prefix='/production',
-                       template_folder='../templates')
+production = Blueprint('production', __name__,
+                       url_prefix='/production',
+                       template_folder='../templates',
+                       static_folder='../static')
 
 @production.route('/')
 def home():
@@ -14,14 +16,13 @@ def home():
     date = request.args.get('date') or datetime.now().strftime('%Y-%m-%d')
     return redirect(url_for('production.homepage', store_id = store_id, date = date))
 
-@production.route('/<store_id>/<date>')
+@production.route('/a/<store_id>/<date>')
 def homepage(store_id, date):
     
-    past_days = int(request.args.get('lenght', '0')) or 0
+    past_days = int(request.args.get('lenght', '0')) or 30
     chart_type = request.args.get('chart_type', 'bar')
 
     context = {
-        'productions' : ProductionService.get_all(),
         'articles' : ProductionService.get_articles(),
         'produced' : ProductionService(store_id=store_id, date=date).get_data_for_total_production(),
         'history' : ProductionService(store_id=store_id, date=date).get_production_history(),

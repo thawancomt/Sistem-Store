@@ -1,95 +1,65 @@
 {% extends "base.html" %}
-~
+
 {% block content %}
-
-
-
-
-<h1 class="title-primary m-4">Productions for {{today_date}}
-</h1>
-
-
-<form action="{{url_for('production.homepage', date=today_date, store_id =current_user.store_id )}} " class="m-4" method="get">
-    <input type="text" name="t" value="21">
-    <label for="lenght" class="sub-title-primary"> Set how many days to show on chart</label>
-    <select name="lenght" id="">
-        <option value="7">Last Week</option>
-        <option value="14">Last 2 Week</option>
-        <option value="21">Last 3 Week</option>
-        <option value="30">Last Month</option>
-    </select>
-    <select name="chart_type" id="">
-        <option value="bar">Bar</option>
-        <option value="line">Line</option>
-        <option value="pie">Pie</option>
-    </select>
-    <button type="submit" class="btn-primary">Limit</button>
-</form>
-
-<form action="{{url_for('production.home')}}" class="m-4">
-    <label for="lenght" class="sub-title-primary"> Set how many days to show on chart</label>
-    
-    <button type="submit" class="btn-primary">Limit</button>
-</form>
-
-
-
-<div class="w-full h-fit border-2 border-emerald-400">
-    <div class=" m-4 sm:grid sm:grid-cols-12 flex flex-col">
-
-        <form action="{{url_for('production.create')}}" method="post" class="col-span-6">
-    
-            <table class="w-full">
-                <tr class="grid grid-cols-12 ">
-                    <th class="col-span-5">Article</th>
-                    <th class="col-span-4">Produced quantity</th>
-                    <th class="col-span-3">total</th>
-                </tr>
-                {% for article in context.articles %}
-                    <tr class="grid grid-cols-12  *:odd:bg-emerald-200 *:even:bg-emerald-500 *:text-center">
-                        <td class="col-span-5 flex justify-start items-center font-bold  ">{{article.name}}</td>
-                        <td class="col-span-4 flex justify-center items-center">
-                            <input type="number" name="{{article.id}}" value="0" class="form-control-2 h-fit w-fit">
-                            <span class="text-sm font-bold">{{article.type.alias}}</span>
-                        </td>
-                        <td class="col-span-3 flex justify-center items-centerr">
-                            <input type="number" value="{{context.produced[article.id] or 0}}" class="form-control-2 h-fit w-24" disabled>
-                            <span class="text-sm font-bold">{{article.type.alias}}</span>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table><br>
-            <input type="datetime-local" name="date" required class="form-control-1" value="{{date}}">
-            <button class="btn-primary" type="submit">Submit</button>
-        </form>
-        <div class="col-span-6 bg-gray-200">
-            <canvas id="myChart" ></canvas>
-          </div>
-          
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          
-          <script>
-            const ctx = document.getElementById('myChart');
-          
-            new Chart(ctx, {
-              type: '{{context.type}}',
-              data: {
-                labels: {{context.chartlabels | tojson}},
-                datasets: {{context.chartdata | tojson}}
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
-            });
-          </script>
-        </div>
-    
-    
+<div class="m-4">
+    <h1 class="title-primary">
+        Production Page
+    </h1>
 </div>
 
+<div class="h-fit">
+    <div class="h-60">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div class="m-4">
+        <label for="">Limit days</label>
+        <select name="limit" id="limit" class="form-control-1">
+            <option value="" disabled selected>Select</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="7">7</option>
+            <option value="30">30</option>
+        </select>
+    </div>
+</div>
+
+<div class="m-4 border rounded-xl border-emerald-400 overflow-hidden">
+    <form action="" class="">
+        <table class="w-full bg-white">
+            <thead>
+                <tr class="bg-emerald-400 *:p-4 *:text-center *:font-medium">
+                    <td>Articles</td>
+                    <td>Insert Amount</td>
+                    <td>Total</td>
+                </tr>
+            </thead>
+            <tbody class="">
+                {% for article in context.articles %}
+                <tr class="*:text-center *:odd:bg-slate-100 *:p-4">
+                    <td>{{article.name | title}}</td>
+                    <td class="flex justify-center "><input type="number" class="form-control-1 bg-white w-3/6" name="{{article.id}}"></td>
+                    <td>{{context.produced.get(article.id, 0)}}</td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="flex justify-center">
+            <button type="button" class="btn-primary w-5/6 m-2 p-6 text-center items-center flex justify-center" id="insertBtn">Insert new production</button>
+        </div>
+    </form>
+</div>
+<div class="w-full">
+</div>
+
+
+<script>
+    var dataset = {{ context.chartdata | tojson }};
+    var labels = {{ context.chartlabels | tojson }};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="{{url_for('production.static', filename='chart.js')}}"></script>
 
 {% endblock content %}
