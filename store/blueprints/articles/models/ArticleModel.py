@@ -13,6 +13,11 @@ class ArticleModel(db.Model):
     stockable = Column(BOOLEAN, default=True, nullable=False)
     type = relationship('TypeUnitModel', foreign_keys=[type_unit])
     
+    active = Column(BOOLEAN, default=True, nullable=False)
+    
+    
+    
+    
     @validates('name')
     def validate_name(self, key, value):
         if not value.strip():

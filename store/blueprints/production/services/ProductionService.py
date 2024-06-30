@@ -27,7 +27,8 @@ class ProductionService(Service):
         del data['date']
         
         for article_id, quantity in data.items():
-            if int(quantity) != 0:
+            
+            if quantity and int(quantity) != 0:
                 production = Production(
                     store_id=self.store_id,
                     creator_id=self.creator_id,

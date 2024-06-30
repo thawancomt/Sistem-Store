@@ -8,18 +8,25 @@ class ArticlesService:
         self.type_unit = type_unit
         self.is_producible = is_producible
 
-    def create(self):
-        new_article = ArticleModel(name=self.name,
-                                   description=self.description,
-                                   type_unit=self.type_unit,
-                                   is_producible = self.is_producible
-                                )
+    def create(self, data):
+        new_article = ArticleModel()
+        
+        new_article.name = data.get('name')
+        new_article.description = data.get('description')
+        new_article.type_unit = data.get('type_unit')
+        new_article.is_producible = bool(data.get('is_producible'))
+        new_article.stockable = bool(data.get('is_stockable'))
+        
         db.session.add(new_article)
         db.session.commit()
     
     @staticmethod
     def get_all():
         return db.session.query(ArticleModel).all()
+    
+    @staticmethod
+    def get_all_active():
+        return db.session.query(ArticleModel).filter(ArticleModel.active == True).all()
     
     @staticmethod
     def get_all_producibles():
