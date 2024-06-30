@@ -12,7 +12,7 @@
         <canvas id="myChart"></canvas>
     </div>
     <div class="m-4">
-        <label for="">Limit days</label>
+        <label for="" class="sub-title-primary">Limit days</label>
         <select name="limit" id="limit" class="form-control-1">
             <option value="" disabled selected>Select</option>
             <option value="3">3</option>
@@ -24,7 +24,7 @@
 </div>
 
 <div class="m-4 border rounded-xl border-emerald-400 overflow-hidden">
-    <form action="" class="">
+    <form action="{{url_for('production.create', date=g.date)}}" class="" method="post">
         <table class="w-full bg-white">
             <thead>
                 <tr class="bg-emerald-400 *:p-4 *:text-center *:font-medium">
@@ -35,12 +35,15 @@
             </thead>
             <tbody class="">
                 {% for article in context.articles %}
-                <tr class="*:text-center *:odd:bg-slate-100 *:p-4">
-                    <td>{{article.name | title}}</td>
-                    <td class="flex justify-center "><input type="number" class="form-control-1 bg-white w-3/6" name="{{article.id}}"></td>
-                    <td>{{context.produced.get(article.id, 0)}}</td>
-                </tr>
-                
+                {% if article.active or context.produced.get(article.id) %}
+                    <tr class="*:text-center *:odd:bg-slate-100 *:p-4">
+                        <td>{{article.name | title}}</td>
+                        <td class="flex justify-center ">
+                            <input type="text" class="form-control-1 bg-white w-3/6 text-black" name="{{article.id}}" id="insertAmount">
+                        </td>
+                        <td>{{context.produced.get(article.id, 0)}}</td>
+                    </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -60,6 +63,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-<script src="{{url_for('production.static', filename='chart.js')}}"></script>
 
+<script src="{{url_for('production.static', filename='chart.js')}}"></script>
+<script src="{{url_for('production.static', filename='production.js')}}"></script>
+<br>
 {% endblock content %}

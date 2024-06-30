@@ -41,8 +41,8 @@
     }
 
     .sub-title-primary {
-        @apply dark:text-indigo-100  text-gray-800 mt-4
-        font-semibold text-lg
+        @apply  mt-4
+        font-semibold text-lg dark:text-white
     }
 
     .select-primary {

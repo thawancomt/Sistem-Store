@@ -4,6 +4,7 @@ from  flask import Blueprint, render_template, request, redirect, g, url_for
 from ..services.DailyTasksService import DailyTasksService
 from ..services.DailyTasksStatusService import DailyStatusService, datetime
 
+
 daily_tasks = Blueprint('daily_tasks', __name__,
                         template_folder='../templates',
                         static_folder='../static',

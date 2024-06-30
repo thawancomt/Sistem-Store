@@ -161,6 +161,8 @@
 </div>
 <div class="m-4 rounded-xl overflow-scroll shadow-black shadow-md " id="compare_stock" >
   <h1 class="information-primary m-4 md:hidden dark:text-yellow-300 text-slate-800 text-center" > For better view, use you smartphone in landscape mode </h1>
+  <form action="">
+
     <table class="w-full">
       <thead class="bg-green-950 ">
         <tr class="*:p-4 *:text-center bg-green-950 *:text-white font-medium">
@@ -185,7 +187,7 @@
       </thead>
       <tbody class="">
         {% for article in  context.articles %}
-        <tr class="*:bg-white *:odd:bg-slate-100 *:p-2 *:text-center">
+        <tr class="*:bg-white *:odd:bg-slate-100 *:p-4 *:text-center">
           <td>
             {{article.name}}
           </td>

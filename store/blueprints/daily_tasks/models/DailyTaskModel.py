@@ -19,13 +19,15 @@ class DailyTaskModel(db.Model):
     
 
     finished_by = Column(Integer, ForeignKey('users.id'))
+    created_by = Column(Integer, ForeignKey('users.id'), nullable=False)
+    
+    
+    
 
     finisher = relationship('User', foreign_keys=[finished_by] )
+    creator = relationship('User', foreign_keys=[created_by] )
     
-    
-    
-"""
-status code:
+"""status code:
     0 - Deprecated
     1 	- Active
 """

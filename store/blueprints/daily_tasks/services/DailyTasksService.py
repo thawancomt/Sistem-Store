@@ -35,7 +35,7 @@ class DailyTasksService:
 
     
     def create_task(self, data):
-        task = DailyTaskModel(**data)
+        task = DailyTaskModel(**data, created_by=current_user.id)
         db.session.add(task)
         db.session.commit()
 

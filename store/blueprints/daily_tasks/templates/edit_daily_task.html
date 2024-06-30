@@ -26,7 +26,9 @@
         <label for="">Whon Finished the task</label>
         <select name="finished_by" class="form-control-1" id="">
             <option value="{{current_user.id}}">{{current_user.username}}</option>
-            <option value="{{context.task.finisher.id}}">{{context.task.finisher.username}}</option>
+            {% if context.task.finisher.username != current_user.username %}
+            <option value="{{context.task.finisher.id if context.task.finisher else '' }}" selected>{{context.task.finisher.username if context.task.finisher else 'Not finished'}}</option>
+            {% endif %}
         </select>
 
         <input type="hidden" value="{{context.task.id}}" name="task_id">

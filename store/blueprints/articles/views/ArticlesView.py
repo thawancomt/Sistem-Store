@@ -26,7 +26,8 @@ def create():
 
 articles = Blueprint('articles', __name__, 
                      template_folder='../templates',
-                     url_prefix='/articles')
+                     url_prefix='/articles',
+                     static_folder='../static')
 
 articles.register_blueprint(type_unit)
 
@@ -42,15 +43,10 @@ def view():
 
 @articles.route('/create', methods=['POST'])
 def create():
-    name = request.form.get('name', 'PEdro')
-    description = request.form.get('description')
-    type_unit = request.form.get('type_unit')
-    is_producible = bool(request.form.get('is_producible'))
-
+    data = request.form.to_dict()
     
-    article = ArticlesService(name=name, description=description, type_unit=type_unit, is_producible = is_producible)
-    
-    article.create()
+        
+    article = ArticlesService().create(data)
     return redirect(url_for('articles.view'))
 
 @articles.route('/update', methods=['POST'])

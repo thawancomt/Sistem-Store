@@ -2,34 +2,91 @@
 
 {% block content %}
 
-<form action="{{url_for('articles.edit', article_id=article.id)}}" class="" method="post">
+<div class="m-4">
+    <h1 class="title-primary">Edit article</h1>
+    <h1 class="sub-title-primary">Edit the article information</h1>
+    <br>
+
+
+    <form action="{{url_for('articles.edit', article_id=article.id)}}" class="" method="post">
+        <label for="" class="sub-title-primary">Article ID:</label>
+        <input type="text" name="article_id" value="{{article.id}}" class="form-control-1">
     
-    <input type="text" name="article_id" value="{{article.id}}" class="form-control-1">
-    <input type="text" name="name" value="{{article.name}}" class="form-control-1">
-    <input type="text" name="description" value="{{article.description}}" class="form-control-1">
-    <select name="type_unit" id="" class="form-control-1">
-        {% for type_unit in types %}
-        <option value="{{type_unit.id}}">{{type_unit.name}}</option>
-        {% endfor %}
-    </select>
+    
+        <label for="" class="sub-title-primary">Name</label>
+        <input type="text" name="name" value="{{article.name}}" class="form-control-1">
+        <label for="" class="sub-title-primary">Description</label>
+        <input type="text" name="description" value="{{article.description}}" class="form-control-1">
+    
+        <label for="" class="sub-title-primary">Unit</label>
+        <select name="type_unit" id="" class="form-control-1">
+            {% for type_unit in types %}
+            <option value="{{type_unit.id}}" {% if type_unit.id == article.type_unit %} selected {% endif %}>{{type_unit.name}}</option>
+            {% endfor %}
+        </select>
+        
+        <h1 class="title-primary">
+            Article details
+        </h1>
+        <h1 class="sub-title-primary">
+            Mark the options relevants for the article
+        </h1>
+        <span class="information-primary">Note: if you set the article as not active, this article will not show in the stock and production page</span>
+        <div class="w-full overflow-hidden">
 
-    <div class="border m-4 p-2 flex items-center justify-center">
-        <label for="is_producible" class="sub-title-primary">Is Producible</label>
-        <input type="checkbox" name="is_producible" value="{{article.is_producible}}" {% if article.stockable %} checked {% endif %} class="form-control-1">
-    </div>
+            <table class="w-full">
+                <thead class="*:bg-emerald-400 ">
+                    <tr class="*:p-4">
+                        <th>
+                            Detail
+                        </th>
+                        <th>
+                            On/Off
+                        </th>
+                    </tr>
+                </thead>
+                <tbody  class="bg-white *:text-slate-900">
+                    <tr class="odd:bg-slate-100">
+                        <td class="text-center *:p-2">
+                            <label for="active" class="sub-title-primary text-black">Active</label>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="active" value="{{article.active}}" {% if article.active %} checked {% endif %} class="form-control-1 text-black">
+                        </td>
+                    </tr>
+                    <tr class="odd:bg-slate-100 *:p-2">
+                        <td class="text-center">
+                            <label for="is_active" class="sub-title-primary text-black">Is producible</label>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="is_active" value="{{article.is_active}}" {% if article.is_producible %} checked {% endif %} class="form-control-1">
+                        </td>
+                    </tr>
+                    <tr class="odd:bg-slate-100 *:p-2">
+                        <td class="text-center">
+                            <label for="is_active" class="sub-title-primary text-black">Is stockable</label>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="is_stockable" value="{{article.is_stockable}}" {% if article.stockable %} checked {% endif %} class="form-control-1 text-black">
+                        </td>
+                    </tr>
+                    <tr class="odd:bg-slate-100 *:p-2">
+                        <td class="text-center">
+                            <label for="is_active" class="sub-title-primary text-black">More examples(Possibilities)</label>
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="is_stockable" value="{{article.is_stockable}}" {% if article.stockable %} checked {% endif %} class="form-control-1 text-black">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <div class="border m-4 p-2 flex items-center justify-center">
-        <label for="stockable" class="sub-title-primary">Is stockable</label>
-        <input type="checkbox" name="stockable"  {% if article.stockable %} checked {% endif %} class="form-control-1">
-    </div>
+        
+        <input type="submit" value="Edit {{article.name}}" class="btn-primary">
+    
+    </form>
+</div>
 
-    <input type="submit" value="Edit {{article.name}}" class="btn-primary">
 
-</form>
-<h1>
-    {{article.stockable }}
-</h1>
-<h1>
-    {{article.is_producible }}
-</h1>
 {% endblock content %}
