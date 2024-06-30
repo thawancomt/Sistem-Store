@@ -49,11 +49,6 @@ def create():
     article = ArticlesService().create(data)
     return redirect(url_for('articles.view'))
 
-@articles.route('/update', methods=['POST'])
-def update_articles():
-    data = request.form
-
-    return f'{data}'
 
 @articles.route('/edit/<int:article_id>')
 def edit_view(article_id):
@@ -65,8 +60,14 @@ def edit_view(article_id):
 @articles.route('/edit/<int:article_id>', methods=['POST'])
 def edit(article_id):
     data = request.form.to_dict()
+    
 
     article = ArticlesService().edit_article(data)
 
+    return redirect(url_for('articles.view'))
+
+@articles.route('/delete/<int:article_id>', methods=['POST'])
+def delete(article_id):
+    ArticlesService().delete(article_id)
     return redirect(url_for('articles.view'))
 

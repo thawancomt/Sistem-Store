@@ -51,7 +51,7 @@
                             <label for="active" class="sub-title-primary text-black">Active</label>
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" name="active" value="{{article.active}}" {% if article.active %} checked {% endif %} class="form-control-1 text-black">
+                            <input type="checkbox" name="active" {% if article.active %} checked {% endif %} class="form-control-1 text-black">
                         </td>
                     </tr>
                     <tr class="odd:bg-slate-100 *:p-2">
@@ -59,7 +59,7 @@
                             <label for="is_active" class="sub-title-primary text-black">Is producible</label>
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" name="is_active" value="{{article.is_active}}" {% if article.is_producible %} checked {% endif %} class="form-control-1">
+                            <input type="checkbox" name="is_producible" {% if article.is_producible %} checked {% endif %} class="form-control-1">
                         </td>
                     </tr>
                     <tr class="odd:bg-slate-100 *:p-2">
@@ -67,7 +67,7 @@
                             <label for="is_active" class="sub-title-primary text-black">Is stockable</label>
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" name="is_stockable" value="{{article.is_stockable}}" {% if article.stockable %} checked {% endif %} class="form-control-1 text-black">
+                            <input type="checkbox" name="is_stockable" {% if article.stockable %} checked {% endif %} class="form-control-1 text-black">
                         </td>
                     </tr>
                     <tr class="odd:bg-slate-100 *:p-2">
@@ -75,7 +75,7 @@
                             <label for="is_active" class="sub-title-primary text-black">More examples(Possibilities)</label>
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" name="is_stockable" value="{{article.is_stockable}}" {% if article.stockable %} checked {% endif %} class="form-control-1 text-black">
+                            <input type="checkbox" name="is_stockable"  {% if article.stockable %} checked {% endif %} class="form-control-1 text-black">
                         </td>
                     </tr>
                 </tbody>
@@ -87,6 +87,20 @@
     
     </form>
 </div>
+<div class="m-4">
+    <h1 class="title-primary"> Delete this article</h1>
+    <span class="information-primary text-red-600">Are you sure you want to delete this article?</span>
 
+    <br>
+    <span class="information-primary text-yellow-600">!!! It will remove all the information related to this article in the database including the production and stock relationed to this article !!!</span><br>
+    <span class="information-primary ">Instead delete, you can deactive the article, in new stocks and productions it will not show.</span>
+
+    <form action="{{url_for('articles.delete', article_id=article.id)}}" method="post">
+        <input type="hidden" name="article_id" value="{{article.id}}">
+        <button type="button" class="btn-primary" id="deleteBtn">Delete {{article.name}}</button>
+    </form>
+</div>
+
+<script src="{{url_for('articles.static', filename='delete.js')}}"></script>
 
 {% endblock content %}

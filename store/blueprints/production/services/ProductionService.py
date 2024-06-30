@@ -45,6 +45,15 @@ class ProductionService(Service):
         db.session.delete(production)
         db.session.commit()
         
+    def delete_all_production_by_article_id(self, article_id):
+        all_production = self.get_all()
+        
+        for production in all_production:
+            if production.article_id == int(article_id):
+                db.session.delete(production)
+        
+        db.session.commit()
+        
         
     def get_already_prodeced(self) -> Production:
         actual_day = self.date

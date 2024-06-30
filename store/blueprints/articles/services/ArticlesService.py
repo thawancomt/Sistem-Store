@@ -38,18 +38,35 @@ class ArticlesService:
 
 
     def edit_article(self, data):
-        if article := db.session.query(ArticleModel).filter(ArticleModel.id == data['article_id']).first():
-            article.name = data['name']
-            article.description = data['description']
-            article.type_unit = data['type_unit']
-            article.is_producible = bool(data.get('is_producible', 0))
-            article.stockable = bool(data.get('stockable', 0))
-            db.session.commit()
-            return True
+        if article := self.get_by_id(data.get('id')):
+            if article:
+                article.name = data.get('name') or article.name
+                article.description = data.get('description') or article.description
+                article.type_unit = data.get('type_unit') or article.type_unit
+                article.active = bool(data.get('active', 0))
+                article.is_producible = bool(data.get('is_producible', 0))
+                article.stockable = bool(data.get('is_stockable', 0))
+                
+                db.session.commit()
+                return True
         return False
+    
 
     def get_by_id(self, id):
         return db.session.query(ArticleModel).filter(ArticleModel.id == id).first()
+
+    def delete(self, id):
+        from store.blueprints.production.services.ProductionService import ProductionService
+        from store.blueprints.stock.services.StockServices import StockServices
+        
+        if article := self.get_by_id(id):
+            # Not recomende, may get server slow
+            ProductionService().delete_all_production_by_article_id(id)
+            StockServices().delete_all_stock_by_article_id(id)
+            db.session.delete(article)
+            db.session.commit()
+            return True
+        return False
 
     
 class TypeUnitsService:
