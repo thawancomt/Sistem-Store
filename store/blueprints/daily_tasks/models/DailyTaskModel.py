@@ -11,7 +11,8 @@ class DailyTaskModel(db.Model):
     
     description = Column(Text, nullable=False)
     
-    status = Column(Boolean, server_default='1', nullable=False)
+    status = Column(Boolean, server_default='1', nullable=False) 
+
     
     start_at = Column(DateTime,server_default=func.now() ,nullable=False)
     end_at = Column(DateTime, nullable=True)
@@ -21,13 +22,7 @@ class DailyTaskModel(db.Model):
     finished_by = Column(Integer, ForeignKey('users.id'))
     created_by = Column(Integer, ForeignKey('users.id'), nullable=False)
     
-    
-    
 
     finisher = relationship('User', foreign_keys=[finished_by] )
     creator = relationship('User', foreign_keys=[created_by] )
     
-"""status code:
-    0 - Deprecated
-    1 	- Active
-"""
