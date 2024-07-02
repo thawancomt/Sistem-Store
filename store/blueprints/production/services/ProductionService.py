@@ -57,15 +57,13 @@ class ProductionService(Service):
         
     def get_already_prodeced(self) -> Production:
         actual_day = self.date
-        
-
         next_day = (datetime.strptime(actual_day, '%Y-%m-%d') + timedelta(days=1))
         
         return db.session.query(
             Production.article_id,
             func.sum(Production.quantity).label('quantity')
             ) \
-            .filter(and_(Production.store_id == self.store_id, Production.date >= actual_day, Production.date <= next_day)) \
+            .filter(and_(Production.store_id == self.store_id, Production.date >= actual_day, Production.date < next_day)) \
             .group_by(Production.article_id).all()
         
         

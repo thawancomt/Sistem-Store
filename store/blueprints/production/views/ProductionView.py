@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, g
 
 from ..services.ProductionService import ProductionService, current_user, datetime
-from ..services.ProductionChartService import ChartService
+from ..services.ProductionChartService import ProductionChartService
+
+import json
 
 
 production = Blueprint('production', __name__,
@@ -20,6 +22,8 @@ def homepage(store_id):
     
     past_days = int(request.args.get('lenght', '0')) or 30
     chart_type = request.args.get('chart_type', 'bar')
+    
+    production_chart = ProductionChartService(g.date, past_days, store_id)
 
     context = {
         'articles' : ProductionService.get_articles(),
@@ -27,10 +31,12 @@ def homepage(store_id):
         'history' : ProductionService(store_id=store_id, date=g.date).get_production_history(),
         
         # Chart context
-        'chartdata' : ChartService(how_many_days=past_days, date=g.date).create_chart_datasets(),
-        'chartlabels' : ChartService(how_many_days=past_days, date=g.date).create_date_labels_for_chart(),
-        'type' : str(chart_type)
+        'chartdata' : production_chart.dataset,
+        'chartlabels' : production_chart.date_labels,
+        'type' : str(chart_type),
     }
+
+
     return render_template('production.html', context=context)
 
 @production.route('/create', methods=['POST'])
@@ -41,7 +47,7 @@ def create():
     ProductionService().create(data)
     
 
-    return redirect(url_for('production.home'))
+    return redirect(url_for('production.home', date=g.date))
 
 
 
