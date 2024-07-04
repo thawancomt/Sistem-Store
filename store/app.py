@@ -5,6 +5,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
+import flask_login
+
+
+
+
+
 
 from store.extensions import db, login_manager
 
@@ -50,6 +56,9 @@ def create_app():
         db.create_all()
         
     login_manager.init_app(app)
+
+    
+    
 
     @app.route('/')
     def home():

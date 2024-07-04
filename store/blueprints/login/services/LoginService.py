@@ -7,7 +7,7 @@ from store.extensions import login_manager
 
 from flask import  redirect, flash, url_for
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class LoginService:
     def __init__(self, email = None, password = None) -> None:
@@ -34,7 +34,7 @@ class LoginService:
         if self.user and self.verify_password(self.user.password):
             self.user.last_login = datetime.now()
             db.session.commit()            
-            login_user(self.user)
+            login_user(self.user, remember=True, duration=timedelta(minutes=30))
             return True
         
         return False

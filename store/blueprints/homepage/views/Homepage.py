@@ -11,14 +11,14 @@ homepage = Blueprint('homepage', __name__,
 
 from store.blueprints.tasks.services.TaskService import TaskService
 from store.blueprints.stores_management.services.StoreService import StoreService
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, fresh_login_required
 
 import os
 
 
 
 @homepage.route('/', methods=['GET', 'POST'])
-@login_required
+@fresh_login_required
 def home():
     
     
