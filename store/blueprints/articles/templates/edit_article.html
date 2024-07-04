@@ -24,6 +24,9 @@
             <option value="{{type_unit.id}}" {% if type_unit.id == article.type_unit %} selected {% endif %}>{{type_unit.name}}</option>
             {% endfor %}
         </select>
+
+        <label for="price" class="sub-title-primary">Price per unit (PPU)</label>
+        <input type="number" name="price" value="{{article.price}}" class="form-control-1" step="0.1">
         
         <h1 class="title-primary">
             Article details

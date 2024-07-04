@@ -24,11 +24,15 @@ def homepage(store_id):
     chart_type = request.args.get('chart_type', 'bar')
     
     production_chart = ProductionChartService(g.date, past_days, store_id)
+    
+    production_data = ProductionService(store_id=store_id, date=g.date)
 
     context = {
-        'articles' : ProductionService.get_articles(),
-        'produced' : ProductionService(store_id=store_id, date=g.date).get_data_for_total_production(),
-        'history' : ProductionService(store_id=store_id, date=g.date).get_production_history(),
+        'articles' : production_data.articles,
+        'produced' : production_data.total_production,
+        'history' : production_data.history,
+        'total_production_cost' : production_data.total_cost,
+        'sum_total_cost' : production_data.all_production_cost,
         
         # Chart context
         'chartdata' : production_chart.dataset,

@@ -24,6 +24,9 @@
             <option value="{{ type_unit.id }}">{{ type_unit.name }}</option>
             {% endfor %}
         </select>
+
+        <label for="price" class=" sub-title-primary">Price:</label>
+        <input type="number" name="price" class="form-control-1" required step="0.1">
         <br>
 
         <div class="rounded-lg overflow-hidden">
@@ -71,6 +74,7 @@
                     <td>ID</td>
                     <td>Active</td>
                     <td>Name</td>
+                    <td>Price</td>
                     <td>Type</td>
                     <td>Producible</td>
                     <td>Stockable</td>
@@ -88,6 +92,9 @@
                     </td>
                     <td class="text-center">
                         {{ article.name }}
+                    </td>
+                    <td class="text-center">
+                        {{ article.price }}
                     </td>
                     <td class="text-center">{{ article.type.alias }}</td>
                     <td class="text-center"><input type="checkbox" name="" id="" {% if  article.is_producible %} checked {% endif %} disabled class="checkbox-primary"></td>

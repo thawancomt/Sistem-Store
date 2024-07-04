@@ -5,14 +5,17 @@
     <h1 class="title-primary">
         Production Page
     </h1>
+    <p class="sub-title-primary">
+        In this page you will see all tools to manage production.
+    </p>
 </div>
 
 <div class="h-fit">
-    <div class="h-60">
+    <div class="h-72 shadow m-2 rounded-lg bg-slate-100">
         <canvas id="myChart"></canvas>
     </div>
     <div class="m-4">
-        <label for="" class="sub-title-primary">Limit days</label>
+        <label for="" class="sub-title-primary">Limit chart days</label>
         <select name="limit" id="limit" class="form-control-1">
             <option value="" disabled selected>Select</option>
             <option value="3">3</option>
@@ -23,14 +26,25 @@
     </div>
 </div>
 
-<div class="m-4 border rounded-xl border-emerald-400 overflow-hidden">
+<div class="border rounded-xl  overflow-hidden container-primary m-2 w-auto">
+    <div class="">
+        <h1 class="title-primary text-center">
+            Insert production
+        </h1>
+        <h1 class="sub-title-primary text-center m-0">
+            Insert bellow the amount of each article produced
+        </h1>
+    </div>
     <form action="{{url_for('production.create', date=g.date)}}" class="" method="post">
         <table class="w-full bg-white">
             <thead>
                 <tr class="bg-emerald-400 *:p-4 *:text-center *:font-medium">
-                    <td>Articles</td>
-                    <td>Insert Amount</td>
+                    <td>Article</td>
+                    <td>Production</td>
                     <td>Total</td>
+                    {% if current_user.level <= 1 %}
+                    <td>Total Cost</td>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody class="">
@@ -41,14 +55,36 @@
                         <td class="flex justify-center ">
                             <input type="text" class="form-control-1 bg-white w-3/6 text-black" name="{{article.id}}" id="insertAmount">
                         </td>
-                        <td>{{context.produced.get(article.id, 0)}}</td>
+                        <td>{{context.produced.get(article.id, 0)}} {{article.type.alias}}</td>
+                        {% if current_user.level <= 1 %}
+                        <td>
+                            {{
+                                context.total_production_cost.get(article.id, 0)
+                            }}
+                        </td>
+                         
+                        {% endif %}
                     </tr>
-                {% endif %}
-                {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                    <tr class="*:text-center ">
+                        <td></td>
+                        <td></td>
+                        <td>
+                            All cost:  
+                        </td>
+                        <td class="flex justify-center items-center gap-1">
+                            {{context.sum_total_cost}}
+                        </td>
+                    </tr>
             </tbody>
         </table>
-        <div class="flex justify-center">
-            <button type="button" class="btn-primary w-5/6 m-2 p-6 text-center items-center flex justify-center" id="insertBtn">Insert new production</button>
+
+
+        
+
+        <div class="flex justify-end ">
+            <button type="button" class="btn-primary w-3/6 md:w-1/6 mr-1 text-center items-center flex justify-center rounded-lg " id="insertBtn">Insert new production</button>
         </div>
     </form>
 </div>

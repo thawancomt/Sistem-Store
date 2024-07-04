@@ -16,6 +16,7 @@ class ArticlesService:
         new_article.type_unit = data.get('type_unit')
         new_article.is_producible = bool(data.get('is_producible'))
         new_article.stockable = bool(data.get('is_stockable'))
+        new_article.price = data.get('price')
         
         db.session.add(new_article)
         db.session.commit()
@@ -38,7 +39,7 @@ class ArticlesService:
 
 
     def edit_article(self, data):
-        if article := self.get_by_id(data.get('id')):
+        if article := self.get_by_id(data.get('article_id')):
             if article:
                 article.name = data.get('name') or article.name
                 article.description = data.get('description') or article.description
@@ -46,6 +47,7 @@ class ArticlesService:
                 article.active = bool(data.get('active', 0))
                 article.is_producible = bool(data.get('is_producible', 0))
                 article.stockable = bool(data.get('is_stockable', 0))
+                article.price = float(data.get('price')) or article.price
                 
                 db.session.commit()
                 return True

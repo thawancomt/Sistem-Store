@@ -1,5 +1,5 @@
 from store.extensions import db
-from sqlalchemy import Column, Integer, String, ForeignKey, BOOLEAN, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, BOOLEAN, Text, Float
 from sqlalchemy.orm import relationship, validates
 
 
@@ -15,6 +15,9 @@ class ArticleModel(db.Model):
     
     active = Column(BOOLEAN, default=True, nullable=False)
     
+    
+    price = (Column(Float,server_default="0.0", nullable=False))
+    is_in_promotion = Column(BOOLEAN, default=False, nullable=False)
     
     
     

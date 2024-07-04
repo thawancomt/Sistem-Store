@@ -60,9 +60,7 @@ def edit_view(article_id):
 @articles.route('/edit/<int:article_id>', methods=['POST'])
 def edit(article_id):
     data = request.form.to_dict()
-    
-
-    article = ArticlesService().edit_article(data)
+    ArticlesService().edit_article(data)
 
     return redirect(url_for('articles.view'))
 

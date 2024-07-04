@@ -86,9 +86,10 @@ class ProductionChartService(ProductionService):
             'datasets' : [
                 {
                     'label' : article,
-                    'data' : data
+                    'data' : data,
+                    'hidden' : True if index > 5 else False,
                 }
-                for article, data in self.create_dataset().items()
+                for index, (article, data) in enumerate(self.create_dataset().items())
             ]
         }
 

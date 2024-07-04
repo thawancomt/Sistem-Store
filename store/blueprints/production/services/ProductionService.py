@@ -7,6 +7,9 @@ from ...articles.services.ArticlesService import ArticlesService
 from sqlalchemy import func, and_
 from datetime import datetime, timedelta
 
+from flask import g
+
+
 
 
 class ProductionService(Service):
@@ -15,7 +18,17 @@ class ProductionService(Service):
         self.creator_id = current_user.id
         self.article_id = article_id
         self.quantity = quantity
-        self.date : str = date
+        self.date : str = date or g.date
+        self.articles = self.get_articles()
+        
+        self.total_production = self.get_data_for_total_production()
+        
+        self.total_cost = self.get_total_cost(production=self.total_production)
+        
+        self.all_production_cost = sum(self.total_cost.values())
+        
+        self.history = self.get_production_history()
+        
     
     @staticmethod
     def get_all():
@@ -111,3 +124,16 @@ class ProductionService(Service):
                 db.session.add(new_production)
         
         db.session.commit()
+    
+    def get_total_cost(self, production = None):
+        
+        total_production = production or self.get_data_for_total_production()
+
+        articles = self.get_articles()
+
+        total = {
+            article.id: int(total_production.get(article.id, 0)) * article.price
+            for article in articles
+        }
+
+        return total

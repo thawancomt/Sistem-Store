@@ -46,7 +46,7 @@ Chart.prototype.limitDays = function(days) {
   if (days > this.data.labels.length) {
     this.data.labels = Array.from(labelsfor_chart)
   }
-    this.data.labels = this.data.labels.splice(-days)
+    this.data.labels = this.data.labels.slice(-days)
   this.update()
 }
 

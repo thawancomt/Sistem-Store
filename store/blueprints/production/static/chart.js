@@ -17,6 +17,15 @@ const productionChart = new Chart(ctx, {
     type: 'line',
     data: dataset,
     options: {
+        plugins: {
+            title : {
+                text : 'Production History',
+                display : true,
+                font : {
+                    size : 20
+                }
+            },
+        },
         maintainAspectRatio: false,
         responsive: true
     },

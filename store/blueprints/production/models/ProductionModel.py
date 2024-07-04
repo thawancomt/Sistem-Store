@@ -1,10 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Boolean
 
 from store.extensions import db
 
-
-base = declarative_base()
+from sqlalchemy.orm import relationship
 class Production(db.Model):
     __tablename__ = 'production'
 
@@ -14,6 +12,7 @@ class Production(db.Model):
     quantity = Column(Integer, nullable=False)
     date = Column(DateTime, nullable=False)
     creator_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+
 
     store = relationship('Store', foreign_keys=[store_id] )
     article = relationship('ArticleModel', foreign_keys=[article_id] )
