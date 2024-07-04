@@ -110,6 +110,10 @@ class UserService:
     
     def get_user_by_username(self):
         return db.session.query(User).filter(User.username ==  self.username).first()
+
+    @staticmethod
+    def get(id):
+        return db.session.query(User).filter(User.id == id).first()
     
 
 

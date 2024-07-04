@@ -9,9 +9,7 @@ class StockChart(StockServices):
         self.labels = self.get_stocks_dates()
         
     def create_date_labels(self):
-        date_labels = [datetime.strftime(date.date, '%m-%d %H:%M') for date in self.labels][:self.days]
-
-        return date_labels
+        return  [datetime.strftime(date.date, '%m-%d %H:%M') for date in self.labels][:self.days]
     
     def create_all_stock_list(self):
         stocks = []

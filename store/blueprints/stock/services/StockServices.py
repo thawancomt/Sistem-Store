@@ -80,7 +80,7 @@ class StockServices:
         
     
     def update_stock(self, stock = None, data = None):
-        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all():
+        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date, Stock.store_id == self.store_id)).all():
             for row in stock:
                 row.quantity = int(data.get(f'{row.article_id}', 0)) or row.quantity
             db.session.commit()

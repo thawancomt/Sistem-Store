@@ -21,11 +21,7 @@ class LoginService:
         
     @login_manager.user_loader
     def load_user(user_id):
-        return db.session.query(
-            User
-        ).filter(
-            User.id == user_id
-        ).first()
+        return UserService.get(user_id)
         
     @login_manager.unauthorized_handler
     def unauthorized_callback():
@@ -48,5 +44,3 @@ class LoginService:
 
     def logout(self):
         logout_user()
-    def exits1(self, email):
-        return User.query.filter(User.email == email).first()
