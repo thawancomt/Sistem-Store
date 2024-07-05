@@ -4,6 +4,8 @@ from datetime import datetime
 from store.blueprints.users.models.UserModel import User
 from store.blueprints.stores_management.services.StoreService import StoreService
 
+from flask_login import fresh_login_required,  login_required
+
 
 edit_user = Blueprint('edit_user', __name__)
 
@@ -26,6 +28,7 @@ def edit_view(username):
     return render_template('edit_user.html', context=context  )
 
 @edit_user.route('/edit', methods=['POST'])
+@fresh_login_required
 def update():  # sourcery skip: avoid-builtin-shadow
     data = request.form.to_dict()
     
@@ -36,6 +39,7 @@ def update():  # sourcery skip: avoid-builtin-shadow
     return redirect(url_for('homepage.home'))
 
 @edit_user.route('/delete', methods=['POST'])
+@fresh_login_required
 def delete():
     """Update user status to inactive instead of deleting"""
     
@@ -45,6 +49,7 @@ def delete():
     return redirect(url_for('homepage.home'))
 
 @edit_user.route('/active', methods=['POST'])
+@fresh_login_required
 def reactive():
     """Update user status to active """
     user_id = request.form.get('user_id')

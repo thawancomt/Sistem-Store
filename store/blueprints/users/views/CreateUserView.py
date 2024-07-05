@@ -5,6 +5,7 @@ from ..services.UserService import UserService
 
 from datetime import datetime
 
+from flask_login import login_required
 
 create_user = Blueprint('create_user', __name__, url_prefix='/create',
                         template_folder='../templates',
@@ -22,6 +23,7 @@ def create_user_page():
     return render_template('register.html', context=context)
 
 @create_user.route('/', methods=['POST'])
+
 def create():
     
     username = request.form.get('username')

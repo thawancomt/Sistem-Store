@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from ..services.ProductionService import ProductionService, current_user, datetime
 from ..services.ProductionChartService import ProductionChartService
 
-import json
+from flask_login import login_required, fresh_login_required
 
 
 production = Blueprint('production', __name__,
@@ -12,12 +12,14 @@ production = Blueprint('production', __name__,
                        static_folder='../static')
 
 @production.route('/')
+@login_required
 def home():
     store_id = request.args.get('store_id') or current_user.store_id
     date = request.args.get('date') or datetime.now().strftime('%Y-%m-%d')
     return redirect(url_for('production.homepage', store_id = store_id, date = date))
 
 @production.route('/<store_id>/')
+@login_required
 def homepage(store_id):
     
     past_days = int(request.args.get('lenght', '0')) or 30
@@ -44,6 +46,7 @@ def homepage(store_id):
     return render_template('production.html', context=context)
 
 @production.route('/create', methods=['POST'])
+@login_required
 def create():
     data = request.form.to_dict()
     data['date'] = g.date

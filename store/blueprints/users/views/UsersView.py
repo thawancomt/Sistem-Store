@@ -9,6 +9,10 @@ from .EditUserView import edit_user
 
 from .CreateUserView import create_user
 
+from flask_login import login_required
+
+
+
 users = Blueprint('users', __name__, url_prefix='/users',
                        template_folder='../templates',
                        static_folder='../static')
@@ -18,6 +22,7 @@ users.register_blueprint(edit_user)
 users.register_blueprint(create_user)
     
 @users.route('/', methods=['GET', 'POST'])
+@login_required
 def home():
     user_query = request.form.get('user_query', None)
     

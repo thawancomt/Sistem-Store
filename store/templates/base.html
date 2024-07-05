@@ -13,7 +13,7 @@
     
 </head>
 <body class="h-full">
-    {% if current_user.is_authenticated %}
+    {% if current_user.is_authenticated and login_flesh %}
     <nav class="dark:bg-slate-800 w-full h-fit flex flex-wrap mb-4">
 
         <div class="flex justify-center items-center w-4/12">

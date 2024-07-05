@@ -8,19 +8,6 @@ class ArticlesService:
         self.type_unit = type_unit
         self.is_producible = is_producible
 
-    def create(self, data):
-        new_article = ArticleModel()
-        
-        new_article.name = data.get('name')
-        new_article.description = data.get('description')
-        new_article.type_unit = data.get('type_unit')
-        new_article.is_producible = bool(data.get('is_producible'))
-        new_article.stockable = bool(data.get('is_stockable'))
-        new_article.price = data.get('price')
-        
-        db.session.add(new_article)
-        db.session.commit()
-    
     @staticmethod
     def get_all():
         return db.session.query(ArticleModel).all()
@@ -36,9 +23,25 @@ class ArticlesService:
     @staticmethod
     def get_all_stockable():
         return db.session.query(ArticleModel).filter(ArticleModel.stockable == True).all()
+    
+    # CRUD
+    
+    def create(self, data):
+        new_article = ArticleModel()
+        
+        new_article.name = data.get('name')
+        new_article.description = data.get('description')
+        new_article.type_unit = data.get('type_unit')
+        new_article.is_producible = bool(data.get('is_producible'))
+        new_article.stockable = bool(data.get('is_stockable'))
+        new_article.price = data.get('price')
+        
+        db.session.add(new_article)
+        db.session.commit()
+    
 
 
-    def edit_article(self, data):
+    def update(self, data):
         if article := self.get_by_id(data.get('article_id')):
             if article:
                 article.name = data.get('name') or article.name
@@ -53,10 +56,6 @@ class ArticlesService:
                 return True
         return False
     
-
-    def get_by_id(self, id):
-        return db.session.query(ArticleModel).filter(ArticleModel.id == id).first()
-
     def delete(self, id):
         from store.blueprints.production.services.ProductionService import ProductionService
         from store.blueprints.stock.services.StockServices import StockServices
@@ -69,6 +68,10 @@ class ArticlesService:
             db.session.commit()
             return True
         return False
+
+    def get_by_id(self, id):
+        return db.session.query(ArticleModel).filter(ArticleModel.id == id).first()
+
 
     
 class TypeUnitsService:

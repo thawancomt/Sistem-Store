@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from ..services.ArticlesService import ArticlesService, TypeUnitsService
 
+from flask_login import login_fresh, login_required, fresh_login_required
+
 
 type_unit = Blueprint('type_unit', __name__, 
                      template_folder='../templates',
@@ -24,6 +26,8 @@ def create():
     type_unit.create()
     return redirect(url_for('articles.type_unit.view'))
 
+
+
 articles = Blueprint('articles', __name__, 
                      template_folder='../templates',
                      url_prefix='/articles',
@@ -33,38 +37,47 @@ articles.register_blueprint(type_unit)
 
 
 @articles.route('/')
+@login_required
 def view():
+    
     context = {
         'articles': ArticlesService.get_all(),
-        'type_units': TypeUnitsService.get_all()
+        'type_units': TypeUnitsService.get_all(),
+        'f' : login_fresh()
     }
     return render_template('articles.html', context=context)
 
 
 @articles.route('/create', methods=['POST'])
+@login_required
 def create():
-    data = request.form.to_dict()
     
-        
-    article = ArticlesService().create(data)
+    ArticlesService().create(
+        request.form.to_dict()
+    )
+    
     return redirect(url_for('articles.view'))
 
 
 @articles.route('/edit/<int:article_id>')
+@login_required
 def edit_view(article_id):
+    
     article = ArticlesService().get_by_id(article_id)
     types = TypeUnitsService.get_all()
 
     return render_template('edit_article.html', article_id=article_id, article=article, types=types)
 
 @articles.route('/edit/<int:article_id>', methods=['POST'])
+@fresh_login_required
 def edit(article_id):
     data = request.form.to_dict()
-    ArticlesService().edit_article(data)
+    ArticlesService().update(data)
 
     return redirect(url_for('articles.view'))
 
 @articles.route('/delete/<int:article_id>', methods=['POST'])
+@fresh_login_required
 def delete(article_id):
     ArticlesService().delete(article_id)
     return redirect(url_for('articles.view'))

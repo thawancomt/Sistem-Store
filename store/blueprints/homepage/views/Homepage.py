@@ -20,8 +20,7 @@ import os
 @homepage.route('/', methods=['GET', 'POST'])
 @fresh_login_required
 def home():
-    
-    
+
     context = {
         'tasks' : {
             'all_tasks' : TaskService.get_tasks_of_day(),

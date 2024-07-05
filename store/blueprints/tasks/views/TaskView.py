@@ -3,6 +3,8 @@ from store.blueprints.tasks.services.TaskService import TaskService
 
 from flask import g
 
+from flask_login import login_required
+
 
 
 tasks = Blueprint('tasks', __name__,
@@ -11,6 +13,7 @@ tasks = Blueprint('tasks', __name__,
 
 
 @tasks.route('/create', methods=['POST'])
+@login_required
 def create():
     
     task_name = request.form.get('task_name')

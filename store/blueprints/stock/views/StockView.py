@@ -1,11 +1,12 @@
 from flask import  Blueprint, render_template, request, redirect, url_for, flash, g
 
-from flask_login import current_user
+from flask_login import current_user, fresh_login_required, login_required
 
 from ..services.StockServices import StockServices, datetime, ArticlesService
 from ..services.StockChart import StockChart
 
-# services
+
+
 
 
 stock = Blueprint('stock', __name__,
@@ -14,6 +15,7 @@ stock = Blueprint('stock', __name__,
                   static_folder='../static')
 
 @stock.route('/')
+@login_required
 def index():
     stock_page = request.args.get('page', 1, type=int)
     reference_stock = request.args.get('reference_stock', 0)
@@ -48,6 +50,7 @@ def index():
     return render_template('stock.html', context=context, date=date, datetime=datetime)  
 
 @stock.route('/create', methods=['POST'])
+@fresh_login_required
 def create():
     data = request.form.to_dict()
     date = request.args.get('date')

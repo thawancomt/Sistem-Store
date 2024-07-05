@@ -2,11 +2,8 @@ from flask import Flask, redirect, render_template, request, flash, url_for, g
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, login_fresh
 from flask_migrate import Migrate
-
-import flask_login
-
 
 
 
@@ -56,6 +53,12 @@ def create_app():
         db.create_all()
         
     login_manager.init_app(app)
+    login_manager.refresh_view = 'auth.login'
+    login_manager.needs_refresh_message = 'Please insert your credentials again to confirm the login'
+    
+    migrate.init_app(app, db)
+    
+
 
     
     
@@ -70,11 +73,15 @@ def create_app():
 
     @app.context_processor
     def inject_today_date():
-        return {'today_date': datetime.now().strftime("%Y-%m-%d")}
+        return {'today_date': datetime.now().strftime("%Y-%m-%d"),
+                'fresh_user': login_fresh}
     
     @app.before_request
     def set_date():
+        
         g.date = request.args.get('date') or datetime.now().strftime("%Y-%m-%d")
+        
+        
 
 
     return app

@@ -3,7 +3,7 @@ from store.blueprints import *
 
 from ..services.LoginService import LoginService
 
-from flask_login import current_user
+from flask_login import current_user, login_fresh
 
 authentication = Blueprint('auth', __name__,
                      url_prefix='/auth',
@@ -13,7 +13,7 @@ authentication = Blueprint('auth', __name__,
 
 @authentication.route('/', methods=['GET'])
 def login_page():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and login_fresh():
         return redirect(url_for('homepage.home'))
     return render_template('login.html')
 
