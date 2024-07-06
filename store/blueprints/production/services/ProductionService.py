@@ -29,6 +29,9 @@ class ProductionService(Service):
         
         self.history = self.get_production_history()
         
+    @staticmethod
+    def get_articles():
+        return ArticlesService.get_all_producibles()
     
     @staticmethod
     def get_all():
@@ -41,7 +44,7 @@ class ProductionService(Service):
         
         for article_id, quantity in data.items():
             
-            if quantity and int(quantity) != 0:
+            if quantity and int(quantity):
                 production = Production(
                     store_id=self.store_id,
                     creator_id=self.creator_id,
@@ -96,9 +99,6 @@ class ProductionService(Service):
                     Production.date <= tomorrow,
                 )
             ).all()
-    @staticmethod
-    def get_articles():
-        return ArticlesService.get_all_producibles()
     
     def create_random_production(self, forward = False, days = 30):
         import random
