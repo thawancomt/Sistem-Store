@@ -35,9 +35,9 @@ class ProductionService(Service):
         return db.session.query(Production).all()
     
     def create(self, data):
-        date = data.get('date')
-    
-        del data['date']
+        date = g.date
+        
+        date = datetime.strptime(date, '%Y-%m-%d') if date else datetime.now()
         
         for article_id, quantity in data.items():
             
@@ -47,7 +47,7 @@ class ProductionService(Service):
                     creator_id=self.creator_id,
                     article_id=article_id,
                     quantity=quantity,
-                    date = date
+                    date = datetime.now().replace(date.year, date.month, date.day)
                 )
                 db.session.add(production)
         
@@ -89,17 +89,13 @@ class ProductionService(Service):
         today = self.date
         tomorrow = (datetime.strptime(today, '%Y-%m-%d') + timedelta(days=1))
         
-        return (
-            db.session.query(Production)
-            .filter(
+        return db.session.query(Production).filter(
                 and_(
                     Production.store_id == self.store_id,
                     Production.date >= today,
                     Production.date <= tomorrow,
                 )
-            )
-            .all()
-        )
+            ).all()
     @staticmethod
     def get_articles():
         return ArticlesService.get_all_producibles()
@@ -131,9 +127,7 @@ class ProductionService(Service):
 
         articles = self.get_articles()
 
-        total = {
+        return {
             article.id: int(total_production.get(article.id, 0)) * article.price
             for article in articles
         }
-
-        return total

@@ -49,8 +49,6 @@ def homepage(store_id):
 @login_required
 def create():
     data = request.form.to_dict()
-    data['date'] = g.date
-    
     ProductionService().create(data)
     
 
