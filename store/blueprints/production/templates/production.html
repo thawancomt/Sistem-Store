@@ -41,7 +41,7 @@
                 <tr class="bg-emerald-400 *:p-4 *:text-center *:font-medium">
                     <td>Article</td>
                     <td>Production</td>
-                    <td>Total</td>
+                    <td>Total Day</td>
                     {% if current_user.level <= 1 %}
                     <td>Total Cost</td>
                     {% endif %}
@@ -80,9 +80,6 @@
             </tbody>
         </table>
 
-
-        
-
         <div class="flex justify-end ">
             <button type="button" class="btn-primary w-3/6 md:w-1/6 mr-1 text-center items-center flex justify-center rounded-lg " id="insertBtn">Insert new production</button>
         </div>
@@ -90,7 +87,33 @@
 </div>
 <div class="w-full">
 </div>
+<div class="container-primary w-auto rounded-lg">
+    <div>
+        <h1 class="title-primary text-center">
+            Production History
+        </h1>
+        <table>
+            <table>
+                <tr>
+                    <td>Article</td>
+                    <td>Amount</td>
+                    <td>Creator</td>
+                    <td>Hour</td>
+                </tr>
+            <tbody>
+                {% for production in context.history %}
+                <tr>
+                    <td>{{production.article.name}}</td>
+                    <td>{{production.quantity}}</td>
+                    <td>{{production.creator.username}}</td>
+                    <td>{{production.date}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
 
+</div>
 
 <script>
     var dataset = {{ context.chartdata | tojson }};

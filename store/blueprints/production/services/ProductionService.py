@@ -25,7 +25,7 @@ class ProductionService(Service):
         
         self.total_cost = self.get_total_cost(production=self.total_production)
         
-        self.all_production_cost = sum(self.total_cost.values())
+        self.all_production_cost = sum(float(x) for x in self.total_cost.values())
         
         self.history = self.get_production_history()
         
@@ -128,6 +128,6 @@ class ProductionService(Service):
         articles = self.get_articles()
 
         return {
-            article.id: int(total_production.get(article.id, 0)) * article.price
+            article.id: f'{(int(total_production.get(article.id, 0)) * article.price):.2f}'
             for article in articles
         }
