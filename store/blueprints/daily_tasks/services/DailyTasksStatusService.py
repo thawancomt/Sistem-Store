@@ -18,7 +18,6 @@ class DailyStatusService:
         self.active_tasks = DailyTasksService().get_all_active_tasks()
         self.all_inative_tasks = DailyTasksService().get_all_inactive_tasks()
         
-        print(self.all_inative_tasks)
         self.insert_active_task()
         self.all_tasks = self.get_all_tasks()
         self.verify_if_exist_inative_tasks()
