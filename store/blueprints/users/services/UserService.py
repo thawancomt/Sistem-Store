@@ -7,6 +7,7 @@ from store.blueprints.users.models.UserModel import User
 
 from store.micro_services.email_sender import Email
 
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from sqlalchemy import or_
@@ -45,7 +46,8 @@ class UserService:
             password = self.password,
             store_id = self.store_id,
             created_at = self.created_at,
-            last_login = self.last_login
+            last_login = self.last_login,
+            active = False
         )
         
         try:

@@ -1,6 +1,8 @@
 
 from store.blueprints.users.services.UserService import UserService, check_password_hash
 from store.blueprints.users.models.UserModel import User, db
+from store.micro_services.code_verification import CodeService
+from store.micro_services.email_sender import Email
 
 from flask_login import login_user, logout_user
 from store.extensions import login_manager
@@ -31,7 +33,7 @@ class LoginService:
     
     
     def login(self):
-        if self.user and self.verify_password(self.user.password):
+        if self.user and self.verify_password(self.user.password) and self.user.active:
             self.user.last_login = datetime.now()
             db.session.commit()            
             login_user(self.user, remember=True, duration=timedelta(minutes=30))
@@ -44,3 +46,8 @@ class LoginService:
 
     def logout(self):
         logout_user()
+        
+    def send_code_to_active_account(self):
+        Email(self.user.email).send_email(code=True)
+        
+        
