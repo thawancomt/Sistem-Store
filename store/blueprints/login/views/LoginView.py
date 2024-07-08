@@ -45,14 +45,11 @@ def register_page():
     from store.blueprints.users.services.UserService import UserService
     from store.micro_services.code_verification import CodeService
     
-    user = UserService.get(current_user.id)
+    email = request.form.get('email') or request.args.get('email')
     
-    a = CodeService(user.id)
-    a.insert_new_code()
-    
+    user = UserService(email=email).get_user_by_email()
     
     return jsonify({
-        'code': a.code,
-        'real_code' : a._code,
-        'check_code' : a.check_code(a._code)
+        'check_code' : CodeService.check_code(user.id, request.args.get('code') or request.form.get('code')),
+        'code' : request.args.get('email')
     })

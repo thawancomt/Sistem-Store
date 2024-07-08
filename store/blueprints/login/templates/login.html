@@ -36,52 +36,5 @@
 </div>
 
 
+
 {% endblock content %}
-<div class="w-full flex items-center justify-center">
-    <div class="flex">
-        <div class="w-3/6 dark:bg-transparent bg-green-200 m-4 rounded-lg">
-            <div class="m-4">
-                <h1 class="text-emerald-500
-                        font-bold text-2xl">Sistem Analise</h1>
-                <h4 class="dark:text-indigo-100  text-gray-800 mt-4
-                        font-semibold text-lg">Insert your data to login</h4>
-            </div>
-            <div class="mx-4 my-10">
-                <form action="{{ url_for('auth.login')}}" method="POST" enctype="multipart/form-data">
-                    <input type="email" name="email" id="" class="form-control-1 w-full mt-4" required>
-                    <input type="password" name="password" id="" class="form-control-1 w-full mt-4 " required>
-                    <button type="submit" class="border border-emerald-500
-                    text-sm font-semibold dark:text-indigo-100
-                    w-full h-9 mt-4 dark:bg-green-500
-                    hover:bg-emerald-500 hover:text-gray-800">Enter</button>
-                </form>
-            </div>
-            <div>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <h1 class="m-4 sub-title-primary text-red-400" > {{ message }}</h1>
-                        {% endfor %}
-                    {% endif  %}
-                {% endwith %}
-            </div>
-            <div class="m-4">
-                <h4 class="dark:text-indigo-100 text-gray-800
-                font-semibold text-sm">Don't have an accouunt?</h4>
-                <a href="{{ url_for('users.create_user.create_user_page') }}" class="
-                font-semibold text-sm text-emerald-600 hover:underline">Create Now</a>
-            </div>
-            
-        </div>
-        
-    
-        <div class="bg-emerald-500
-                    w-3/6 h-auto m-4 rounded-lg
-                    flex flex-col justify-center items-center">
-            <h1 class=" text-xl font-bold ">Manage your Store</h1>
-            <h1 class=" text-2xl font-semibold text-gray-300">Get the control</h1>
-    
-        </div>
-        
-    </div>
-</div>

@@ -29,9 +29,10 @@ class Email:
             
             user = UserService(email=self.recipient_email).get_user_by_email()
             
-            code_service = CodeService(user.id).insert_new_code()
+            code_service = CodeService(user.id)
+            code_service.insert_new_code()
             
-            self.body = f'The code to register is: {code_service._code}'
+            self.body = f'The code to register is: {code_service.no_hashed_code}'
         
         self.email_body = self.create_body()
             

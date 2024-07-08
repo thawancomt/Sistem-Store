@@ -27,7 +27,7 @@ class CodeService:
         
         self.user = UserService.get(id)
         self.code = randint(100000, 999999)
-        self._code = self.code
+        self.no_hashed_code = self.code
     
     def insert_new_code(self):
         
@@ -44,9 +44,9 @@ class CodeService:
         db.session.add(code)
         db.session.commit()
         return code
-    
-    def check_code(self, code):
-        if usercode := db.session.query(CodeModel).where(CodeModel.user_id == self.user.id).first():
+    @staticmethod
+    def check_code(id, code):
+        if usercode := db.session.query(CodeModel).where(CodeModel.user_id == id).first():
             if check_password_hash(usercode.code, str(code)):
                 return True
         return False
