@@ -5,8 +5,12 @@ from hashlib import sha256
 
 from store.blueprints.users.models.UserModel import User
 
+from store.micro_services.email_sender import Email
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from sqlalchemy import or_
+from sqlalchemy.exc import IntegrityError
 
 def hash_password(password):
     return sha256(password.encode()).hexdigest()
@@ -32,7 +36,7 @@ class UserService:
         self.last_login = datetime.now()
         
     def create(self):
-        if new_user := self.db.session.query(User).filter(User.username == self.username).first():
+        if new_user := self.db.session.query(User).filter(or_(User.username == self.username, User.email == self.email)).first():
             return False
         
         new_user = User(
@@ -44,8 +48,12 @@ class UserService:
             last_login = self.last_login
         )
         
-        self.db.session.add(new_user)
-        self.db.session.commit()
+        try:
+            self.db.session.add(new_user)
+            self.db.session.commit()
+            Email(self.email).send_email()
+        except (IntegrityError, Exception):
+            return False
     
     def delete_user_by_username(self, username) -> bool:
         if user := User.query.filter(User.username == username):
