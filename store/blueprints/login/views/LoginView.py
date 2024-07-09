@@ -5,6 +5,10 @@ from flask import jsonify
 
 from ..services.LoginService import LoginService
 
+from store.blueprints.users.services.UserService import UserService
+
+from store.micro_services.code_verification import CodeService
+
 from flask_login import current_user, login_fresh
 
 authentication = Blueprint('auth', __name__,
@@ -27,7 +31,10 @@ def login():
     if not (user := LoginService(email = email, password=True).user.active):
         flash('User not active, check your email', 'danger')
         LoginService(email = email, password = password).send_code_to_active_account()
-        return redirect(url_for('auth.login_page'))
+        
+        user = LoginService(email = email, password=True).user
+        
+        return redirect(url_for('auth.confirmation', id=user.id))
     
     if LoginService(email = email, password = password).login():
         return redirect(url_for('homepage.home'))
@@ -40,16 +47,34 @@ def logout():
     LoginService().logout()
     return redirect(url_for('auth.login_page'))
 
-@authentication.route('/view_code', methods=['GET'])
-def register_page():
-    from store.blueprints.users.services.UserService import UserService
-    from store.micro_services.code_verification import CodeService
+@authentication.route('/confirmation', methods=['GET', 'POST'])
+def confirmation():
     
-    email = request.form.get('email') or request.args.get('email')
+    user = UserService.get(int(request.args.get('id')))
     
-    user = UserService(email=email).get_user_by_email()
+    if user.active:
+        return redirect(url_for('auth.login_page'))
     
-    return jsonify({
-        'check_code' : CodeService.check_code(user.id, request.args.get('code') or request.form.get('code')),
-        'code' : request.args.get('email')
-    })
+    email = str(user.email)
+    
+    context = {
+        'id' : user.id,
+        'email' : email.replace(email[2:-3], '*' * len(email[2:-3]))
+    }
+    
+    if request.method == 'POST':
+        
+        code_sent = request.form.get('code')
+        
+        
+        if CodeService.check_code(user.id, code_sent):
+            user.active = True
+            UserService.active_an_inactive_user(user.id)
+            flash('Account activated', 'success')
+            return redirect(url_for('auth.login_page'))
+        
+        flash('Code is invalid', 'danger')
+        return redirect(url_for('auth.confirmation', id=user.id))
+        
+        
+    return render_template('confirmation.html', context=context)

@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_fresh
 from flask_migrate import Migrate
 
-
+from store.micro_services.code_verification import CodeModel
 
 
 
@@ -20,6 +20,11 @@ from store.blueprints.articles.views.ArticlesView import articles
 from store.blueprints.production.views.ProductionView import production
 from store.blueprints.stock.views.StockView import stock
 from store.blueprints.daily_tasks.views.DailyView import daily_tasks
+
+# TEST
+from store.blueprints.profile_image.view import profile_image
+
+
 
 
 from datetime import datetime
@@ -42,6 +47,7 @@ def create_app():
     app.register_blueprint(production)
     app.register_blueprint(stock)
     app.register_blueprint(daily_tasks)
+    app.register_blueprint(profile_image)
 
 
 

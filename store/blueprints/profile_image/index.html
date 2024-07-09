@@ -1,0 +1,13 @@
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='output.css')}}">
+</head>
+
+<form action="{{url_for('profile_image.save')}}" method="post" enctype="multipart/form-data">
+    <Label>Upload your profile photo</Label>
+    <input type="file" name="file" id="" class="form-control-1">
+    <button>Upload</button>
+</form>
+
+<div class="" >
+    <img src="{{url_for('profile_image.view', id=id)}}" alt="" class="rounded-full w-32 h-32">
+</div>
