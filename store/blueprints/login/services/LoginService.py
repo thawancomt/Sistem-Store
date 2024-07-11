@@ -34,11 +34,10 @@ class LoginService:
     
     def login(self):
         if self.user and self.verify_password(self.user.password) and self.user.active:
-            self.user.last_login = datetime.now()
+            self.user.last_login = datetime.now() 
             db.session.commit()            
             login_user(self.user, remember=True, duration=timedelta(minutes=30))
             return True
-        
         return False
     
     def verify_password(self, hashed_password):
@@ -48,6 +47,6 @@ class LoginService:
         logout_user()
         
     def send_code_to_active_account(self):
-        Email(self.user.email).send_email(code=True)
+        Email(self.user.email, id=self.user.id).send_email(code=True)
         
         

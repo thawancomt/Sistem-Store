@@ -1,7 +1,8 @@
 from store.blueprints import *
 from store.blueprints.stores_management.services.StoreService import StoreService
-
 from ..services.UserService import UserService
+
+from store.micro_services.email_sender import Email
 
 from datetime import datetime
 
@@ -30,8 +31,8 @@ def create():
     email = request.form.get('email')
     password = request.form.get('password')
     store = request.form.get('store')
-    created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    last_login = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    created_at = datetime.now()
+    last_login = datetime.now()
     
     try:
         newUser = UserService(
@@ -42,15 +43,20 @@ def create():
             created_at=created_at,
             last_login=last_login
         )
+        
         newUser.create()
         flash('User created successfully')
-    except IntegrityError as e:
+        
+    except IntegrityError as e: 
         flash(f'{e.orig}')
-        return redirect('/')
+        return redirect(url_for('auth.login_page'))
+    
     except ValueError:
         flash('You forget na username')
         return redirect(url_for('auth.login_page'))
-        
-    return redirect('/')
+    
+    user = UserService(email=newUser.email).get_user_by_email()
+    
+    return redirect(url_for('auth.confirmation', id=user.id))
 
 

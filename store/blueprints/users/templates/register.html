@@ -13,12 +13,12 @@
         <form action="{{ url_for('users.create_user.create')}}" method="POST" class="flex flex-col justify-evenly h-5/6 w-full" id="register_form">
         
             <div>
-                <label for="username"  class="text-lg  font-semibold" > Username </label>
+                <label for="username"  class="sub-title-primary" > Username </label>
                 <input type="text" name="username" class="form-control-1" required placeholder="Your Username">
             </div>
         
             <div>
-                <label for="email"   class="text-lg  font-semibold"> Email </label>
+                <label for="email"   class="sub-title-primary"> Email </label>
                 <input type="email" name="email" class="form-control-1" required placeholder="Your Email">
             </div>
        
@@ -26,11 +26,11 @@
                 
                 <div class="w-full md:grid md:grid-cols-5 md:space-x-2 space-y-2 md:space-y-0">
                     <div>
-                        <label for="password" class="text-lg  font-semibold text-center"> New Password </label>
+                        <label for="password" class="sub-title-primary"> New Password </label>
                         <input type="password" name="password" id="password" class="form-control-1  col-span-2" required placeholder="Password" title="Teste">
                     </div>
                     <div>
-                        <label for="password" class="text-lg  font-semibold text-center"> Confirm password </label>
+                        <label for="password" class="sub-title-primary"> Confirm password </label>
                         <input type="password" name="password" id="confirm_password" class="form-control-1  col-span-2 col-start-4" required placeholder="Confirm password">
                     </div>
                 </div>

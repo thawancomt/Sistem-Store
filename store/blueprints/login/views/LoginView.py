@@ -27,13 +27,12 @@ def login_page():
 def login():
     email = request.form.get('email')
     password = request.form.get('password')
+
+    user = LoginService(email=email, password=True).user
     
-    if not (user := LoginService(email = email, password=True).user.active):
+    if user and not user.active:
         flash('User not active, check your email', 'danger')
         LoginService(email = email, password = password).send_code_to_active_account()
-        
-        user = LoginService(email = email, password=True).user
-        
         return redirect(url_for('auth.confirmation', id=user.id))
     
     if LoginService(email = email, password = password).login():
@@ -52,14 +51,14 @@ def confirmation():
     
     user = UserService.get(int(request.args.get('id')))
     
-    if user.active:
+    if not user or user.active:
         return redirect(url_for('auth.login_page'))
     
     email = str(user.email)
     
     context = {
         'id' : user.id,
-        'email' : email.replace(email[2:-3], '*' * len(email[2:-3]))
+        'email' : email.replace(email[3:-3], '*' * len(email[2:-3]))
     }
     
     if request.method == 'POST':
@@ -68,13 +67,15 @@ def confirmation():
         
         
         if CodeService.check_code(user.id, code_sent):
-            user.active = True
-            UserService.active_an_inactive_user(user.id)
-            flash('Account activated', 'success')
+            if UserService.active_an_inactive_user(user.id):
+                flash('Account activated', 'success')
+                return redirect(url_for('auth.login_page'))
+                
+            flash('Account not activated', 'danger')
             return redirect(url_for('auth.login_page'))
         
         flash('Code is invalid', 'danger')
-        return redirect(url_for('auth.confirmation', id=user.id))
+        return redirect(url_for('auth.confirmation',id=user.id))
         
         
     return render_template('confirmation.html', context=context)

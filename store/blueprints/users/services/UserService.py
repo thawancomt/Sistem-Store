@@ -53,9 +53,14 @@ class UserService:
         try:
             self.db.session.add(new_user)
             self.db.session.commit()
-            Email(self.email).send_email()
+            user = UserService(email=new_user.email).get_user_by_email()
+            Email(recipient_email=user.email, id=user.id).send_email()
+            return True
         except (IntegrityError, Exception):
             return False
+        
+        
+    
     
     def delete_user_by_username(self, username) -> bool:
         if user := User.query.filter(User.username == username):

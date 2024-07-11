@@ -1,11 +1,8 @@
-from store.extensions import db
-
 from sqlalchemy import Integer, String, Column, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
 
-
 from store.blueprints.users.services.UserService import UserService, generate_password_hash, check_password_hash
-
+from store.extensions import db
 
 from random import randint
 
@@ -22,20 +19,19 @@ class CodeModel(db.Model):
 
 class CodeService:
     def __init__(self, id = None) -> None:
-        if not id:
-            return False
         
         self.user = UserService.get(id)
         self.code = randint(100000, 999999)
-        self.no_hashed_code = self.code
+        self._no_hashed_code = self.code
+        self.insert_new_code()
+        
+        # 1 step - Take the user
+        # 2 step - Generate a code
+        # 3 step - Load the code to a variable no hashed
+        # 4 step - Insert the new code into the table
     
     def insert_new_code(self):
-        
-        if not (
-            code := db.session.query(CodeModel)
-            .where(CodeModel.user_id == self.user.id)
-            .first()
-        ):
+        if not (code := db.session.query(CodeModel).where(CodeModel.user_id == self.user.id).first()):
             code = CodeModel()
             code.user_id = self.user.id
 
@@ -45,7 +41,7 @@ class CodeService:
         db.session.commit()
         return code
     @staticmethod
-    def check_code(id, code):
+    def check_code(id, code) -> bool:
         if usercode := db.session.query(CodeModel).where(CodeModel.user_id == id).first():
             if check_password_hash(usercode.code, str(code)):
                 return True
