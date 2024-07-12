@@ -3,6 +3,7 @@ from ..models.ProductionModel import Production
 from flask_login import current_user
 
 from ...articles.services.ArticlesService import ArticlesService
+from store.blueprints.articles.services.ShelLifeService import ShelLifeService
 
 from sqlalchemy import func, and_
 from datetime import datetime, timedelta
@@ -10,7 +11,7 @@ from datetime import datetime, timedelta
 from flask import g
 
 
-
+from store.blueprints.articles.models.ShelfModel import ShelfLifeModel
 
 class ProductionService(Service):
     def __init__(self, article_id = None, quantity = None, date = None, store_id = None) -> None:
@@ -38,6 +39,11 @@ class ProductionService(Service):
         return db.session.query(Production).all()
     
     def create(self, data):
+        
+        def insert_alert_on_shelf_life(article_id):
+            shelf_life = ShelLifeService(article_id=article_id)
+            shelf_life.insert()
+            
         date = g.date
         
         date = datetime.strptime(date, '%Y-%m-%d') if date else datetime.now()
@@ -53,9 +59,13 @@ class ProductionService(Service):
                     date = datetime.now().replace(date.year, date.month, date.day)
                 )
                 db.session.add(production)
+                
+                insert_alert_on_shelf_life(article_id)
         
         db.session.commit()
-    
+
+
+        
     def delete(self, id):
         production = db.session.query(Production).get(id)
         db.session.delete(production)

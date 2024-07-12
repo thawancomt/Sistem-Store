@@ -21,7 +21,7 @@ class StockServices:
         self.store_id = store_id or current_user.store_id
         self.article_id = article_id
         self.quantity = quantity
-        self.date = date or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.date = date or datetime.now()
         self.articles = ArticlesService.get_all_stockable()
         self.per_page = 3
         

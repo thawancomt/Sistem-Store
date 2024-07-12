@@ -13,6 +13,8 @@ class ArticleModel(db.Model):
     stockable = Column(BOOLEAN, default=True, nullable=False)
     type = relationship('TypeUnitModel', foreign_keys=[type_unit])
     
+    shelf_life = Column(Integer, default=1, nullable=False)
+    
     active = Column(BOOLEAN, default=True, nullable=False)
     
     

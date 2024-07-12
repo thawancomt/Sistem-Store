@@ -23,7 +23,7 @@ def index():
     
     how_many_days_for_chart = request.args.get('days', 30, type=int)
     
-    date =  request.args.get('date') or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    date =  request.args.get('date') or datetime.now().strftime('%Y-%m-%d')
     
     chart = StockChart(days=how_many_days_for_chart)
     

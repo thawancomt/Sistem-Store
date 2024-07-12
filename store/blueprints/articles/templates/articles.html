@@ -2,11 +2,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>
-    {{
-        context.f
-    }}
-</h1>
+
 
 <h1 class="text-center text-3xl font-bold dark:text-white text-emerald-600 mb-4">
     Article creator
@@ -32,6 +28,9 @@
 
         <label for="price" class=" sub-title-primary">Price:</label>
         <input type="number" name="price" class="form-control-1" required step="0.1">
+
+        <label for="">Shelf life:</label>
+        <input type="number" value="3" class="form-control-1" name="shelf_life">
         <br>
 
         <div class="rounded-lg overflow-hidden">

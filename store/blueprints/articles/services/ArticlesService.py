@@ -1,6 +1,7 @@
 from store.extensions import db
 from ..models.ArticleModel import ArticleModel, TypeUnitModel
 
+
 class ArticlesService:
     def __init__(self, name = None, description = None, type_unit= None, is_producible = None) -> None:
         self.name  = name
@@ -35,6 +36,7 @@ class ArticlesService:
         new_article.is_producible = bool(data.get('is_producible'))
         new_article.stockable = bool(data.get('is_stockable'))
         new_article.price = data.get('price')
+        new_article.shelf_life = data.get('shelf_life')
         
         db.session.add(new_article)
         db.session.commit()
@@ -51,6 +53,7 @@ class ArticlesService:
                 article.is_producible = bool(data.get('is_producible', 0))
                 article.stockable = bool(data.get('is_stockable', 0))
                 article.price = float(data.get('price')) or article.price
+                article.shelf_life = int(data.get('shelf_life')) or article.shelf_life
                 
                 db.session.commit()
                 return True

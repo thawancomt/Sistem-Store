@@ -42,8 +42,7 @@ def view():
     
     context = {
         'articles': ArticlesService.get_all(),
-        'type_units': TypeUnitsService.get_all(),
-        'f' : login_fresh()
+        'type_units': TypeUnitsService.get_all()
     }
     return render_template('articles.html', context=context)
 
