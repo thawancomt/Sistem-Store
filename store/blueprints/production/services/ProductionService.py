@@ -3,7 +3,7 @@ from ..models.ProductionModel import Production
 from flask_login import current_user
 
 from ...articles.services.ArticlesService import ArticlesService
-from store.blueprints.articles.services.ShelLifeService import ShelLifeService
+from store.blueprints.product_shelf_life.Services.ShelLifeService import ShelLifeService
 
 from sqlalchemy import func, and_
 from datetime import datetime, timedelta

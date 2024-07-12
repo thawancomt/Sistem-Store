@@ -2,7 +2,6 @@ from flask import g
 
 from store.extensions import db
 
-from store.blueprints.articles.models.ArticleModel import ArticleModel
 from store.blueprints.articles.services.ArticlesService import ArticlesService
 from store.blueprints.articles.models.ShelfModel import ShelfLifeModel
 
@@ -36,3 +35,6 @@ class ShelLifeService():
     
     def check_if_is_already_inserted(self):
         return db.session.query(ShelfLifeModel).where(and_(ShelfLifeModel.article_id == self.article_id, ShelfLifeModel.expiration_date == g.date)).first()
+    
+    def get_by_date(self):
+        return db.session.query(ShelfLifeModel).where(ShelfLifeModel.expiration_date == g.date).all()

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<table class="bg-slate-200">
+    <thead>
+        <tr class="*:gap-2 *:p-4">
+            <td>Article Name</td>
+            <td>Production Date</td>
+            <td>Expiration Date</td>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% for alert in context.alerts %}
+        <tr class="*:gap-2 *:p-4">
+            <td>{{ alert.article.name }}</td>
+            <td>{{ alert.initial_date }}</td>
+            <td>{{ alert.expiration_date }}</td>
+        </tr>
+         
+        {% endfor %}
+    </tbody>
+</table>
+ 
+{% endblock content %}
