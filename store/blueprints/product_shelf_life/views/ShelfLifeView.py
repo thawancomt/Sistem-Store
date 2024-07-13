@@ -17,4 +17,4 @@ def home():
     }
     
     
-    return render_template('home.html', context=context)
+    return render_template('shelf_life_home.html', context=context)

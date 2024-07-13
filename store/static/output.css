@@ -851,6 +851,10 @@ video {
   grid-column: span 2 / span 2;
 }
 
+.col-span-4 {
+  grid-column: span 4 / span 4;
+}
+
 .col-span-9 {
   grid-column: span 9 / span 9;
 }
@@ -1252,11 +1256,6 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
-}
-
 .p-0 {
   padding: 0px;
 }
@@ -1435,6 +1434,11 @@ video {
 .text-yellow-600 {
   --tw-text-opacity: 1;
   color: rgb(202 138 4 / var(--tw-text-opacity));
+}
+
+.text-red-300 {
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity));
 }
 
 .line-through {

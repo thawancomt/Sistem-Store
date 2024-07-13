@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container-primary w-auto *:p-4">
+    <div>
+        <h1 class="title-primary">Alerts ({{g.date}})</h1>
+        <p class="sub-title-primary">For today, we need to check these articles in our stock</p>
+        <span class="information-primary">When a production is released the sistem automaticaly create an alert to reminder us the expiration date of this product and this reminder is bellow. Check all the articles that are showing bellow </span>
+    </div>
+    <table class="w-full bg-white">
+        <thead>
+            <tr class="bg-emerald-400 *:p-4 *:text-center *:font-medium">
+                <td>#</td>
+                <td>Article Name</td>
+                <td>Production Date</td>
+                <td>Expiration Date</td>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for alert in context.alerts %}
+            <tr class="*:gap-2 *:p-4 *:text-center *:odd:bg-slate-100">
+                <td>{{loop.index}}</td>
+                <td>{{ alert.article.name }}</td>
+                <td>
+                    <a class="text-blue-500"  href="{{ url_for('production.home', date=alert.initial_date.strftime('%Y-%m-%d')) }}"> {{alert.initial_date.strftime('%Y-%m-%d')}}</a>
+                </td>
+                <td>{{ alert.expiration_date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            
+             
+            {% endfor %}
+            {% if not context.alerts %}
+            <tr class="*:gap-2 *:p-4">
+                <td class="w-full text-center" colspan="4">No articles to check today</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+ 
+{% endblock content %}
