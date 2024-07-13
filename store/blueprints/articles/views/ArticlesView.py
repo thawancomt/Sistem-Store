@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from ..services.ArticlesService import ArticlesService, TypeUnitsService
 
+from store.blueprints.providers.services.ProvidersService import ProvidersService
+
 from flask_login import login_fresh, login_required, fresh_login_required
 
 
@@ -42,7 +44,8 @@ def view():
     
     context = {
         'articles': ArticlesService.get_all(),
-        'type_units': TypeUnitsService.get_all()
+        'type_units': TypeUnitsService.get_all(),
+        'providers' : ProvidersService.get_active_providers()
     }
     return render_template('articles.html', context=context)
 

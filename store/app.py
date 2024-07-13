@@ -21,6 +21,7 @@ from store.blueprints.production.views.ProductionView import production
 from store.blueprints.stock.views.StockView import stock
 from store.blueprints.daily_tasks.views.DailyView import daily_tasks
 from store.blueprints.product_shelf_life.views.ShelfLifeView import shelf_life
+from store.blueprints.providers.views.ProvidersView import providers
 
 # TEST
 from store.blueprints.profile_image.view import profile_image
@@ -50,6 +51,7 @@ def create_app():
     app.register_blueprint(daily_tasks)
     app.register_blueprint(profile_image)
     app.register_blueprint(shelf_life)
+    app.register_blueprint(providers)
 
 
 

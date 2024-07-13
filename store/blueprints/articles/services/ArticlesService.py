@@ -1,5 +1,7 @@
 from store.extensions import db
 from ..models.ArticleModel import ArticleModel, TypeUnitModel
+from ..models.ProviderModel import ProviderModel
+
 
 
 class ArticlesService:
@@ -37,6 +39,7 @@ class ArticlesService:
         new_article.stockable = bool(data.get('is_stockable'))
         new_article.price = data.get('price')
         new_article.shelf_life = data.get('shelf_life')
+        new_article.provider_id = data.get('provider_id')
         
         db.session.add(new_article)
         db.session.commit()

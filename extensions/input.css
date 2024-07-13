@@ -61,6 +61,6 @@
         @apply w-7 h-7 accent-emerald-400 bg-red-600
     }
     .thead-primary {
-        @apply *:border-2 *:border-emerald-400
+        @apply w-full *:p-4 *:bg-emerald-400 
     }
 }
