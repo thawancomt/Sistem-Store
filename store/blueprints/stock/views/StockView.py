@@ -20,12 +20,9 @@ def index():
     stock_page = request.args.get('page', 1, type=int)
     reference_stock = request.args.get('reference_stock', 0)
     
-    
-    how_many_days_for_chart = request.args.get('days', 30, type=int)
-    
     date =  g.date
     
-    chart = StockChart(days=how_many_days_for_chart, date=g.date)
+    chart = StockChart(date=g.date)
     
     default_last_stock_date = request.args.get('date') or (StockServices().get_stocks_dates()[-1].date if StockServices().get_stocks_dates() else None) or g.date
    
