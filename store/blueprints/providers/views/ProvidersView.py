@@ -37,3 +37,16 @@ def update(provider_id):
         provider_service.update(**data)
         return redirect(providers.url_prefix)
     return render_template('edit_provider.html', context=context)
+
+
+@providers.route('/delete/<int:provider_id>', methods=['GET', 'POST'])
+@fresh_login_required
+def delete(provider_id):
+    provider_service.delete(int(provider_id))
+    return redirect(providers.url_prefix)
+
+@providers.route('/activate/<int:provider_id>')
+@fresh_login_required
+def activate(provider_id):
+    provider_service.activate(int(provider_id))
+    return redirect(providers.url_prefix)

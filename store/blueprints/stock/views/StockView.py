@@ -57,5 +57,11 @@ def create():
     StockServices().create_stock(data=data)
     
     return redirect(url_for('stock.index', date=date))
+
+@stock.route('/chart', methods=['get'])
+@fresh_login_required
+def chart():
+    StockServices().create_random_stock()
+    return redirect(url_for('stock.index'))
     
     

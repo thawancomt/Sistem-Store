@@ -36,5 +36,11 @@ class ProvidersService():
         
         db.session.commit()
         
-    def delete(self, data):
-        pass
+    def delete(self, provider_id):
+        provider = self.get(provider_id=provider_id)
+        self.deactive(provider)
+        
+    
+    def deactive(self, provider : Provider):
+        provider.active = False
+        db.session.commit()

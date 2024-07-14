@@ -14,7 +14,7 @@ const originalDatasets = dataset.datasets.map(data => ({
 }));
 
 const productionChart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: dataset,
     options: {
         plugins: {

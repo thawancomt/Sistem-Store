@@ -88,6 +88,10 @@ class ProductionChartService(ProductionService):
                     'label' : article,
                     'data' : data,
                     'hidden' : True if index > 5 else False,
+                    'tension' : 0.15,
+                    'options' : {
+                        'BeginAtZero' : True
+                    }
                 }
                 for index, (article, data) in enumerate(self.create_dataset().items())
             ]

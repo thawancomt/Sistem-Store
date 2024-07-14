@@ -12,6 +12,8 @@ from datetime import datetime, timedelta
 
 from sqlalchemy import func, and_, select
 
+from flask import g
+
 class StockServices:
     def __init__(self, store_id = None,
                  article_id = None,
@@ -21,7 +23,7 @@ class StockServices:
         self.store_id = store_id or current_user.store_id
         self.article_id = article_id
         self.quantity = quantity
-        self.date = date or datetime.now().strftime('%Y-%m-%d')
+        self.date = date or g.date
         self.articles = ArticlesService.get_all_stockable()
         self.per_page = 3
         
@@ -40,9 +42,11 @@ class StockServices:
         .order_by(Stock.date.desc()).all()
         
     def get_stocks_dates(self):
-        return db.session.query(
+        dates = db.session.query(
             Stock.date
-        ).where(Stock.date <= self.date).group_by(Stock.date).order_by(Stock.date.asc()).all()
+        ).where(Stock.date <= self.date).group_by(Stock.date).order_by(Stock.date.desc()).limit(7).all()
+        dates.reverse()
+        return dates
         
     def convert_stock_object_to_dict(self):
         stock = dict(self.get_stock())
@@ -124,3 +128,21 @@ class StockServices:
             ).group_by(Stock.date).order_by(Stock.date.desc())
 
         return stocks.paginate(per_page = 3)
+    
+    def create_random_stock(self):
+        from random import randint
+        days = [datetime.strptime(g.date, '%Y-%m-%d')  - timedelta(days=x * 7 ) for x in range(30)]
+        
+        articles = {article.id : article.name for article in ArticlesService.get_all_stockable()}
+        
+        for day in days:
+            for article_id in articles:
+                stock = Stock(
+                    date = day,
+                    article_id=article_id,
+                    quantity=randint(12, 22),
+                    store_id = self.store_id,
+                )
+                db.session.add(stock)
+        
+        db.session.commit()

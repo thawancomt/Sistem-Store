@@ -22,8 +22,7 @@ def home():
 @login_required
 def homepage(store_id):
     
-    past_days = int(request.args.get('lenght', '0')) or 30
-    chart_type = request.args.get('chart_type', 'bar')
+    past_days = int(request.args.get('lenght', '0')) or 31
     
     production_chart = ProductionChartService(g.date, past_days, store_id)
     
@@ -38,8 +37,7 @@ def homepage(store_id):
         
         # Chart context
         'chartdata' : production_chart.dataset,
-        'chartlabels' : production_chart.date_labels,
-        'type' : str(chart_type),
+        'chartlabels' : production_chart.date_labels
     }
 
 
@@ -57,11 +55,11 @@ def create():
 
 
 
+# A fake production to chart
 
-
-
-
-
-
-
+@production.route('/chart')
+@login_required
+def chart():
+    ProductionService().create_random_production()
+    return redirect('/homepage')
 

@@ -7,7 +7,7 @@
     <span class="information-primary">Note the providers info are get by the admin</span>
 
     <div class="w-full">
-        <table class="w-full border-2 border-emerald-400">
+        <table class="w-full border-2 border-emerald-400 bg-white">
             <tr class="thead-primary">
                 <td>Id</td>
                 <td>Name</td>
@@ -36,16 +36,16 @@
 <div class="container-primary w-auto  p-4">
     <h1 class="title-primary"> Add a provider </h1>
     <form action="{{url_for('providers.create')}}" method="post">
-        <label for="name">Name</label>
+        <label for="name" class="sub-title-primary">Name</label>
         <input type="text" class="form-control-1" name="name">
 
-        <label for="email">Email</label>
+        <label for="email" class="sub-title-primary">Email</label>
         <input type="text" class="form-control-1" name="email">
 
-        <label for="phone">Phone number</label>
+        <label for="phone" class="sub-title-primary">Phone number</label>
         <input type="text" class="form-control-1" name="phone">
 
-        <label for="address">Address</label>
+        <label for="address" class="sub-title-primary">Address</label>
         <input type="text" class="form-control-1" name="address">
 
         <button class="btn-primary">Add provider</button>

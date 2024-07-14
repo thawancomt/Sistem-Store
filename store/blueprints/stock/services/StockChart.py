@@ -5,7 +5,7 @@ from store.blueprints.articles.services.ArticlesService import ArticlesService
 class StockChart(StockServices):
     def __init__(self, store_id=None, article_id=None, quantity=None, date=None, days = None):
         super().__init__(store_id, article_id, quantity, date)
-        self.days = days or 90
+        self.days = days or 7
         self.labels = self.get_stocks_dates()
         
     def create_date_labels(self):

@@ -112,7 +112,7 @@ class ProductionService(Service):
     
     def create_random_production(self, forward = False, days = 30):
         import random
-        days = [datetime.now() + timedelta(days=x) for x in range(days)] if forward else [datetime.now() - timedelta(days=x) for x in range(days)]
+        days = [datetime.strptime(g.date, '%Y-%m-%d') + timedelta(days=x) for x in range(days)] if forward else [datetime.strptime(g.date, '%Y-%m-%d') - timedelta(days=x) for x in range(days)]
 
 
         articles = {article.id : article.name for article in ArticlesService.get_all_producibles()}
@@ -123,7 +123,7 @@ class ProductionService(Service):
                     store_id = self.store_id,
                     creator_id = self.creator_id,
                     article_id = article_id,
-                    quantity = random.randint(3, 44),
+                    quantity = random.randint(35, 44),
                     date = day
 
                 )
