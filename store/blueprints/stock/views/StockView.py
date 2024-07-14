@@ -23,20 +23,21 @@ def index():
     
     how_many_days_for_chart = request.args.get('days', 30, type=int)
     
-    date =  request.args.get('date') or datetime.now().strftime('%Y-%m-%d')
+    date =  g.date
     
-    chart = StockChart(days=how_many_days_for_chart)
+    chart = StockChart(days=how_many_days_for_chart, date=g.date)
     
     default_last_stock_date = request.args.get('date') or (StockServices().get_stocks_dates()[-1].date if StockServices().get_stocks_dates() else None) or g.date
    
+    stock_service = StockServices(date=date)
     
     context = {
         'title': 'Stock',
-        'stock' : StockServices(date=date).get_data_for_stock_total(),
+        'stock' : stock_service.get_data_for_stock_total(),
     
-        'stocks_data_for_info_table' : StockServices(date=date).create_data_for_stock_table(),
+        'stocks_data_for_info_table' : stock_service.create_data_for_stock_table(),
         'articles' : ArticlesService.get_all_stockable(),
-        'dates' : StockServices().get_stocks_dates(),
+        'dates' : stock_service.get_stocks_dates(),
         'reference_stock' : StockServices(date=reference_stock).get_data_for_stock_total(),
         'default_last_date' : default_last_stock_date,
         'default_last_stock' : StockServices(date=default_last_stock_date).get_data_for_stock_total(),
@@ -53,7 +54,7 @@ def index():
 @fresh_login_required
 def create():
     data = request.form.to_dict()
-    date = request.args.get('date')
+    date = g.date
     
    
     StockServices().create_stock(data=data)

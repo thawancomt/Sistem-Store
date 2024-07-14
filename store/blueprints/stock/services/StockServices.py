@@ -21,7 +21,7 @@ class StockServices:
         self.store_id = store_id or current_user.store_id
         self.article_id = article_id
         self.quantity = quantity
-        self.date = date or datetime.now()
+        self.date = date or datetime.now().strftime('%Y-%m-%d')
         self.articles = ArticlesService.get_all_stockable()
         self.per_page = 3
         
@@ -42,7 +42,7 @@ class StockServices:
     def get_stocks_dates(self):
         return db.session.query(
             Stock.date
-        ).group_by(Stock.date).order_by(Stock.date.asc()).all()
+        ).where(Stock.date <= self.date).group_by(Stock.date).order_by(Stock.date.asc()).all()
         
     def convert_stock_object_to_dict(self):
         stock = dict(self.get_stock())
@@ -54,12 +54,13 @@ class StockServices:
     def get_data_for_stock_total(self):
         return self.convert_stock_object_to_dict()
     
-    def create_stock(self, data : dict):
+    def create_stock(self, data : dict, skip_update = False):
         self.date = data.get('date')
-    
-        del data['date']
+
+        if 'date' in data:
+            del data['date']
         
-        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all():
+        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all() and not skip_update:
             self.update_stock(stock=stock, data=data)
             return True
                 
@@ -71,8 +72,6 @@ class StockServices:
                     article_id=article_id,
                     quantity=quantity,
                     store_id = self.store_id,
-                    
-                    
                 )
                 db.session.add(stock)
             
@@ -80,10 +79,20 @@ class StockServices:
         
     
     def update_stock(self, stock = None, data = None):
-        if stock := db.session.query(Stock).filter(and_(Stock.date == self.date, Stock.store_id == self.store_id)).all():
-            for row in stock:
-                row.quantity = int(data.get(f'{row.article_id}', 0)) or row.quantity
-            db.session.commit()
+        
+        for article_id, quantity in data.items():    
+            print(article_id, quantity)
+            if exist := db.session.query(Stock).where(and_(Stock.date == self.date, Stock.article_id == int(article_id))).first():
+                print(exist.article.name)
+                exist.quantity = int(quantity)
+                db.session.commit()
+            else:
+                self.create_stock(
+                    {
+                        article_id : quantity,
+                        'date' : self.date
+                    }, skip_update=True
+                )
             
         return True
     

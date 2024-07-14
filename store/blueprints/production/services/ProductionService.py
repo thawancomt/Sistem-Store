@@ -26,7 +26,7 @@ class ProductionService(Service):
         
         self.total_cost = self.get_total_cost(production=self.total_production)
         
-        self.all_production_cost = sum(float(x) for x in self.total_cost.values())
+        self.all_production_cost = f'{sum(float(x) for x in self.total_cost.values()):.2f}'
         
         self.history = self.get_production_history()
         

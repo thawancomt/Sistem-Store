@@ -215,7 +215,9 @@
 
   
 <div class="m-4 " id="create_stock">
-  <h1 class="title-primary">Create a new stock count</h1>
+  <h1 class="title-primary">
+    {% if not context.stock %} Create a new stock count {% else %} Update the {{context.stock.date}} stock count {% endif %}
+  </h1>
 
   
 
@@ -228,7 +230,7 @@
       <div class="grid grid-cols-12">
         <div class="col-span-9">
           <label for="{{article.id}}" class="sub-title-primary m-0 p-0" id="{{article.id}}Label">{{article.name}}</label>
-          <input type="number" name="{{article.id}}" id="stock_input" value="0"  class="form-control-1 m-0">
+          <input type="number" name="{{article.id}}" id="stock_input" value="{{context.stock[article.id]}}"  class="form-control-1 m-0">
         </div>
         <div class="col-span-2 col-start-11">
           <label for="{{article.id}}_total" class="sub-title-primary">Total</label>

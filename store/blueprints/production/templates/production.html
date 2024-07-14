@@ -1,32 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="m-4">
-    <h1 class="title-primary">
-        Production Page
-    </h1>
-    <p class="sub-title-primary">
-        In this page you will see all tools to manage production.
-    </p>
+<div class="container-primary w-auto rounded-xl">
+    <div class="m-4 ">
+        <h1 class="title-primary">
+            Production Page
+        </h1>
+        <p class="sub-title-primary">
+            In this page you will see all tools to manage production.
+        </p>
+    </div>
+    
+    <div class="h-fit ">
+        <div class="h-72 shadow m-2 rounded-lg bg-slate-100">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="m-4">
+            <label for="" class="sub-title-primary">Limit chart days</label>
+            <select name="limit" id="limit" class="form-control-1">
+                <option value="" disabled selected>Select</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+                <option value="30">30</option>
+            </select>
+        </div>
+    </div>
 </div>
 
-<div class="h-fit">
-    <div class="h-72 shadow m-2 rounded-lg bg-slate-100">
-        <canvas id="myChart"></canvas>
-    </div>
-    <div class="m-4">
-        <label for="" class="sub-title-primary">Limit chart days</label>
-        <select name="limit" id="limit" class="form-control-1">
-            <option value="" disabled selected>Select</option>
-            <option value="3">3</option>
-            <option value="5">5</option>
-            <option value="7">7</option>
-            <option value="30">30</option>
-        </select>
-    </div>
-</div>
-
-<div class="border rounded-xl  overflow-hidden container-primary m-2 w-auto">
+<div class="border rounded-xl  overflow-hidden container-primary w-auto">
     <div class="">
         <h1 class="title-primary text-center">
             Insert production
