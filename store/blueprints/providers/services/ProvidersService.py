@@ -13,13 +13,28 @@ class ProvidersService():
         return db.session.query(Provider).where(Provider.active == True).all()
     
     @staticmethod
+    def get(provider_id):
+        return db.session.query(Provider).where(Provider.id == provider_id).first()
+    
+    @staticmethod
     def create(data):
         new_provider = Provider(**data)
         db.session.add(new_provider)
         db.session.commit()
         return new_provider
-    
-    def update(self, data):
-        pass
+    @staticmethod
+    def update(**data):
+        provider_id = data.get('provider_id')
+        
+        provider = ProvidersService.get(provider_id)
+        del data['provider_id']
+        
+        provider = ProvidersService.get(provider_id)
+        for key, value in data.items():
+            setattr(provider, key, value)
+        
+        
+        db.session.commit()
+        
     def delete(self, data):
         pass

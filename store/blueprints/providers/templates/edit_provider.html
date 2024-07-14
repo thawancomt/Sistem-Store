@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-primary w-auto  p-4">
+    <h1 class="title-primary"> Add a provider </h1>
+    <form action="{{url_for('providers.update', provider_id=context.provider.id)}}" method="post">
+        <label for="name">Name</label>
+        <input type="text" class="form-control-1" name="name" value="{{context.provider.name}}">
+        
+        <input type="text" class="form-control-1 hidden" name="provider_id" value="{{context.provider.id}}">
+
+        <label for="email">Email</label>
+        <input type="text" class="form-control-1" name="email" value="{{context.provider.email}}">
+
+        <label for="phone">Phone number</label>
+        <input type="text" class="form-control-1" name="phone" value="{{context.provider.phone}}">
+
+        <label for="address">Address</label>
+        <input type="text" class="form-control-1" name="address" value="{{context.provider.address}}">
+
+        <button class="btn-primary">Save provider</button>
+    </form>
+</div>
+{% endblock content %}

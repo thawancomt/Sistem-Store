@@ -14,6 +14,7 @@
                 <td>Email</td>
                 <td>Phone Number</td>
                 <td>Address</td>
+                <td>Edit</td>
             </tr>
             <tbody>
                 {% for provider in context.active_providers %}
@@ -23,6 +24,9 @@
                     <td>{{provider.email}}</td>
                     <td>{{provider.phone}}</td>
                     <td>{{provider.address}}</td>
+                    <td>
+                        <a href="{{ url_for('providers.update', provider_id=provider.id)}}" class="btn-primary p-2">Edit</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
