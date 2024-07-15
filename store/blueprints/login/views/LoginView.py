@@ -32,7 +32,7 @@ def login():
     
     if user and not user.active:
         flash('User not active, check your email', 'danger')
-        LoginService(email = email, password = password).send_code_to_active_account()
+        LoginService(email=email, password=True).send_code_to_active_account()
         return redirect(url_for('auth.confirmation', id=user.id))
     
     if LoginService(email = email, password = password).login():
@@ -46,10 +46,12 @@ def logout():
     LoginService().logout()
     return redirect(url_for('auth.login_page'))
 
+
 @authentication.route('/confirmation', methods=['GET', 'POST'])
 def confirmation():
     
-    user = UserService.get(int(request.args.get('id')))
+    user_id = request.args.get('id')
+    user = UserService.get(int(user_id))
     
     if not user or user.active:
         return redirect(url_for('auth.login_page'))
@@ -59,23 +61,75 @@ def confirmation():
     context = {
         'id' : user.id,
         'email' : email.replace(email[3:-3], '*' * len(email[2:-3]))
-    }
-    
-    if request.method == 'POST':
-        
-        code_sent = request.form.get('code')
-        
-        
-        if CodeService.check_code(user.id, code_sent):
-            if UserService.active_an_inactive_user(user.id):
-                flash('Account activated', 'success')
-                return redirect(url_for('auth.login_page'))
-                
-            flash('Account not activated', 'danger')
-            return redirect(url_for('auth.login_page'))
-        
-        flash('Code is invalid', 'danger')
-        return redirect(url_for('auth.confirmation',id=user.id))
-        
+    }   
         
     return render_template('confirmation.html', context=context)
+
+@authentication.route('/check_code', methods=['POST'])
+def check_code():
+    code_sent = request.form.get('code')
+    user_id = request.form.get('user_id')
+
+    if CodeService.check_code(user_id, code_sent):
+        if request.args.get('pwd'):
+            return redirect(url_for('auth.recovery_password', id=user_id, _method='POST'))
+        
+        if UserService.active_an_inactive_user(user_id):
+            flash('Account activated', 'success')
+            return redirect(url_for('auth.login_page'))
+            
+        flash('Account not activated', 'danger')
+        return redirect(url_for('auth.login_page'))
+    
+    flash('Code is invalid', 'danger')
+    return redirect(url_for('auth.confirmation',id=user_id))
+
+@authentication.route('/recovery_password', methods=['GET', 'POST'])
+def recovery_password():
+    return render_template('recovery_password.html')
+
+@authentication.route('/update_password', methods=['GET', 'POST'])
+def check_code_password():
+    email = request.form.get('email')
+    user = UserService(email=email).get_user_by_email()
+    
+    if not user:
+        flash('User not found', 'danger')
+        return redirect(url_for('auth.recovery_password'))
+    
+    code = request.form.get('code')
+    
+    if CodeService.check_code(user.id, code):
+        return redirect(url_for('auth.change_password', id=user.id))
+    else:
+        if code:
+            flash('code is invalid', 'danger')
+    
+    LoginService(email=email, password=True).send_code_to_active_account()
+    
+    context = {
+        'id' : user.id,
+        'email' : email.replace(email[3:-3], '*' * len(email[2:-3])),
+        'normal_email' : email
+    }
+    return render_template('confirmation_password.html', context=context)
+    
+
+
+@authentication.route('/change_password', methods=['GET', 'POST'])
+def change_password():
+    user_id = request.args.get('id')
+    user = UserService.get(int(user_id))
+    
+    if request.method == 'POST':
+        new_password = request.form.get('password')
+        UserService().update(username=user.username, data={'password' : new_password})
+        flash('Password changed', 'success')
+    
+        return redirect(url_for('auth.login_page'))
+
+    
+    return render_template('change_password.html', user=user)
+
+
+

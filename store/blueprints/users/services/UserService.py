@@ -95,10 +95,10 @@ class UserService:
     
     def update(self, username, data):
         if user := db.session.query(User).filter(User.username == username).first():
-            user.username = data.get('new_username')
-            user.email = data.get('email')
-            user.store_id = data.get('store')
-            user.level = data.get('level')
+            user.username = data.get('new_username') or user.username
+            user.email = data.get('email') or user.email
+            user.store_id = data.get('store') or user.store_id
+            user.level = data.get('level') or user.level
             user.password = generate_password_hash(data.get('password')) if data.get('password') else user.password
         
             db.session.commit()

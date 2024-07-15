@@ -43,7 +43,6 @@ def index():
         'data_for_chart' : chart.create_datasets(),
 
     }
-    #return f'{context['stocks_data_for_info_table']}'
     
     return render_template('stock.html', context=context, date=date, datetime=datetime)  
 
