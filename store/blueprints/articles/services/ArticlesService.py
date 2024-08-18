@@ -82,7 +82,7 @@ class ArticlesService:
     
 class TypeUnitsService:
     def __init__(self, name = None, alias = None, description = None) -> None:
-        self.name = name, 
+        self.name = name
         self.alias = alias
         self.description = description 
         
