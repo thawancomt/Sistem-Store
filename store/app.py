@@ -26,6 +26,8 @@ from store.blueprints.providers.views.ProvidersView import providers
 # TEST
 from store.blueprints.profile_image.view import profile_image
 
+# First Run
+from store.first_run import check_store, check_user
 
 
 
@@ -60,6 +62,8 @@ def create_app():
     db.init_app(app)
     
     with app.app_context():
+        check_store()
+        check_user()
         db.create_all()
         
     login_manager.init_app(app)
