@@ -67,7 +67,7 @@
 </p>
 <div class="container-primary w-auto p-4">
 
-    <form action="{{url_for('articles.update')}}" method="post" class="col-span-12 lg:col-span-6 *:font-bold">
+    <form action="{{url_for('articles.create')}}" method="post" class="col-span-12 lg:col-span-6 *:font-bold">
         <label for="name" class="font-bold sub-title-primary">Article Name</label>
         <input type="text" name="name" class="form-control-2" required>
 
@@ -136,7 +136,9 @@
 </div>
 
 <h1 class="col-span-12 text-center information-primary">Go to the Articles Units</h1>
-<a href="{{url_for('articles.type_unit.view')}}" class="btn-primary-rounded col-span-12 text-center flex items-center justify-center">Units Creator</a>
+
+<a href="{{url_for('articles.type_unit.index')}}" class="btn-primary-rounded col-span-12 text-center flex items-center justify-center">Units Creator</a>
+
 <script src="{{url_for('articles.static', filename='create.js')}}"></script>
 
 {% endblock %}

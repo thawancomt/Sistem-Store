@@ -2,19 +2,21 @@
 
 {% block content %}
 
+{% set article = context.article %}
+
 <div class="m-4">
     <h1 class="title-primary">Edit article</h1>
     <h1 class="sub-title-primary">Edit the article information</h1>
     <br>
 
 
-    <form action="{{url_for('articles.edit', article_id=article.id)}}" class="" method="post">
+    <form action="{{url_for('articles.update', article_id=article.id)}}" class="" method="post">
         <label for="" class="sub-title-primary">Article ID:</label>
         <input type="text" name="article_id" value="{{article.id}}" class="form-control-1">
     
     
         <label for="" class="sub-title-primary">Name</label>
-        <input type="text" name="name" value="{{article.name}}" class="form-control-1">
+        <input type="text" name="name" value="{{context.article.name}}" class="form-control-1">
         <label for="" class="sub-title-primary">Description</label>
         <input type="text" name="description" value="{{article.description}}" class="form-control-1">
     

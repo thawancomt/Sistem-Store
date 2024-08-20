@@ -18,5 +18,26 @@ class Service(ABC):
     def delete(self):
         pass
 
+
+class BlueprintBase(ABC):
+    @abstractmethod
+    def register_routes(self):
+        pass
+    
+    @abstractmethod
+    def index(self):
+        pass
+    
+    @abstractmethod
+    def create(self):
+        pass
+    
+    @abstractmethod
+    def update(self):
+        pass
+    
+    @abstractmethod
+    def delete(self):
+        pass
     
     
