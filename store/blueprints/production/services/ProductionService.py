@@ -32,7 +32,7 @@ class ProductionService(Service):
         
     @staticmethod
     def get_articles():
-        return ArticlesService.get_all_producibles()
+        return ArticlesService.get_all_producible()
     
     @staticmethod
     def get_all():
@@ -115,7 +115,7 @@ class ProductionService(Service):
         days = [datetime.strptime(g.date, '%Y-%m-%d') + timedelta(days=x) for x in range(days)] if forward else [datetime.strptime(g.date, '%Y-%m-%d') - timedelta(days=x) for x in range(days)]
 
 
-        articles = {article.id : article.name for article in ArticlesService.get_all_producibles()}
+        articles = {article.id : article.name for article in ArticlesService.get_all_producible()}
 
         for day in days:
             for article_id in articles:

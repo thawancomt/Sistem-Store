@@ -1,8 +1,8 @@
 from store.extensions import db
+
+# Models
 from ..models.ArticleModel import ArticleModel, TypeUnitModel
 from ..models.ProviderModel import ProviderModel
-
-
 
 class ArticlesService:
     def __init__(self, name = None, description = None, type_unit= None, is_producible = None) -> None:
@@ -20,7 +20,7 @@ class ArticlesService:
         return db.session.query(ArticleModel).filter(ArticleModel.active == True).all()
     
     @staticmethod
-    def get_all_producibles():
+    def get_all_producible():
         return db.session.query(ArticleModel).filter(ArticleModel.is_producible == True).all()
 
     @staticmethod
@@ -87,16 +87,18 @@ class TypeUnitsService:
         self.description = description 
         
     def create(self):
-        new_type_unit = TypeUnitModel(name=self.name, alias=self.alias, description=self.description)
+        new_type_unit = TypeUnitModel()
+
+        new_type_unit.name = self.name
+        new_type_unit.alias = self.alias
+        new_type_unit.description = self.description
+        
         db.session.add(new_type_unit)
         db.session.commit()
     
     @staticmethod
     def get_all():
         return db.session.query(TypeUnitModel).all()
-    
-    
-    # create a function that return fibonnaci sequence
     
     
     

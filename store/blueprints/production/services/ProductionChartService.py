@@ -16,7 +16,7 @@ class ProductionChartService(ProductionService):
         self.date = date
         self.days = days
         self.store = store
-        self.articles = ArticlesService.get_all_producibles()
+        self.articles = ArticlesService.get_all_producible()
         
         ### Chart
         

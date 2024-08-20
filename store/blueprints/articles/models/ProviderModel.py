@@ -1,6 +1,5 @@
 from store.extensions import db
-from sqlalchemy import Column, Integer, String, ForeignKey, BOOLEAN, Text, Float
-from sqlalchemy.orm import relationship, validates
+from store.utils import *
 
 
 class ProviderModel(db.Model):
@@ -10,7 +9,6 @@ class ProviderModel(db.Model):
     phone = Column(String(24), nullable=False)
     email = Column(String(256), nullable=False)
     address = Column(Text, nullable=False)
-    
     active = Column(BOOLEAN, default=True)
 
 

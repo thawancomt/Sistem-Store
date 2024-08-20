@@ -1,12 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import login_required, fresh_login_required, LoginManager
 
 
 from abc import ABC, abstractmethod
 
 login_manager = LoginManager()
-
-
 
 db = SQLAlchemy()
 
