@@ -1,9 +1,10 @@
 import smtplib
 from email.mime.text import MIMEText
 
+from os import environ
 
-
-import random
+EMAIL_SENDER = environ.get('EMAIL_ADRESS')
+EMAIL_SENDER_PWD = environ.get('EMAIL_PWD')
 
 class Email:
     
@@ -23,7 +24,7 @@ class Email:
                     \nYou have been set as a low-level user. To change this, please contact your manager. \
                     \nYour account is under verification. Here is the code to confirm your registration: {self.code}'
                     
-        self._email_address = "thawancomt@gmail.com"
+        self._email_address = EMAIL_SENDER
         self.recipient_email = recipient_email
         
         
@@ -41,7 +42,7 @@ class Email:
             self._set_email_body()
         
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-        server.login(self._email_address, "lalh mjqa xrft inot")
+        server.login(EMAIL_SENDER, EMAIL_SENDER_PWD)
 
         # Send the email
         server.sendmail(self._email_address, self.recipient_email, self.body.as_string())
