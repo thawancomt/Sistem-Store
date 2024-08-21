@@ -14,7 +14,6 @@ def check_store():
         create_example_store()
 
 def create_example_store():
-    if check_store():
         example_store = Store(
             id = 49,
             name = 'Pink New york pizza',

@@ -62,9 +62,10 @@ def create_app():
     db.init_app(app)
     
     with app.app_context():
+        db.create_all()
+        
         check_store()
         check_user()
-        db.create_all()
         
     login_manager.init_app(app)
     login_manager.refresh_view = 'auth.login'
