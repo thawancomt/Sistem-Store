@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <h1> Create Here your Order</h1>
+ <h1> 
+    {{context}}
+ </h1>
+ <form action="">
+    {% set articles = context.articles%}
+    {% for ar in articles %}
+        <h1>
+            {{ ar.name }}
+        </h1>
+        
+    {% endfor %}
+ </form>
+{% endblock content %}

@@ -9,8 +9,7 @@ from sqlalchemy import Column, Integer, LargeBinary,String
 from sqlalchemy.dialects.mysql import LONGBLOB
 
 profile_image = Blueprint('profile_image', __name__,
-                          url_prefix='/profile_image',
-                          template_folder='./')
+                          url_prefix='/profile_image')
 
 
 class File(db.Model):

@@ -23,6 +23,8 @@ from store.blueprints.daily_tasks.views.DailyView import daily_tasks
 from store.blueprints.product_shelf_life.views.ShelfLifeView import shelf_life
 from store.blueprints.providers.views.ProvidersView import providers
 
+from store.blueprints.create_order.views.CreateOrder import CreateOrderBlueprint
+
 # TEST
 from store.blueprints.profile_image.view import profile_image
 
@@ -54,6 +56,7 @@ def create_app():
     app.register_blueprint(profile_image)
     app.register_blueprint(shelf_life)
     app.register_blueprint(providers)
+    app.register_blueprint(CreateOrderBlueprint)
 
 
 
@@ -63,7 +66,7 @@ def create_app():
     
     with app.app_context():
         db.create_all()
-        
+
         check_store()
         check_user()
         
