@@ -6,49 +6,59 @@
 {% set date = context.dates %}
 
 {% block content %}
- <h1> Create Here your Order</h1>
- <form action="">
-    <table class="bg-zinc-400 w-full">
-        <thead>
-            <tr>
-                <td class="bg-blue-200">Article</td>
-                <td class="bg-yellow-200">Last week <br>{{date[-2].date.strftime('%Y-%m-%d')}}</td>
-                <td class="bg-green-200">Actual Amount <br> {{date[-1].date.strftime('%Y-%m-%d')}}</td>
-                <td class="bg-red-200">Diff</td>
-                <td>Order</td>
-            </tr>
-        </thead>
-        <tbody class="w-full">
-            {% for article in articles %}
-            <tr class="w-full">
-                <td class="bg-blue-200">
-                    <label for="">{{article.name}}</label>
-                </td>
-                <td class="bg-yellow-200">
-                    <h1>
-                        {{before_last[article.id]}}
-                    </h1>
-                </td>
-                <td class="bg-green-200">
-                    <h1>
-                        {{
-                            last[article.id]
-                        }}
-                    </h1>
-                </td>
-                <td class="bg-red-200">
-                    {{
-                        last[article.id] - before_last[article.id]
-                    }}
-                </td>
-                <td>
-                    <input type="number">
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
- </form>
+<div class="container-primary w-auto p-4">
+    <h1 class="title-primary pb-4"> Create Here your Order</h1>
+    <form action="{{url_for('orders.create')}}" method="POST" id="orderForm">
+       <table class=" w-full rounded-xl overflow-hidden" class="bg-white">
+           <thead class="bg-white *:text-center *:font-bold">
+               <tr>
+                   <td class="bg-blue-200">Article</td>
+                   <td class="bg-yellow-200">Last week <br>{{date[-2].date.strftime('%Y-%m-%d')}}</td>
+                   <td class="bg-green-200">Actual Amount <br> {{date[-1].date.strftime('%Y-%m-%d')}}</td>
+                   <td class="bg-red-200">Consumed</td>
+                   <td>Order</td>
+               </tr>
+           </thead>
+           <tbody class="w-full *:text-center">
+               {% for article in articles %}
+               <tr class="w-full border border-gray-700 *:font-semibold">
+                   <td class="bg-blue-200">
+                       <label for="">{{article.name}}</label>
+                   </td>
+                   <td class="bg-yellow-200">
+                       <h1>
+                           {{before_last[article.id]}}
+                       </h1>
+                   </td>
+                   <td class="bg-green-200">
+                       <h1>
+                           {{
+                               last[article.id]
+                           }}
+                       </h1>
+                   </td>
+                   <td class="bg-red-200">
+                       {{
+                           last[article.id] - before_last[article.id]
+                       }}
+                   </td>
+                   <td>
+                       <input type="number" name="{{article.id}}" class="form-control-1 bg-white rounded-none text-black border-0">
+                   </td>
+               </tr>
+               {% endfor %}
+           </tbody>
+       </table>
+       <div>
+          <section>
+              <button type="button" class="btn-primary-rounded" id="createBtn">Create</button>
+              <button type="button" class="btn-primary-rounded bg-red-500 border border-red-500 hover:bg-red-600">Cancel</button>
+          </section>
+       </div>
+    </form>
+</div>
+
+<script src="static/createOrder.js"></script>
 {% endblock content %}
 
 {% block title %}

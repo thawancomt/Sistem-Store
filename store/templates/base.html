@@ -14,6 +14,7 @@
     
 </head>
 <body class="h-full">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     
     {% if current_user.is_authenticated and not request.endpoint == 'auth.login_page'%}
     <nav class="dark:bg-slate-800 w-full h-fit flex flex-wrap mb-4">
@@ -47,9 +48,9 @@
     
     {% block content %}
     {% endblock content %}
-
-    </div>
     
+</div>
+
     
 </body>
 

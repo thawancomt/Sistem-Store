@@ -4,6 +4,8 @@
 
 {% set article = context.article %}
 
+
+
 <div class="m-4">
     <h1 class="title-primary">Edit article</h1>
     <h1 class="sub-title-primary">Edit the article information</h1>
@@ -22,8 +24,9 @@
     
         <label for="" class="sub-title-primary">Unit</label>
         <select name="type_unit" id="" class="form-control-1">
-            {% for type_unit in types %}
-            <option value="{{type_unit.id}}" {% if type_unit.id == article.type_unit %} selected {% endif %}>{{type_unit.name}}</option>
+            {% for type in context.types  %}
+            <option value="{{type.id}}" {% if article.type.id == type.id %} selected {% endif %}>{{type.name}}</option>
+             
             {% endfor %}
         </select>
 
