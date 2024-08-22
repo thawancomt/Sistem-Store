@@ -48,11 +48,11 @@ class StockServices:
         dates.reverse()
         return dates
         
-    def convert_stock_object_to_dict(self):
-        stock = dict(self.get_stock())
+    def convert_stock_object_to_dict(self, object = None) -> dict:
+        stock = dict(self.get_stock()) if not object else dict(object)
         
         return {
-            article.id: stock.get(article.id, 0) for article in self.articles
+            article.id: stock.get(article.id, 0) for article in ArticlesService.get_all_active()
         } 
     
     def get_data_for_stock_total(self):

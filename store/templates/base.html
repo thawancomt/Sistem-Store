@@ -10,9 +10,11 @@
      
     {% endblock script %}
     <link rel="stylesheet" href="/static/output.css">
+    <link rel="icon" href="/static/icons/favicon.ico" type="image/x-icon">
     
 </head>
 <body class="h-full">
+    
     {% if current_user.is_authenticated and not request.endpoint == 'auth.login_page'%}
     <nav class="dark:bg-slate-800 w-full h-fit flex flex-wrap mb-4">
 
@@ -43,13 +45,11 @@
      
     {% endif %}
     
-    
     {% block content %}
-     
     {% endblock content %}
 
     </div>
-     
+    
     
 </body>
 

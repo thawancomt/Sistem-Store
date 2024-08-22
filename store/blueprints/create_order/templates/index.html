@@ -1,17 +1,56 @@
 {% extends "base.html" %}
 
+{% set articles = context.articles %}
+{% set last = context.last_stock %}
+{% set before_last = context.before_last_stock %}
+{% set date = context.dates %}
+
 {% block content %}
  <h1> Create Here your Order</h1>
- <h1> 
-    {{context}}
- </h1>
  <form action="">
-    {% set articles = context.articles%}
-    {% for ar in articles %}
-        <h1>
-            {{ ar.name }}
-        </h1>
-        
-    {% endfor %}
+    <table class="bg-zinc-400 w-full">
+        <thead>
+            <tr>
+                <td class="bg-blue-200">Article</td>
+                <td class="bg-yellow-200">Last week <br>{{date[-2].date.strftime('%Y-%m-%d')}}</td>
+                <td class="bg-green-200">Actual Amount <br> {{date[-1].date.strftime('%Y-%m-%d')}}</td>
+                <td class="bg-red-200">Diff</td>
+                <td>Order</td>
+            </tr>
+        </thead>
+        <tbody class="w-full">
+            {% for article in articles %}
+            <tr class="w-full">
+                <td class="bg-blue-200">
+                    <label for="">{{article.name}}</label>
+                </td>
+                <td class="bg-yellow-200">
+                    <h1>
+                        {{before_last[article.id]}}
+                    </h1>
+                </td>
+                <td class="bg-green-200">
+                    <h1>
+                        {{
+                            last[article.id]
+                        }}
+                    </h1>
+                </td>
+                <td class="bg-red-200">
+                    {{
+                        last[article.id] - before_last[article.id]
+                    }}
+                </td>
+                <td>
+                    <input type="number">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
  </form>
 {% endblock content %}
+
+{% block title %}
+<title>Create Order</title>
+{% endblock title %}
