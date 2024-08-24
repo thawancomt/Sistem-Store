@@ -55,6 +55,19 @@
               <button type="button" class="btn-primary-rounded bg-red-500 border border-red-500 hover:bg-red-600">Cancel</button>
           </section>
        </div>
+       <div>
+        {% if not current_user.level %}
+        {% set stores = context.stores %}
+            <select name="store_id" id="" class="form-control-1">
+                {% for store in stores %}
+                    <option value="{{store.id}}">{{store.name}}</option>
+                {% endfor %}
+            </select>
+         {% else %}
+         <input type="number" name="store_id" value="{{current_user.store_id}}" hidden>
+          
+        {% endif %}
+     </div>
     </form>
 </div>
 

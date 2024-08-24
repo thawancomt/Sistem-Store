@@ -1,4 +1,7 @@
 from os import environ
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DEBUG = True
 HOST = '0.0.0.0'

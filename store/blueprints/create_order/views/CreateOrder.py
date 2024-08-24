@@ -3,12 +3,12 @@ from store.extensions import BlueprintBase
 
 from ...articles.services.ArticlesService import ArticlesService
 from ...stock.services.StockServices import StockServices
+from ...stores_management.services.StoreService import StoreService
 
 from ..services.PDFCreator import PDFCreator
 
-# Extra
+import math
 
-from flask import send_file
 
 class CreateOrderBlueprint(BlueprintBase):
     def __init__(self, name='orders', import_name=__name__,
@@ -36,22 +36,37 @@ class CreateOrderBlueprint(BlueprintBase):
             'articles' : ArticlesService().get_all_active(),
             'last_stock' : StockServices().convert_stock_object_to_dict(last_stock),
             'before_last_stock' : StockServices().convert_stock_object_to_dict(before_last_stock),
-            'dates' : stock_dates
+            'dates' : stock_dates,
+            'stores' : StoreService().get_all_stores()
         }
         return render_template('index.html', context = context)
     
     def create(self):
-        data = request.form.to_dict()
+        store_id = request.form.get('store_id')
 
-            # Example of how to populate new_data
-        new_data = {}
-        for k, v in data.items():
-            new_data[k] = (ArticlesService().get_by_id(int(k)), v)
+        data = []
 
-        pdf_creator = PDFCreator()
-        pdf_creator.draw_header()
-        pdf_creator.draw_items(new_data)
-        pdf_buffer = pdf_creator.create()
+        for article, quantity in request.form.items():
+            try:
+                article =  ArticlesService().get_by_id(int(article))
+                data.append(
+                    [
+                        article.name, quantity, article.provider.name, article.type.name, math.ceil(float(article.price) * int(quantity))
+                    ]
+                )
+            except:
+                pass
+
+        pdf = PDFCreator()
+        pdf.draw_header()
+        pdf.draw_items(data=data)
+        pdf.pdf.showOutline()
+        pdf_buffer = pdf.create()
+        
+
+
+
+
 
         return send_file(pdf_buffer, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
         
