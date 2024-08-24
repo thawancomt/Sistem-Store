@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% set orders, stores = context.orders, context.stores%}
+    {% for order in orders %}
+    <div class="container-primary">
+
+        <h1>{{order.id}}</h1>
+        <a href="{{ url_for('orders.download', order_id=order.id) }}">Download</a>
+    </div>
+    {% endfor %}
+
+    {% if not current_user.level %}
+        <label for="">Filter a store</label>
+        <form action="{{url_for('orders.orders')}}" method="post">
+            <select name="store_id" id="">
+                {% for store in stores %}
+                <option value="{{store.id}}">{{store.name}}</option>
+                {% endfor %}
+            </select>
+            <button>Filter</button>
+        </form>
+        
+    {% endif %}
+{% endblock content %}

@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_required, fresh_login_required, LoginManager
+from flask_login import login_required, fresh_login_required, LoginManager, current_user
 
 
 from abc import ABC, abstractmethod
@@ -39,5 +39,4 @@ class BlueprintBase(ABC):
     @abstractmethod
     def delete(self):
         pass
-    
     

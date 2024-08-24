@@ -1,11 +1,12 @@
 from store.utils import *
-from store.extensions import BlueprintBase
+from store.extensions import BlueprintBase, current_user
 
 from ...articles.services.ArticlesService import ArticlesService
 from ...stock.services.StockServices import StockServices
 from ...stores_management.services.StoreService import StoreService
 
 from ..services.PDFCreator import PDFCreator
+from ..services.OrdersServices import OrderService
 
 import math
 
@@ -26,6 +27,8 @@ class CreateOrderBlueprint(BlueprintBase):
     def register_routes(self):
         self.blueprint.add_url_rule('/', 'index', self.index)
         self.blueprint.add_url_rule('/create', 'create', self.create, methods=['POST'])
+        self.blueprint.add_url_rule('/orders', 'orders', self.orders, methods=['GET', 'POST'])
+        self.blueprint.add_url_rule('/download/<int:order_id>', 'download', self.download_pdf_order, methods=['GET'])
 
     def index(self):
         stock_dates = StockServices().get_stocks_dates()
@@ -62,11 +65,9 @@ class CreateOrderBlueprint(BlueprintBase):
         pdf.draw_items(data=data)
         pdf.pdf.showOutline()
         pdf_buffer = pdf.create()
-        
 
 
-
-
+        pdf.save_db(store_id, pdf.buffer.read(), g.date)
 
         return send_file(pdf_buffer, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
         
@@ -74,5 +75,29 @@ class CreateOrderBlueprint(BlueprintBase):
         pass
     def delete(self):
         pass
+    
+    def orders(self):
+        orders = OrderService().get_all()
+        store = None
+
+        if request.method == 'POST':
+            store = request.form.get('store_id', current_user.store_id)
+            orders = OrderService(store_id=store).get_by_store()
+
+
+        context = {
+            'orders' : orders,
+            'stores' : StoreService().get_all_stores() 
+        }
+
+        return render_template('Orders.html', context=context)
+
+    def download_pdf_order(self, order_id):
+        import io
+        pdf_buffer = OrderService(order_id=order_id).get_by_id()
+
+        pdf_file = io.BytesIO(pdf_buffer.file)
+
+        return send_file(pdf_file, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
 
 CreateOrderBlueprint = CreateOrderBlueprint().blueprint

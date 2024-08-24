@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, BOOLEAN, Text, Float, func, DateTime, LargeBinary, BLOB
 
 
+
 # ORM orm
 from sqlalchemy.orm import relationship, validates
 
