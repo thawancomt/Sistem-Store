@@ -90,17 +90,17 @@ class CreateOrderBlueprint(BlueprintBase):
         pass
     
     def orders(self):
-        store = current_user.store_id
+        user_store = current_user.store_id
 
         if not current_user.level:
             orders = OrderService().get_all()
         else:
-            orders = OrderService(store_id=store).get_by_store()
+            orders = OrderService(store_id=user_store).get_by_store()
 
 
         if request.method == 'POST':
-            store = request.form.get('store_id', current_user.store_id)
-            orders = OrderService(store_id=store).get_by_store()
+            selected_store = request.form.get('store_id', current_user.store_id)
+            orders = OrderService(store_id=selected_store).get_by_store()
 
 
         context = {

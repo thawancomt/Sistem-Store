@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+    select {
+        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full h-12 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 
+    }
     button {
         @apply border border-emerald-500
         bg-emerald-600 text-white
@@ -71,6 +74,6 @@
         @apply w-7 h-7 accent-emerald-400 bg-red-600
     }
     .thead-primary {
-        @apply w-full *:p-4 *:bg-emerald-400 
+        @apply w-full *:p-4 *:bg-emerald-400
     }
 }

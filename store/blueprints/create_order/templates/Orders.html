@@ -4,13 +4,13 @@
     {% for order in orders %}
     <div class="container-primary">
 
-        <h1>{{order.id}}</h1>
-        <a href="{{ url_for('orders.download', order_id=order.id) }}">Download</a>
+        <h1 class="information-primary">{{order.id}} - {{order.create_at}} - {{order.store.name}}</h1>
+        <button onclick="window.location.href = '{{url_for('orders.download', order_id=order.id)}}'">Download</button>
     </div>
     {% endfor %}
 
     {% if not current_user.level %}
-        <label for="">Filter a store</label>
+        <label for="" class="title-primary">Filter a store</label>
         <form action="{{url_for('orders.orders')}}" method="post">
             <select name="store_id" id="">
                 {% for store in stores %}
