@@ -3,8 +3,8 @@ from email.mime.text import MIMEText
 
 from os import environ
 
-EMAIL_SENDER = environ.get('EMAIL_ADRESS')
-EMAIL_SENDER_PWD = environ.get('EMAIL_PWD')
+EMAIL_SENDER = environ.get('EMAIL_SENDER')
+EMAIL_SENDER_PWD = environ.get('EMAIL_SENDER_PWD')
 
 class Email:
     
