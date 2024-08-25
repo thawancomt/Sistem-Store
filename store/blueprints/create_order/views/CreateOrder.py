@@ -31,18 +31,31 @@ class CreateOrderBlueprint(BlueprintBase):
         self.blueprint.add_url_rule('/download/<int:order_id>', 'download', self.download_pdf_order, methods=['GET'])
 
     def index(self):
-        stock_dates = StockServices().get_stocks_dates()
 
-        last_stock, before_last_stock = StockServices(date=stock_dates[-1].date).get_stock(), StockServices(date=stock_dates[-2].date).get_stock()
+        store_id = request.args.get('store_id') or current_user.store_id
 
+        if stock_dates := StockServices(store_id=store_id).get_stocks_dates():
+            last_stock = StockServices(store_id=store_id, date=stock_dates[-1].date).get_stock()
+
+            if len(stock_dates) > 1:
+                before_last_stock = StockServices(store_id=store_id,date=stock_dates[-2].date).get_stock()
+
+            else:
+                before_last_stock = []
+        
+        else:
+            last_stock = []
+            before_last_stock = []
+            
         context = {
             'articles' : ArticlesService().get_all_active(),
             'last_stock' : StockServices().convert_stock_object_to_dict(last_stock),
             'before_last_stock' : StockServices().convert_stock_object_to_dict(before_last_stock),
             'dates' : stock_dates,
-            'stores' : StoreService().get_all_stores()
+            'stores' : StoreService().get_all_stores(),
+            'active_store' : StoreService().get_by_id(store_id).name
         }
-        return render_template('index.html', context = context)
+        return render_template('index.html', **context)
     
     def create(self):
         store_id = request.form.get('store_id')
@@ -60,14 +73,14 @@ class CreateOrderBlueprint(BlueprintBase):
             except:
                 pass
 
-        pdf = PDFCreator()
-        pdf.draw_header()
+        pdf = PDFCreator()       
+        pdf.draw_header()        
         pdf.draw_items(data=data)
-        pdf.pdf.showOutline()
+        pdf.pdf.showOutline()    
         pdf_buffer = pdf.create()
 
 
-        pdf.save_db(store_id, pdf.buffer.read(), g.date)
+        pdf.save_db(store_id, pdf.buffer.read())
 
         return send_file(pdf_buffer, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
         
@@ -77,8 +90,13 @@ class CreateOrderBlueprint(BlueprintBase):
         pass
     
     def orders(self):
-        orders = OrderService().get_all()
-        store = None
+        store = current_user.store_id
+
+        if not current_user.level:
+            orders = OrderService().get_all()
+        else:
+            orders = OrderService(store_id=store).get_by_store()
+
 
         if request.method == 'POST':
             store = request.form.get('store_id', current_user.store_id)
@@ -90,7 +108,7 @@ class CreateOrderBlueprint(BlueprintBase):
             'stores' : StoreService().get_all_stores() 
         }
 
-        return render_template('Orders.html', context=context)
+        return render_template('Orders.html', **context)
 
     def download_pdf_order(self, order_id):
         import io

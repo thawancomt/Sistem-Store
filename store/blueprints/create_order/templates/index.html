@@ -1,25 +1,45 @@
 {% extends "base.html" %}
 
-{% set articles = context.articles %}
-{% set last = context.last_stock %}
-{% set before_last = context.before_last_stock %}
-{% set date = context.dates %}
+
+
 
 {% block content %}
+{% if not current_user.level %}
+ 
+<form action="{{url_for('orders.index')}}" class="m-4">
+    <h1 class="title-primary">Select the store that you want to see stock</h1>
+    <select name="store_id" id="" class="form-control-1">
+        {% for store in stores %}
+            <option value="{{store.id}}">{{store.name}}</option>
+        {% endfor %}
+    </select>
+    <button class="btn-primary">Select</button>
+</form>
+{% endif %}
 <div class="container-primary w-auto p-4">
-    <h1 class="title-primary pb-4"> Create Here your Order</h1>
+    <h1 class="title-primary pb-4"> Create Here your Order - {{active_store}}</h1>
     <form action="{{url_for('orders.create')}}" method="POST" id="orderForm">
-       <table class=" w-full rounded-xl overflow-hidden" class="bg-white">
-           <thead class="bg-white *:text-center *:font-bold">
-               <tr>
-                   <td class="bg-blue-200">Article</td>
-                   <td class="bg-yellow-200">Last week <br>{{date[-2].date.strftime('%Y-%m-%d')}}</td>
-                   <td class="bg-green-200">Actual Amount <br> {{date[-1].date.strftime('%Y-%m-%d')}}</td>
-                   <td class="bg-red-200">Consumed</td>
-                   <td>Order</td>
-               </tr>
-           </thead>
-           <tbody class="w-full *:text-center">
+        <table class=" w-full rounded-xl overflow-hidden" class="bg-white">
+            <thead class="bg-white *:text-center *:font-bold">
+                <tr>
+                    <td class="bg-blue-200">Article</td>
+                    {% if date | length > 1 %}
+                    <td class="bg-yellow-200">Last week <br>{{date[-2].date.strftime('%Y-%m-%d')}}</td>
+                    {% else %}
+                    <td class="bg-yellow-200">Last week <br>Empty</td>
+                     
+                    {% endif %}
+                    {% if date %}
+                    <td class="bg-green-200">Actual Amount <br> {{date[-1].date.strftime('%Y-%m-%d') or g.date}}</td>
+                    {% else %}
+                    <td class="bg-green-200">Actual Amount <br>Empty</td>
+                     
+                    {% endif %}
+                    <td class="bg-red-200">Consumed</td>
+                    <td>Order</td>
+                </tr>
+            </thead>
+            <tbody class="w-full *:text-center">
                {% for article in articles %}
                <tr class="w-full border border-gray-700 *:font-semibold">
                    <td class="bg-blue-200">
@@ -27,19 +47,19 @@
                    </td>
                    <td class="bg-yellow-200">
                        <h1>
-                           {{before_last[article.id]}}
+                           {{before_last_stock.get(article.id, 0) or 0}}
                        </h1>
                    </td>
                    <td class="bg-green-200">
                        <h1>
                            {{
-                               last[article.id]
+                               last_stock.get(article.id, 0)
                            }}
                        </h1>
                    </td>
                    <td class="bg-red-200">
                        {{
-                           last[article.id] - before_last[article.id]
+                           (last_stock.get(article.id, 0) - before_last_stock.get(article.id, 0 ))
                        }}
                    </td>
                    <td>
@@ -48,6 +68,7 @@
                </tr>
                {% endfor %}
            </tbody>
+           
        </table>
        <div>
           <section>
@@ -56,8 +77,9 @@
           </section>
        </div>
        <div>
+        <br>
         {% if not current_user.level %}
-        {% set stores = context.stores %}
+        
             <select name="store_id" id="" class="form-control-1">
                 {% for store in stores %}
                     <option value="{{store.id}}">{{store.name}}</option>
@@ -72,7 +94,7 @@
 </div>
 <section>
     <div>
-        <a href="{{url_for('orders.orders')}}">Previous orders</a>
+        <button>Orders history</button>
     </div>
 </section>
 <script src="static/createOrder.js"></script>

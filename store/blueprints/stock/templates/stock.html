@@ -192,15 +192,15 @@
             {{article.name}}
           </td>
           <td>
-            {{context.reference_stock[article.id]}}
+            {{context.reference_stock.get(article.id, 0)}}
             
           </td>
           <td>
-            {{context.default_last_stock[article.id]}}
+            {{context.default_last_stock.get(article.id, 0)}}
           </td>
           <td>
             {{
-              context.default_last_stock[article.id] - context.reference_stock[article.id]
+              context.default_last_stock.get(article.id, 0) - context.reference_stock.get(article.id, 0)
             }}
           </td>
         </tr>

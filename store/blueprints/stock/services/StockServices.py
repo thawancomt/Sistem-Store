@@ -42,14 +42,14 @@ class StockServices:
         .order_by(Stock.date.desc()).all()
         
     def get_stocks_dates(self):
-        dates = db.session.query(
-            Stock.date
-        ).where(Stock.date <= self.date).group_by(Stock.date).order_by(Stock.date.desc()).limit(7).all()
+        dates = db.session.query(Stock.date).where(and_(Stock.date <= self.date, Stock.store_id == self.store_id)).group_by(Stock.date).order_by(Stock.date.desc()).limit(7).all()
         dates.reverse()
         return dates
         
     def convert_stock_object_to_dict(self, object = None) -> dict:
+        
         stock = dict(self.get_stock()) if not object else dict(object)
+        
         
         return {
             article.id: stock.get(article.id, 0) for article in ArticlesService.get_all_active()

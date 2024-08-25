@@ -12,4 +12,4 @@ class OrdersModel(db.Model):
     store_id = Column(Integer, ForeignKey('stores.id'), nullable=False)
     store = relationship("Store", foreign_keys=[store_id])
     file = Column(LONGBLOB, nullable=False)
-    create_at = Column(DateTime, nullable=False)
+    create_at = Column(DateTime, default=func.now(),nullable=False)
