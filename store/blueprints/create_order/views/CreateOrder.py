@@ -18,7 +18,7 @@ class CreateOrderBlueprint(BlueprintBase):
                  static_folder='../static'):
         
         self.blueprint = Blueprint(name, import_name,
-                                   template_folder=template_folder,
+                                template_folder=template_folder,
                                 static_folder=static_folder,
                                 url_prefix=url_prefix)
         
@@ -79,8 +79,7 @@ class CreateOrderBlueprint(BlueprintBase):
         pdf.pdf.showOutline()    
         pdf_buffer = pdf.create()
 
-
-        pdf.save_db(store_id, pdf.buffer.read())
+        OrderService(store_id=store_id).save_db(store=store_id, file=pdf_buffer.seek(0), data=data)
 
         return send_file(pdf_buffer, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
         

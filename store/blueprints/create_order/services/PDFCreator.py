@@ -66,7 +66,6 @@ class PDFCreator:
         return self.buffer
     
     def save_db(self, store, file):
-        self.buffer.seek(0)
         Order = OrdersModel(
             store_id=store,
             file=file

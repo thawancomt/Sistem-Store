@@ -36,37 +36,43 @@
                      
                     {% endif %}
                     <td class="bg-red-200">Consumed</td>
-                    <td>Order</td>
+                    <td class="bg-gray-200">Order</td>
                 </tr>
             </thead>
             <tbody class="w-full *:text-center">
-               {% for article in articles %}
-               <tr class="w-full border border-gray-700 *:font-semibold">
-                   <td class="bg-blue-200">
-                       <label for="">{{article.name}}</label>
-                   </td>
-                   <td class="bg-yellow-200">
-                       <h1>
-                           {{before_last_stock.get(article.id, 0) or 0}}
-                       </h1>
-                   </td>
-                   <td class="bg-green-200">
-                       <h1>
-                           {{
-                               last_stock.get(article.id, 0)
-                           }}
-                       </h1>
-                   </td>
-                   <td class="bg-red-200">
-                       {{
-                           (last_stock.get(article.id, 0) - before_last_stock.get(article.id, 0 ))
-                       }}
-                   </td>
-                   <td>
-                       <input type="number" name="{{article.id}}" class="form-control-1 bg-white rounded-none text-black border-0">
-                   </td>
-               </tr>
-               {% endfor %}
+                {% if articles %}
+                    {% for article in articles %}
+                    <tr class="w-full border border-gray-700 *:font-semibold">
+                        <td class="bg-blue-200">
+                            <label for="">{{article.name}}</label>
+                        </td>
+                        <td class="bg-yellow-200">
+                            <h1>
+                                {{before_last_stock.get(article.id, 0) or 0}}
+                            </h1>
+                        </td>
+                        <td class="bg-green-200">
+                            <h1>
+                                {{
+                                    last_stock.get(article.id, 0)
+                                }}
+                            </h1>
+                        </td>
+                        <td class="bg-red-200">
+                            {{
+                                (last_stock.get(article.id, 0) - before_last_stock.get(article.id, 0 ))
+                            }}
+                        </td>
+                        <td>
+                            <input type="number" name="{{article.id}}" class="form-control-1 bg-white rounded-none text-black border-0">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr class="">
+                        <td colspan="5" class="title-primary text-red-400 p-4 bg-gray-100 border-2 border-black"> No articles</td>
+                    </tr>
+               {% endif %}
            </tbody>
            
        </table>

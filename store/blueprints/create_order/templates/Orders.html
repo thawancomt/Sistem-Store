@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if orders %}
+    
     {% for order in orders %}
     <div class="container-primary">
-
         <h1 class="information-primary">{{order.id}} - {{order.create_at}} - {{order.store.name}}</h1>
         <button onclick="window.location.href = '{{url_for('orders.download', order_id=order.id)}}'">Download</button>
     </div>
     {% endfor %}
-
+    {% else %}
+    <div class="container-primary w-auto p-4">
+        <h1 class="text-red-400 text-center title-primary">There is no orders yet.</h1>
+    </div>
+    {% endif %}
     {% if not current_user.level %}
+    <div class="container-primary w-auto p-4">
+
         <label for="" class="title-primary">Filter a store</label>
         <form action="{{url_for('orders.orders')}}" method="post">
             <select name="store_id" id="">
@@ -19,6 +26,8 @@
             </select>
             <button>Filter</button>
         </form>
+    </div>
         
     {% endif %}
+
 {% endblock content %}

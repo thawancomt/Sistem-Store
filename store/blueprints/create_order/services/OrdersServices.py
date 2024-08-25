@@ -21,3 +21,12 @@ class OrderService(Service):
     def get_by_id(self):
         return OrdersModel.query.where(OrdersModel.id == self.order_id).first()
 
+    def save_db(self, store, file, data):
+        Order = OrdersModel(
+            store_id=store,
+            file=file,
+            order_content = f'{data}'
+        )
+        db.session.add(Order)
+        db.session.commit()
+        return Order
