@@ -19,6 +19,7 @@
 <div class="container-primary w-auto p-4">
     <h1 class="title-primary pb-4"> Create Here your Order - {{active_store}}</h1>
     <form action="{{url_for('orders.create')}}" method="POST" id="orderForm">
+        <input type="number" value="{{request.args.get(store_id)}}" name="store_id">
         <table class=" w-full rounded-xl overflow-hidden" class="bg-white">
             <thead class="bg-white *:text-center *:font-bold">
                 <tr>
@@ -83,22 +84,12 @@
           </section>
        </div>
        <div>
-        <br>
-        {% if not current_user.level %}
-        
-            <select name="store_id" id="" class="form-control-1">
-                {% for store in stores %}
-                    <option value="{{store.id}}">{{store.name}}</option>
-                {% endfor %}
-            </select>
-         {% else %}
-         <input type="number" name="store_id" value="{{current_user.store_id}}" hidden>
-          
-        {% endif %}
      </div>
     </form>
 </div>
-<section>
+<section class="container-primary w-auto p-4">
+    <h1 class="title-primary">Orders historic</h1>
+    <span class="sub-title-primary">Searching for a previous order? click bellow to access the previous orders</span>
     <div>
         <button onclick="window.location.href = '{{url_for('orders.orders')}}';">Orders history</button>
     </div>

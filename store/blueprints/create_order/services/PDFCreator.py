@@ -12,14 +12,14 @@ class PDFCreator:
         self.buffer = BytesIO()
         self.pdf = canvas.Canvas(self.buffer, pagesize=A4)
         self.width, self.height = A4
-        self.y_position = self.height - 40  # Começa um pouco abaixo do topo da página
+        self.y_position = self.height - 40  
         self.page_height = self.height
-        self.page_margin = 40  # Margem no topo e na parte inferior da página
+        self.page_margin = 40  
         self.page_index = 0
     
     def draw_header(self):
         self.pdf.drawString(190, self.y_position, 'Thawsan')
-        self.y_position -= 40  # Espaço para o cabeçalho
+        self.y_position -= 40  
 
     def draw_items(self, data: list):
         self.providers = [provider[2] for provider in data]
@@ -61,15 +61,6 @@ class PDFCreator:
             self.y_position -= (table_height + 20)  # Ajusta a posição vertical para o próximo item
 
     def create(self):
-        self.pdf.save()
         self.buffer.seek(0)
+        self.pdf.save()
         return self.buffer
-    
-    def save_db(self, store, file):
-        Order = OrdersModel(
-            store_id=store,
-            file=file
-        )
-        db.session.add(Order)
-        db.session.commit()
-        return Order
