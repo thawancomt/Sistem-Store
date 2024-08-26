@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+ {% for order in orders %}
+
+    <div class="container-primary">
+        {% if order.accepted %}
+            <form action="{{url_for('orders.accept_order')}}" method="POST">
+                <h1 class="title-primary">Order ID : {{order.id}}</h1>
+                <a href="{{url_for('orders.download', order_id=order.id)}}"> download</a>
+                <input type="number" name="order_id" id="" value="{{order.id}}">
+                <button>Refuse</button>
+                
+            </form>
+            {% else %}
+            <form action="{{url_for('orders.accept_order')}}" method="POST">
+                <h1 class="title-primary">Order ID : {{order.id}}</h1>
+                <a href="{{url_for('orders.download', order_id=order.id)}}"> download</a>
+                <input type="number" name="order_id" id="" value="{{order.id}}">
+                <button>Accept</button>
+                
+            </form>
+        {% endif %}
+    </div>
+  
+ {% endfor %}
+{% endblock content %}

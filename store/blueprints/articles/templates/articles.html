@@ -26,33 +26,39 @@
                 </tr>
             </thead>
             <tbody class="dark:bg-white">
-                {% for article in context.articles %}
-                <tr class="*:text-black *:font-medium odd:bg-slate-100 *:p-4">
-                    <td class="text-center">
-                        {{ article.id }}
-                    </td>
-                    <td class="text-center">
-                        <input type="checkbox" name="" id="" {% if  article.active %} checked {% endif %} disabled class="checkbox-primary">
-                    </td>
-                    <td class="text-center">
-                        {{ article.name }}
-                    </td>
-                    <td class="text-center">
-                        {{ article.price }}
-                    </td>
-                    <td class="text-center">{{ article.type.alias }}</td>
-                    <td class="text-center"><input type="checkbox" name="" id="" {% if  article.is_producible %} checked {% endif %} disabled class="checkbox-primary"></td>
-                    <td class="text-center"><input type="checkbox" name="" id="" {% if  article.stockable %} checked {% endif %} disabled class="checkbox-primary"></td>
-                    <td class="text-center">
-                        {{ article.provider.name }}
-                    </td>
-                    <td>
-                        <div class="flex items-center justify-center space-x-2 text-center">
-                            <a href="{{url_for('articles.update', article_id=article.id)}}" class="btn-primary p-2">EDIT</a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
+                {% if context.articles %}                
+                    {% for article in context.articles %}
+                    <tr class="*:text-black *:font-medium odd:bg-slate-100 *:p-4">
+                        <td class="text-center">
+                            {{ article.id }}
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" name="" id="" {% if  article.active %} checked {% endif %} disabled class="checkbox-primary">
+                        </td>
+                        <td class="text-center">
+                            {{ article.name }}
+                        </td>
+                        <td class="text-center">
+                            {{ article.price }}
+                        </td>
+                        <td class="text-center">{{ article.type.alias }}</td>
+                        <td class="text-center"><input type="checkbox" name="" id="" {% if  article.is_producible %} checked {% endif %} disabled class="checkbox-primary"></td>
+                        <td class="text-center"><input type="checkbox" name="" id="" {% if  article.stockable %} checked {% endif %} disabled class="checkbox-primary"></td>
+                        <td class="text-center">
+                            {{ article.provider.name }}
+                        </td>
+                        <td>
+                            <div class="flex items-center justify-center space-x-2 text-center">
+                                <a href="{{url_for('articles.update', article_id=article.id)}}" class="btn-primary p-2">EDIT</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                 <tr>
+                    <td colspan="9" class="title-primary text-red-400 text-center p-4">No actvite articles</td>
+                 </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

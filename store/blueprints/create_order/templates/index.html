@@ -4,8 +4,10 @@
 
 
 {% block content %}
+<div id="alert" class="container-primary w-auto p-4 shadow-none border-yellow-400 text-center hidden">
+    <span class="information-primary animate-pulse text-red-400">Order created successfully</span>
+</div>
 {% if not current_user.level %}
- 
 <form action="{{url_for('orders.index')}}" class="m-4">
     <h1 class="title-primary">Select the store that you want to see stock</h1>
     <select name="store_id" id="" class="form-control-1">
@@ -19,7 +21,7 @@
 <div class="container-primary w-auto p-4">
     <h1 class="title-primary pb-4"> Create Here your Order - {{active_store}}</h1>
     <form action="{{url_for('orders.create')}}" method="POST" id="orderForm">
-        <input type="number" value="{{request.args.get(store_id)}}" name="store_id">
+        <input type="number" value="{{request.args.get('store_id', current_user.store_id)}}" name="store_id" hidden>
         <table class=" w-full rounded-xl overflow-hidden" class="bg-white">
             <thead class="bg-white *:text-center *:font-bold">
                 <tr>
@@ -95,6 +97,8 @@
     </div>
 </section>
 <script src="static/createOrder.js"></script>
+
+<a href="{{url_for('orders.accept_order')}}">Review orders</a>
 {% endblock content %}
 
 {% block title %}

@@ -29,6 +29,7 @@ class CreateOrderBlueprint(BlueprintBase):
         self.blueprint.add_url_rule('/create', 'create', self.create, methods=['POST'])
         self.blueprint.add_url_rule('/orders', 'orders', self.orders, methods=['GET', 'POST'])
         self.blueprint.add_url_rule('/download/<int:order_id>', 'download', self.download_pdf_order, methods=['GET'])
+        self.blueprint.add_url_rule('/accept_order', 'accept_order', self.accept_order, methods=['GET', 'POST'])
 
     def index(self):
 
@@ -73,13 +74,20 @@ class CreateOrderBlueprint(BlueprintBase):
             except:
                 pass
 
+        
         pdf = PDFCreator()       
         pdf.draw_header()        
         pdf.draw_items(data=data)
         pdf.pdf.showOutline()    
         pdf_buffer = pdf.create()
 
-        OrderService(store_id=store_id).save_db(store=store_id, file=pdf_buffer.seek(0), data=data)
+        pdf_buffer.seek(0)
+
+        pdf_content = pdf_buffer.read()
+
+        pdf_buffer.seek(0)
+
+        OrderService(store_id=store_id).save_db(store=store_id, file=pdf_content, data=data)
 
         return send_file(pdf_buffer, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
         
@@ -116,5 +124,17 @@ class CreateOrderBlueprint(BlueprintBase):
         pdf_file = io.BytesIO(pdf_buffer.file)
 
         return send_file(pdf_file, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
+
+    def accept_order(self):
+
+        context = {
+            'orders' : OrderService().get_all()
+        }
+
+        if request.method == 'POST':
+            order_id = request.form.get('order_id')
+            OrderService().accept_order(order_id = order_id)
+
+        return render_template('ReviewOrders.html', **context)
 
 CreateOrderBlueprint = CreateOrderBlueprint().blueprint

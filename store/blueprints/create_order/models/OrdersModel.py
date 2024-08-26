@@ -14,5 +14,6 @@ class OrdersModel(db.Model):
     order_content = Column(Text, nullable=False)
 
     file = Column(LONGBLOB, nullable=False)
+    accepted = Column(BOOLEAN, server_default="0",nullable=False)
 
     create_at = Column(DateTime, default=func.now(),nullable=False)
