@@ -16,7 +16,8 @@ An ERP system built with Flask, Python, JavaScript, TailwindCSS, MySQL, SQLAlche
 - **Store Management:** Create and manage different stores.
 - **User Store Association:** Associate users with specific stores to control access.
 - **Chart Types:** Three different chart types: bar, line, and pie.
-- **Article Unit Management:** Create units, aliases, and descriptions for articles.
+- **Article Unit Management:** Create units, alias, and descriptions for articles.
+- **Create orders for the store:** You can genarate PDF with orders of articles that you has in the store 
 
 These features demonstrate practical application of knowledge in real-world scenarios.
 
@@ -165,18 +166,23 @@ You can set up tasks for gonna be show as daily tasks to be done, imagine has a 
 git clone https://github.com/thawancomt/Sistem-Store.git
 cd extensions
 npm install -D tailwindcss (if you want to modify it the style)
-cd Sistem-Store
+cd .. | cd Sistem-Store
 python -m venv YOUR_VENV_NAME
 source YOUR_VENV_NAME/bin/activate
-flask -A run.py run
+pip install -r requirements.txt
+create a .env and put the DB_USERNAME, DB_PWD, DB_HOST with the creadentials to you database.
+flask -m run
+
 # Windows
 git clone https://github.com/thawancomt/Sistem-Store.git
-cd Sistem-Store
+cd extensions
+npm install -D tailwindcss (if you want to modify it the style)
+cd .. | cd Sistem-Store
 python -m venv YOUR_VENV_NAME
 YOUR_VENV_NAME/Scripts/Activate.ps1
 pip install -r requirements.txt
-flask -A run.py run
-echo 'Done'
+create a .env and put the DB_USERNAME, DB_PWD, DB_HOST with the creadentials to you database.
+flask -m run
 
 ```
 
