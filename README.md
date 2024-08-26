@@ -16,7 +16,7 @@ An ERP system built with Flask, Python, JavaScript, TailwindCSS, MySQL, SQLAlche
 - **Store Management:** Create and manage different stores.
 - **User Store Association:** Associate users with specific stores to control access.
 - **Chart Types:** Three different chart types: bar, line, and pie.
-- **Article Unit Management:** Create units, aliases, and descriptions for articles.
+- **Article Unit Management:** Create units, alias, and descriptions for articles.
 - **Create orders for the store:** You can genarate PDF with orders of articles that you has in the store 
 
 These features demonstrate practical application of knowledge in real-world scenarios.
