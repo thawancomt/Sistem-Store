@@ -7,11 +7,40 @@
         
             <form action="{{url_for('orders.accept_order')}}" method="POST">
                 <h1 class="title-primary">Order ID : {{order.id}}</h1>
+<<<<<<< Updated upstream
                 <button type="button" onclick="window.location.href = '{{url_for('orders.download', order_id=order.id)}}'">Download</button>
                 <span>ID : {{order.id}}</span>
+=======
+                <input type="number" name="order_id" value="{{order.id}}">
+                <button type="button" onclick="window.location.href = '{{url_for('orders.download', order_id=order.id)}}'">Download</button>
+                <button type="button" class="toggle-table-button">View order information</button>
+                <table class="w-full hidden">
+                    <thead class="bg-red-200">
+                        <tr>
+                            <td>Article</td>
+                            <td>Amount</td>
+                            <td>Price</td>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-200">
+                        {% set orders = eval(order.order_content) %}
+                        {% for item in orders %}
+                        <tr class="odd:bg-gray-200">
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                            <td>
+                                {{ item[4] }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+>>>>>>> Stashed changes
                 <button {% if order.accepted %} class="bg-red-400 border-4 border-red-400 hover:bg-red-300" >Refuse {% else %} > Accept {% endif %} </button>
             </form>
     </div>
   
  {% endfor %}
+<script src="static/ReviewOrder.js"></script>
 {% endblock content %}
