@@ -74,8 +74,10 @@ class CreateOrderBlueprint(BlueprintBase):
             except:
                 pass
 
+        order = OrderService(store_id=store_id)
+        order = order.save_db(store=store_id, file=bytes(), data=data)
         
-        pdf = PDFCreator()       
+        pdf = PDFCreator(order = order)       
         pdf.draw_header()        
         pdf.draw_items(data=data)
         pdf.pdf.showOutline()    
@@ -87,9 +89,11 @@ class CreateOrderBlueprint(BlueprintBase):
 
         pdf_buffer.seek(0)
 
-        OrderService(store_id=store_id).save_db(store=store_id, file=pdf_content, data=data)
+        OrderService().save_pdf_into_order(order.id, pdf_content)
 
-        return send_file(pdf_buffer, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
+        filename = f'{order.store.name}_{datetime.strftime(order.create_at, '%Y-%m-%d')}_{order.id}.pdf'
+
+        return send_file(pdf_buffer, as_attachment=True, download_name=filename, mimetype='application/pdf')
         
     def update(self):
         pass

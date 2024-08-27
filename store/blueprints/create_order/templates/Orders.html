@@ -4,8 +4,9 @@
     {% if orders %}
     
     {% for order in orders %}
-    <div class="container-primary">
-        <h1 class="information-primary">{{order.id}} - {{order.create_at}} - {{order.store.name}}</h1>
+    <div class="container-primary shadow-none p-4">
+        <h1 class="title-primary">Order id : {{order.id}}</h1>
+        <span> Date : {{order.create_at}} <br> store : {{order.store.name}}</span>
         <button onclick="window.location.href = '{{url_for('orders.download', order_id=order.id)}}'">Download</button>
     </div>
     {% endfor %}

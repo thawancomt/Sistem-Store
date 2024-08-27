@@ -7,8 +7,10 @@ from reportlab.pdfgen import canvas
 from ..models.OrdersModel import OrdersModel
 from store.extensions import db
 
+from datetime import datetime
+
 class PDFCreator:
-    def __init__(self) -> None:
+    def __init__(self, order = None) -> None:
         self.buffer = BytesIO()
         self.pdf = canvas.Canvas(self.buffer, pagesize=A4)
         self.width, self.height = A4
@@ -16,9 +18,15 @@ class PDFCreator:
         self.page_height = self.height
         self.page_margin = 40  
         self.page_index = 0
+        self.order : OrdersModel = order
+        self.create_order_name()
+    
+    def create_order_name(self):
+        self.order_name = f'Order - {self.order.store.name} Nº {datetime.strftime(self.order.create_at, '%Y-%m')}/{self.order.id}'
+        return self.order_name
     
     def draw_header(self):
-        self.pdf.drawString(190, self.y_position, 'Thawsan')
+        self.pdf.drawString(190, self.y_position, self.order_name)
         self.y_position -= 40  
 
     def draw_items(self, data: list):

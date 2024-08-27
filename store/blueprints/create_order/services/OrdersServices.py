@@ -40,3 +40,14 @@ class OrderService(Service):
         order.accepted = not order.accepted
 
         db.session.commit()
+    
+    def save_pdf_into_order(self, order_id, file):
+        self.order_id = order_id
+        order = self.get_by_id()
+
+        order.file = file
+
+        db.session.commit()
+
+        return order
+

@@ -89,6 +89,7 @@
      </div>
     </form>
 </div>
+{% if current_user %}
 <section class="container-primary w-auto p-4">
     <h1 class="title-primary">Orders historic</h1>
     <span class="sub-title-primary">Searching for a previous order? click bellow to access the previous orders</span>
@@ -96,9 +97,18 @@
         <button onclick="window.location.href = '{{url_for('orders.orders')}}';">Orders history</button>
     </div>
 </section>
-<script src="static/createOrder.js"></script>
+{% endif %}
+{% if not current_user.level %}
+<section class="container-primary w-auto p-4">
+    <h1 class="title-primary">Review and accept or refuse orders</h1>
+    <span class="sub-title-primary">Reviews orders that others created and accept to foward the order or refuse to make them update</span>
+    <div>
+        <button onclick="window.location.href = '{{url_for('orders.accept_order')}}';">Review orders</button>
+    </div>
+</section>
+{% endif %}
 
-<a href="{{url_for('orders.accept_order')}}">Review orders</a>
+<script src="static/createOrder.js"></script>
 {% endblock content %}
 
 {% block title %}
