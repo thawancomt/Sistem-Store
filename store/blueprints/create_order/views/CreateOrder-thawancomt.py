@@ -1,5 +1,5 @@
 from store.utils import *
-from store.extensions import BlueprintBase, current_user, login_required
+from store.extensions import BlueprintBase, current_user
 
 from ...articles.services.ArticlesService import ArticlesService
 from ...stock.services.StockServices import StockServices
@@ -58,7 +58,6 @@ class CreateOrderBlueprint(BlueprintBase):
         }
         return render_template('index.html', **context)
     
-    @login_required
     def create(self):
         store_id = request.form.get('store_id')
 
@@ -100,8 +99,7 @@ class CreateOrderBlueprint(BlueprintBase):
         pass
     def delete(self):
         pass
-
-    @login_required
+    
     def orders(self):
         user_store = current_user.store_id
 
@@ -122,8 +120,7 @@ class CreateOrderBlueprint(BlueprintBase):
         }
 
         return render_template('Orders.html', **context)
-    
-    @login_required
+
     def download_pdf_order(self, order_id):
         import io
         pdf_buffer = OrderService(order_id=order_id).get_by_id()
@@ -131,12 +128,11 @@ class CreateOrderBlueprint(BlueprintBase):
         pdf_file = io.BytesIO(pdf_buffer.file)
 
         return send_file(pdf_file, as_attachment=True, download_name='order.pdf', mimetype='application/pdf')
-    @login_required   
+
     def accept_order(self):
 
         context = {
-            'orders' : OrderService().get_all(),
-            'eval' : eval
+            'orders' : OrderService().get_all()
         }
 
         if request.method == 'POST':

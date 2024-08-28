@@ -19,7 +19,7 @@ from store.blueprints.stores_management.view.StoreView import store
 from store.blueprints.articles.views.ArticlesView import articles
 from store.blueprints.production.views.ProductionView import production
 from store.blueprints.stock.views.StockView import stock
-from store.blueprints.daily_tasks.views.DailyView import daily_tasks
+from store.blueprints.daily_tasks.views.DailyView import DailyTasksBlueprint
 from store.blueprints.product_shelf_life.views.ShelfLifeView import shelf_life
 from store.blueprints.providers.views.ProvidersView import providers
 
@@ -52,7 +52,7 @@ def create_app():
     app.register_blueprint(articles)
     app.register_blueprint(production)
     app.register_blueprint(stock)
-    app.register_blueprint(daily_tasks)
+    app.register_blueprint(DailyTasksBlueprint)
     app.register_blueprint(profile_image)
     app.register_blueprint(shelf_life)
     app.register_blueprint(providers)
