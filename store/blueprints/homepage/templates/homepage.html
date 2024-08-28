@@ -15,7 +15,7 @@
 {% block store_title %}
     <div>
         <h1 class="title-primary text-center">
-            {{context.store_name | title}} Store
+            {{store_name | title}} Store
         </h1>
         
     </div>
@@ -105,15 +105,15 @@
             <div class="m-4">
                 <h1 class="title-primary">Tasks to do</h1>
                 <p class="information-primary">You can add some task to the store</p>
-                
-                <h1 class="sub-title-primary ">Tasks to complete : {{ context.tasks.active_tasks | length}}</h1>
-                <h1 class="sub-title-primary">Finished tasks : {{ context.tasks.done_tasks | length}}</h1>
+
+                <h1 class="sub-title-primary ">Tasks to complete : {{ tasks.active_tasks | length}}</h1>
+                <h1 class="sub-title-primary">Finished tasks : {{ tasks.done_tasks | length}}</h1>
 
 
                 <button class="btn-primary md:w-[20%]" id="show_tasks_btn">Show all tasks</button>
                 <div class="space-y-4 mt-4" id="task_panel" hidden>
-                    {% if context.tasks %}
-                        {% for task in context.tasks.all_tasks %}
+                    {% if tasks %}
+                        {% for task in tasks.all_tasks %}
                             <div class="md:grid md:grid-cols-5 md:w-full md:justify-between md:text-left md:p-2 border p-1 text-center ">
                                     <div class="md:col-span-3 md:spa">
                                         

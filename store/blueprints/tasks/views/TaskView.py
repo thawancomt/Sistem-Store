@@ -22,7 +22,7 @@ def create():
     task = TaskService(task_name=task_name, task_description=task_description)
     
     task.create()
-    return redirect(url_for('homepage.home'))
+    return redirect(url_for('homepage.index'))
 
 @tasks.route('/delete/', methods=['POST'])
 def delete():
@@ -32,7 +32,7 @@ def delete():
     task_ = TaskService()
     task_.delete(task_id)
     
-    return redirect(url_for('homepage.home', date=g.date))
+    return redirect(url_for('homepage.index', date=g.date))
 
 
 @tasks.route('/finish', methods=['POST'])
@@ -43,7 +43,7 @@ def finish():
     if task.finish():
         flash('Task finished')
         
-    return redirect(url_for('homepage.home', date=g.date))
+    return redirect(url_for('homepage.index', date=g.date))
 
 
 

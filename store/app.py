@@ -12,7 +12,7 @@ from store.micro_services.code_verification import CodeModel
 from store.extensions import db, login_manager
 
 from store.blueprints.login.views.LoginView import authentication
-from store.blueprints.homepage.views.Homepage import  homepage
+from store.blueprints.homepage.views.Homepage import  HomepageBluprint
 from store.blueprints.users.views.UsersView import users
 from store.blueprints.tasks.views.TaskView import tasks
 from store.blueprints.stores_management.view.StoreView import store
@@ -45,7 +45,7 @@ def create_app():
 
 
     app.register_blueprint(authentication)
-    app.register_blueprint(homepage)
+    app.register_blueprint(HomepageBluprint)
     app.register_blueprint(tasks)
     app.register_blueprint(store)
     app.register_blueprint(users)
@@ -83,7 +83,7 @@ def create_app():
 
     @app.route('/')
     def home():
-        return redirect(url_for('homepage.home'))
+        return redirect(url_for('homepage.index'))
     
     @app.errorhandler(404)
     def page_not_found(error):

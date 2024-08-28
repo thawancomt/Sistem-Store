@@ -20,7 +20,7 @@ authentication = Blueprint('auth', __name__,
 @authentication.route('/', methods=['GET'])
 def login_page():
     if current_user.is_authenticated and login_fresh():
-        return redirect(url_for('homepage.home'))
+        return redirect(url_for('homepage.index'))
     return render_template('login.html')
 
 @authentication.route('/', methods=['POST'])
@@ -36,7 +36,7 @@ def login():
         return redirect(url_for('auth.confirmation', id=user.id))
     
     if LoginService(email = email, password = password).login():
-        return redirect(url_for('homepage.home'))
+        return redirect(url_for('homepage.index'))
     
     flash('Invalid email or password', 'danger')
     return redirect(url_for('auth.login_page'))
