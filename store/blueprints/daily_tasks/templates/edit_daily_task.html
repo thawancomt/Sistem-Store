@@ -6,7 +6,7 @@
         Edit the task 
     </h1>
 
-    <form action="{{url_for('daily_tasks.edit_task')}}" method="post">
+    <form action="{{url_for('daily_tasks.update')}}" method="post">
 
         <label for="" class="sub-title-primary">Edit task name</label>
         <input type="text"  placeholder="{{context.task.name}}" class="form-control-1" name="name">
