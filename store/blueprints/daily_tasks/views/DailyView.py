@@ -23,7 +23,7 @@ class DailyTasksBlueprint(BlueprintBase):
         self.blueprint.add_url_rule('/create', 'create', self.create)
         self.blueprint.add_url_rule('/set_as_done', 'set_as_done', self.set_as_done, methods=['POST'])
         self.blueprint.add_url_rule('/deactive', 'deactive_task', self.deactive_task, methods=['POST'])
-        self.blueprint.add_url_rule('/edit', 'edit_view', self.edit_view, methods=['post', 'get'])
+        self.blueprint.add_url_rule('/edit', 'edit_view', self.edit_view)
         self.blueprint.add_url_rule('/update', 'update', self.update, methods=['post'])
 
     def index(self):
@@ -32,7 +32,7 @@ class DailyTasksBlueprint(BlueprintBase):
             'to_do' : DailyStatusService(date=g.date).get_all_tasks(),
         }
         
-        return render_template('daily_tasks.html', context = context)
+        return render_template('daily_tasks.html', **context)
 
 
     @fresh_login_required
@@ -69,7 +69,7 @@ class DailyTasksBlueprint(BlueprintBase):
         }
             
         
-        return render_template('edit_daily_task.html', context=context)
+        return render_template('edit_daily_task.html', **context)
 
     def update(self):
         data = request.form.to_dict()

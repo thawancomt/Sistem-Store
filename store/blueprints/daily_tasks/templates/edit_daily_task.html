@@ -9,29 +9,29 @@
     <form action="{{url_for('daily_tasks.update')}}" method="post">
 
         <label for="" class="sub-title-primary">Edit task name</label>
-        <input type="text"  placeholder="{{context.task.name}}" class="form-control-1" name="name">
+        <input type="text"  placeholder="{{task.name}}" class="form-control-1" name="name">
 
         <label for="" class="sub-title-primary">Edit task Instructions</label>
-        <input type="text"  placeholder="{{context.task.description if context.task.description else 'Empty instructions'}}" class="form-control-1" name="description">
+        <input type="text"  placeholder="{{task.description if task.description else 'Empty instructions'}}" class="form-control-1" name="description">
 
         <label for="" class="sub-title-primary">Edit when task was created</label>
-        <input type="datetime-local" placeholder="Start At" value="{{context.task.start_at}}" class="form-control-1" name="start_at">
+        <input type="datetime-local" placeholder="Start At" value="{{task.start_at}}" class="form-control-1" name="start_at">
 
         <label for="" class="sub-title-primary"> Set the date when the task will be ended</label>
-        <input type="datetime-local" placeholder="Start At" value="{{context.task.end_at}}" class="form-control-1" name="end_at">
+        <input type="datetime-local" placeholder="Start At" value="{{task.end_at}}" class="form-control-1" name="end_at">
 
         <label for="" class="sub-title-primary">Keep the task active?</label>
-        <input type="checkbox" {% if context.task.status %} checked {% else %} disabled {% endif%} name="status">
+        <input type="checkbox" {% if task.status %} checked {% else %} disabled {% endif%} name="status">
         <br>
         <label for="">Whon Finished the task</label>
         <select name="finished_by" class="form-control-1" id="">
             <option value="{{current_user.id}}">{{current_user.username}}</option>
-            {% if context.task.finisher.username != current_user.username %}
-            <option value="{{context.task.finisher.id if context.task.finisher else '' }}" selected>{{context.task.finisher.username if context.task.finisher else 'Not finished'}}</option>
+            {% if task.finisher.username != current_user.username %}
+            <option value="{{task.finisher.id if task.finisher else '' }}" selected>{{task.finisher.username if task.finisher else 'Not finished'}}</option>
             {% endif %}
         </select>
 
-        <input type="hidden" value="{{context.task.id}}" name="task_id">
+        <input type="hidden" value="{{task.id}}" name="task_id">
         <input type="button" value="Save" class="btn-primary" id="saveBtn">
     </form>
 </div>

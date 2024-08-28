@@ -7,10 +7,6 @@
         
             <form action="{{url_for('orders.accept_order')}}" method="POST">
                 <h1 class="title-primary">Order ID : {{order.id}}</h1>
-<<<<<<< Updated upstream
-                <button type="button" onclick="window.location.href = '{{url_for('orders.download', order_id=order.id)}}'">Download</button>
-                <span>ID : {{order.id}}</span>
-=======
                 <input type="number" name="order_id" value="{{order.id}}">
                 <button type="button" onclick="window.location.href = '{{url_for('orders.download', order_id=order.id)}}'">Download</button>
                 <button type="button" class="toggle-table-button">View order information</button>
@@ -36,7 +32,6 @@
                         
                     </tbody>
                 </table>
->>>>>>> Stashed changes
                 <button {% if order.accepted %} class="bg-red-400 border-4 border-red-400 hover:bg-red-300" >Refuse {% else %} > Accept {% endif %} </button>
             </form>
     </div>
