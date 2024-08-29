@@ -36,7 +36,7 @@ def update():  # sourcery skip: avoid-builtin-shadow
     
     UserService().update(username=username, data=data)
     
-    return redirect(url_for('homepage.home'))
+    return redirect(url_for('homepage.index'))
 
 @edit_user.route('/delete', methods=['POST'])
 @fresh_login_required
@@ -46,7 +46,7 @@ def delete():
     user_id = request.form.get('user_id')
     UserService.update_user_status_to_inactive(user_id)
     
-    return redirect(url_for('homepage.home'))
+    return redirect(url_for('homepage.index'))
 
 @edit_user.route('/active', methods=['POST'])
 @fresh_login_required
@@ -55,6 +55,6 @@ def reactive():
     user_id = request.form.get('user_id')
     UserService.active_an_inactive_user(user_id)
     
-    return redirect(url_for('homepage.home'))
+    return redirect(url_for('homepage.index'))
 
 
