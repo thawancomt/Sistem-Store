@@ -37,11 +37,12 @@ def home():
 
 
 class HomepageBluprint(BlueprintBase):
-    def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=...) -> None:
+    def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=None,) -> None:
         super().__init__(name, static_folder, url_prefix, template_folder, import_name)
         self.register_routes()
         
 
+        
     def register_routes(self):
         self.blueprint.add_url_rule('/', 'index', self.index, methods=['POST', 'GET'])
     def update(self):
@@ -51,6 +52,7 @@ class HomepageBluprint(BlueprintBase):
     def delete(self):
         return super().delete()
     
+    @login_required
     def index(self):
         context = {
             'tasks' : {
