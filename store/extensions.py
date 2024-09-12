@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_required, fresh_login_required, LoginManager, current_user
+from flask_login import login_required, fresh_login_required, LoginManager, current_user, login_fresh
 
-from flask import Blueprint
+from flask import Blueprint, flash
 
 
 from abc import ABC, abstractmethod
@@ -28,7 +28,7 @@ class BlueprintBase(ABC):
             import_name=import_name, 
             template_folder=template_folder,
             static_folder=static_folder,
-            url_prefix=url_prefix
+            url_prefix=url_prefix,
         )
     @abstractmethod
     def register_routes(self):

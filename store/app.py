@@ -11,7 +11,7 @@ from store.micro_services.code_verification import CodeModel
 
 from store.extensions import db, login_manager
 
-from store.blueprints.login.views.LoginView import authentication
+from store.blueprints.login.views.LoginView import Authentication
 from store.blueprints.homepage.views.Homepage import  HomepageBluprint
 from store.blueprints.users.views.UsersView import users
 from store.blueprints.tasks.views.TaskView import tasks
@@ -44,7 +44,7 @@ def create_app():
     app.config.from_object('CONFIG')
 
 
-    app.register_blueprint(authentication)
+    app.register_blueprint(Authentication)
     app.register_blueprint(HomepageBluprint)
     app.register_blueprint(tasks)
     app.register_blueprint(store)

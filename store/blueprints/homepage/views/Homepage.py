@@ -16,26 +16,6 @@ from flask_login import login_required, current_user, fresh_login_required
 
 import os
 
-
-
-@homepage.route('/', methods=['GET', 'POST'])
-@fresh_login_required
-def home():
-
-    context = {
-        'tasks' : {
-            'all_tasks' : TaskService.get_tasks_of_day(),
-            'active_tasks' : TaskService.get_active_tasks_of_day(),
-            'done_tasks' : TaskService.get_done_tasks_of_day(),
-        },
-        'date' : datetime.now().strftime('%d/%m/%Y'),
-        'store_name' : StoreService().get_name_by_id(current_user.store_id)
-    }
-
-    
-    return render_template('homepage.html', context=context, os=os)
-
-
 class HomepageBluprint(BlueprintBase):
     def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=None,) -> None:
         super().__init__(name, static_folder, url_prefix, template_folder, import_name)

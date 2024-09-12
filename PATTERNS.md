@@ -12,7 +12,7 @@ Rule for Flaks Patterns:
     Always use get and post decorators to handle the get and post routes
 
 Rule for HTML files
-    The names of files need to Be SnakeCase
+    The names of files need to Be PacalCase
 
 Rule for CRUD process
     READ METHOD's

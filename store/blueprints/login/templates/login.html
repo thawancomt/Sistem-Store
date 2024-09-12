@@ -4,7 +4,11 @@
  <title>System Login</title>
 {% endblock title %}
 {% block content %}
-
+<h1>
+    {{
+        url_for('auth.logout')
+    }}
+</h1>
 <div class="h-full w-full ">
     <div class="flex w-full h-full justify-center  items-center ">
         <form action="{{url_for('auth.login')}}" method="post" class=" h-4/6 w-5/6  shadow-lg md:w-2/6 md:p-4">

@@ -67,7 +67,7 @@ class ArticlesService:
         from store.blueprints.stock.services.StockServices import StockServices
         
         if article := self.get_by_id(id):
-            # Not recomende, may get server slow
+            # Not recomended, may get server slow
             ProductionService().delete_all_production_by_article_id(id)
             StockServices().delete_all_stock_by_article_id(id)
             db.session.delete(article)
@@ -99,6 +99,7 @@ class TypeUnitsService:
     @staticmethod
     def get_all():
         return db.session.query(TypeUnitModel).all()
+
     
-    
-    
+    def get_by_name(self, name):
+        return db.session.query(TypeUnitModel).filter(TypeUnitModel.name == name)
