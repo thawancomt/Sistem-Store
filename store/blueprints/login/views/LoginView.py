@@ -49,7 +49,7 @@ class LoginView(BlueprintBase):
         return redirect(url_for('auth.auth'))
     
     def confirm_login(self):
-        user_id = request.form.get('id')
+        user_id = request.args.get('id')
         user = UserService.get(int(user_id))
 
         if not user or user.active:

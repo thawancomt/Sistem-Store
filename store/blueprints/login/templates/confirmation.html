@@ -14,12 +14,12 @@
         <form action="{{url_for('auth.check_code')}}" method="post" class=" h-4/6 w-5/6  shadow-lg md:w-2/6 md:p-4">
             <h1 class="title-primary m-2">Confirm your account</h1>
             <p class="sub-title-primary text-wrap w-[80%] m-2">The code has been sent to your email, insert the code below to confirm your account</p>
-            <p>{{context.email}}</p>
+            <p>{{email}}</p>
             <div class="p-2">
                 <label for="code" class="sub-title-primary">Code</label>
                 <input type="text" name="code" id="" class="form-control-1">
 
-                <input type="text" name="user_id" value="{{context.id}}" hidden>
+                <input type="text" name="user_id" value="{{id}}" hidden>
                 <button class="btn-primary-rounded ">Confirm</button>
             </div>
             <div>

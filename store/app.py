@@ -71,15 +71,12 @@ def create_app():
         check_user()
         
     login_manager.init_app(app)
-    login_manager.refresh_view = 'auth.login'
+    login_manager.login_view = 'auth.auth'
+    login_manager.refresh_view = 'auth.auth'
     login_manager.needs_refresh_message = 'Please insert your credentials again to confirm the login'
     
     migrate.init_app(app, db)
-    
 
-
-    
-    
 
     @app.route('/')
     def home():

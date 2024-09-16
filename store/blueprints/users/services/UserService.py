@@ -52,12 +52,15 @@ class UserService:
         
         try:
             self.db.session.add(new_user)
-            self.db.session.commit()
+            
             user = UserService(email=new_user.email).get_user_by_email()
             Email(recipient_email=user.email, id=user.id).send_email()
             return True
         except (IntegrityError, Exception):
+            print('EOOOOOOOOOOOOOOOO')
             return False
+        
+        self.db.session.commit()
         
         
     

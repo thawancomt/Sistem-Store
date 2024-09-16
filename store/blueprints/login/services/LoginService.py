@@ -28,7 +28,7 @@ class LoginService:
     @login_manager.unauthorized_handler
     def unauthorized_callback():
         flash("You don't have appropriate access to view this page")
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.auth'))
     
     
     
@@ -36,7 +36,7 @@ class LoginService:
         if self.user and self.verify_password(self.user.password) and self.user.active:
             self.user.last_login = datetime.now() 
             db.session.commit()            
-            login_user(self.user, remember=True, duration=timedelta(minutes=30))
+            login_user(self.user, remember=False, duration=timedelta(minutes=30))
             return True
         return False
     
