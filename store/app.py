@@ -11,11 +11,11 @@ from store.micro_services.code_verification import CodeModel
 
 from store.extensions import db, login_manager
 
-from store.blueprints.login.views.LoginView import LoginView
+from store.blueprints.login.views.LoginView import LoginBlueprint
 from store.blueprints.homepage.views.Homepage import  HomepageBluprint
 from store.blueprints.users.views.UsersView import users
-from store.blueprints.tasks.views.TaskView import TaskView
-from store.blueprints.stores_management.view.StoreView import store
+from store.blueprints.tasks.views.TaskView import TaskBlueprint
+from store.blueprints.stores_management.view.StoreView import StoreBlueprint
 from store.blueprints.articles.views.ArticlesView import articles
 from store.blueprints.production.views.ProductionView import production
 from store.blueprints.stock.views.StockView import stock
@@ -44,10 +44,10 @@ def create_app():
     app.config.from_object('CONFIG')
 
 
-    app.register_blueprint(LoginView)
+    app.register_blueprint(LoginBlueprint)
     app.register_blueprint(HomepageBluprint)
-    app.register_blueprint(TaskView)
-    app.register_blueprint(store)
+    app.register_blueprint(TaskBlueprint)
+    app.register_blueprint(StoreBlueprint)
     app.register_blueprint(users)
     app.register_blueprint(articles)
     app.register_blueprint(production)

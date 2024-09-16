@@ -6,7 +6,7 @@ from ...users.services.UserService import UserService
 
 from store.micro_services.code_verification import CodeService
 
-class LoginView(BlueprintBase):
+class LoginBlueprint(BlueprintBase):
     def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=None,) -> None:
         super().__init__(name, static_folder, url_prefix, template_folder, import_name)
         self.register_routes()
@@ -132,4 +132,4 @@ class LoginView(BlueprintBase):
 
         return super().delete()
 
-LoginView = LoginView('auth', static_folder= '..../static', url_prefix='/auth', template_folder='../templates', import_name=__name__).blueprint
+LoginBlueprint = LoginBlueprint('auth', static_folder= '..../static', url_prefix='/auth', template_folder='../templates', import_name=__name__).blueprint

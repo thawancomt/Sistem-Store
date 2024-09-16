@@ -4,7 +4,7 @@ from store.utils import *
 
 from ..services.TaskService import TaskService
 
-class TaskView(BlueprintBase):
+class TaskBlueprint(BlueprintBase):
     def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=None,) -> None:
         super().__init__(name, static_folder, url_prefix, template_folder, import_name)
         self.register_routes()
@@ -45,4 +45,4 @@ class TaskView(BlueprintBase):
     def index(self):
         pass
 
-TaskView = TaskView('tasks', url_prefix='/tasks', import_name=__name__).blueprint
+TaskBlueprint = TaskBlueprint('tasks', url_prefix='/tasks', import_name=__name__).blueprint
