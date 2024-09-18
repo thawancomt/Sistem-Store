@@ -85,6 +85,7 @@ class CreateOrderBlueprint(BlueprintBase):
         pdf_buffer = pdf.create()
 
         pdf_buffer.seek(0)
+        
 
         pdf_content = pdf_buffer.read()
 
@@ -146,3 +147,4 @@ class CreateOrderBlueprint(BlueprintBase):
         return render_template('ReviewOrders.html', **context)
 
 CreateOrderBlueprint = CreateOrderBlueprint().blueprint
+

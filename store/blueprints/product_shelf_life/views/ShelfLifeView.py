@@ -1,22 +1,21 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, g
+from store.extensions import *
 
 from ..Services.ShelLifeService import ShelLifeService
+from store.utils import *
 
-from flask_login import login_required, fresh_login_required
+class ShelfLifeBlueprint(BlueprintBase):
+    def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=None,) -> None:
+        super().__init__(name, static_folder, url_prefix, template_folder, import_name)
+        self.register_routes()
+
+    def register_routes(self):
+        self.blueprint.add_url_rule('/', 'home', self.home, methods=['GET'])
+
+    def home(self):
+        context = {
+            'alerts' : ShelLifeService().get_by_date()
+        }
+        return render_template('shelf_life_home.html', **context)
 
 
-shelf_life = Blueprint('shelflife', __name__, template_folder='../templates',
-                                                static_folder='../static',
-                                                url_prefix='/shelf_life')
-
-
-@shelf_life.route('/')
-@login_required
-def home():
-    
-    context = {
-        'alerts' : ShelLifeService().get_by_date()
-    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-    
-    
-    return render_template('shelf_life_home.html', context=context)
+ShelfLifeBlueprint = ShelfLifeBlueprint(name='shelflife', url_prefix='/shelf_life', template_folder='../templates', static_folder='../static', import_name=__name__)
