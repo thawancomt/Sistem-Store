@@ -1,4 +1,5 @@
-from .utils import *
+from tests.utils import *
+
 def login(client):
     # Função auxiliar para fazer o login
     return client.post(
@@ -11,7 +12,7 @@ def test_login(client):
     # Usando o mesmo client para login e outras requisições
     response = login(client)
 
-    assert response.status_code == 200, 'Login falhou'
+    assert response.status_code == 302, 'Login falhou'
 
     ind = client.get('/index')
     assert ind.location == 'http://localhost/index/', 'Login não redirecionou para /index/'

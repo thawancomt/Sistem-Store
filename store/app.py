@@ -35,13 +35,13 @@ from store.first_run import check_store, check_user
 
 from datetime import datetime
 
-def create_app():
+def create_app(CONFIG = None):
 
     app = Flask(__name__)
     
     app.secret_key = b'2222'
 
-    app.config.from_object('CONFIG')
+    app.config.from_object(CONFIG or 'CONFIG')
 
 
     app.register_blueprint(LoginBlueprint)
