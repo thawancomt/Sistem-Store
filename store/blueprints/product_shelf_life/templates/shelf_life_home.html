@@ -20,7 +20,7 @@
         </thead>
         
         <tbody>
-            {% for alert in context.alerts %}
+            {% for alert in alerts %}
             <tr class="*:gap-2 *:p-4 *:text-center *:odd:bg-slate-100">
                 <td>{{loop.index}}</td>
                 <td>{{ alert.article.name }}</td>
@@ -32,7 +32,7 @@
             
              
             {% endfor %}
-            {% if not context.alerts %}
+            {% if not alerts %}
             <tr class="*:gap-2 *:p-4">
                 <td class="w-full text-center" colspan="4">No articles to check today</td>
             </tr>

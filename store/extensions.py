@@ -30,6 +30,7 @@ class BlueprintBase(ABC):
             static_folder=static_folder,
             url_prefix=url_prefix,
         )
+        
     @abstractmethod
     def register_routes(self):
         pass

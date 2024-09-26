@@ -1,44 +1,50 @@
-from multiprocessing import context
-from store.blueprints import *
-from ..services.UserService import UserService
-from store.blueprints.stores_management.services.StoreService import StoreService
-
-from datetime import datetime
-
+from store.utils import *
+from store.extensions import *
 from .EditUserView import edit_user
-
 from .CreateUserView import create_user
 
-from flask_login import login_required
+from store.blueprints.users.services.UserService import UserService
 
 
+class UsersBlueprint(BlueprintBase):
+    def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=None,) -> None:
+        super().__init__(name, static_folder, url_prefix, template_folder, import_name)
+        self.register_routes()
 
-users = Blueprint('users', __name__, url_prefix='/users',
-                       template_folder='../templates',
-                       static_folder='../static')
+    def register_routes(self):
+        self.blueprint.add_url_rule('/', view_func=self.index, methods=['GET', 'POST'])
+        self.blueprint.add_url_rule('/table', view_func=self.users_table)
 
-# Child blueprint for edit user
-users.register_blueprint(edit_user)
-users.register_blueprint(create_user)
+        
+        self.blueprint.register_blueprint(edit_user)
+        self.blueprint.register_blueprint(create_user)
     
-@users.route('/', methods=['GET', 'POST'])
-@login_required
-def home():
-    user_query = request.form.get('user_query', None)
+    def index(self):
+        # Stand by home
+        user_query = request.form.get('user_query', None)
+        context = {
+            'all_users': UserService.get_all_active_users(query=user_query),
+            'inactive_users': UserService.get_all_inactive_users(query=user_query)
+        }
+
+        return render_template('users.html', context=context)
     
-    context = {
-        'all_users': UserService.get_all_active_users(query=user_query),
-        'inactive_users': UserService.get_all_inactive_users(query=user_query)
-    }
+    def users_table(self):
+        users = UserService().get_all()
+        
+        context = {
+            'all_users': users
+        }
 
-    return render_template('users.html', context=context)
+        return render_template('users_table.html', context=context)
 
-@users.route('/table')
-def users_table():
-    users = UserService().get_all()
-    
-    context = {
-        'all_users': users
-    }
+    def create(self):
+        pass
 
-    return render_template('users_table.html', context=context)
+    def update(self):
+        pass
+
+    def delete(self):
+        pass
+
+UsersBlueprint = UsersBlueprint('users', url_prefix='/users', template_folder='../templates', static_folder= '../static', import_name=__name__).blueprint

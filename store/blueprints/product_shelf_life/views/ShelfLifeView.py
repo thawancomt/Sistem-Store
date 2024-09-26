@@ -9,13 +9,23 @@ class ShelfLifeBlueprint(BlueprintBase):
         self.register_routes()
 
     def register_routes(self):
-        self.blueprint.add_url_rule('/', 'home', self.home, methods=['GET'])
+        self.blueprint.add_url_rule('/', 'home', self.index, methods=['GET'])
 
-    def home(self):
+    def index(self):
         context = {
             'alerts' : ShelLifeService().get_by_date()
         }
         return render_template('shelf_life_home.html', **context)
+    
+    def create(self):
+        pass
+
+    def update(self):
+        pass
+
+    def delete(self):
+        pass
 
 
-ShelfLifeBlueprint = ShelfLifeBlueprint(name='shelflife', url_prefix='/shelf_life', template_folder='../templates', static_folder='../static', import_name=__name__)
+
+ShelfLifeBlueprint = ShelfLifeBlueprint(name='shelflife', url_prefix='/shelf_life', template_folder='../templates', static_folder='../static', import_name=__name__).blueprint

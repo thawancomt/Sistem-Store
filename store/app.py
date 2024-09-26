@@ -13,7 +13,7 @@ from store.extensions import db, login_manager
 
 from store.blueprints.login.views.LoginView import LoginBlueprint
 from store.blueprints.homepage.views.Homepage import  HomepageBluprint
-from store.blueprints.users.views.UsersView import users
+from store.blueprints.users.views.UsersView import UsersBlueprint
 from store.blueprints.tasks.views.TaskView import TaskBlueprint
 from store.blueprints.stores_management.view.StoreView import StoreBlueprint
 from store.blueprints.articles.views.ArticlesView import articles
@@ -48,7 +48,7 @@ def create_app():
     app.register_blueprint(HomepageBluprint)
     app.register_blueprint(TaskBlueprint)
     app.register_blueprint(StoreBlueprint)
-    app.register_blueprint(users)
+    app.register_blueprint(UsersBlueprint)
     app.register_blueprint(articles)
     app.register_blueprint(production)
     app.register_blueprint(stock)
