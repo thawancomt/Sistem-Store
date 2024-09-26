@@ -27,7 +27,10 @@ class LoginBlueprint(BlueprintBase):
         return render_template('login.html')
     
     def login(self):
+        
         email, password = request.form.get('email'), request.form.get('password')
+
+        
 
         user = LoginService(email=email, password=True)
         user = user.user
@@ -38,7 +41,7 @@ class LoginBlueprint(BlueprintBase):
             return redirect(url_for('auth.confirmation', id=user.id))
         
         if LoginService(email = email, password = password).login():
-            return redirect(url_for('homepage.index'))
+            return redirect(url_for('homepage.index')), 302
         
         flash('Invalid email or password', 'danger')
         return redirect(url_for('auth.auth'))
