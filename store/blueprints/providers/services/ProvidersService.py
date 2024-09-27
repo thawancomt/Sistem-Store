@@ -22,6 +22,7 @@ class ProvidersService():
         db.session.add(new_provider)
         db.session.commit()
         return new_provider
+    
     @staticmethod
     def update(**data):
         provider_id = data.get('provider_id')
@@ -29,11 +30,10 @@ class ProvidersService():
         provider = ProvidersService.get(provider_id)
         del data['provider_id']
         
-        provider = ProvidersService.get(provider_id)
         for key, value in data.items():
             setattr(provider, key, value)
         
-        
+
         db.session.commit()
         
     def delete(self, provider_id):

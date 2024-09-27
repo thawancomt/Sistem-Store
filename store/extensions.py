@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 
 login_manager = LoginManager()
 
-db = SQLAlchemy()
+db : SQLAlchemy = SQLAlchemy()
 
 class Service(ABC):
     
