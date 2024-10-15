@@ -4,60 +4,7 @@ from store.extensions import *
 from ..services.StockServices import StockServices, datetime, ArticlesService
 from ..services.StockChart import StockChart
 
-""" stock = Blueprint('stock', __name__,
-                  template_folder='../templates',
-                  url_prefix='/stock',
-                  static_folder='../static')
 
-@stock.route('/')
-@login_required
-def index():
-    # pass a date or get the current date
-    DateArg : datetime = datetime.strptime(request.args.get('date', datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d")
-    
-    # We want the last stock date to system use 
-    # We dont need to treat the case where there is no stock in the system because the system will give us the actual data as a stock if no stock is found
-    LastStockDefault : datetime = StockServices(date=DateArg).get_stocks_dates()[-1]
-    ReferenceStock : datetime = datetime.strptime(request.args.get('reference_stock', datetime.now().strftime("%Y-%m-%d")), '%Y-%m-%d')
-
-    # Classes
-    Chart : StockChart = StockChart(date=DateArg)
-    StockService : StockChart = StockServices(date=DateArg)
-
-    context = {
-        'title': 'Stock',
-        'stock': StockService.get_data_for_stock_total(),
-        'stocks_data_for_info_table': StockService.create_data_for_stock_table(),
-        'articles': ArticlesService.get_all_stockable(),
-        'dates': StockService.get_stocks_dates(),
-        'reference_stock': StockServices(date=ReferenceStock).get_data_for_stock_total(),
-        'default_last_stock': StockServices(date=LastStockDefault).get_data_for_stock_total(),
-        'date_labels': Chart.create_date_labels(),
-        'data_for_chart': Chart.create_datasets(),
-    }
-
-    return render_template('stock.html', context=context, date=DateArg, datetime=datetime)
-    
-
-@stock.route('/create', methods=['POST'])
-@fresh_login_required
-def create():
-
-    StockDataForm : dict[str, str] = request.form.to_dict()
-
-    date = StockDataForm.get('date')
-
-    StockServices().create_stock(data=StockDataForm, date=date)
-
-
-    return redirect(url_for('stock.index', date=date))
-
-@stock.route('/chart', methods=['get'])
-@fresh_login_required
-def chart():
-    StockServices().create_random_stock()
-    return redirect(url_for('stock.index'))
- """
 
 class StockViewBlueprint(BlueprintBase):
     def __init__(self, name=None, static_folder=None, url_prefix=None, template_folder=None, import_name=None,) -> None:
@@ -67,6 +14,7 @@ class StockViewBlueprint(BlueprintBase):
     def register_routes(self):
         self.blueprint.add_url_rule('/', 'index', self.index, methods=['GET'])
         self.blueprint.add_url_rule('/create', 'create', self.create, methods=['POST'])
+        self.blueprint.add_url_rule('/chart', 'chart', self.chart, methods=['GET'])
     
     @login_required
     def index(self):
@@ -86,8 +34,8 @@ class StockViewBlueprint(BlueprintBase):
         StockService : StockChart = StockServices(date=DateArg)
 
         context = {
-            'title': 'Stock',
-            'stock': StockService.get_data_for_stock_total(),
+            'title': 'Stock', # Title of the page
+            'selected_stock': StockService.get_data_for_stock_total(),
             'stocks_data_for_info_table': StockService.create_data_for_stock_table(),
             'articles': ArticlesService.get_all_stockable(),
             'dates': StockService.get_stocks_dates(),
@@ -97,7 +45,7 @@ class StockViewBlueprint(BlueprintBase):
             'data_for_chart': Chart.create_datasets(),
         }
 
-        return render_template('stock.html', context=context, date=DateArg, datetime=datetime)´
+        return render_template('stock.html', **context)
     
     @fresh_login_required
     def create(self):
@@ -116,6 +64,11 @@ class StockViewBlueprint(BlueprintBase):
 
     def delete(self):
         pass
+
+    @fresh_login_required
+    def chart(self):
+        StockServices().create_random_stock()
+        return redirect(url_for('stock.index'))
 
 StockViewBlueprint = StockViewBlueprint(name='stock', import_name=__name__, template_folder='../templates', static_folder='../static', url_prefix='/stock').blueprint
     

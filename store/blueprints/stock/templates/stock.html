@@ -7,7 +7,7 @@
 
 {% block title %}
     <title>
-        {{context.title}}
+        {{title}}
     </title>
 {% endblock title %}
 <div class="m-4 border p-4">
@@ -90,7 +90,7 @@
           </tr>
         </thead>
         <tbody class="dark:bg-white ">
-          {% if  context.stocks_data_for_info_table.total == 0%}
+          {% if  stocks_data_for_info_table.total == 0%}
           <tr class="*:text-center ">
             <td>
               Empty
@@ -101,7 +101,7 @@
           </tr>
           
           {% endif %}
-          {% for row in context.stocks_data_for_info_table %}
+          {% for row in stocks_data_for_info_table %}
               <tr class=" *:text-center text-gray-600  *:p-2 odd:bg-slate-100">
                 <td class="">
                   <a href="{{url_for('stock.index', date=row.date)}}">{{row.date}}</a>
@@ -116,7 +116,7 @@
   </div>
 
   <div class=" border-emerald-400 mt-4 flex justify-evenly">
-    {% set indexes = context.stocks_data_for_info_table %}
+    {% set indexes = stocks_data_for_info_table %}
     <div class="p-4 flex space-x-2 md:space-x-6 items-center">
       {% if indexes.has_prev %}
         <a href="{{url_for('stock.index', page=indexes.prev_num, date=date)}}" class="text-emerald-800 font-bold">Prev</a>
@@ -148,8 +148,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-  const labels = {{context.date_labels | safe}};
-  const data = {{context.data_for_chart | safe}};
+  const labels = {{date_labels | safe}};
+  const data = {{data_for_chart | safe}};
 </script>
 
 
@@ -172,13 +172,14 @@
           <td>
             <h1>Reference</h1>
             <select name="reference_stock" id="" class="select-primary">
-              {% for date in context.dates %}
+              <option value="">Select a stock to compare</option>
+              {% for date in dates %}
               <option value="{{date.strftime('%Y-%m-%d')}}">{{date.strftime('%Y-%m-%d')}}</option>
               {% endfor %}
             </select>
           </td>
           <td>
-            Last Count - <br>{{context.dates[-1].strftime('%Y-%m-%d')}}
+            Last Count - <br>{{dates[-1].strftime('%Y-%m-%d')}}
           </td>
           <td>
             Difference
@@ -186,21 +187,22 @@
         </tr>
       </thead>
       <tbody class="">
-        {% for article in  context.articles %}
+        {% for article in  articles %}
         <tr class="*:bg-white *:odd:bg-slate-100 *:p-4 *:text-center">
           <td>
             {{article.name}}
           </td>
           <td>
-            {{context.reference_stock.get(article.id, 0)}}
+            {{reference_stock.get(article.id, 0)}}
             
           </td>
           <td>
-            {{context.default_last_stock.get(article.id, 0)}}
+            {{default_last_stock.get(article.id, 0)}}
           </td>
           <td>
+            {% if default_last_stock.get(article.id, 0) - reference_stock.get(article.id, 0) > 0 %}+{% endif %}
             {{
-              context.default_last_stock.get(article.id, 0) - context.reference_stock.get(article.id, 0)
+              default_last_stock.get(article.id, 0) - reference_stock.get(article.id, 0)
             }}
           </td>
         </tr>
@@ -215,26 +217,29 @@
 
   
 <div class="m-4 " id="create_stock">
+  <h1>
+    
+  </h1>
   <h1 class="title-primary">
-    {% if not context.stock %} Create a new stock count {% else %} Update the {{context.stock.date}} stock count {% endif %}
+    {% if not  (selected_stock.values() | sum) != 0 %} Create a new stock count {% else %} Update the {{selected_stock.date}} stock count {% endif %}
   </h1>
 
   
 
 <form action="{{url_for('stock.create')}}" method="post" id="update" class="m-4">
     
-    {% for article in context.articles %}
+    {% for article in articles %}
 
     <div class=" border-green-300 ">
       
       <div class="grid grid-cols-12">
         <div class="col-span-9">
           <label for="{{article.id}}" class="sub-title-primary m-0 p-0" id="{{article.id}}Label">{{article.name}}</label>
-          <input type="number" name="{{article.id}}" id="stock_input" value="{{context.stock[article.id]}}"  class="form-control-1 m-0">
+          <input type="number" name="{{article.id}}" id="stock_input" value="{{selected_stock[article.id]}}"  class="form-control-1 m-0">
         </div>
         <div class="col-span-2 col-start-11">
           <label for="{{article.id}}_total" class="sub-title-primary">Total</label>
-          <input type="number" name="{{article.id}}_total" id="" value="{{context.stock[article.id]}}"  class="form-control-1 text-center" disabled>
+          <input type="number" name="{{article.id}}_total" id="" value="{{selected_stock[article.id]}}"  class="form-control-1 text-center" disabled>
         </div>
       </div>
     </div>
@@ -257,6 +262,5 @@
 
 <script src="static/StockChart.js"></script>
 <script src="static/AlertHighStock.js"></script>
-<script src="static/show_hide_information.js"></script>
 
 {% endblock %}

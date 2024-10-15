@@ -14,6 +14,9 @@ from sqlalchemy import func, and_, select
 
 from flask import g
 
+
+PER_PAGE = 3
+
 class StockServices:
     def __init__(self, store_id = None,
                  article_id = None,
@@ -25,7 +28,7 @@ class StockServices:
         self.quantity = quantity
         self.date = date or datetime.now().strftime("%Y-%m-%d")
         self.articles = ArticlesService.get_all_stockable()
-        self.per_page = 3
+        self.per_page = PER_PAGE
         
     def get_all(self):
         return db.session.query(Stock).all()
