@@ -48,7 +48,7 @@ class StockServices:
             .order_by(Stock.date.desc()) \
             .all()
         dates.reverse()
-        return [date.date for date in dates]
+        return [date.date for date in dates] or [self.date]
         
     def convert_stock_object_to_dict(self, object = None) -> dict:
         
