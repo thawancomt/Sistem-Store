@@ -49,7 +49,7 @@ class StockServices:
             .limit(7) \
             .all()
         dates.reverse()
-        return dates
+        return [date.date for date in dates]
         
     def convert_stock_object_to_dict(self, object = None) -> dict:
         

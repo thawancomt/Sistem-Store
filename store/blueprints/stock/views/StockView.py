@@ -19,37 +19,38 @@ stock = Blueprint('stock', __name__,
 def index():
     ReferenceStock = request.args.get('reference_stock', 0)
     
-    DateArg = request.args.get('date') or datetime.now().strftime("%Y-%m-%d")
+    # pass a date or get the current date
+    DateArg = datetime.strptime(request.args.get('date', datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d")
     
     Chart = StockChart(date=DateArg)
 
-    LastStockDefault = (StockServices().get_stocks_dates()[-1].date if StockServices().get_stocks_dates() else None) or DateArg  
+    # We want the last stock date to be the default last stock date
+    LastStockDefault = StockServices().get_stocks_dates() or [DateArg]
+    LastStockDefault = LastStockDefault[-1]
 
-    return str(LastStockDefault)
 
-    
-   
-    stock_service = StockServices(date=date)
+
+    StockService = StockServices(date=DateArg)
     
     context = {
         'title': 'Stock',
-        'stock' : stock_service.get_data_for_stock_total(),
+        'stock' : StockService.get_data_for_stock_total(),
     
-        'stocks_data_for_info_table' : stock_service.create_data_for_stock_table(),
+        'stocks_data_for_info_table' : StockService.create_data_for_stock_table(),
         'articles' : ArticlesService.get_all_stockable(),
-        'dates' : stock_service.get_stocks_dates(),
-        'reference_stock' : StockServices(date=reference_stock).get_data_for_stock_total(),
-        'default_last_date' : default_last_stock_date,
-        'default_last_stock' : StockServices(date=default_last_stock_date).get_data_for_stock_total(),
-        
-        'date_labels' : chart.create_date_labels(),
-        'data_for_chart' : chart.create_datasets(),
+        'dates' : StockService.get_stocks_dates(),
 
+        'reference_stock' : StockServices(date=ReferenceStock).get_data_for_stock_total(),
+        #'default_last_date' : LastStockDefault,
+        'default_last_stock' : StockServices(date=LastStockDefault).get_data_for_stock_total(),
+        
+        'date_labels' : Chart.create_date_labels(),
+        'data_for_chart' : Chart.create_datasets(),
     }
 
     # return context['data_for_chart']
     
-    return render_template('stock.html', context=context, date=date, datetime=datetime)  
+    return render_template('stock.html', context=context, date=DateArg, datetime=datetime)  
 
 @stock.route('/create', methods=['POST'])
 @fresh_login_required
