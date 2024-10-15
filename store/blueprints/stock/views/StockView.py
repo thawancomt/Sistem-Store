@@ -17,39 +17,35 @@ stock = Blueprint('stock', __name__,
 @stock.route('/')
 @login_required
 def index():
-    ReferenceStock = request.args.get('reference_stock', 0)
-    
     # pass a date or get the current date
     DateArg = datetime.strptime(request.args.get('date', datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d")
-    
-    Chart = StockChart(date=DateArg)
-
     # We want the last stock date to be the default last stock date
-    LastStockDefault = StockServices().get_stocks_dates() or [DateArg]
-    LastStockDefault = LastStockDefault[-1]
+    LastStockDefault = StockServices(date=DateArg).get_stocks_dates()
+    LastStockDefault  = LastStockDefault[-1]
+    ReferenceStock = datetime.strptime(request.args.get('reference_stock', datetime.now().strftime("%Y-%m-%d")), '%Y-%m-%d')
 
 
 
+    # Classes
+    Chart = StockChart(date=DateArg)
     StockService = StockServices(date=DateArg)
-    
+
+
     context = {
         'title': 'Stock',
         'stock' : StockService.get_data_for_stock_total(),
-    
         'stocks_data_for_info_table' : StockService.create_data_for_stock_table(),
         'articles' : ArticlesService.get_all_stockable(),
         'dates' : StockService.get_stocks_dates(),
 
         'reference_stock' : StockServices(date=ReferenceStock).get_data_for_stock_total(),
-        #'default_last_date' : LastStockDefault,
         'default_last_stock' : StockServices(date=LastStockDefault).get_data_for_stock_total(),
-        
+
         'date_labels' : Chart.create_date_labels(),
         'data_for_chart' : Chart.create_datasets(),
     }
 
-    # return context['data_for_chart']
-    
+        
     return render_template('stock.html', context=context, date=DateArg, datetime=datetime)  
 
 @stock.route('/create', methods=['POST'])

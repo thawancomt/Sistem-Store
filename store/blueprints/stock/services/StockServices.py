@@ -46,7 +46,6 @@ class StockServices:
             .where(and_(Stock.date <= self.date, Stock.store_id == self.store_id)) \
             .group_by(Stock.date) \
             .order_by(Stock.date.desc()) \
-            .limit(7) \
             .all()
         dates.reverse()
         return [date.date for date in dates]
@@ -54,7 +53,6 @@ class StockServices:
     def convert_stock_object_to_dict(self, object = None) -> dict:
         
         stock = dict(self.get_stock()) if not object else dict(object)
-        
         
         return {
             article.id: stock.get(article.id, 0) for article in ArticlesService.get_all_active()
@@ -85,19 +83,20 @@ class StockServices:
     
     def update_stock(self, stock = None, data = None):
         
-        for article_id, quantity in data.items():    
-            print(article_id, quantity)
-            if exist := db.session.query(Stock).where(and_(Stock.date == self.date, Stock.article_id == int(article_id))).first():
-                print(exist.article.name)
-                exist.quantity = int(quantity)
-                db.session.commit()
-            else:
-                self.create_stock(
-                    {
-                        article_id : quantity,
-                        'date' : self.date
-                    }, skip_update=True
-                )
+        for article_id, quantity in data.items():
+            if not article_id == 'date' and int(quantity) > 0 :    
+                print(article_id, quantity)
+                if exist := db.session.query(Stock).where(and_(Stock.date == self.date, Stock.article_id == int(article_id))).first():
+                    print(exist.article.name)
+                    exist.quantity = int(quantity)
+                    db.session.commit()
+                else:
+                    self.create_stock(
+                        {
+                            article_id : quantity,
+                            'date' : self.date
+                        }, skip_update=True
+                    )
             
         return True
     
