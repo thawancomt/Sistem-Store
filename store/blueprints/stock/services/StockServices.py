@@ -23,7 +23,7 @@ class StockServices:
         self.store_id = store_id or current_user.store_id
         self.article_id = article_id
         self.quantity = quantity
-        self.date = date or g.date
+        self.date = date or datetime.now().strftime("%Y-%m-%d")
         self.articles = ArticlesService.get_all_stockable()
         self.per_page = 3
         
@@ -42,7 +42,12 @@ class StockServices:
         .order_by(Stock.date.desc()).all()
         
     def get_stocks_dates(self):
-        dates = db.session.query(Stock.date).where(and_(Stock.date <= self.date, Stock.store_id == self.store_id)).group_by(Stock.date).order_by(Stock.date.desc()).limit(7).all()
+        dates = db.session.query(Stock.date) \
+            .where(and_(Stock.date <= self.date, Stock.store_id == self.store_id)) \
+            .group_by(Stock.date) \
+            .order_by(Stock.date.desc()) \
+            .limit(7) \
+            .all()
         dates.reverse()
         return dates
         
@@ -58,19 +63,15 @@ class StockServices:
     def get_data_for_stock_total(self):
         return self.convert_stock_object_to_dict()
     
-    def create_stock(self, data : dict, skip_update = False):
-        self.date = data.get('date')
+    def create_stock(self,  data : dict,date : datetime, skip_update = False, ):
+        self.date = datetime.strptime(date, '%Y-%m-%d')
 
-        if 'date' in data:
-            del data['date']
-        
         if stock := db.session.query(Stock).filter(and_(Stock.date == self.date,Stock.store_id == self.store_id)).all() and not skip_update:
             self.update_stock(stock=stock, data=data)
             return True
                 
-        
         for article_id, quantity in data.items():
-            if int(quantity) > 0:
+            if not article_id == 'date' and int(quantity) > 0 :
                 stock = Stock(
                     date = self.date,
                     article_id=article_id,

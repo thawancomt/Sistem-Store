@@ -9,7 +9,7 @@ class StockChart(StockServices):
         self.labels = self.get_stocks_dates()
         
     def create_date_labels(self):
-        return  [datetime.strftime(date.date, '%m-%d %H:%M') for date in self.labels][:self.days]
+        return  [datetime.strftime(date.date, '%Y-%m-%d %H:%M:%S') for date in self.labels][:self.days]
     
     def create_all_stock_list(self):
         stocks = []
@@ -23,6 +23,6 @@ class StockChart(StockServices):
         
         return [{
             'label': article.name,
-            'data': [i.get(article.id, 0) for i in self.create_all_stock_list()],
+            'data': [item.get(article.id, 0) for item in self.create_all_stock_list()],
             'tension': 0.2,
         } for article in self.articles]

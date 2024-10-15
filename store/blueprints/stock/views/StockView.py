@@ -17,14 +17,17 @@ stock = Blueprint('stock', __name__,
 @stock.route('/')
 @login_required
 def index():
-    stock_page = request.args.get('page', 1, type=int)
-    reference_stock = request.args.get('reference_stock', 0)
+    ReferenceStock = request.args.get('reference_stock', 0)
     
-    date =  g.date
+    DateArg = request.args.get('date') or datetime.now().strftime("%Y-%m-%d")
     
-    chart = StockChart(date=g.date)
+    Chart = StockChart(date=DateArg)
+
+    LastStockDefault = (StockServices().get_stocks_dates()[-1].date if StockServices().get_stocks_dates() else None) or DateArg  
+
+    return str(LastStockDefault)
+
     
-    default_last_stock_date = request.args.get('date') or (StockServices().get_stocks_dates()[-1].date if StockServices().get_stocks_dates() else None) or g.date
    
     stock_service = StockServices(date=date)
     
@@ -43,18 +46,22 @@ def index():
         'data_for_chart' : chart.create_datasets(),
 
     }
+
+    # return context['data_for_chart']
     
     return render_template('stock.html', context=context, date=date, datetime=datetime)  
 
 @stock.route('/create', methods=['POST'])
 @fresh_login_required
 def create():
-    data = request.form.to_dict()
-    date = g.date
-    
-   
-    StockServices().create_stock(data=data)
-    
+
+    StockDataForm : dict[str, str] = request.form.to_dict()
+
+    date = StockDataForm.get('date')
+
+    StockServices().create_stock(data=StockDataForm, date=date)
+
+
     return redirect(url_for('stock.index', date=date))
 
 @stock.route('/chart', methods=['get'])

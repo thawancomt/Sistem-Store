@@ -41,3 +41,6 @@ Global Security Rules:
 Working with dates in this project:
     All date inserted need to be a DATETIME Python Object before it going to be inserted in the database, reason : to be compatible
         with sqlite
+
+    For stock use '%Y-%m-%d' format, otherwise for more precision operation use ISO 8601 format without 'T' in the middle
+    like '%Y-%m-%d %H:%M:%S'
