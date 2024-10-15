@@ -52,11 +52,6 @@ def create():
 
     return redirect(url_for('production.home', date=g.date))
 
-
-
-
-# A fake production to chart
-
 @production.route('/chart')
 @login_required
 def chart():

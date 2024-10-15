@@ -24,8 +24,8 @@ class ShelLifeService():
             return None
         
         alert = ShelfLifeModel()
-        alert.initial_date = g.date
-        alert.expiration_date = datetime.strptime(g.date, '%Y-%m-%d') + timedelta(days=self.article.shelf_life)
+        alert.initial_date = datetime.now()
+        alert.expiration_date = datetime.now()
         alert.article_id = self.article_id
         
         db.session.add(alert)

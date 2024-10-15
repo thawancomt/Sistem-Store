@@ -15,7 +15,7 @@ profile_image = Blueprint('profile_image', __name__,
 class File(db.Model):
     id = Column(Integer, primary_key=True)
     filename = Column(String(100), nullable=False)
-    data = Column(LONGBLOB, nullable=False)
+    # data = Column(LONGBLOB, nullable=False)
 
 
 @profile_image.route('/')

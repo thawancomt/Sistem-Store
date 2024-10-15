@@ -36,4 +36,8 @@ Rule for CRUD process
         
 Global Security Rules:
     All the endpoint needs a login level, except by the login page obvisly
-    
+
+
+Working with dates in this project:
+    All date inserted need to be a DATETIME Python Object before it going to be inserted in the database, reason : to be compatible
+        with sqlite

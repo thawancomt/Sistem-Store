@@ -1,5 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Boolean
-
+from sqlalchemy import Column, Integer,  DateTime, ForeignKey
 from store.extensions import db
 
 from sqlalchemy.orm import relationship
